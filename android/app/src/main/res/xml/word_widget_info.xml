@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Дескриптор AppWidget (PLAN.md §6): ячейки 4×2 (targetCell*, API 31+,
+     старые платформы игнорируют атрибуты и берут minWidth/minHeight),
+     обновление раз в 30 минут (этап 5 заменит на полуночный будильник),
+     превью — previewLayout (API 31+); PNG-превью для старых лончеров —
+     этап 8 (полировка). -->
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:minWidth="250dp"
+    android:minHeight="110dp"
+    android:targetCellWidth="4"
+    android:targetCellHeight="2"
+    android:resizeMode="none"
+    android:updatePeriodMillis="1800000"
+    android:initialLayout="@layout/word_widget"
+    android:previewLayout="@layout/word_widget"
+    android:description="@string/word_widget_description"
+    android:widgetCategory="home_screen" />

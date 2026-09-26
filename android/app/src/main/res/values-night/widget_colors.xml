@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Палитра виджета — тёмная тема (переключается системой автоматически). -->
+<resources>
+    <color name="widget_bg_color">#FF1C1B1F</color>
+    <color name="widget_word_color">#FF9FA8DA</color>
+    <color name="widget_transcription_color">#FFCAC4D0</color>
+    <color name="widget_translation_color">#FFE6E1E5</color>
+    <color name="widget_example_color">#FFCAC4D0</color>
+</resources>

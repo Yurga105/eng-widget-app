@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Виджет «Слово дня» (PLAN.md §6). Локаль приложения — ru. -->
+    <string name="word_widget_name">Слово дня</string>
+    <string name="word_widget_description">Английское слово, идиома или фразовый глагол дня с переводом и примером</string>
+
+    <!-- Статические тексты этапа 3: initialLayout и previewLayout до первого
+         onUpdate, а также превью в пикере. Совпадают с записью №1 базы. -->
+    <string name="word_widget_preview_word">accomplish</string>
+    <string name="word_widget_preview_transcription">/əˈkɑːmplɪʃ/</string>
+    <string name="word_widget_preview_translation">достигать, выполнять</string>
+    <string name="word_widget_preview_example">She accomplished all her goals this year.</string>
+</resources>

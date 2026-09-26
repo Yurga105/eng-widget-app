@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Скруглённый фон виджета: 16dp на всех версиях (на Android 12+ лончер
+     дополнительно применяет собственную маску системного скругления). -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/widget_bg_color" />
+    <corners android:radius="16dp" />
+</shape>
