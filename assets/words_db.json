@@ -1,0 +1,1445 @@
+{
+  "version": 1,
+  "words": [
+    {
+      "id": 1,
+      "word": "accomplish",
+      "transcription": "/əˈkɑːmplɪʃ/",
+      "translation": "достигать, выполнять",
+      "example": "She accomplished all her goals this year.",
+      "example_ru": "В этом году она достигла всех своих целей.",
+      "type": "word"
+    },
+    {
+      "id": 2,
+      "word": "adapt",
+      "transcription": "/əˈdæpt/",
+      "translation": "приспосабливаться, адаптироваться",
+      "example": "It took me a month to adapt to the new schedule.",
+      "example_ru": "Мне понадобился месяц, чтобы привыкнуть к новому графику.",
+      "type": "word"
+    },
+    {
+      "id": 3,
+      "word": "afford",
+      "transcription": "/əˈfɔːrd/",
+      "translation": "позволить себе (о деньгах)",
+      "example": "We can't afford a vacation this summer.",
+      "example_ru": "Этим летом мы не можем позволить себе отпуск.",
+      "type": "word"
+    },
+    {
+      "id": 4,
+      "word": "anxious",
+      "transcription": "/ˈæŋkʃəs/",
+      "translation": "тревожный, обеспокоенный",
+      "example": "I always get anxious before job interviews.",
+      "example_ru": "Перед собеседованиями я всегда волнуюсь.",
+      "type": "word"
+    },
+    {
+      "id": 5,
+      "word": "appreciate",
+      "transcription": "/əˈpriːʃieɪt/",
+      "translation": "ценить, быть благодарным",
+      "example": "I really appreciate your help.",
+      "example_ru": "Я очень ценю твою помощь.",
+      "type": "word"
+    },
+    {
+      "id": 6,
+      "word": "approach",
+      "transcription": "/əˈproʊtʃ/",
+      "translation": "подход, метод",
+      "example": "We need a fresh approach to this problem.",
+      "example_ru": "К этой проблеме нужен свежий подход.",
+      "type": "word"
+    },
+    {
+      "id": 7,
+      "word": "avoid",
+      "transcription": "/əˈvɔɪd/",
+      "translation": "избегать, уклоняться",
+      "example": "I avoid checking email before coffee.",
+      "example_ru": "До первой чашки кофе я в почту не заглядываю.",
+      "type": "word"
+    },
+    {
+      "id": 8,
+      "word": "awkward",
+      "transcription": "/ˈɔːkwərd/",
+      "translation": "неловкий, неудобный",
+      "example": "The silence after his joke was so awkward.",
+      "example_ru": "Пауза после его шутки вышла такой неловкой.",
+      "type": "word"
+    },
+    {
+      "id": 9,
+      "word": "boost",
+      "transcription": "/buːst/",
+      "translation": "усиливать, поднимать",
+      "example": "A short walk can boost your energy.",
+      "example_ru": "Короткая прогулка может взбодрить.",
+      "type": "word"
+    },
+    {
+      "id": 10,
+      "word": "browse",
+      "transcription": "/braʊz/",
+      "translation": "просматривать, листать",
+      "example": "I spent an hour browsing the bookstore.",
+      "example_ru": "Я целый час листал книги в магазине.",
+      "type": "word"
+    },
+    {
+      "id": 11,
+      "word": "challenge",
+      "transcription": "/ˈtʃælɪndʒ/",
+      "translation": "вызов, сложная задача",
+      "example": "Learning to cook was a real challenge for him.",
+      "example_ru": "Научиться готовить стало для него настоящим вызовом.",
+      "type": "word"
+    },
+    {
+      "id": 12,
+      "word": "commute",
+      "transcription": "/kəˈmjuːt/",
+      "translation": "добираться до работы",
+      "example": "My commute takes about forty minutes.",
+      "example_ru": "Дорога на работу занимает у меня минут сорок.",
+      "type": "word"
+    },
+    {
+      "id": 13,
+      "word": "confident",
+      "transcription": "/ˈkɑːnfɪdənt/",
+      "translation": "уверенный в себе",
+      "example": "She sounded confident during the presentation.",
+      "example_ru": "На презентации она звучала уверенно.",
+      "type": "word"
+    },
+    {
+      "id": 14,
+      "word": "convenient",
+      "transcription": "/kənˈviːniənt/",
+      "translation": "удобный, подходящий",
+      "example": "Is Saturday morning convenient for our call?",
+      "example_ru": "Субботнее утро удобно для звонка?",
+      "type": "word"
+    },
+    {
+      "id": 15,
+      "word": "crucial",
+      "transcription": "/ˈkruːʃəl/",
+      "translation": "критически важный",
+      "example": "Sleep is crucial for your memory.",
+      "example_ru": "Сон критически важен для памяти.",
+      "type": "word"
+    },
+    {
+      "id": 16,
+      "word": "curious",
+      "transcription": "/ˈkjʊriəs/",
+      "translation": "любопытный, пытливый",
+      "example": "Kids are naturally curious about everything.",
+      "example_ru": "Дети от природы всё хотят узнать.",
+      "type": "word"
+    },
+    {
+      "id": 17,
+      "word": "decent",
+      "transcription": "/ˈdiːsənt/",
+      "translation": "приличный, неплохой",
+      "example": "The hotel was decent for that price.",
+      "example_ru": "За такие деньги отель был приличный.",
+      "type": "word"
+    },
+    {
+      "id": 18,
+      "word": "delay",
+      "transcription": "/dɪˈleɪ/",
+      "translation": "задержка, откладывать",
+      "example": "The flight was delayed by two hours.",
+      "example_ru": "Рейс задержали на два часа.",
+      "type": "word"
+    },
+    {
+      "id": 19,
+      "word": "deliver",
+      "transcription": "/dɪˈlɪvər/",
+      "translation": "доставлять, привозить",
+      "example": "The package will be delivered tomorrow.",
+      "example_ru": "Посылку доставят завтра.",
+      "type": "word"
+    },
+    {
+      "id": 20,
+      "word": "doomscrolling",
+      "transcription": "/ˈduːmˌskroʊlɪŋ/",
+      "translation": "думскроллинг, листание плохих новостей",
+      "example": "Stop doomscrolling and go to sleep!",
+      "example_ru": "Хватит листать плохие новости — ложись спать!",
+      "type": "word"
+    },
+    {
+      "id": 21,
+      "word": "eager",
+      "transcription": "/ˈiːɡər/",
+      "translation": "страстно желающий",
+      "example": "He was eager to start his new job.",
+      "example_ru": "Он горел желанием приступить к новой работе.",
+      "type": "word"
+    },
+    {
+      "id": 22,
+      "word": "easygoing",
+      "transcription": "/ˈiːziˌɡoʊɪŋ/",
+      "translation": "покладистый, лёгкий в общении",
+      "example": "Our new teammate is friendly and easygoing.",
+      "example_ru": "Новый коллега оказался дружелюбным и лёгким в общении.",
+      "type": "word"
+    },
+    {
+      "id": 23,
+      "word": "efficient",
+      "transcription": "/ɪˈfɪʃənt/",
+      "translation": "эффективный, действенный",
+      "example": "This app makes planning much more efficient.",
+      "example_ru": "Приложение заметно упрощает планирование.",
+      "type": "word"
+    },
+    {
+      "id": 24,
+      "word": "embrace",
+      "transcription": "/ɪmˈbreɪs/",
+      "translation": "принять (перемены), обнимать",
+      "example": "It's never too late to embrace change.",
+      "example_ru": "Перемены никогда не поздно принять.",
+      "type": "word"
+    },
+    {
+      "id": 25,
+      "word": "essential",
+      "transcription": "/ɪˈsenʃəl/",
+      "translation": "необходимый, важнейший",
+      "example": "Water is essential for every living thing.",
+      "example_ru": "Вода необходима всему живому.",
+      "type": "word"
+    },
+    {
+      "id": 26,
+      "word": "exhausted",
+      "transcription": "/ɪɡˈzɔːstɪd/",
+      "translation": "измученный, без сил",
+      "example": "I was exhausted after the night shift.",
+      "example_ru": "После ночной смены я был выжат как лимон.",
+      "type": "word"
+    },
+    {
+      "id": 27,
+      "word": "fake",
+      "transcription": "/feɪk/",
+      "translation": "поддельный, ненастоящий",
+      "example": "The account was fake, of course.",
+      "example_ru": "Аккаунт, конечно, оказался фейковым.",
+      "type": "word"
+    },
+    {
+      "id": 28,
+      "word": "feasible",
+      "transcription": "/ˈfiːzəbl/",
+      "translation": "осуществимый, реалистичный",
+      "example": "Is it feasible to finish everything by Friday?",
+      "example_ru": "Реально ли закончить всё к пятнице?",
+      "type": "word"
+    },
+    {
+      "id": 29,
+      "word": "flexible",
+      "transcription": "/ˈfleksəbl/",
+      "translation": "гибкий (о графике, плане)",
+      "example": "My boss is flexible about working hours.",
+      "example_ru": "Начальник гибко относится к рабочим часам.",
+      "type": "word"
+    },
+    {
+      "id": 30,
+      "word": "frustrated",
+      "transcription": "/ˈfrʌstreɪtɪd/",
+      "translation": "раздосадованный, расстроенный",
+      "example": "He got frustrated with the slow internet.",
+      "example_ru": "Он раздражался из-за медленного интернета.",
+      "type": "word"
+    },
+    {
+      "id": 31,
+      "word": "ghost",
+      "transcription": "/ɡoʊst/",
+      "translation": "резко пропасть, игнорировать",
+      "example": "We went on two dates, then he ghosted me.",
+      "example_ru": "Мы дважды встретились, а потом он просто пропал.",
+      "type": "word"
+    },
+    {
+      "id": 32,
+      "word": "grasp",
+      "transcription": "/ɡræsp/",
+      "translation": "понимать, ухватывать (суть)",
+      "example": "She grasped the idea right away.",
+      "example_ru": "Она сразу ухватила суть идеи.",
+      "type": "word"
+    },
+    {
+      "id": 33,
+      "word": "guilt",
+      "transcription": "/ɡɪlt/",
+      "translation": "чувство вины",
+      "example": "Guilt kept him awake all night.",
+      "example_ru": "Чувство вины не давало ему уснуть всю ночь.",
+      "type": "word"
+    },
+    {
+      "id": 34,
+      "word": "hangry",
+      "transcription": "/ˈhæŋɡri/",
+      "translation": "раздражённый от голода",
+      "example": "Sorry I snapped — I was just hangry.",
+      "example_ru": "Извини, что огрызнулся: я просто был голоден и зол.",
+      "type": "word"
+    },
+    {
+      "id": 35,
+      "word": "hassle",
+      "transcription": "/ˈhæsəl/",
+      "translation": "морока, канитель",
+      "example": "Renewing the passport is such a hassle.",
+      "example_ru": "Продлить паспорт — сплошная морока.",
+      "type": "word"
+    },
+    {
+      "id": 36,
+      "word": "hype",
+      "transcription": "/haɪp/",
+      "translation": "ажиотаж, хайп",
+      "example": "The movie didn't live up to the hype.",
+      "example_ru": "Фильм не оправдал хайпа.",
+      "type": "word"
+    },
+    {
+      "id": 37,
+      "word": "ignore",
+      "transcription": "/ɪɡˈnɔːr/",
+      "translation": "игнорировать, не замечать",
+      "example": "Don't ignore the warning signs.",
+      "example_ru": "Не игнорируй тревожные сигналы.",
+      "type": "word"
+    },
+    {
+      "id": 38,
+      "word": "impress",
+      "transcription": "/ɪmˈpres/",
+      "translation": "произвести впечатление",
+      "example": "You really impressed the interviewers.",
+      "example_ru": "Ты сильно впечатлил интервьюеров.",
+      "type": "word"
+    },
+    {
+      "id": 39,
+      "word": "intend",
+      "transcription": "/ɪnˈtend/",
+      "translation": "намереваться, собираться",
+      "example": "We intend to move next spring.",
+      "example_ru": "Мы собираемся переехать следующей весной.",
+      "type": "word"
+    },
+    {
+      "id": 40,
+      "word": "lazy",
+      "transcription": "/ˈleɪzi/",
+      "translation": "ленивый",
+      "example": "Sundays are made for being lazy.",
+      "example_ru": "Воскресенья созданы для лени.",
+      "type": "word"
+    },
+    {
+      "id": 41,
+      "word": "mainstream",
+      "transcription": "/ˈmeɪnstriːm/",
+      "translation": "мейнстрим, массовая культура",
+      "example": "The band went mainstream after that hit.",
+      "example_ru": "После хита группа ушла в мейнстрим.",
+      "type": "word"
+    },
+    {
+      "id": 42,
+      "word": "mindset",
+      "transcription": "/ˈmaɪndset/",
+      "translation": "мышление, настрой",
+      "example": "A growth mindset changes everything.",
+      "example_ru": "Мышление роста меняет всё.",
+      "type": "word"
+    },
+    {
+      "id": 43,
+      "word": "negotiate",
+      "transcription": "/nɪˈɡoʊʃieɪt/",
+      "translation": "вести переговоры, торговаться",
+      "example": "They negotiated a better salary.",
+      "example_ru": "На переговорах им подняли зарплату.",
+      "type": "word"
+    },
+    {
+      "id": 44,
+      "word": "nostalgia",
+      "transcription": "/nɑːˈstældʒə/",
+      "translation": "ностальгия",
+      "example": "This song fills me with nostalgia.",
+      "example_ru": "Эта песня наполняет меня ностальгией.",
+      "type": "word"
+    },
+    {
+      "id": 45,
+      "word": "overwhelmed",
+      "transcription": "/ˌoʊvərˈwelmd/",
+      "translation": "перегруженный, ошеломлённый",
+      "example": "Don't get overwhelmed by the news.",
+      "example_ru": "Не дай новостям захлестнуть тебя.",
+      "type": "word"
+    },
+    {
+      "id": 46,
+      "word": "passionate",
+      "transcription": "/ˈpæʃənət/",
+      "translation": "страстный, увлечённый",
+      "example": "She's passionate about marine biology.",
+      "example_ru": "Она страстно увлечена морской биологией.",
+      "type": "word"
+    },
+    {
+      "id": 47,
+      "word": "peer",
+      "transcription": "/pɪr/",
+      "translation": "сверстник, ровесник",
+      "example": "Teenagers care a lot about peer opinion.",
+      "example_ru": "Подросткам важно мнение ровесников.",
+      "type": "word"
+    },
+    {
+      "id": 48,
+      "word": "plenty",
+      "transcription": "/ˈplenti/",
+      "translation": "множество, вдоволь",
+      "example": "We have plenty of time before the movie.",
+      "example_ru": "До сеанса у нас полно времени.",
+      "type": "word"
+    },
+    {
+      "id": 49,
+      "word": "pricey",
+      "transcription": "/ˈpraɪsi/",
+      "translation": "дорогой, дороговатый",
+      "example": "That restaurant is great but pricey.",
+      "example_ru": "Ресторан отличный, но дороговатый.",
+      "type": "word"
+    },
+    {
+      "id": 50,
+      "word": "procrastinate",
+      "transcription": "/proʊˈkræstɪneɪt/",
+      "translation": "прокрастинировать, откладывать",
+      "example": "I procrastinated on this essay for weeks.",
+      "example_ru": "Я неделями откладывал это эссе.",
+      "type": "word"
+    },
+    {
+      "id": 51,
+      "word": "productivity",
+      "transcription": "/ˌprɑːdʌkˈtɪvəti/",
+      "translation": "продуктивность, эффективность",
+      "example": "Good sleep boosts your productivity.",
+      "example_ru": "Хороший сон повышает продуктивность.",
+      "type": "word"
+    },
+    {
+      "id": 52,
+      "word": "random",
+      "transcription": "/ˈrændəm/",
+      "translation": "случайный, непредсказуемый",
+      "example": "A random fact made my day better.",
+      "example_ru": "Случайный факт сделал мой день лучше.",
+      "type": "word"
+    },
+    {
+      "id": 53,
+      "word": "recall",
+      "transcription": "/rɪˈkɔːl/",
+      "translation": "вспоминать, припоминать",
+      "example": "I can't recall her name right now.",
+      "example_ru": "Что-то не могу вспомнить её имя.",
+      "type": "word"
+    },
+    {
+      "id": 54,
+      "word": "refresh",
+      "transcription": "/rɪˈfreʃ/",
+      "translation": "освежать, восстанавливать",
+      "example": "A short walk can refresh your mind.",
+      "example_ru": "Короткая прогулка проясняет голову.",
+      "type": "word"
+    },
+    {
+      "id": 55,
+      "word": "reluctant",
+      "transcription": "/rɪˈlʌktənt/",
+      "translation": "неохотный, без энтузиазма",
+      "example": "He was reluctant to admit his mistake.",
+      "example_ru": "Он нехотя признал свою ошибку.",
+      "type": "word"
+    },
+    {
+      "id": 56,
+      "word": "rude",
+      "transcription": "/ruːd/",
+      "translation": "грубый, невежливый",
+      "example": "It's rude to text during dinner.",
+      "example_ru": "Сидеть в телефоне за ужином невежливо.",
+      "type": "word"
+    },
+    {
+      "id": 57,
+      "word": "rush",
+      "transcription": "/rʌʃ/",
+      "translation": "спешка; торопиться",
+      "example": "No rush — send it whenever you can.",
+      "example_ru": "Не торопись — отправь, когда сможешь.",
+      "type": "word"
+    },
+    {
+      "id": 58,
+      "word": "savvy",
+      "transcription": "/ˈsævi/",
+      "translation": "подкованный, разбирающийся",
+      "example": "She's very tech-savvy.",
+      "example_ru": "Она отлично разбирается в технологиях.",
+      "type": "word"
+    },
+    {
+      "id": 59,
+      "word": "scroll",
+      "transcription": "/skroʊl/",
+      "translation": "листать, скроллить",
+      "example": "I scrolled for an hour without noticing.",
+      "example_ru": "Я час листал ленту и не заметил.",
+      "type": "word"
+    },
+    {
+      "id": 60,
+      "word": "self-care",
+      "transcription": "/ˌself ˈker/",
+      "translation": "забота о себе",
+      "example": "Bubble baths are my favorite self-care.",
+      "example_ru": "Пенная ванна — моя любимая забота о себе.",
+      "type": "word"
+    },
+    {
+      "id": 61,
+      "word": "spare",
+      "transcription": "/sper/",
+      "translation": "запасной, свободный",
+      "example": "Do you have a spare pen?",
+      "example_ru": "У тебя нет запасной ручки?",
+      "type": "word"
+    },
+    {
+      "id": 62,
+      "word": "stream",
+      "transcription": "/striːm/",
+      "translation": "смотреть онлайн, стримить",
+      "example": "We streamed the whole season in one night.",
+      "example_ru": "Мы проглотили весь сезон за одну ночь.",
+      "type": "word"
+    },
+    {
+      "id": 63,
+      "word": "struggle",
+      "transcription": "/ˈstrʌɡəl/",
+      "translation": "бороться, с трудом справляться",
+      "example": "I still struggle with early mornings.",
+      "example_ru": "Ранние подъёмы до сих пор даются мне тяжело.",
+      "type": "word"
+    },
+    {
+      "id": 64,
+      "word": "swipe",
+      "transcription": "/swaɪp/",
+      "translation": "свайпать, проводить пальцем",
+      "example": "I swiped right by accident.",
+      "example_ru": "Я случайно свайпнул вправо.",
+      "type": "word"
+    },
+    {
+      "id": 65,
+      "word": "though",
+      "transcription": "/ðoʊ/",
+      "translation": "хотя, впрочем",
+      "example": "Nice place, though a bit noisy.",
+      "example_ru": "Место классное, хотя и шумновато.",
+      "type": "word"
+    },
+    {
+      "id": 66,
+      "word": "trend",
+      "transcription": "/trend/",
+      "translation": "тренд, тенденция",
+      "example": "This trend is everywhere right now.",
+      "example_ru": "Этот тренд сейчас повсюду.",
+      "type": "word"
+    },
+    {
+      "id": 67,
+      "word": "typical",
+      "transcription": "/ˈtɪpɪkl/",
+      "translation": "типичный, обычный",
+      "example": "Typical Monday: coffee, meetings, more coffee.",
+      "example_ru": "Типичный понедельник: кофе, встречи, снова кофе.",
+      "type": "word"
+    },
+    {
+      "id": 68,
+      "word": "mindful",
+      "transcription": "/ˈmaɪndfəl/",
+      "translation": "осознанный, внимательный",
+      "example": "Be mindful of your screen time.",
+      "example_ru": "Осознанно следи за временем у экрана.",
+      "type": "word"
+    },
+    {
+      "id": 69,
+      "word": "genuinely",
+      "transcription": "/ˈdʒenjuɪnli/",
+      "translation": "искренне, по-настоящему",
+      "example": "I genuinely enjoyed that book.",
+      "example_ru": "Мне искренне понравилась эта книга.",
+      "type": "word"
+    },
+    {
+      "id": 70,
+      "word": "immerse",
+      "transcription": "/ɪˈmɜːrs/",
+      "translation": "погружаться с головой",
+      "example": "She immersed herself in the language.",
+      "example_ru": "Она с головой погрузилась в язык.",
+      "type": "word"
+    },
+    {
+      "id": 71,
+      "word": "juggle",
+      "transcription": "/ˈdʒʌɡəl/",
+      "translation": "жонглировать (делами)",
+      "example": "Working parents juggle a lot every day.",
+      "example_ru": "Работающие родители ежедневно жонглируют делами.",
+      "type": "word"
+    },
+    {
+      "id": 72,
+      "word": "limit",
+      "transcription": "/ˈlɪmɪt/",
+      "translation": "предел, ограничение",
+      "example": "I set a limit on my screen time.",
+      "example_ru": "Я поставил себе лимит экранного времени.",
+      "type": "word"
+    },
+    {
+      "id": 73,
+      "word": "literally",
+      "transcription": "/ˈlɪtərəli/",
+      "translation": "буквально, реально",
+      "example": "I literally stayed up all night.",
+      "example_ru": "Я буквально не спал всю ночь.",
+      "type": "word"
+    },
+    {
+      "id": 74,
+      "word": "network",
+      "transcription": "/ˈnetwɜːrk/",
+      "translation": "сеть; заводить связи",
+      "example": "Use conferences to network and make friends.",
+      "example_ru": "Используй конференции, чтобы заводить связи.",
+      "type": "word"
+    },
+    {
+      "id": 75,
+      "word": "polish",
+      "transcription": "/ˈpɑːlɪʃ/",
+      "translation": "шлифовать, доводить до ума",
+      "example": "Let's polish the presentation before Friday.",
+      "example_ru": "Доведём презентацию до ума к пятнице.",
+      "type": "word"
+    },
+    {
+      "id": 76,
+      "word": "quit",
+      "transcription": "/kwɪt/",
+      "translation": "бросать, прекращать",
+      "example": "He quit smoking last year.",
+      "example_ru": "Он бросил курить в прошлом году.",
+      "type": "word"
+    },
+    {
+      "id": 77,
+      "word": "realistic",
+      "transcription": "/ˌriːəˈlɪstɪk/",
+      "translation": "реалистичный, практичный",
+      "example": "Be realistic about your deadlines.",
+      "example_ru": "Относись к срокам реалистично.",
+      "type": "word"
+    },
+    {
+      "id": 78,
+      "word": "recharge",
+      "transcription": "/ˌriːˈtʃɑːrdʒ/",
+      "translation": "перезаряжаться, отдыхать",
+      "example": "Weekends help me recharge.",
+      "example_ru": "Выходные помогают мне восстановить силы.",
+      "type": "word"
+    },
+    {
+      "id": 79,
+      "word": "tweak",
+      "transcription": "/twiːk/",
+      "translation": "подкрутить, слегка изменить",
+      "example": "Just tweak the last paragraph a bit.",
+      "example_ru": "Только чуть подправь последний абзац.",
+      "type": "word"
+    },
+    {
+      "id": 80,
+      "word": "upgrade",
+      "transcription": "/ˈʌpɡreɪd/",
+      "translation": "улучшить, сделать апгрейд",
+      "example": "We upgraded to a bigger apartment.",
+      "example_ru": "Мы переехали в квартиру попросторнее.",
+      "type": "word"
+    },
+    {
+      "id": 81,
+      "word": "no-brainer",
+      "transcription": "/ˌnoʊ ˈbreɪnər/",
+      "translation": "очевидное решение, дело ясное",
+      "example": "Skipping that meeting was a no-brainer.",
+      "example_ru": "Пропустить ту встречу было проще простого.",
+      "type": "idiom"
+    },
+    {
+      "id": 82,
+      "word": "piece of cake",
+      "transcription": "/ˌpiːs əv ˈkeɪk/",
+      "translation": "проще простого, плёвое дело",
+      "example": "The exam was a piece of cake.",
+      "example_ru": "Экзамен оказался проще простого.",
+      "type": "idiom"
+    },
+    {
+      "id": 83,
+      "word": "break the ice",
+      "transcription": "/ˌbreɪk ði ˈaɪs/",
+      "translation": "разрядить обстановку, растопить лёд",
+      "example": "He told a joke to break the ice.",
+      "example_ru": "Он пошутил, чтобы разрядить обстановку.",
+      "type": "idiom"
+    },
+    {
+      "id": 84,
+      "word": "hit the books",
+      "transcription": "/ˌhɪt ðə ˈbʊks/",
+      "translation": "засесть за учёбу",
+      "example": "I can't go out — I have to hit the books.",
+      "example_ru": "Не могу пойти гулять: мне надо учиться.",
+      "type": "idiom"
+    },
+    {
+      "id": 85,
+      "word": "under the weather",
+      "transcription": "/ˌʌndər ðə ˈweðər/",
+      "translation": "неважно себя чувствующий",
+      "example": "I'm a bit under the weather today.",
+      "example_ru": "Я сегодня что-то неважно себя чувствую.",
+      "type": "idiom"
+    },
+    {
+      "id": 86,
+      "word": "spill the beans",
+      "transcription": "/ˌspɪl ðə ˈbiːnz/",
+      "translation": "выболтать секрет",
+      "example": "Don't spill the beans about the party!",
+      "example_ru": "Не выболтай сюрприз про вечеринку!",
+      "type": "idiom"
+    },
+    {
+      "id": 87,
+      "word": "once in a blue moon",
+      "transcription": "/ˌwʌns ɪn ə ˌbluː ˈmuːn/",
+      "translation": "очень редко",
+      "example": "We eat out once in a blue moon.",
+      "example_ru": "Мы едим вне дома очень редко.",
+      "type": "idiom"
+    },
+    {
+      "id": 88,
+      "word": "cost an arm and a leg",
+      "transcription": "/ˌkɔːst ən ˌɑːrm ənd ə ˈleɡ/",
+      "translation": "стоить целое состояние",
+      "example": "That phone cost an arm and a leg.",
+      "example_ru": "Тот телефон стоил целое состояние.",
+      "type": "idiom"
+    },
+    {
+      "id": 89,
+      "word": "hit the sack",
+      "transcription": "/ˌhɪt ðə ˈsæk/",
+      "translation": "лечь спать",
+      "example": "I'm exhausted — time to hit the sack.",
+      "example_ru": "Я вымотался: пора на боковую.",
+      "type": "idiom"
+    },
+    {
+      "id": 90,
+      "word": "on the fence",
+      "transcription": "/ˌɑːn ðə ˈfens/",
+      "translation": "в нерешительности",
+      "example": "I'm still on the fence about the offer.",
+      "example_ru": "Я всё ещё колеблюсь насчёт предложения.",
+      "type": "idiom"
+    },
+    {
+      "id": 91,
+      "word": "bite the bullet",
+      "transcription": "/ˌbaɪt ðə ˈbʊlɪt/",
+      "translation": "стиснуть зубы и решиться",
+      "example": "I bit the bullet and called the dentist.",
+      "example_ru": "Я собрался с духом и позвонил стоматологу.",
+      "type": "idiom"
+    },
+    {
+      "id": 92,
+      "word": "call it a day",
+      "transcription": "/ˌkɔːl ɪt ə ˈdeɪ/",
+      "translation": "закончить на сегодня",
+      "example": "We fixed most bugs — let's call it a day.",
+      "example_ru": "Почти всё починили — давай заканчивать.",
+      "type": "idiom"
+    },
+    {
+      "id": 93,
+      "word": "cut corners",
+      "transcription": "/ˌkʌt ˈkɔːrnərz/",
+      "translation": "халтурить, экономить на качестве",
+      "example": "They cut corners and the roof leaked.",
+      "example_ru": "Они сэкономили на материалах, и крыша потекла.",
+      "type": "idiom"
+    },
+    {
+      "id": 94,
+      "word": "go the extra mile",
+      "transcription": "/ˌɡoʊ ði ˌekstrə ˈmaɪl/",
+      "translation": "сделать больше необходимого",
+      "example": "She always goes the extra mile for clients.",
+      "example_ru": "Она всегда делает для клиентов больше, чем нужно.",
+      "type": "idiom"
+    },
+    {
+      "id": 95,
+      "word": "in the same boat",
+      "transcription": "/ɪn ðə ˌseɪm ˈboʊt/",
+      "translation": "в одинаковом положении",
+      "example": "We're all in the same boat with these prices.",
+      "example_ru": "С такими ценами мы все в одной лодке.",
+      "type": "idiom"
+    },
+    {
+      "id": 96,
+      "word": "keep an eye on",
+      "transcription": "/ˌkiːp ən ˈaɪ ɑːn/",
+      "translation": "присматривать за",
+      "example": "Keep an eye on my coffee, please.",
+      "example_ru": "Присмотри, пожалуйста, за моим кофе.",
+      "type": "idiom"
+    },
+    {
+      "id": 97,
+      "word": "let off steam",
+      "transcription": "/ˌlet ˌɔːf ˈstiːm/",
+      "translation": "выпустить пар",
+      "example": "Gaming helps him let off steam.",
+      "example_ru": "Игры помогают ему выпустить пар.",
+      "type": "idiom"
+    },
+    {
+      "id": 98,
+      "word": "miss the boat",
+      "transcription": "/ˌmɪs ðə ˈboʊt/",
+      "translation": "упустить шанс",
+      "example": "Book now or we'll miss the boat.",
+      "example_ru": "Бронируй сейчас, иначе упустим момент.",
+      "type": "idiom"
+    },
+    {
+      "id": 99,
+      "word": "off the top of my head",
+      "transcription": "/ˌɔːf ðə ˌtɑːp əv maɪ ˈhed/",
+      "translation": "навскидку, по памяти",
+      "example": "Off the top of my head, it's about twenty.",
+      "example_ru": "Навскидку — около двадцати.",
+      "type": "idiom"
+    },
+    {
+      "id": 100,
+      "word": "on the same page",
+      "transcription": "/ɑːn ðə ˌseɪm ˈpeɪdʒ/",
+      "translation": "одинаково понимать ситуацию",
+      "example": "Let's make sure we're on the same page.",
+      "example_ru": "Давай убедимся, что мы понимаем друг друга.",
+      "type": "idiom"
+    },
+    {
+      "id": 101,
+      "word": "pull someone's leg",
+      "transcription": "/ˌpʊl ˈsʌmwʌnz ˈleɡ/",
+      "translation": "подшучивать, разыгрывать",
+      "example": "Relax, I'm just pulling your leg!",
+      "example_ru": "Расслабься, я просто над тобой подшучиваю!",
+      "type": "idiom"
+    },
+    {
+      "id": 102,
+      "word": "see eye to eye",
+      "transcription": "/ˌsiː ˌaɪ tə ˈaɪ/",
+      "translation": "сходиться во взглядах",
+      "example": "We don't always see eye to eye.",
+      "example_ru": "Мы не всегда сходимся во мнениях.",
+      "type": "idiom"
+    },
+    {
+      "id": 103,
+      "word": "speak of the devil",
+      "transcription": "/ˌspiːk əv ðə ˈdevl/",
+      "translation": "лёгок на помине",
+      "example": "Speak of the devil — here she comes!",
+      "example_ru": "Лёгка на помине — вот и она!",
+      "type": "idiom"
+    },
+    {
+      "id": 104,
+      "word": "the last straw",
+      "transcription": "/ðə ˌlæst ˈstrɔː/",
+      "translation": "последняя капля",
+      "example": "The delay was the last straw for him.",
+      "example_ru": "Задержка стала для него последней каплей.",
+      "type": "idiom"
+    },
+    {
+      "id": 105,
+      "word": "throw in the towel",
+      "transcription": "/ˌθroʊ ɪn ðə ˈtaʊəl/",
+      "translation": "сдаться, бросить дело",
+      "example": "Don't throw in the towel after one failure.",
+      "example_ru": "Не сдавайся после первой же неудачи.",
+      "type": "idiom"
+    },
+    {
+      "id": 106,
+      "word": "up in the air",
+      "transcription": "/ˌʌp ɪn ði ˈer/",
+      "translation": "не решено, под вопросом",
+      "example": "Our vacation plans are still up in the air.",
+      "example_ru": "Планы на отпуск всё ещё под вопросом.",
+      "type": "idiom"
+    },
+    {
+      "id": 107,
+      "word": "when pigs fly",
+      "transcription": "/ˌwen ˈpɪɡz ˌflaɪ/",
+      "translation": "когда рак на горе свистнет",
+      "example": "He'll apologize when pigs fly.",
+      "example_ru": "Он извинится, когда рак на горе свистнет.",
+      "type": "idiom"
+    },
+    {
+      "id": 108,
+      "word": "a blessing in disguise",
+      "transcription": "/ə ˌblesɪŋ ɪn dɪsˈɡaɪz/",
+      "translation": "скрытое благо, к лучшему",
+      "example": "Losing that job was a blessing in disguise.",
+      "example_ru": "Потеря той работы оказалась к лучшему.",
+      "type": "idiom"
+    },
+    {
+      "id": 109,
+      "word": "back to square one",
+      "transcription": "/ˌbæk tə ˌskwer ˈwʌn/",
+      "translation": "вернуться к началу",
+      "example": "The code broke and we're back to square one.",
+      "example_ru": "Код сломался, и мы снова у стартовой черты.",
+      "type": "idiom"
+    },
+    {
+      "id": 110,
+      "word": "burn the midnight oil",
+      "transcription": "/ˌbɜːrn ðə ˌmɪdnaɪt ˈɔɪl/",
+      "translation": "работать за полночь",
+      "example": "We burned the midnight oil before the launch.",
+      "example_ru": "Перед запуском мы засиживались за полночь.",
+      "type": "idiom"
+    },
+    {
+      "id": 111,
+      "word": "by the skin of your teeth",
+      "transcription": "/baɪ ðə ˌskɪn əv jɔːr ˈtiːθ/",
+      "translation": "еле-еле, на волоске",
+      "example": "He passed the exam by the skin of his teeth.",
+      "example_ru": "Он сдал экзамен еле-еле.",
+      "type": "idiom"
+    },
+    {
+      "id": 112,
+      "word": "caught red-handed",
+      "transcription": "/ˌkɔːt ˌred ˈhændɪd/",
+      "translation": "пойманный с поличным",
+      "example": "The thief was caught red-handed.",
+      "example_ru": "Вора поймали с поличным.",
+      "type": "idiom"
+    },
+    {
+      "id": 113,
+      "word": "cry over spilled milk",
+      "transcription": "/ˌkraɪ ˈoʊvər ˌspɪld ˈmɪlk/",
+      "translation": "сожалеть о неисправимом",
+      "example": "The vase is broken — no use crying over spilled milk.",
+      "example_ru": "Ваза разбита — нет смысла жалеть о случившемся.",
+      "type": "idiom"
+    },
+    {
+      "id": 114,
+      "word": "devil's advocate",
+      "transcription": "/ˌdevlz ˈædvəkət/",
+      "translation": "адвокат дьявола",
+      "example": "I'm just playing devil's advocate here.",
+      "example_ru": "Я тут просто играю в адвоката дьявола.",
+      "type": "idiom"
+    },
+    {
+      "id": 115,
+      "word": "eat your words",
+      "transcription": "/ˌiːt jɔːr ˈwɜːrdz/",
+      "translation": "взять свои слова обратно",
+      "example": "He had to eat his words when she won.",
+      "example_ru": "Когда она победила, ему пришлось взять слова назад.",
+      "type": "idiom"
+    },
+    {
+      "id": 116,
+      "word": "face the music",
+      "transcription": "/ˌfeɪs ðə ˈmjuːzɪk/",
+      "translation": "держать ответ, расплачиваться",
+      "example": "He broke the vase and had to face the music.",
+      "example_ru": "Разбив вазу, ему пришлось отвечать за последствия.",
+      "type": "idiom"
+    },
+    {
+      "id": 117,
+      "word": "get cold feet",
+      "transcription": "/ˌɡet ˌkoʊld ˈfiːt/",
+      "translation": "струсить в последний момент",
+      "example": "He got cold feet right before the wedding.",
+      "example_ru": "Прямо перед свадьбой он струсил.",
+      "type": "idiom"
+    },
+    {
+      "id": 118,
+      "word": "give the benefit of the doubt",
+      "transcription": "/ˌɡɪv ðə ˌbenɪfɪt əv ðə ˈdaʊt/",
+      "translation": "поверить на слово",
+      "example": "Let's give her the benefit of the doubt.",
+      "example_ru": "Давай поверим ей на слово.",
+      "type": "idiom"
+    },
+    {
+      "id": 119,
+      "word": "hit the nail on the head",
+      "transcription": "/ˌhɪt ðə ˈneɪl ɑːn ðə ˈhed/",
+      "translation": "попасть в точку",
+      "example": "You hit the nail on the head with that comment.",
+      "example_ru": "Твоё замечание попало точно в цель.",
+      "type": "idiom"
+    },
+    {
+      "id": 120,
+      "word": "jump on the bandwagon",
+      "transcription": "/ˌdʒʌmp ɑːn ðə ˈbændˌwæɡən/",
+      "translation": "поддаться общей моде",
+      "example": "Everyone jumped on the AI bandwagon.",
+      "example_ru": "Все подхватили моду на нейросети.",
+      "type": "idiom"
+    },
+    {
+      "id": 121,
+      "word": "kill two birds with one stone",
+      "transcription": "/ˌkɪl ˌtuː ˈbɜːrdz wɪð ˌwʌn ˈstoʊn/",
+      "translation": "убить двух зайцев",
+      "example": "Cycling to work kills two birds with one stone.",
+      "example_ru": "Дорога на работу на велосипеде убивает двух зайцев.",
+      "type": "idiom"
+    },
+    {
+      "id": 122,
+      "word": "let the cat out of the bag",
+      "transcription": "/ˌlet ðə ˌkæt ˈaʊt əv ðə ˈbæɡ/",
+      "translation": "выдать секрет",
+      "example": "He let the cat out of the bag about the gift.",
+      "example_ru": "Он выболтал секрет про подарок.",
+      "type": "idiom"
+    },
+    {
+      "id": 123,
+      "word": "night owl",
+      "transcription": "/ˈnaɪt ˌaʊl/",
+      "translation": "сова",
+      "example": "I'm a night owl — my brain wakes up at 10 p.m.",
+      "example_ru": "Я сова: мой мозг просыпается к десяти вечера.",
+      "type": "idiom"
+    },
+    {
+      "id": 124,
+      "word": "early bird",
+      "transcription": "/ˌɜːrli ˈbɜːrd/",
+      "translation": "жаворонок",
+      "example": "The early bird catches the best deals.",
+      "example_ru": "Кто рано встаёт, тот ловит лучшие скидки.",
+      "type": "idiom"
+    },
+    {
+      "id": 125,
+      "word": "on cloud nine",
+      "transcription": "/ɑːn ˌklaʊd ˈnaɪn/",
+      "translation": "на седьмом небе от счастья",
+      "example": "She's been on cloud nine since the proposal.",
+      "example_ru": "С момента предложения она на седьмом небе.",
+      "type": "idiom"
+    },
+    {
+      "id": 126,
+      "word": "out of the blue",
+      "transcription": "/ˌaʊt əv ðə ˈbluː/",
+      "translation": "неожиданно, внезапно",
+      "example": "An old friend texted me out of the blue.",
+      "example_ru": "Старый друг вдруг неожиданно написал мне.",
+      "type": "idiom"
+    },
+    {
+      "id": 127,
+      "word": "play it by ear",
+      "transcription": "/ˌpleɪ ɪt baɪ ˈɪr/",
+      "translation": "действовать по обстановке",
+      "example": "No plan for tonight — we'll play it by ear.",
+      "example_ru": "На вечер плана нет: будем действовать по ситуации.",
+      "type": "idiom"
+    },
+    {
+      "id": 128,
+      "word": "in someone's shoes",
+      "transcription": "/ˌpʊt jɔːrˈself ɪn ˈsʌmwʌnz ˈʃuːz/",
+      "translation": "поставить себя на чужое место",
+      "example": "Put yourself in her shoes for a minute.",
+      "example_ru": "Побудь хоть минуту на её месте.",
+      "type": "idiom"
+    },
+    {
+      "id": 129,
+      "word": "rain check",
+      "transcription": "/ˈreɪn ˌtʃek/",
+      "translation": "перенос на другой раз",
+      "example": "Can I take a rain check on lunch?",
+      "example_ru": "Можно перенести наш обед?",
+      "type": "idiom"
+    },
+    {
+      "id": 130,
+      "word": "rule of thumb",
+      "transcription": "/ˌruːl əv ˈθʌm/",
+      "translation": "общее правило, прикидка",
+      "example": "As a rule of thumb, save ten percent.",
+      "example_ru": "Как правило, откладывай десять процентов дохода.",
+      "type": "idiom"
+    },
+    {
+      "id": 131,
+      "word": "second wind",
+      "transcription": "/ˌsekənd ˈwɪnd/",
+      "translation": "второе дыхание",
+      "example": "After coffee I got my second wind.",
+      "example_ru": "После кофе у меня открылось второе дыхание.",
+      "type": "idiom"
+    },
+    {
+      "id": 132,
+      "word": "the ball is in your court",
+      "transcription": "/ðə ˌbɔːl ɪz ɪn jɔːr ˈkɔːrt/",
+      "translation": "теперь твой ход",
+      "example": "I sent the offer — the ball is in your court.",
+      "example_ru": "Я отправил оффер: теперь мяч на твоей стороне.",
+      "type": "idiom"
+    },
+    {
+      "id": 133,
+      "word": "time flies",
+      "transcription": "/ˌtaɪm ˈflaɪz/",
+      "translation": "время летит",
+      "example": "Time flies when you're having fun.",
+      "example_ru": "Время летит, когда веселишься.",
+      "type": "idiom"
+    },
+    {
+      "id": 134,
+      "word": "touch base",
+      "transcription": "/ˌtʌtʃ ˈbeɪs/",
+      "translation": "коротко связаться, свериться",
+      "example": "Let's touch base on Monday.",
+      "example_ru": "Давай свяжемся в понедельник.",
+      "type": "idiom"
+    },
+    {
+      "id": 135,
+      "word": "food for thought",
+      "transcription": "/ˌfʊd fər ˈθɔːt/",
+      "translation": "пища для размышлений",
+      "example": "That podcast gave me food for thought.",
+      "example_ru": "Тот подкаст дал мне пищу для размышлений.",
+      "type": "idiom"
+    },
+    {
+      "id": 136,
+      "word": "hang out",
+      "transcription": "/ˌhæŋ ˈaʊt/",
+      "translation": "тусоваться, проводить время вместе",
+      "example": "We hang out at the mall on Saturdays.",
+      "example_ru": "По субботам мы тусуемся в торговом центре.",
+      "type": "phrasal_verb"
+    },
+    {
+      "id": 137,
+      "word": "figure out",
+      "transcription": "/ˌfɪɡjər ˈaʊt/",
+      "translation": "понять, разобраться",
+      "example": "I can't figure out this puzzle.",
+      "example_ru": "Никак не разгадаю эту головоломку.",
+      "type": "phrasal_verb"
+    },
+    {
+      "id": 138,
+      "word": "chill out",
+      "transcription": "/ˌtʃɪl ˈaʊt/",
+      "translation": "расслабиться, успокоиться",
+      "example": "Chill out — the train comes every five minutes.",
+      "example_ru": "Успокойся: поезда ходят каждые пять минут.",
+      "type": "phrasal_verb"
+    },
+    {
+      "id": 139,
+      "word": "come up with",
+      "transcription": "/ˌkʌm ˈʌp wɪð/",
+      "translation": "придумать, сообразить",
+      "example": "She came up with a brilliant idea.",
+      "example_ru": "Она придумала блестящую идею.",
+      "type": "phrasal_verb"
+    },
+    {
+      "id": 140,
+      "word": "cut down on",
+      "transcription": "/ˌkʌt ˈdaʊn ɑːn/",
+      "translation": "сократить потребление",
+      "example": "I'm cutting down on sugar this month.",
+      "example_ru": "В этом месяце я сокращаю сахар.",
+      "type": "phrasal_verb"
+    },
+    {
+      "id": 141,
+      "word": "end up",
+      "transcription": "/ˌend ˈʌp/",
+      "translation": "в итоге оказаться",
+      "example": "We ended up ordering pizza again.",
+      "example_ru": "В итоге мы снова заказали пиццу.",
+      "type": "phrasal_verb"
+    },
+    {
+      "id": 142,
+      "word": "find out",
+      "transcription": "/ˌfaɪnd ˈaʊt/",
+      "translation": "выяснить, узнать",
+      "example": "I found out the answer on a forum.",
+      "example_ru": "Ответ я выяснил на форуме.",
+      "type": "phrasal_verb"
+    },
+    {
+      "id": 143,
+      "word": "get along with",
+      "transcription": "/ɡet əˈlɔːŋ wɪð/",
+      "translation": "ладить, уживаться",
+      "example": "I get along with my coworkers pretty well.",
+      "example_ru": "С коллегами я лажу довольно хорошо.",
+      "type": "phrasal_verb"
+    },
+    {
+      "id": 144,
+      "word": "give up",
+      "transcription": "/ˌɡɪv ˈʌp/",
+      "translation": "сдаваться, бросать",
+      "example": "Never give up after the first attempt.",
+      "example_ru": "Никогда не сдавайся с первой попытки.",
+      "type": "phrasal_verb"
+    },
+    {
+      "id": 145,
+      "word": "look forward to",
+      "transcription": "/ˌlʊk ˈfɔːrwərd tuː/",
+      "translation": "с нетерпением ждать",
+      "example": "I look forward to our summer trip.",
+      "example_ru": "С нетерпением жду нашего летнего путешествия.",
+      "type": "phrasal_verb"
+    },
+    {
+      "id": 146,
+      "word": "run out of",
+      "transcription": "/ˌrʌn ˈaʊt əv/",
+      "translation": "закончиться, иссякнуть",
+      "example": "We ran out of milk this morning.",
+      "example_ru": "Сегодня утром у нас закончилось молоко.",
+      "type": "phrasal_verb"
+    },
+    {
+      "id": 147,
+      "word": "show off",
+      "transcription": "/ˌʃoʊ ˈɔːf/",
+      "translation": "хвастаться, рисоваться",
+      "example": "He loves to show off his new car.",
+      "example_ru": "Он обожает хвастаться новой машиной.",
+      "type": "phrasal_verb"
+    },
+    {
+      "id": 148,
+      "word": "shut down",
+      "transcription": "/ˌʃʌt ˈdaʊn/",
+      "translation": "выключить, закрыть",
+      "example": "My laptop suddenly shut down.",
+      "example_ru": "Мой ноутбук внезапно выключился.",
+      "type": "phrasal_verb"
+    },
+    {
+      "id": 149,
+      "word": "sort out",
+      "transcription": "/ˌsɔːrt ˈaʊt/",
+      "translation": "разобраться, уладить",
+      "example": "We'll sort out the schedule tomorrow.",
+      "example_ru": "С расписанием разберёмся завтра.",
+      "type": "phrasal_verb"
+    },
+    {
+      "id": 150,
+      "word": "stand out",
+      "transcription": "/ˌstænd ˈaʊt/",
+      "translation": "выделяться",
+      "example": "Her presentation really stood out.",
+      "example_ru": "Её презентация реально выделялась.",
+      "type": "phrasal_verb"
+    },
+    {
+      "id": 151,
+      "word": "take off",
+      "transcription": "/ˌteɪk ˈɔːf/",
+      "translation": "взлететь; сняться с места",
+      "example": "The plane took off on time.",
+      "example_ru": "Самолёт взлетел по расписанию.",
+      "type": "phrasal_verb"
+    },
+    {
+      "id": 152,
+      "word": "work out",
+      "transcription": "/ˌwɜːrk ˈaʊt/",
+      "translation": "заниматься спортом; получиться",
+      "example": "Everything worked out in the end.",
+      "example_ru": "В конце концов всё устроилось.",
+      "type": "phrasal_verb"
+    },
+    {
+      "id": 153,
+      "word": "put off",
+      "transcription": "/ˌpʊt ˈɔːf/",
+      "translation": "отложить, перенести",
+      "example": "Don't put off the dentist visit.",
+      "example_ru": "Не откладывай визит к стоматологу.",
+      "type": "phrasal_verb"
+    },
+    {
+      "id": 154,
+      "word": "put up with",
+      "transcription": "/ˌpʊt ˈʌp wɪð/",
+      "translation": "терпеть, мириться",
+      "example": "I can't put up with this noise anymore.",
+      "example_ru": "Больше не могу терпеть этот шум.",
+      "type": "phrasal_verb"
+    },
+    {
+      "id": 155,
+      "word": "check out",
+      "transcription": "/ˌtʃek ˈaʊt/",
+      "translation": "посмотреть, проверить",
+      "example": "Check out this new coffee place!",
+      "example_ru": "Загляни в новую кофейню!",
+      "type": "phrasal_verb"
+    },
+    {
+      "id": 156,
+      "word": "catch up",
+      "transcription": "/ˌkætʃ ˈʌp/",
+      "translation": "наверстать, поболтать за жизнь",
+      "example": "Let's catch up over coffee someday.",
+      "example_ru": "Давай как-нибудь встретимся за кофе поболтать.",
+      "type": "phrasal_verb"
+    },
+    {
+      "id": 157,
+      "word": "drop by",
+      "transcription": "/ˌdrɑːp ˈbaɪ/",
+      "translation": "забежать ненадолго",
+      "example": "Drop by whenever you're in the area.",
+      "example_ru": "Заходи, если будешь рядом.",
+      "type": "phrasal_verb"
+    },
+    {
+      "id": 158,
+      "word": "eat out",
+      "transcription": "/ˌiːt ˈaʊt/",
+      "translation": "есть вне дома",
+      "example": "We eat out every Friday.",
+      "example_ru": "Каждую пятницу мы ужинаем в кафе.",
+      "type": "phrasal_verb"
+    },
+    {
+      "id": 159,
+      "word": "log in",
+      "transcription": "/ˌlɔːɡ ˈɪn/",
+      "translation": "войти в систему",
+      "example": "Log in to save your progress.",
+      "example_ru": "Войди в аккаунт, чтобы сохранить прогресс.",
+      "type": "phrasal_verb"
+    },
+    {
+      "id": 160,
+      "word": "burn out",
+      "transcription": "/ˌbɜːrn ˈaʊt/",
+      "translation": "перегореть, выгореть",
+      "example": "Rest properly or you'll burn out.",
+      "example_ru": "Отдыхай как следует, иначе перегоришь.",
+      "type": "phrasal_verb"
+    }
+  ]
+}
