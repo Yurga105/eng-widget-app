@@ -10,4 +10,9 @@
     <string name="word_widget_preview_transcription">/əˈkɑːmplɪʃ/</string>
     <string name="word_widget_preview_translation">достигать, выполнять</string>
     <string name="word_widget_preview_example">She accomplished all her goals this year.</string>
+
+    <!-- Этап 4: плейсхолдер, если виджет добавлен до первого запуска
+         приложения и prefs ещё пусты (риск №7 в PLAN.md §9). -->
+    <string name="word_widget_empty_word">Слово дня</string>
+    <string name="word_widget_empty_translation">Откройте приложение, чтобы увидеть слово дня</string>
 </resources>

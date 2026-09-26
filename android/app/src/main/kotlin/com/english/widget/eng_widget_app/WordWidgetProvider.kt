@@ -1,62 +1,92 @@
 package com.english.widget.eng_widget_app
 
-import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
-import android.appwidget.AppWidgetProvider
 import android.content.Context
-import android.content.Intent
+import android.content.SharedPreferences
+import android.net.Uri
 import android.widget.RemoteViews
+import es.antonborri.home_widget.HomeWidgetLaunchIntent
+import es.antonborri.home_widget.HomeWidgetProvider
 
 /**
- * Провайдер виджета «Слово дня» — ЭТАП 3 (статика).
+ * Провайдер виджета «Слово дня» — ЭТАП 4 (мост Flutter ↔ виджет).
  *
- * Сейчас рисует захардкоженное слово (запись №1 базы — «accomplish»),
- * тексты в initialLayout совпадают, поэтому «миганий» до первого
- * [onUpdate] нет.
+ * Поля слова дня читает из SharedPreferences: их пишет `WidgetSyncService`
+ * на Dart через `HomeWidget.saveWidgetData`. Тап открывает карточку этого
+ * дня — `HomeWidgetLaunchIntent` с URI `wordoftheday://word?date=…`
+ * (Flutter ловит через `initiallyLaunchedFromHomeWidget()`/`widgetClicked`).
  *
- * Дальнейшие этапы:
- *  - 4: поля приходят из SharedPreferences (пишет WidgetSyncService на Dart),
- *    тап открывает карточку дня через HomeWidgetLaunchIntent с URI даты;
- *  - 5: провайдер сам пересчитывает слово дня по формуле PLAN.md §5
- *    (seed = yyyy*10000 + MM*100 + dd; index = seed % N) и вешает
- *    полуночный будильник вместо updatePeriodMillis.
+ * Ключи и схема URI — общий контракт с `widget_sync_service.dart`
+ * (PLAN.md §6); менять только синхронно.
+ *
+ * ЭТАП 5: провайдер сам пересчитает слово дня по формуле §5 из базы
+ * (ключ `word_db_json` в prefs) и повесит полуночный будильник.
  */
-class WordWidgetProvider : AppWidgetProvider() {
+class WordWidgetProvider : HomeWidgetProvider() {
 
     override fun onUpdate(
         context: Context,
         appWidgetManager: AppWidgetManager,
         appWidgetIds: IntArray,
+        widgetData: SharedPreferences,
     ) {
         // Один и тот же RemoteViews для всех экземпляров виджета —
         // слово дня общее.
+        val date = widgetData.getString(KEY_DATE, null)
         val views = RemoteViews(context.packageName, R.layout.word_widget).apply {
-            setTextViewText(R.id.widget_word, STATIC_WORD)
-            setTextViewText(R.id.widget_transcription, STATIC_TRANSCRIPTION)
-            setTextViewText(R.id.widget_translation, STATIC_TRANSLATION)
-            setTextViewText(R.id.widget_example, STATIC_EXAMPLE)
+            if (date == null) {
+                // Виджет добавили до первого запуска приложения, prefs пусты
+                // (риск №7 в PLAN.md §9) — показываем подсказку-плейсхолдер.
+                setTextViewText(
+                    R.id.widget_word,
+                    context.getString(R.string.word_widget_empty_word),
+                )
+                setTextViewText(R.id.widget_transcription, "")
+                setTextViewText(
+                    R.id.widget_translation,
+                    context.getString(R.string.word_widget_empty_translation),
+                )
+                setTextViewText(R.id.widget_example, "")
+            } else {
+                setTextViewText(R.id.widget_word, widgetData.getString(KEY_WORD, date))
+                setTextViewText(
+                    R.id.widget_transcription,
+                    widgetData.getString(KEY_TRANSCRIPTION, ""),
+                )
+                setTextViewText(
+                    R.id.widget_translation,
+                    widgetData.getString(KEY_TRANSLATION, ""),
+                )
+                setTextViewText(
+                    R.id.widget_example,
+                    widgetData.getString(KEY_EXAMPLE, ""),
+                )
+            }
 
-            // Тап по виджету открывает приложение (этап 4 заменит на
-            // HomeWidgetLaunchIntent с датой в URI). MainActivity —
-            // singleTop, повторные тапы не плодят задачи.
-            val openApp = PendingIntent.getActivity(
-                context,
-                REQUEST_OPEN_APP,
-                Intent(context, MainActivity::class.java),
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+            // Тап → карточка именно этой даты: детерминизм §5 избавляет от
+            // передачи всей карточки в URI. MainActivity — singleTop,
+            // повторные тапы не плодят задачи.
+            val uri = date?.let {
+                Uri.parse("$URI_SCHEME://$URI_HOST?$URI_DATE_PARAM=$it")
+            }
+            setOnClickPendingIntent(
+                R.id.widget_root,
+                HomeWidgetLaunchIntent.getActivity(context, MainActivity::class.java, uri),
             )
-            setOnClickPendingIntent(R.id.widget_root, openApp)
         }
         appWidgetIds.forEach { id -> appWidgetManager.updateAppWidget(id, views) }
     }
 
     private companion object {
-        // Запись №1 из assets/words_db.json — до интеграции с Dart (этап 4).
-        const val STATIC_WORD = "accomplish"
-        const val STATIC_TRANSCRIPTION = "/əˈkɑːmplɪʃ/"
-        const val STATIC_TRANSLATION = "достигать, выполнять"
-        const val STATIC_EXAMPLE = "She accomplished all her goals this year."
-
-        const val REQUEST_OPEN_APP = 0
+        // Контракт с lib/services/widget_sync_service.dart — менять только вместе.
+        const val KEY_DATE = "widget.date"
+        const val KEY_WORD = "widget.word"
+        const val KEY_TRANSCRIPTION = "widget.transcription"
+        const val KEY_TRANSLATION = "widget.translation"
+        const val KEY_EXAMPLE = "widget.example"
+        const val URI_SCHEME = "wordoftheday"
+        const val URI_HOST = "word"
+        const val URI_DATE_PARAM = "date"
     }
 }
+

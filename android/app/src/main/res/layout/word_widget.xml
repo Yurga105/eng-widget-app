@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Макет виджета 4×2 (PLAN.md §1, §6): слово → транскрипция → перевод →
      пример (до 2 строк с ellipsize). Только RemoteViews-совместимые view
-     (LinearLayout, TextView). Тексты — статическая заглушка этапа 3,
-     провайдер заменяет их на актуальные в onUpdate. -->
+     (LinearLayout, TextView). Тексты — заглушка до первого onUpdate,
+     провайдер (этап 4) заменяет их полями из SharedPreferences. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/widget_root"
     android:layout_width="match_parent"
