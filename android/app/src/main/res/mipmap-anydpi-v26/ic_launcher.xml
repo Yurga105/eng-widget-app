@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Адаптивная иконка (API 26+): индиго-фон + белый «W» с янтарной точкой.
+     Для API<26 остаются шаблонные PNG (замена — этап 8, генерация растровых
+     версий из этого же дизайна). Манифест уже ссылается на @mipmap/ic_launcher,
+     конфигурация v26 автоматически приоритетнее PNG. -->
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@color/ic_launcher_background" />
+    <foreground android:drawable="@drawable/ic_launcher_foreground" />
+</adaptive-icon>

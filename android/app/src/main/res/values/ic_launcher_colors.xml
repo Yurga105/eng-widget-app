@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Цвета иконки приложения (адаптивная иконка, PLAN.md §1 — палитра). -->
+<resources>
+    <!-- Насыщенный индиго — seed-цвет приложения 0xFF3F51B5. -->
+    <color name="ic_launcher_background">#FF3F51B5</color>
+</resources>
