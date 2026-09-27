@@ -36,6 +36,8 @@ Future<void> _pumpCard(
   Brightness brightness = Brightness.light,
   String? dateLabel = '27 сентября 2026',
   bool fromWidget = false,
+  VoidCallback? onListen,
+  bool isListening = false,
 }) {
   return tester.pumpWidget(
     MaterialApp(
@@ -52,6 +54,8 @@ Future<void> _pumpCard(
             entry: entry,
             dateLabel: dateLabel,
             fromWidget: fromWidget,
+            onListen: onListen,
+            isListening: isListening,
           ),
         ),
       ),
@@ -125,6 +129,8 @@ void main() {
   testWidgets('Карточка с фразовым глаголом вмещается на экране 320×480',
       (tester) async {
     // Критерий приёмки этапа 6: карточка вмещается на маленьких экранах.
+    // Этап 9: прогоняем с кнопкой прослушивания — строка слова стала
+    // плотнее (слово + динамик), проверяем тот же критерий.
     tester.view.physicalSize = const Size(320, 480);
     tester.view.devicePixelRatio = 1.0;
     addTearDown(tester.view.reset);
@@ -134,10 +140,46 @@ void main() {
       entry: _kPhrasalVerb,
       dateLabel: '27 сентября 2026',
       fromWidget: true,
+      onListen: () {},
     );
 
     expect(find.text('hang out with somebody'), findsOneWidget);
     expect(find.text('фразовый глагол'), findsOneWidget);
+    expect(find.byIcon(Icons.volume_up_rounded), findsOneWidget);
     expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('Кнопка прослушивания: тап вызывает onListen (этап 9)',
+      (tester) async {
+    var taps = 0;
+    await _pumpCard(tester, onListen: () => taps++);
+
+    expect(find.byTooltip('Прослушать'), findsOneWidget);
+    await tester.tap(find.byIcon(Icons.volume_up_rounded));
+
+    expect(taps, 1);
+  });
+
+  testWidgets('TTS недоступен (onListen == null) — кнопки нет (этап 9)',
+      (tester) async {
+    await _pumpCard(tester);
+
+    expect(find.byIcon(Icons.volume_up_rounded), findsNothing);
+    expect(find.byTooltip('Прослушать'), findsNothing);
+    expect(find.text('no-brainer'), findsOneWidget,
+        reason: 'карточка работает и без произношения');
+  });
+
+  testWidgets('Во время воспроизведения кнопка показывает «стоп» (этап 9)',
+      (tester) async {
+    await _pumpCard(tester, onListen: () {}, isListening: true);
+
+    expect(find.byIcon(Icons.stop_rounded), findsOneWidget);
+    expect(find.byIcon(Icons.volume_up_rounded), findsNothing);
+    expect(find.byTooltip('Остановить'), findsOneWidget);
+
+    // Речь закончилась — снова динамик.
+    await _pumpCard(tester, onListen: () {}, isListening: false);
+    expect(find.byIcon(Icons.volume_up_rounded), findsOneWidget);
   });
 }

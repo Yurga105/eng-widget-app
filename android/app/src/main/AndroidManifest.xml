@@ -89,5 +89,11 @@
             <action android:name="android.intent.action.PROCESS_TEXT"/>
             <data android:mimeType="text/plain"/>
         </intent>
+        <!-- Этап 9 (PLAN.md §1 «Произношение»): package visibility для
+             системного TTS-движка — на Android 11+ (API 30+) без этого
+             flutter_tts не увидит ни одного движка. Новых прав не добавляем. -->
+        <intent>
+            <action android:name="android.intent.action.TTS_SERVICE"/>
+        </intent>
     </queries>
 </manifest>

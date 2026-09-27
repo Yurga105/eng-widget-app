@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import '../../models/word_entry.dart';
 import 'type_badge.dart';
 
-/// Большая карточка слова дня — этап 6 (PLAN.md §1, §3, §8).
+/// Большая карточка слова дня — этап 6 (PLAN.md §1, §3, §8),
+/// произношение — этап 9.
 ///
 /// Показывает все поля [WordEntry]: бейдж типа, слово, транскрипцию (IPA),
 /// перевод, пример и его перевод. Виджет чистый и без состояния — данными
@@ -12,17 +13,30 @@ import 'type_badge.dart';
 /// [dateLabel] — уже отформатированная русская дата («27 сентября 2026»,
 /// см. [formatDateRu] в `home_screen.dart`); [fromWidget] — карточка
 /// открыта тапом по виджету (появляется янтарная метка «из виджета»).
+///
+/// Этап 9: [onListen] — произнести слово системным TTS; null — голос
+/// недоступен, кнопки в карточке нет (мягкая деградация). [isListening] —
+/// идёт воспроизведение: иконка динамика меняется на «стоп».
 class WordCard extends StatelessWidget {
   const WordCard({
     super.key,
     required this.entry,
     this.dateLabel,
     this.fromWidget = false,
+    this.onListen,
+    this.isListening = false,
   });
 
   final WordEntry entry;
   final String? dateLabel;
   final bool fromWidget;
+
+  /// Произнести слово дня — этап 9 (PLAN.md §1 «Произношение»).
+  /// null → системный TTS недоступен: кнопки в карточке нет.
+  final VoidCallback? onListen;
+
+  /// Идёт воспроизведение — кнопка показывает «стоп» вместо динамика.
+  final bool isListening;
 
   @override
   Widget build(BuildContext context) {
@@ -58,12 +72,33 @@ class WordCard extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 16),
-              Text(
-                entry.word,
-                style: theme.textTheme.headlineMedium?.copyWith(
-                  fontWeight: FontWeight.w700,
-                  color: theme.colorScheme.onSurface,
-                ),
+              // Этап 9: слово и кнопка прослушивания в одной строке —
+              // Expanded разрешает длинным фразовым глаголам переноситься,
+              // кнопка остаётся справа (критерий «влезает на 320×480»).
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Text(
+                      entry.word,
+                      style: theme.textTheme.headlineMedium?.copyWith(
+                        fontWeight: FontWeight.w700,
+                        color: theme.colorScheme.onSurface,
+                      ),
+                    ),
+                  ),
+                  if (onListen != null)
+                    IconButton(
+                      onPressed: onListen,
+                      tooltip: isListening ? 'Остановить' : 'Прослушать',
+                      color: theme.colorScheme.primary,
+                      icon: Icon(
+                        isListening
+                            ? Icons.stop_rounded
+                            : Icons.volume_up_rounded,
+                      ),
+                    ),
+                ],
               ),
               const SizedBox(height: 4),
               Text(

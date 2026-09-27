@@ -15,6 +15,7 @@
 | Тема виджета | Авто: светлая/тёмная по системной теме (`values-night`); скруглённые углы (нативно Android 12+, drawable-фон для более старых) |
 | Экран блокировки | Нативный виджет на lock screen телефонов невозможен (удалён в Android 5.0; в Android 16 QPR2 возвращён только для планшетов). Компенсация: ежедневное ЛОКАЛЬНОЕ уведомление (видно на lock screen) |
 | UI v1.0 | Один экран: большая карточка слова дня; Material 3, светлая + тёмная тема; язык интерфейса — русский |
+| Произношение | Кнопка-динамик в карточке (этап 9): системный TTS-движок устройства (`flutter_tts`), язык фиксированный `en-US`, офлайн и без прав. Озвучивается только слово/фраза дня (не пример-предложение); на виджете звука нет (RemoteViews); нет движка/голоса en-US — кнопки нет (мягкая деградация) |
 | Сеть | Никаких сетевых запросов; `dio` удалить из зависимостей; в манифесте не должно быть прав на интернет |
 
 **Допущения v1.0** (по умолчанию, легко меняется): уведомление в 09:00 локального времени (константа, настроек в v1 нет); палитра M3 — индиго (seed) + янтарный акцент.
@@ -22,7 +23,7 @@
 ## 2. Стек технологий
 
 - **Flutter / Dart**: SDK ^3.13.4 (уже настроен), Material 3, без внешнего state-management — `StatefulWidget` + `ValueNotifier`.
-- **Пакеты**: `home_widget ^0.10.0` (уже в pubspec), `flutter_local_notifications ^22.3.1` (добавлен ✅ этап 0), `flutter_lints` (есть); `timezone ^0.11.1` + `flutter_timezone ^5.1.0` (добавлены ✅ этап 7 — IANA-зона устройства, по ней натив считает ежедневный повтор уведомления).
+- **Пакеты**: `home_widget ^0.10.0` (уже в pubspec), `flutter_local_notifications ^22.3.1` (добавлен ✅ этап 0), `flutter_lints` (есть); `timezone ^0.11.1` + `flutter_timezone ^5.1.0` (добавлены ✅ этап 7 — IANA-зона устройства, по ней натив считает ежедневный повтор уведомления); `flutter_tts ^4.2.5` (добавлен ✅ этап 9 — системный TTS-движок Android для произношения: офлайн, без прав; в манифесте только `<queries>` с `TTS_SERVICE` — видимость движка на Android 11+, новых прав нет).
 - **Нативная часть**: Kotlin + XML `RemoteViews`, `AppWidgetProvider`, `PendingIntent`, `SharedPreferences`, встроенный `org.json` (парсинг базы в нативном провайдере для автономной смены слова).
 - **Тесты**: `flutter_test` — unit (парсинг JSON, формула слова дня), widget-тесты (карточка, экран).
 
@@ -38,6 +39,7 @@ lib/
     word_of_day_service.dart       # формула seed(дата) % N (единая с Kotlin)
     widget_sync_service.dart       # предзагрузка базы в prefs + save/update через HomeWidget
     notification_service.dart      # канал, расписание 09:00, permission-флоу
+    pronunciation_service.dart     # TTS-произношение слова дня (этап 9)
   ui/
     screens/home_screen.dart       # экран карточки (+ приём даты из тапа по виджету)
     widgets/word_card.dart         # карточка: слово, IPA, перевод, пример + перевод
@@ -62,6 +64,7 @@ test/
   widget_test.dart
   word_of_day_service_test.dart
   word_card_test.dart
+  pronunciation_service_test.dart
 ```
 
 ## 4. Контракт данных — assets/words_db.json
@@ -141,6 +144,7 @@ index = seed mod words.length
 | 6. UI | Темы M3 (light/dark, indigo+amber), `HomeScreen` + `WordCard` + `TypeBadge` (word=индиго, idiom=янтарь, phrasal_verb=teal), русские строки | Карточка вмещается на маленьких экранах; тема следует системной | ✅ **Выполнен** (27.09.2026): `ui/widgets/word_card.dart` (`Card.filled`: Wrap-заголовок с бейджем/датой/меткой «из виджета», слово, IPA, перевод, пример+перевод) + `type_badge.dart` («слово»/«идиома»/«фразовый глагол»; фиксированные в обеих темах цвета: индиго/янтарь/teal) + `HomeScreen` переписан (`formatDateRu` без intl, maxWidth 600, экран ошибки словаря); темы M3 light/dark/system — с этапа 4, янтарный акцент §1 — бейдж идиомы и метка «из виджета»; `word_card_test.dart` +5 тестов (влезание на 320×480, тёмная тема) — flutter test 44/44, analyze чисто, debug-APK собран; ручная приёмка на устройстве — за пользователем |
 | 7. Уведомления | `NotificationService` по §7 + permission-флоу | Уведомление приходит в срок; тап открывает приложение; отказ от разрешения не ломает виджет | ✅ **Выполнен** (27.09.2026): `notification_service.dart` — `NotificationService` + `NotificationsBackend` (фейк в тестах); расписание: контент = слово дня ДНЯ СРАБАТЫВАНИЯ (запуск после 09:00 планирует завтрашнее со завтрашним словом), payload = `wordoftheday://word?date=…` — тап (тёплый/холодный старт) открывает карточку того же дня общим парсером с виджетом; `matchDateTimeComponents: time` — натив сам переставляет ежедневный повтор по настенным часам зоны `TZDateTime.location` (IANA из `flutter_timezone`, фолбэки `Etc/GMT±` → UTC) и восстанавливает его после ребута (2 receiver'а плагина в манифесте + `POST_NOTIFICATIONS`); `POST_NOTIFICATIONS` спрашивается 1 раз за запуск (`requestNotificationsPermission`), отказ не блокирует расписание (риск §9-5); reschedule-триггеры: старт/резюм/полночь; analyze чисто, flutter test 56/56, debug-APK собран; ручная приёмка (приход в 09:00, тап, отказ в разрешении) — за пользователем |
 | 8. QA и полировка | Матрица лаунчеров (Pixel, One UI, MIUI), reboot, смена темы, виджет до первого запуска (placeholder), PNG-иконки приложения для API<26 и PNG-превью виджета для API<31, сборка релиза | `flutter test` зелёный; `flutter build apk --release` собирается | ✅ **Выполнен** (28.09.2026): PNG-иконки лаунчера `mipmap-{mdpi…xxxhdpi}/ic_launcher.png` 48/72/96/144/192 px (глиф «W.» на скруглённом индиго-квадрате); PNG-превью виджета `drawable-nodpi/widget_preview.png` 480×220 + `android:previewImage` в `word_widget_info.xml`; alpha-only иконка уведомлений `drawable/ic_stat_word.xml` (`defaultIcon`); analyze чисто, flutter test 56/56; релизный APK собран (45.3 МБ, debug-подпись) и установлен (`--user 0 -r`, запуск без ошибок в logcat); `aapt dump permissions`: в release НЕТ `INTERNET` (в debug есть — оверлей Flutter); остальные права — свои (boot, POST_NOTIFICATIONS) и merged от плагинов/AndroidX (VIBRATE — flutter_local_notifications; WAKE_LOCK/ACCESS_NETWORK_STATE/FOREGROUND_SERVICE — androidx.work 2.11.2 транзитивно через androidx.glance 1.2.0 из home_widget), сетевого доступа не дают; ручная матрица — `docs/QA_CHECKLIST.md`, приёмка — за пользователем |
+| 9. Произношение | `PronunciationService` + `TtsBackend` (паттерн этапа 7): кнопка-динамик в `WordCard`, язык фиксированный `en-US`, `awaitSpeakCompletion`; `<queries>` `TTS_SERVICE` в манифесте | Тап по динамику озвучивает слово/фразу дня (en-US); повторный тап и уход в фон — стоп; нет голоса — кнопки нет; ноль новых прав в APK | ✅ **Выполнен** (28.09.2026): `flutter_tts ^4.2.5` (системный TTS-движок Android: офлайн, без прав, APK 45.4 МБ против 45.3); `lib/services/pronunciation_service.dart` — `TtsBackend`/`FlutterTtsBackend` + `PronunciationService` (`isAvailable` — есть ли en-US-голос: нет → кнопки нет, риск §9-13; `isSpeaking` ValueNotifier — динамик↔«стоп»; `toggle`/`stop`/`dispose`; ошибки плагина глотаются `_quietly`); `WordCard` — опциональные `onListen`/`isListening` (Row: слово в `Expanded` + кнопка; `null` → кнопки нет, виджет остался stateless); `HomeScreen` — `ValueListenableBuilder` над `isSpeaking` + `WidgetsBindingObserver` (`paused`/`hidden` и смена даты из тапа → стоп речи); манифест: `<queries>` с `TTS_SERVICE` (Android 11+ package visibility — иначе движок не виден); озвучивается только слово/фраза дня (не пример-предложение); на виджете звука нет (RemoteViews); +13 тестов (9 unit на фейк-бэкенде с «долгой речью» через Completer + 4 виджет) — flutter test 69/69, analyze чисто; релизный APK собран, `aapt dump permissions`: НОВЫХ прав нет, `INTERNET` нет; установлен на RMX2001 (`--user 0 -r`, запуск без ошибок в logcat); ручная приёмка (звук en-US, скорость речи, стоп тапом/фоном) — за пользователем |
 
 ## 9. Риски и обход
 
@@ -158,6 +162,7 @@ index = seed mod words.length
 | 10 | home_widget 0.10.0 — свежий релиз | Версия зафиксирована в pubspec; апгрейд — отдельной задачей по ченджлогу |
 | 11 | Кракозябры JSON | utf8.decode при чтении ассета; файл в UTF-8 без BOM |
 | 12 | Пользователь ждёт ресайза виджета | resizeMode=none — честное фиксированное 4×2 |
+| 13 | Нет TTS-движка или голоса en-US на устройстве (этап 9) | Мягкая деградация: `isLanguageAvailable('en-US')` → кнопки прослушивания нет, карточка работает; звук — только в приложении |
 
 ## 10. Definition of Done
 

@@ -38,6 +38,9 @@ dependencies:
   home_widget: ^0.10.0
   timezone: ^0.11.1
   flutter_timezone: ^5.1.0
+  # Этап 9 (PLAN.md §1 «Произношение»): системный TTS-движок устройства —
+  # офлайн, разрешений в манифесте не требует.
+  flutter_tts: ^4.2.5
 
 dev_dependencies:
   flutter_test:

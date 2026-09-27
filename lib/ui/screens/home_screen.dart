@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../../models/word_entry.dart';
 import '../../services/dictionary_service.dart';
+import '../../services/pronunciation_service.dart';
 import '../../services/word_of_day_service.dart';
 import '../widgets/word_card.dart';
 
@@ -42,27 +45,56 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   final DictionaryService _dictionary = DictionaryService();
   late final WordOfDayService _wordOfDay;
+
+  /// Произношение слова дня системным TTS — этап 9 (PLAN.md §1).
+  late final PronunciationService _pronunciation;
 
   @override
   void initState() {
     super.initState();
+    // Наблюдатель жизненного цикла — этап 9: уход в фон глушит речь.
+    WidgetsBinding.instance.addObserver(this);
     _wordOfDay = WordOfDayService(_dictionary);
+    _pronunciation = PronunciationService();
+    unawaited(_startPronunciation());
     widget.widgetTapDate?.addListener(_onTapDateChanged);
   }
 
   @override
   void dispose() {
     widget.widgetTapDate?.removeListener(_onTapDateChanged);
+    WidgetsBinding.instance.removeObserver(this);
+    _pronunciation.dispose();
     super.dispose();
   }
 
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // Ушли в фон/на другой экран — речь глушим: слово дня не должно
+    // проигрываться «само по себе» в кармане (этап 9).
+    if (state == AppLifecycleState.paused ||
+        state == AppLifecycleState.hidden) {
+      unawaited(_pronunciation.stop());
+    }
+  }
+
   void _onTapDateChanged() {
-    setState(() {
-      // Пришла новая дата из тапа по виджету — перестраиваем карточку.
-    });
+    // Пришла новая дата из тапа по виджету — перестраиваем карточку
+    // и глушим речь предыдущего слова (этап 9).
+    unawaited(_pronunciation.stop());
+    setState(() {});
+  }
+
+  /// Этап 9: настройка TTS. После проверки доступности языка экран
+  /// перестраивается — кнопка появляется только при живом en-US-голосе.
+  Future<void> _startPronunciation() async {
+    await _pronunciation.start();
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   @override
@@ -89,10 +121,22 @@ class _HomeScreenState extends State<HomeScreen> {
                 // На планшете карточка не растягивается во всю ширину.
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 600),
-                  child: WordCard(
-                    entry: snapshot.data!,
-                    dateLabel: formatDateRu(date),
-                    fromWidget: tappedDate != null,
+                  // Этап 9: кнопка прослушивания перерисовывается по
+                  // состоянию речи (динамик ↔ стоп); доступность проверяет
+                  // сервис — недоступен голос, onListen == null и кнопки нет.
+                  child: ValueListenableBuilder<bool>(
+                    valueListenable: _pronunciation.isSpeaking,
+                    builder: (context, speaking, _) => WordCard(
+                      entry: snapshot.data!,
+                      dateLabel: formatDateRu(date),
+                      fromWidget: tappedDate != null,
+                      isListening: speaking,
+                      onListen: _pronunciation.isAvailable
+                          ? () => unawaited(
+                                _pronunciation.toggle(snapshot.data!.word),
+                              )
+                          : null,
+                    ),
                   ),
                 ),
               ),
