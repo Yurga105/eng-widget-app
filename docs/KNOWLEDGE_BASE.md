@@ -1,7 +1,7 @@
 # База знаний — словарь терминов проекта «Слово дня» (eng_widget_app)
 
 > Живой глоссарий: понятия из кода, PLAN.md, коммитов и обсуждений — с короткими определениями и указанием, где термин живёт в репозитории.
-> Актуальность: 27.09.2026, состояние после этапа 6. Обновляйте при изменении архитектуры.
+> Актуальность: 28.09.2026, состояние после этапа 8. Обновляйте при изменении архитектуры.
 > Сопутствующий документ: `docs/PROJECT_STRUCTURE.md` — карта файлов и потоков данных.
 
 ## 1. Продукт и данные
@@ -107,7 +107,13 @@ index = seed mod N                        // N = 160
 
 **values-night** — тёмная палитра ресурсов: система сама подставляет её в тёмной теме, код темы не различает.
 
-**Адаптивная иконка** — `mipmap-anydpi-v26/ic_launcher.xml` + вектор-глиф «W.» (индиго + янтарная точка), действует на API 26+; растровые PNG для API<26 — этап 8.
+**Адаптивная иконка** — `mipmap-anydpi-v26/ic_launcher.xml` + вектор-глиф «W.» (индиго + янтарная точка), действует на API 26+; растровые PNG для API<26 — этап 8 (5 плотностей mdpi…xxxhdpi, 48–192 px; тот же глиф на скруглённом индиго-квадрате).
+
+**previewImage / previewLayout** — два превью виджета в `word_widget_info.xml`: `previewLayout` (API 31+) рисует живой макет `word_widget`, `previewImage` (этап 8) — статичный PNG `drawable-nodpi/widget_preview.png` 480×220 для старых лаунчеров. В пикере виджетов система берёт то, что умеет: на API 31+ — живой макет, на API<31 — PNG.
+
+**drawable-nodpi** — каталог ресурсов без квалификатора плотности: файл отдаётся всем устройствам как есть, без автоматического масштабирования. Выбран для превью, чтобы один PNG 480×220 не плодился в 5 плотностях (превью показывается недолго и только в пикере).
+
+**alpha-only иконка уведомления (ic_stat_word)** — small icon уведомлений Android должна быть одноцветной альфа-маской (система сама красит в белый/тёмный по теме шторки); цветной PNG система заливает серым квадратом. `res/drawable/ic_stat_word.xml` — вектор 24dp: белые «W» и янтарная точка (точка тоже white-альфа; акцент теряется — это норма платформы). Подключена как `defaultIcon` в `notification_service.dart` (этап 8).
 
 **org.json** — встроенный JSON-парсер Android — им `WordOfDayCalculator` разбирает `word_db_json`; в JVM-тестах классы `org.json` из `android.jar` — заглушки, поэтому для тестов в `app/build.gradle.kts` подключена `org.json:json` (testImplementation).
 
@@ -153,7 +159,7 @@ index = seed mod N                        // N = 160
 
 ## 9. Тестирование и качество
 
-**flutter_test** — 44 теста после этапа 6: unit всех сервисов и модели + widget-тесты приложения и карточки (`word_card_test.dart`: поля карточки, тёмная тема, бейджи×3, метка «из виджета», влезание на экран 320×480). Нативная логика — 7 JVM-тестов `WordOfDayCalculatorTest` (`cd android; gradlew :app:testDebugUnitTest`).
+**flutter_test** — 56 тестов после этапа 7 (+12 `notification_service_test.dart` к 44 этапа 6): unit всех сервисов и модели + widget-тесты приложения и карточки (`word_card_test.dart`: поля карточки, тёмная тема, бейджи×3, метка «из виджета», влезание на экран 320×480). Этап 8 — только ресурсы (PNG, векторы, дескриптор): тесты не менялись, 56/56 зелёные. Нативная логика — 7 JVM-тестов `WordOfDayCalculatorTest` (`cd android; gradlew :app:testDebugUnitTest`).
 
 **Фейк бэкенда** — `FakeHomeWidgetBackend` в `widget_sync_service_test.dart`: проверка контракта 6 ключей (5 полей + `word_db_json`, пишется один раз) без плагина.
 
@@ -173,7 +179,9 @@ index = seed mod N                        // N = 160
 
 **JAVA_HOME** — прямой запуск `gradlew.bat` требует валидный JAVA_HOME; системный указывал на удалённый JDK, рабочее значение — JBR Android Studio (`C:\Program Files\Android\Android Studio\jbr`). `flutter build …` находит JDK сам.
 
-**Сборка и установка** — `flutter build apk --debug`, установка через `adb install`; приёмочные проверки — на RMX2001 / Android 11.
+**Сборка и установка** — `flutter build apk --debug` и `flutter build apk --release` (релиз подписан debug-ключом — `signingConfig debug` в `app/build.gradle.kts`, для локальных приёмочных сборок; боевой keyStore — за рамками v1.0), установка через `adb install --user 0 -r`; приёмочные проверки — на RMX2001 / Android 11.
+
+**Права манифеста (этап 8)** — `aapt dump permissions` релизного APK: `INTERNET` отсутствует (в debug он появляется из оверлея `src/debug` Flutter — норма отладки). Merged-права релиза: наши `RECEIVE_BOOT_COMPLETED` + `POST_NOTIFICATIONS`; `VIBRATE` — flutter_local_notifications; `WAKE_LOCK`, `ACCESS_NETWORK_STATE`, `FOREGROUND_SERVICE` — androidx.work:work-runtime 2.11.2, который транзитивно тянет androidx.glance 1.2.0 (поддержка Glance-виджетов в home_widget 0.10.0, нами не используется). Сетевого доступа не даёт ни одно — DoD «ноль сетевых прав» трактуем как «нет `INTERNET` и прав, дающих трафик».
 
 **Стиль коммитов** — subject `Этап N: …` + тело из буллетов `•`.
 

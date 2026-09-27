@@ -3,9 +3,10 @@
      старые платформы игнорируют атрибуты и берут minWidth/minHeight),
      обновление раз в 30 минут — системный минимум; это и есть гарантия
      автономной смены слова ≤30 мин после полуночи (§6, риски №2/№6 в §9:
-     точных будильников не запрашиваем, минутная точность не нужна),
-     превью — previewLayout (API 31+); PNG-превью для старых лончеров —
-     этап 8 (полировка). -->
+     точных будильников не запрашиваем, минутная точность не нужна).
+     Превью: previewLayout (API 31+, живой макет) + PNG-превью
+     previewImage для старых лаунчеров (этап 8: карточка записи №1 базы,
+     480×220, drawable-nodpi — не масштабируется по плотности). -->
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
     android:minWidth="250dp"
     android:minHeight="110dp"
@@ -14,6 +15,8 @@
     android:resizeMode="none"
     android:updatePeriodMillis="1800000"
     android:initialLayout="@layout/word_widget"
+    android:previewImage="@drawable/widget_preview"
     android:previewLayout="@layout/word_widget"
     android:description="@string/word_widget_description"
     android:widgetCategory="home_screen" />
+

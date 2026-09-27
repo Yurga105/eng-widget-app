@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Статусбарная иконка уведомления «слова дня» (этап 8): только
+     альфа-канал (белые штрихи без фона) — так требует Android 5.0+
+     для маленьких иконок, иначе вместо глифа серый квадрат. Глиф —
+     та же «W» с точкой, что на иконке приложения (масштаб 108→24). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- «W»: четыре штриха, скруглённые -->
+    <path
+        android:pathData="M7.6,9.6 L9.8,14.4 L12,9.6 L14.2,14.4 L16.4,9.6"
+        android:strokeColor="#FFFFFFFF"
+        android:strokeWidth="1.8"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <!-- точка-«период» на базовой линии -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M17.6,13.3 m-1.1,0 a1.1,1.1 0 1,1 2.2,0 a1.1,1.1 0 1,1 -2.2,0" />
+</vector>

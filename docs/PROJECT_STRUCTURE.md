@@ -1,7 +1,7 @@
 # Структура проекта «Слово дня» (eng_widget_app)
 
 > Карта каталогов и файлов: что где лежит, зачем нужно и как части связаны.
-> Актуально на 27.09.2026 (состояние после этапа 6).
+> Актуально на 28.09.2026 (состояние после этапа 8).
 > Термины и определения — в `docs/KNOWLEDGE_BASE.md`; план и статусы этапов — в `PLAN.md`.
 
 ## 1. Вид сверху
@@ -18,7 +18,7 @@ eng_widget_app/                 корень репозитория
 │  └─ words_db.json             офлайн-словарь: 160 записей (единственный источник данных)
 ├─ android/                     нативная часть: Kotlin (провайдер, калькулятор, boot-ресивер), ресурсы виджета, сборка Gradle
 ├─ test/                        тесты (зеркалят структуру lib/)
-├─ docs/                        документация: База знаний + этот файл
+├─ docs/                        документация: База знаний, QA-чек-лист + этот файл
 ├─ PLAN.md                      главный план: решения, этапы 0–8, риски, DoD
 ├─ pubspec.yaml / pubspec.lock  зависимости Flutter и их фиксация
 ├─ analysis_options.yaml        правила линтера (flutter_lints)
@@ -141,15 +141,17 @@ android/
 | `kotlin/.../WordOfDayCalculator.kt` | чистая формула §5 + парсинг `word_db_json` (`org.json`) — паритет с Dart, JVM-тестируется без Android |
 | `kotlin/.../BootCompletedReceiver.kt` | после BOOT_COMPLETED просит систему вызвать `onUpdate` провайдера (§9-2); приложение не запускается |
 | `res/layout/word_widget.xml` | RemoteViews-макет 4×2: слово (20sp) → транскрипция (12sp) → перевод (14sp) → пример (12sp, до 2 строк), фон `widget_bg` |
-| `res/xml/word_widget_info.xml` | дескриптор виджета: `targetCell 4×2` (API 31+), `minWidth/Height 250×110dp`, `updatePeriodMillis` 30 мин, `resizeMode=none`, `previewLayout` |
+| `res/xml/word_widget_info.xml` | дескриптор виджета: `targetCell 4×2` (API 31+), `minWidth/Height 250×110dp`, `updatePeriodMillis` 30 мин, `resizeMode=none`; превью: `previewImage` (PNG для лаунчеров API<31) + `previewLayout` (живой макет, API 31+) |
 | `res/values/strings.xml` | имя «Слово дня», описание, заглушки-превью (запись №1), тексты плейсхолдера |
 | `res/values/widget_colors.xml` + `res/values-night/widget_colors.xml` | палитры виджета для светлой и тёмной темы — менять только парой |
 | `res/values/styles.xml` + `res/values-night/styles.xml` | темы приложения и сплэша |
 | `res/values/ic_launcher_colors.xml` | цвета адаптивной иконки |
 | `res/drawable/widget_bg.xml` | скруглённый фон виджета (16dp) |
 | `res/drawable/ic_launcher_foreground.xml` | вектор-глиф «W.» иконки (safe zone 108dp) |
+| `res/drawable/ic_stat_word.xml` | alpha-only вектор 24dp для строки уведомления: белая «W.» с янтарной точкой; `defaultIcon` в `notification_service.dart` (этап 8) |
+| `res/drawable-nodpi/widget_preview.png` | PNG-превью виджета 480×220 для лаунчеров API<31: карточка записи №1 («accomplish»); `nodpi` — не масштабируется по плотности (этап 8) |
 | `res/mipmap-anydpi-v26/ic_launcher.xml` | адаптивная иконка API 26+ (фон + глиф) |
-| `res/mipmap-*/ic_launcher.png` | растровые иконки для API<26 (замена — этап 8) |
+| `res/mipmap-*/ic_launcher.png` | растровые иконки для API<26 (этап 8): 48/72/96/144/192 px в mdpi/hdpi/xhdpi/xxhdpi/xxxhdpi — скруглённый индиго-квадрат с глифом «W.» |
 
 ## 7. Корень и служебные файлы
 
@@ -158,6 +160,7 @@ android/
 | `PLAN.md` | главный план: решения §1, стек §2, структура §3, данные §4, формула §5, нативная логика §6, уведомления §7, этапы и статусы §8, риски §9, DoD §10 |
 | `docs/KNOWLEDGE_BASE.md` | словарь терминов проекта |
 | `docs/PROJECT_STRUCTURE.md` | этот документ |
+| `docs/QA_CHECKLIST.md` | ручной чек-лист приёмки (этап 8): матрица лаунчеров, ребут, темы, уведомления, иконки и превью, релизный APK |
 | `pubspec.yaml` | зависимости (`home_widget 0.10.0`, `flutter_local_notifications 22.3.1`), ассет `words_db.json`, версия SDK |
 | `pubspec.lock` | точная фиксация версий пакетов — коммитить |
 | `analysis_options.yaml` | включение flutter_lints |
@@ -182,7 +185,7 @@ android/
 - **Этап 5** ✅ выполнен (27.09.2026) — ключ `word_db_json` в prefs, `WordOfDayCalculator.kt` (org.json) и автономный `onUpdate` с fallback-цепочкой, `BootCompletedReceiver` + право `RECEIVE_BOOT_COMPLETED` в манифесте. Полуночный будильник НЕ потребовался: гарантию смены слова даёт `updatePeriodMillis` 30 мин (PLAN.md §6, риски §9-2/§9-6).
 - **Этап 6** ✅ выполнен (27.09.2026) — `WordCard` (`Card.filled`) + `TypeBadge` (индиго/янтарь/teal, фиксированы в обеих темах) + полноценный `HomeScreen` (`formatDateRu` без intl, maxWidth 600, экран ошибки словаря); янтарный акцент палитры §1 — бейдж идиомы и метка «из виджета»; +5 тестов (flutter test 44/44), analyze чисто, debug-APK собирается. Ручная приёмка на устройстве — за пользователем.
 - **Этап 7** ✅ выполнен (27.09.2026) — `services/notification_service.dart`: канал `word_of_day`, ежедневно 09:00 (`inexactAllowWhileIdle`, `matchDateTimeComponents: time` — повтор натив переставляет сам), контент = слово дня дня срабатывания, payload = URI-контракт виджета (тап → карточка того же дня), `POST_NOTIFICATIONS` 1 раз за запуск с мягкой деградацией; манифест: `POST_NOTIFICATIONS` + 2 receiver'а плагина; пакеты `timezone` + `flutter_timezone`; +12 тестов (flutter test 56/56), analyze чисто, debug-APK собирается. Ручная приёмка (приход в 09:00, тап, отказ в разрешении) — за пользователем.
-- **Этап 8** — PNG-иконки для API<26, PNG-превью виджета для API<31, матрица лаунчеров, релизная сборка.
+- **Этап 8** ✅ выполнен (28.09.2026) — PNG-иконки лаунчера `mipmap-{mdpi…xxxhdpi}/ic_launcher.png` (5 плотностей, 48–192 px), PNG-превью виджета `drawable-nodpi/widget_preview.png` + `previewImage` в дескрипторе, alpha-only иконка уведомлений `drawable/ic_stat_word.xml`; analyze чисто, flutter test 56/56, релизный APK собирается. Ручная матрица QA — `docs/QA_CHECKLIST.md`, приёмка — за пользователем.
 
 ## 10. Порядок чтения кода новичку
 

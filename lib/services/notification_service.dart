@@ -45,7 +45,10 @@ abstract class NotificationsBackend {
 class FlutterNotificationsBackend implements NotificationsBackend {
   /// Маленькая иконка статусной строки; до отдельного PNG-ассета
   /// (этап 8, PLAN.md §8) — лаунчер приложения.
-  FlutterNotificationsBackend({this.defaultIcon = '@mipmap/ic_launcher'});
+  /// Малая (статусбарная) иконка уведомления. Обязана быть
+  /// alpha-only drawable (белый глиф без фона) — этап 8:
+  /// `@mipmap/ic_launcher` давал бы серый квадрат на Android 5+.
+  FlutterNotificationsBackend({this.defaultIcon = '@drawable/ic_stat_word'});
 
   final String defaultIcon;
 
