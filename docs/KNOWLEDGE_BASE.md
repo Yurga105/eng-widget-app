@@ -141,11 +141,15 @@ index = seed mod N                        // N = 160
 
 ## 8. Уведомления (этап 7)
 
-**flutter_local_notifications ^22.3.1** — локальные уведомления (в pubspec с этапа 0; требует core library desugaring).
+**flutter_local_notifications ^22.3.1** — локальные уведомления (в pubspec с этапа 0; требует core library desugaring). App-level API v22: `initialize({required settings, …})`, `cancel({required id})`; `zonedSchedule` уже без `uiLocalNotificationDateInterpretation`. `matchDateTimeComponents: time` — нативный `ScheduledNotificationReceiver` после срабатывания сам ставит следующий день по настенным часам зоны из `TZDateTime.location` (java.time, DST-aware); после ребута/обновления приложения расписание восстанавливает `ScheduledNotificationBootReceiver` — оба receiver'а обязаны быть в манифесте (README плагина).
 
-**Канал `word_of_day`** — ежедневное `zonedSchedule` на 09:00 локального времени, `androidScheduleMode: inexactAllowWhileIdle` — без прав на точные будильники (риск §9-6).
+**Канал `word_of_day`** — ежедневное `zonedSchedule` на 09:00 локального времени, `androidScheduleMode: inexactAllowWhileIdle` — без прав на точные будильники (риск §9-6). Контент — слово дня ДНЯ СРАБАТЫВАНИЯ (запуск в 10:00 планирует завтрашнее уведомление со завтрашним словом); триггеры перепланирования — старт/резюм/полночь (`main.dart`); payload = `wordoftheday://word?date=…` — тем же парсером `dateFromWidgetUri` открывается карточка этого дня (тёплый и холодный старт). «Застарелое» расписание остаётся ежедневным и самосогласованным: показанное слово соответствует дате в payload.
 
-**POST_NOTIFICATIONS** — runtime-разрешение Android 13+: запрашиваем на первом запуске; отказ — мягкая деградация, виджет не зависит от уведомлений (риск §9-5).
+**POST_NOTIFICATIONS** — runtime-разрешение Android 13+: запрашиваем через `requestNotificationsPermission()` Android-импла один раз за запуск; на Android <13 — no-op. Отказ — мягкая деградация: расписание всё равно ставится, виджет не зависит от уведомлений (риск §9-5); после отказов ОС сама перестаёт показывать диалог (включить можно в настройках приложения).
+
+**flutter_timezone ^5.1.0** (этап 7) — IANA-имя зоны устройства: `getLocalTimezone()` → `TimezoneInfo.identifier` (в 5.x — объект, не строка!). Нужен, потому что пакет `timezone` не умеет читать системную зону.
+
+**timezone ^0.11.1** (этап 7, прямая зависимость) — база зон и `tz.local` для `TZDateTime`. Цепочка фолбэков зоны: flutter_timezone → строка Dart «GMT+3» → `Etc/GMT-3` (знак инвертирован, зоны Etc покрывают только целые часы) → UTC (деградация: уведомление остаётся ежедневным, но в 09:00 UTC).
 
 ## 9. Тестирование и качество
 

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:home_widget/home_widget.dart';
 
+import 'services/notification_service.dart';
 import 'services/widget_sync_service.dart';
 import 'ui/screens/home_screen.dart';
 
@@ -10,9 +11,10 @@ void main() {
   runApp(const WordOfTheDayApp());
 }
 
-/// Корневой виджет приложения «Слово дня» — этап 4: мост с виджетом.
+/// Корневой виджет приложения «Слово дня» — этапы 4–7:
+/// мост с виджетом и уведомления.
 ///
-/// Здесь живёт «проводка» этапа 4 (PLAN.md §8):
+/// Здесь живёт «проводка» этапов 4–7 (PLAN.md §8):
 ///  - при старте и возврате на передний план — синхронизация слова дня
 ///    в виджет ([WidgetSyncService.syncToday]);
 ///  - таймер на локальную полуночь — смена слова, пока приложение живо
@@ -20,7 +22,11 @@ void main() {
 ///  - приём тапов виджета: URI `wordoftheday://word?date=…` при холодном
 ///    старте ([HomeWidget.initiallyLaunchedFromHomeWidget]) и в тёплом
 ///    режиме (стрим [HomeWidget.widgetClicked]) → [HomeScreen] показывает
-///    карточку этой даты.
+///    карточку этой даты;
+///  - этап 7: старт [NotificationService] (разрешение спрашиваем один раз
+///    за запуск, расписание уведомления в 09:00), перепланирование в
+///    полночь и на резюме; тап по уведомлению — тот же URI-контракт,
+///    что и у виджета (холодный старт — через payload запуска).
 ///
 /// Темы Material 3 со seed-цветом «индиго» (PLAN.md §1), светлая и тёмная
 /// следуют за системной настройкой.
@@ -35,7 +41,13 @@ class _WordOfTheDayAppState extends State<WordOfTheDayApp>
     with WidgetsBindingObserver {
   final WidgetSyncService _widgetSync = WidgetSyncService();
 
-  /// Дата из последнего тапа по виджету; null — показываем сегодня.
+  /// Уведомления «слово дня» — этап 7. Создаётся в [initState]:
+  /// колбэк «открыть карточку» ссылается на `_widgetTapDate`, поэтому
+  /// в инициализаторе поля его не построить.
+  NotificationService? _notifications;
+
+  /// Дата из последнего тапа по виджету или уведомлению;
+  /// null — показываем сегодня.
   final ValueNotifier<DateTime?> _widgetTapDate = ValueNotifier<DateTime?>(null);
 
   Timer? _midnightTimer;
@@ -46,6 +58,7 @@ class _WordOfTheDayAppState extends State<WordOfTheDayApp>
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     unawaited(_syncTodayQuietly());
+    _startNotifications();
     _scheduleMidnightSync();
     _listenToWidgetTaps();
   }
@@ -65,6 +78,8 @@ class _WordOfTheDayAppState extends State<WordOfTheDayApp>
     // обновляем виджет (риск №2 в PLAN.md §9).
     if (state == AppLifecycleState.resumed) {
       unawaited(_syncTodayQuietly());
+      // Контент уведомления должен соответствовать ближайшему срабатыванию.
+      unawaited(_notifications?.rescheduleDailyNotification());
       _scheduleMidnightSync();
     }
   }
@@ -107,6 +122,9 @@ class _WordOfTheDayAppState extends State<WordOfTheDayApp>
     final nextMidnight = DateTime(now.year, now.month, now.day + 1);
     _midnightTimer = Timer(nextMidnight.difference(now), () {
       unawaited(_syncTodayQuietly());
+      // Наступил новый день — ближайшее срабатывание сегодня в 09:00,
+      // обновляем слово и в уведомлении.
+      unawaited(_notifications?.rescheduleDailyNotification());
       _scheduleMidnightSync();
     });
   }
@@ -126,6 +144,29 @@ class _WordOfTheDayAppState extends State<WordOfTheDayApp>
 
   void _handleWidgetUri(Uri? uri) {
     final date = WidgetSyncService.dateFromWidgetUri(uri);
+    if (date != null) {
+      _widgetTapDate.value = date;
+    }
+  }
+
+  /// Этап 7: инициализация уведомлений (разрешение спрашиваем один раз
+  /// за запуск, PLAN.md §7) и холодный старт тапом по уведомлению.
+  void _startNotifications() {
+    _notifications = NotificationService(onOpenWordCard: _openWordCard);
+    unawaited(_notifications!.start());
+    _notifications!
+        .launchNotificationPayload()
+        .then(_handleNotificationPayload);
+  }
+
+  void _openWordCard(DateTime date) => _widgetTapDate.value = date;
+
+  /// Payload уведомления — тот же URI-контракт, что и у виджета.
+  void _handleNotificationPayload(String? payload) {
+    if (payload == null) {
+      return;
+    }
+    final date = WidgetSyncService.dateFromWidgetUri(Uri.tryParse(payload));
     if (date != null) {
       _widgetTapDate.value = date;
     }
