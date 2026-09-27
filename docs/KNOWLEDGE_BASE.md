@@ -1,7 +1,7 @@
 # База знаний — словарь терминов проекта «Слово дня» (eng_widget_app)
 
 > Живой глоссарий: понятия из кода, PLAN.md, коммитов и обсуждений — с короткими определениями и указанием, где термин живёт в репозитории.
-> Актуальность: 27.09.2026, состояние после этапа 4 (коммит `37f70b1`). Обновляйте при изменении архитектуры.
+> Актуальность: 27.09.2026, состояние после этапа 5. Обновляйте при изменении архитектуры.
 > Сопутствующий документ: `docs/PROJECT_STRUCTURE.md` — карта файлов и потоков данных.
 
 ## 1. Продукт и данные
@@ -24,11 +24,11 @@
 
 ## 2. Сервисы Dart
 
-**DictionaryService** (`lib/services/dictionary_service.dart`) — читает и парсит ассет через `rootBundle` (гарантированный UTF-8, риск §9-11), кэширует список `WordEntry`. Загрузчик ассета подменяемый — для тестов.
+**DictionaryService** (`lib/services/dictionary_service.dart`) — читает и парсит ассет через `rootBundle` (гарантированный UTF-8, риск §9-11), кэширует список `WordEntry`; `loadRawJson()` отдаёт исходный текст базы — его кладут в `word_db_json` для нативной стороны (этап 5). Загрузчик ассета подменяемый — для тестов.
 
 **WordOfDayService** (`word_of_day_service.dart`) — выбор слова: `today`/`wordForDate()` поверх статических `seedFor()`/`indexFor()` (раздел 3). Часы инжектируются: продакшн `DateTime.now`, тесты — фейк.
 
-**WidgetSyncService** (`widget_sync_service.dart`) — мост Flutter→виджет (этап 4): `syncToday()`/`syncForDate(date)` пишут 5 ключей и просят перерисовку; `isoDate()`, `widgetUri()`, `dateFromWidgetUri()` обслуживают URI тапа.
+**WidgetSyncService** (`widget_sync_service.dart`) — мост Flutter→виджет (этапы 4–5): `syncToday()`/`syncForDate(date)` пишут 5 ключей + `word_db_json` (вся база, один раз на инстанс сервиса) и просят перерисовку; `isoDate()`, `widgetUri()`, `dateFromWidgetUri()` обслуживают URI тапа.
 
 **HomeWidgetBackend / PluginHomeWidgetBackend** — узкий интерфейс над плагином (`saveWidgetData`, `updateWidget`): статика плагина плохо подменяется в тестах, поэтому тесты получают фейк, прод — `PluginHomeWidgetBackend`.
 
@@ -50,7 +50,7 @@ index = seed mod N                        // N = 160
 
 **Перемешивание по годам** — год входит в seed: 1 января последовательность стартует с новой позиции (2027-01-01 → запись с id 22 при N=160).
 
-**Единая формула Dart/Kotlin (риск §9-4)** — арифметика будет повторена 1:1 в `WordWidgetProvider` (этап 5); контроль — общие тест-векторы дат в тестах обеих сторон.
+**Единая формула Dart/Kotlin (риск §9-4)** — арифметика повторена 1:1 в `WordOfDayCalculator.kt` (этап 5); контроль — общие тест-векторы дат в `word_of_day_service_test.dart` и `WordOfDayCalculatorTest.kt`.
 
 ## 4. Контракт Flutter↔виджет (PLAN.md §6)
 
@@ -63,6 +63,7 @@ index = seed mod N                        // N = 160
 | `widget.transcription` | IPA | `/əˈkɑːmplɪʃ/` |
 | `widget.translation` | перевод | `достигать, выполнять` |
 | `widget.example` | английский пример | `She accomplished all her goals this year.` |
+| `word_db_json` | весь `words_db.json` одним текстом (этап 5) | `{"version":1,"words":[…]}` |
 
 Пишет — `WidgetSyncService` через `HomeWidget.saveWidgetData`; читает — `WordWidgetProvider.onUpdate`.
 
@@ -70,7 +71,7 @@ index = seed mod N                        // N = 160
 
 **URI тапа** — `wordoftheday://word?date=yyyy-MM-dd`. Провайдер помещает URI в PendingIntent тапа; Dart разбирает `dateFromWidgetUri()` с отбраковкой чужих схем и невозможных дат («31 февраля» отсекается round-trip-проверкой через `DateTime`).
 
-**word_db_json** — ключ будущего этапа 5: Flutter положит в prefs весь JSON базы, чтобы нативный провайдер пересчитывал слово сам, без запуска приложения.
+**word_db_json** — вся база одним текстом (этап 5): `WidgetSyncService` пишет исходный текст ассета как есть (UTF-8 без перекодировок, риск §9-11), а `WordOfDayCalculator` парсит его `org.json`-ом и считает слово дня сам — виджет меняет слово после полуночи без запуска приложения.
 
 ## 5. Нативная сторона Android
 
@@ -80,7 +81,9 @@ index = seed mod N                        // N = 160
 
 **HomeWidgetProvider** — базовый класс из плагина: расширяет `AppWidgetProvider` и подаёт в `onUpdate` готовые `SharedPreferences`.
 
-**WordWidgetProvider** (`WordWidgetProvider.kt`) — наш провайдер: 5 ключей → `RemoteViews` → `updateAppWidget`; пустые prefs → плейсхолдер; тап → `HomeWidgetLaunchIntent` с URI.
+**WordWidgetProvider** (`WordWidgetProvider.kt`) — наш провайдер (этап 5): приоритет источников — `word_db_json` (автономный пересчёт через `WordOfDayCalculator`, дата URI = сегодня) → 5 ключей `widget.*` (этап 4) → плейсхолдер; тап → `HomeWidgetLaunchIntent` с URI показанной даты.
+
+**WordOfDayCalculator** (`WordOfDayCalculator.kt`) — чистый object этапа 5: формула §5 (`seedFor`/`indexFor`/`isoDate` с `Locale.ROOT` — только ASCII-цифры) + `entryFor(dbJson, date)` поверх `org.json`; любые проблемы базы → `null`, и провайдер уходит в fallback. Не знает про Android — тестируется на JVM.
 
 **RemoteViews** — «снимок» UI виджета: допускает только простые view (LinearLayout, TextView) и системные шрифты (риск §9-1) — отсюда минималистичный макет.
 
@@ -88,15 +91,15 @@ index = seed mod N                        // N = 160
 
 **singleTop** — launchMode MainActivity: повторные тапы не плодят задачи, интент доезжает в уже живое приложение.
 
-**updatePeriodMillis** — системный ритм обновления виджета; 30 мин (1 800 000 мс) — минимум Android. Гарантия смены слова ≤30 мин после полуночи (этап 5 добавит полуночный будильник).
+**updatePeriodMillis** — системный ритм обновления виджета; 30 мин (1 800 000 мс) — минимум Android. Это и есть гарантия автономной смены слова ≤30 мин после полуночи (этап 5); отдельный будильник не нужен — окно ≤30–60 мин принято (риски §9-2/§9-6), точных будильников не запрашиваем.
 
-**BOOT_COMPLETED** — рассылка после перезагрузки: на этапе 5 ресивер по ней обновит виджет (право `RECEIVE_BOOT_COMPLETED`, PLAN.md §6).
+**BOOT_COMPLETED** — рассылка после перезагрузки: `BootCompletedReceiver` (`exported="false"`, право `RECEIVE_BOOT_COMPLETED`) сразу просит систему вызвать `onUpdate` провайдера — иначе виджет молчал бы до первого 30-минутного тика (риск §9-2, этап 5). Приложение при этом не запускается.
 
 **values-night** — тёмная палитра ресурсов: система сама подставляет её в тёмной теме, код темы не различает.
 
 **Адаптивная иконка** — `mipmap-anydpi-v26/ic_launcher.xml` + вектор-глиф «W.» (индиго + янтарная точка), действует на API 26+; растровые PNG для API<26 — этап 8.
 
-**org.json** — встроенный JSON-парсер Android — им провайдер разберёт `word_db_json` (этап 5).
+**org.json** — встроенный JSON-парсер Android — им `WordOfDayCalculator` разбирает `word_db_json`; в JVM-тестах классы `org.json` из `android.jar` — заглушки, поэтому для тестов в `app/build.gradle.kts` подключена `org.json:json` (testImplementation).
 
 **Doze** — режим экономии батареи: точная полночь не гарантирована; принято окно ≤30–60 мин (риск §9-2) + синки при открытии приложения, тапе и резюме.
 
@@ -120,7 +123,7 @@ index = seed mod N                        // N = 160
 
 **resumed** — возврат на передний план: повторный синк виджета (полночь могла пройти в фоне) и перепланирование таймера (риск §9-2).
 
-**Полуночный Timer** — таймер до следующей локальной полуночи, перепланируется сам; смена слова, пока процесс жив (полная автономия — этап 5).
+**Полуночный Timer** — таймер до следующей локальной полуночи, перепланируется сам; смена слова, пока процесс жив. Без запуска приложения слово меняет сам провайдер из `word_db_json` (этап 5) — таймер лишь ускоряет момент, когда и приложение в курсе.
 
 **Холодный старт** — процесс был убит: URI тапа читается один раз через `initiallyLaunchedFromHomeWidget()`.
 
@@ -136,15 +139,15 @@ index = seed mod N                        // N = 160
 
 ## 9. Тестирование и качество
 
-**flutter_test** — 35 тестов после этапа 4: unit всех сервисов и модели + widget-тесты приложения.
+**flutter_test** — 39 тестов после этапа 5: unit всех сервисов и модели + widget-тесты приложения. Нативная логика — 7 JVM-тестов `WordOfDayCalculatorTest` (`cd android; gradlew :app:testDebugUnitTest`).
 
-**Фейк бэкенда** — `FakeHomeWidgetBackend` в `widget_sync_service_test.dart`: проверка контракта 5 ключей без плагина.
+**Фейк бэкенда** — `FakeHomeWidgetBackend` в `widget_sync_service_test.dart`: проверка контракта 6 ключей (5 полей + `word_db_json`, пишется один раз) без плагина.
 
 **Фейковые часы** — подмена `DateTime.now()` в тестах WordOfDayService: фиксированные даты вместо «сегодня».
 
 **Мок MethodChannel** — подмена обработчиков обоих каналов плагина в `widget_test.dart` + демонтаж приложения в конце (чистота между тестами).
 
-**Тест-векторы Dart/Kotlin** — одинаковые наборы дат в тестах обеих платформ против расхождения формулы (риск §9-4).
+**Тест-векторы Dart/Kotlin** — одинаковая таблица дат для N=160 (1999-12-31→31 … 2027-01-01→21) в `word_of_day_service_test.dart` и `WordOfDayCalculatorTest.kt` против расхождения формулы (риск §9-4); при изменении N пересчитать в обеих сторонах одновременно.
 
 **flutter analyze** — статический анализ (flutter_lints); должен быть без замечаний перед каждым коммитом.
 
@@ -152,7 +155,9 @@ index = seed mod N                        // N = 160
 
 **Flutter SDK ^3.13.4, Material 3** — темы из seed-цвета индиго `#3F51B5` (+ янтарный акцент); внешний state-management не используется: `StatefulWidget` + `ValueNotifier`.
 
-**Gradle Kotlin DSL** — `android/*.gradle.kts`; **desugaring** включён в `app/build.gradle.kts`.
+**Gradle Kotlin DSL** — `android/*.gradle.kts`; **desugaring** включён в `app/build.gradle.kts` (благодаря ему `java.time.LocalDate` работает и на Android < 26).
+
+**JAVA_HOME** — прямой запуск `gradlew.bat` требует валидный JAVA_HOME; системный указывал на удалённый JDK, рабочее значение — JBR Android Studio (`C:\Program Files\Android\Android Studio\jbr`). `flutter build …` находит JDK сам.
 
 **Сборка и установка** — `flutter build apk --debug`, установка через `adb install`; приёмочные проверки — на RMX2001 / Android 11.
 

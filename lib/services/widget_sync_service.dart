@@ -29,12 +29,16 @@ class PluginHomeWidgetBackend implements HomeWidgetBackend {
       HomeWidget.updateWidget(name: name, androidName: androidName);
 }
 
-/// Мост «Flutter ↔ нативный виджет» — этап 4 (PLAN.md §6, §8).
+/// Мост «Flutter ↔ нативный виджет» — этапы 4–5 (PLAN.md §6, §8).
 ///
 /// Сохраняет поля слова дня в хранилище виджета и просит систему
 /// перерисовать [WordWidgetProvider]. Нативная сторона читает те же ключи
 /// (см. `WordWidgetProvider.kt`) — это общий контракт, менять только
 /// синхронно.
+///
+/// Этап 5: дополнительно кладёт в prefs весь JSON базы (`word_db_json`) —
+/// провайдер сам пересчитывает слово дня формулой §5, поэтому смена слова
+/// после полуночи не требует запуска приложения.
 ///
 /// Триггеры вызова [syncToday] живут в `main.dart`: старт приложения,
 /// возврат на передний план и полуночный таймер.
@@ -56,6 +60,13 @@ class WidgetSyncService {
   static const String keyTranslation = 'widget.translation';
   static const String keyExample = 'widget.example';
 
+  /// Вся база слов одним JSON-текстом — этап 5 (PLAN.md §6).
+  static const String keyDbJson = 'word_db_json';
+
+  /// База уже записана этим экземпляром сервиса: текст неизменен,
+  /// а перезапись ~70 КБ на каждый резюм не нужна.
+  bool _dbPreloaded = false;
+
   /// Схема URI тапа по виджету (PLAN.md §6).
   static const String uriScheme = 'wordoftheday';
   static const String uriHost = 'word';
@@ -66,6 +77,7 @@ class WidgetSyncService {
 
   /// Сохраняет слово дня для [date] и обновляет виджет.
   Future<void> syncForDate(DateTime date) async {
+    await _ensureDatabasePreloaded();
     final word = await _wordOfDay.wordForDate(date);
     await _backend.saveWidgetData<String>(keyDate, isoDate(date));
     await _backend.saveWidgetData<String>(keyWord, word.word);
@@ -73,6 +85,16 @@ class WidgetSyncService {
     await _backend.saveWidgetData<String>(keyTranslation, word.translation);
     await _backend.saveWidgetData<String>(keyExample, word.example);
     await _backend.updateWidget(androidName: androidProviderName);
+  }
+
+  /// Предзагрузка базы в prefs (этап 5) — один раз на экземпляр сервиса.
+  Future<void> _ensureDatabasePreloaded() async {
+    if (_dbPreloaded) return;
+    await _backend.saveWidgetData<String>(
+      keyDbJson,
+      await _wordOfDay.databaseJson,
+    );
+    _dbPreloaded = true;
   }
 
   /// `yyyy-MM-dd` с ведущими нулями (без зависимости от intl).

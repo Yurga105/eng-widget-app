@@ -45,6 +45,12 @@ dependencies {
     // Нужен для isCoreLibraryDesugaringEnabled (требование
     // flutter_local_notifications).
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
+
+    // Этап 5: JVM-тесты WordOfDayCalculator (паритет формулы с Dart,
+    // риск №4 в PLAN.md §9). junit — раннер; org.json — рабочая реализация
+    // для десктопа (в android.jar классы org.json — заглушки «not mocked»).
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("org.json:json:20240303")
 }
 
 kotlin {

@@ -7,20 +7,27 @@ import android.net.Uri
 import android.widget.RemoteViews
 import es.antonborri.home_widget.HomeWidgetLaunchIntent
 import es.antonborri.home_widget.HomeWidgetProvider
+import java.time.LocalDate
 
 /**
- * Провайдер виджета «Слово дня» — ЭТАП 4 (мост Flutter ↔ виджет).
+ * Провайдер виджета «Слово дня» — ЭТАП 5: автономная смена (PLAN.md §6).
  *
- * Поля слова дня читает из SharedPreferences: их пишет `WidgetSyncService`
- * на Dart через `HomeWidget.saveWidgetData`. Тап открывает карточку этого
- * дня — `HomeWidgetLaunchIntent` с URI `wordoftheday://word?date=…`
- * (Flutter ловит через `initiallyLaunchedFromHomeWidget()`/`widgetClicked`).
+ * Цепочка источников данных (первый доступный побеждает):
+ *  1. `word_db_json` — вся база в prefs (пишет `WidgetSyncService` при
+ *     первом запуске приложения): провайдер сам пересчитывает слово дня
+ *     формулой §5 через [WordOfDayCalculator] → смена слова после полуночи
+ *     БЕЗ запуска приложения (`updatePeriodMillis` ≤ 30 мин; сразу после
+ *     ребута — `BootCompletedReceiver`).
+ *  2. Пять ключей `widget.*` (этап 4) — последние поля, записанные Flutter.
+ *  3. Плейсхолдер — prefs пусты, виджет добавлен до первого запуска
+ *     (риск №7 в PLAN.md §9).
+ *
+ * Тап → карточка показанного дня: URI `wordoftheday://word?date=…` с датой
+ * рендера (сегодня — в автономном режиме). Flutter ловит через
+ * `initiallyLaunchedFromHomeWidget()`/`widgetClicked`.
  *
  * Ключи и схема URI — общий контракт с `widget_sync_service.dart`
  * (PLAN.md §6); менять только синхронно.
- *
- * ЭТАП 5: провайдер сам пересчитает слово дня по формуле §5 из базы
- * (ключ `word_db_json` в prefs) и повесит полуночный будильник.
  */
 class WordWidgetProvider : HomeWidgetProvider() {
 
@@ -30,25 +37,28 @@ class WordWidgetProvider : HomeWidgetProvider() {
         appWidgetIds: IntArray,
         widgetData: SharedPreferences,
     ) {
+        // Автономный путь: база в prefs → сами считаем слово сегодня.
+        val today = LocalDate.now()
+        val dbJson = widgetData.getString(KEY_DB_JSON, null)
+        val computed = dbJson?.let { WordOfDayCalculator.entryFor(it, today) }
+
+        // Дата для URI тапа — ровно та, что показана: сегодня у автономного
+        // слова, иначе последняя записанная Flutter (иначе карточка тапа
+        // разойдётся с виджетом).
+        val uriDate = computed?.let { WordOfDayCalculator.isoDate(today) }
+            ?: widgetData.getString(KEY_DATE, null)
+
         // Один и тот же RemoteViews для всех экземпляров виджета —
         // слово дня общее.
-        val date = widgetData.getString(KEY_DATE, null)
         val views = RemoteViews(context.packageName, R.layout.word_widget).apply {
-            if (date == null) {
-                // Виджет добавили до первого запуска приложения, prefs пусты
-                // (риск №7 в PLAN.md §9) — показываем подсказку-плейсхолдер.
-                setTextViewText(
-                    R.id.widget_word,
-                    context.getString(R.string.word_widget_empty_word),
-                )
-                setTextViewText(R.id.widget_transcription, "")
-                setTextViewText(
-                    R.id.widget_translation,
-                    context.getString(R.string.word_widget_empty_translation),
-                )
-                setTextViewText(R.id.widget_example, "")
-            } else {
-                setTextViewText(R.id.widget_word, widgetData.getString(KEY_WORD, date))
+            if (computed != null) {
+                setTextViewText(R.id.widget_word, computed.word)
+                setTextViewText(R.id.widget_transcription, computed.transcription)
+                setTextViewText(R.id.widget_translation, computed.translation)
+                setTextViewText(R.id.widget_example, computed.example)
+            } else if (uriDate != null) {
+                // Этап 4 — fallback на поля, записанные Flutter.
+                setTextViewText(R.id.widget_word, widgetData.getString(KEY_WORD, uriDate))
                 setTextViewText(
                     R.id.widget_transcription,
                     widgetData.getString(KEY_TRANSCRIPTION, ""),
@@ -61,12 +71,25 @@ class WordWidgetProvider : HomeWidgetProvider() {
                     R.id.widget_example,
                     widgetData.getString(KEY_EXAMPLE, ""),
                 )
+            } else {
+                // Виджет добавлен до первого запуска приложения, prefs пусты
+                // (риск №7 в PLAN.md §9) — показываем подсказку-плейсхолдер.
+                setTextViewText(
+                    R.id.widget_word,
+                    context.getString(R.string.word_widget_empty_word),
+                )
+                setTextViewText(R.id.widget_transcription, "")
+                setTextViewText(
+                    R.id.widget_translation,
+                    context.getString(R.string.word_widget_empty_translation),
+                )
+                setTextViewText(R.id.widget_example, "")
             }
 
             // Тап → карточка именно этой даты: детерминизм §5 избавляет от
             // передачи всей карточки в URI. MainActivity — singleTop,
             // повторные тапы не плодят задачи.
-            val uri = date?.let {
+            val uri = uriDate?.let {
                 Uri.parse("$URI_SCHEME://$URI_HOST?$URI_DATE_PARAM=$it")
             }
             setOnClickPendingIntent(
@@ -79,6 +102,7 @@ class WordWidgetProvider : HomeWidgetProvider() {
 
     private companion object {
         // Контракт с lib/services/widget_sync_service.dart — менять только вместе.
+        const val KEY_DB_JSON = "word_db_json"
         const val KEY_DATE = "widget.date"
         const val KEY_WORD = "widget.word"
         const val KEY_TRANSCRIPTION = "widget.transcription"

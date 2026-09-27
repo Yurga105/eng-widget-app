@@ -1,7 +1,7 @@
 # Структура проекта «Слово дня» (eng_widget_app)
 
 > Карта каталогов и файлов: что где лежит, зачем нужно и как части связаны.
-> Актуально на 27.09.2026 (состояние после этапа 4, коммит `37f70b1`).
+> Актуально на 27.09.2026 (состояние после этапа 5).
 > Термины и определения — в `docs/KNOWLEDGE_BASE.md`; план и статусы этапов — в `PLAN.md`.
 
 ## 1. Вид сверху
@@ -15,7 +15,7 @@ eng_widget_app/                 корень репозитория
 │  └─ ui/screens/               экраны приложения
 ├─ assets/
 │  └─ words_db.json             офлайн-словарь: 160 записей (единственный источник данных)
-├─ android/                     нативная часть: Kotlin, ресурсы виджета, сборка Gradle
+├─ android/                     нативная часть: Kotlin (провайдер, калькулятор, boot-ресивер), ресурсы виджета, сборка Gradle
 ├─ test/                        тесты (зеркалят структуру lib/)
 ├─ docs/                        документация: База знаний + этот файл
 ├─ PLAN.md                      главный план: решения, этапы 0–8, риски, DoD
@@ -38,16 +38,25 @@ assets/words_db.json (160 записей, UTF-8)
       ▼
    WordEntry дня
       ▼ WidgetSyncService.syncForDate(date)
-      │   HomeWidget.saveWidgetData ×5
+      │   HomeWidget.saveWidgetData ×5 + word_db_json (вся база,
+      │   один раз на инстанс сервиса — этап 5)
       │   HomeWidget.updateWidget(androidName: 'WordWidgetProvider')
       ▼
 SharedPreferences «HomeWidgetPreferences»
       │ ключи widget.date / widget.word / widget.transcription /
-      │       widget.translation / widget.example  (общий контракт)
+      │       widget.translation / widget.example / word_db_json (контракт)
       ▼
-WordWidgetProvider.onUpdate → RemoteViews(word_widget.xml)
+WordWidgetProvider.onUpdate
+      │ автономно: WordOfDayCalculator.entryFor(word_db_json, сегодня)
+      │ (формула §5; fallback: 5 ключей widget.* → плейсхолдер §9-7)
+      ▼
+RemoteViews(word_widget.xml)
       ▼
 Виджет 4×2 на домашнем экране
+
+Триггеры onUpdate: приложение (updateWidget) · система каждые 30 мин
+(updatePeriodMillis — гарантия смены слова после полуночи, §9-2) ·
+BootCompletedReceiver сразу после перезагрузки.
 ```
 
 ## 3. Поток управления: тап по виджету → карточка дня
@@ -68,7 +77,7 @@ WordWidgetProvider.onUpdate → RemoteViews(word_widget.xml)
         HomeScreen: карточка слова этой даты + метка «открыто из виджета»
 ```
 
-Оба потока сходятся на контракте «5 ключей + URI» — его части живут в `lib/services/widget_sync_service.dart` и `WordWidgetProvider.kt`, менять только синхронно.
+Оба потока сходятся на контракте «6 ключей + URI» — его части живут в `lib/services/widget_sync_service.dart` и `WordWidgetProvider.kt`, менять только синхронно.
 
 ## 4. lib/ — Dart-часть
 
@@ -76,24 +85,26 @@ WordWidgetProvider.onUpdate → RemoteViews(word_widget.xml)
 |---|---|---|
 | `main.dart` | `main()` + `WordOfTheDayApp` | «Проводка» этапа 4: синк слова в виджет при старте, на `resumed` и в полночь (пере-планируемый Timer); подписка на тапы (`initiallyLaunchedFromHomeWidget` + `widgetClicked`) → `ValueNotifier`; темы Material 3 (seed — индиго `#3F51B5`, светлая и тёмная следуют системе) |
 | `models/word_entry.dart` | `WordEntry`, `WordType` | модель записи словаря: `fromJson`/`toJson`, валидация `type`, полное равенство полей — основа тестов |
-| `services/dictionary_service.dart` | `DictionaryService` | чтение и парсинг `words_db.json` через `rootBundle` (UTF-8), кэш в памяти; загрузчик подменяем в тестах |
-| `services/word_of_day_service.dart` | `WordOfDayService` | формула §5 (`seedFor`/`indexFor`) — та же арифметика будет в Kotlin; часы инжектируются (фейк в тестах) |
-| `services/widget_sync_service.dart` | `WidgetSyncService`, `HomeWidgetBackend` | мост к виджету: 5 ключей + `updateWidget`; `isoDate`/`widgetUri`/`dateFromWidgetUri`; интерфейс бэкенда введён ради тестируемости |
+| `services/dictionary_service.dart` | `DictionaryService` | чтение и парсинг `words_db.json` через `rootBundle` (UTF-8), кэш в памяти; `loadRawJson()` — исходный текст для `word_db_json` (этап 5); загрузчик подменяем в тестах |
+| `services/word_of_day_service.dart` | `WordOfDayService` | формула §5 (`seedFor`/`indexFor`) — зеркально в `WordOfDayCalculator.kt` (этап 5); `databaseJson` — исходный JSON для предзагрузки виджета; часы инжектируются (фейк в тестах) |
+| `services/widget_sync_service.dart` | `WidgetSyncService`, `HomeWidgetBackend` | мост к виджету: 5 ключей + `word_db_json` (база целиком, 1 раз на инстанс — этап 5) + `updateWidget`; `isoDate`/`widgetUri`/`dateFromWidgetUri`; интерфейс бэкенда введён ради тестируемости |
 | `ui/screens/home_screen.dart` | `HomeScreen` | промежуточная карточка этапа 4: слово выбранной даты (из тапа по виджету или сегодня); полноценный UI — этап 6 |
 
 Принцип: модели не знают про UI; вся логика — в сервисах (тестируются без интерфейса); экраны тонкие. Новый код: сервис → `services/`, экран → `ui/screens/`, переиспользуемый виджет UI → `ui/widgets/` (появится на этапе 6).
 
-## 5. test/ — тесты (35, все зелёные)
+## 5. test/ — тесты (39 Flutter + 7 Kotlin JVM, все зелёные)
 
 | Файл | Что покрывает |
 |---|---|
 | `word_entry_test.dart` | модель: заполнение полей, round-trip `toJson`/`fromJson`, маппинг `type` (word / idiom / phrasal_verb), `ArgumentError` на неизвестный тип |
-| `dictionary_service_test.dart` | чтение ассета, повторный вызов из кэша, ошибки: битый JSON, отсутствие массива `words` |
+| `dictionary_service_test.dart` | чтение ассета, повторный вызов из кэша, `loadRawJson` (исходный текст и его ошибки), ошибки: битый JSON, отсутствие массива `words` |
 | `word_of_day_service_test.dart` | формула: `seed = yyyy*10000 + MM*100 + dd`, фиксированные даты при N=160, зависимость индекса от размера базы, `ArgumentError` при `total <= 0`, смена года перемешивает последовательность (2027-01-01 → id 22) |
-| `widget_sync_service_test.dart` (11) | мост на фейк-бэкенде: контракт 5 ключей и их значения, `isoDate` с ведущими нулями, `widgetUri`/`dateFromWidgetUri` round-trip, отбраковка чужих схем и дат вида «31 февраля» |
+| `widget_sync_service_test.dart` (13) | мост на фейк-бэкенде: контракт 6 ключей (5 полей + `word_db_json`, пишется 1 раз), `isoDate` с ведущими нулями, `widgetUri`/`dateFromWidgetUri` round-trip, отбраковка чужих схем и дат вида «31 февраля» |
 | `widget_test.dart` | приложение целиком: мок обоих MethodChannel плагина (`home_widget`, `home_widget/updates`), синк при старте, тап по виджету → карточка с меткой «открыто из виджета»; демонтаж приложения в конце |
 
 Тесты зеркалят `lib/`: новый файл в `lib/` → парный в `test/` с суффиксом `_test`.
+
+Нативные JVM-тесты: `android/app/src/test/kotlin/…/WordOfDayCalculatorTest.kt` — 7 тестов формулы §5 и `entryFor` на ОБЩИХ тест-векторах с Dart (риск §9-4). Запуск: `cd android; gradlew :app:testDebugUnitTest` (нужен JAVA_HOME → JBR Android Studio, см. Базу знаний §10).
 
 ## 6. android/ — нативная часть
 
@@ -105,9 +116,11 @@ android/
 ├─ .gradle/                  локальный кэш Gradle — НЕ в git
 └─ app/
    ├─ build.gradle.kts       id com.english.widget.eng_widget_app; core library desugaring
-   │                         (требование flutter_local_notifications)
+   │                         (требование flutter_local_notifications); junit + org.json
+   │                         для JVM-тестов (testImplementation, этап 5)
    └─ src/
       ├─ main/               основная конфигурация и код (таблица ниже)
+      ├─ test/kotlin/…       JVM-тесты нативной логики (WordOfDayCalculatorTest, этап 5)
       ├─ debug/ + profile/   технические манифесты-оверлеи Flutter
       └─ java/.../GeneratedPluginRegistrant.java   генерируется Flutter, не редактировать
 ```
@@ -116,9 +129,11 @@ android/
 
 | Путь | Роль |
 |---|---|
-| `AndroidManifest.xml` | `MainActivity` (`singleTop`, лаунчер) + `<receiver .WordWidgetProvider>` (`exported="false"`, `APPWIDGET_UPDATE`, meta-data → `word_widget_info`); сетевых прав нет |
+| `AndroidManifest.xml` | `MainActivity` (`singleTop`, лаунчер) + `<receiver .WordWidgetProvider>` (`exported="false"`, `APPWIDGET_UPDATE`, meta-data → `word_widget_info`) + `<receiver .BootCompletedReceiver>` (`BOOT_COMPLETED`, этап 5); право `RECEIVE_BOOT_COMPLETED`; сетевых прав нет |
 | `kotlin/.../MainActivity.kt` | пустая `FlutterActivity` — точка входа, сюда доезжают интенты тапа |
-| `kotlin/.../WordWidgetProvider.kt` | провайдер виджета: 5 ключей → `RemoteViews`; пустые prefs → плейсхолдер (§9-7); тап → URI; этап 5 — автономный пересчёт слова |
+| `kotlin/.../WordWidgetProvider.kt` | провайдер виджета (этап 5): `word_db_json` → `WordOfDayCalculator` → `RemoteViews`; fallback: 5 ключей `widget.*` → плейсхолдер (§9-7); тап → URI показанной даты |
+| `kotlin/.../WordOfDayCalculator.kt` | чистая формула §5 + парсинг `word_db_json` (`org.json`) — паритет с Dart, JVM-тестируется без Android |
+| `kotlin/.../BootCompletedReceiver.kt` | после BOOT_COMPLETED просит систему вызвать `onUpdate` провайдера (§9-2); приложение не запускается |
 | `res/layout/word_widget.xml` | RemoteViews-макет 4×2: слово (20sp) → транскрипция (12sp) → перевод (14sp) → пример (12sp, до 2 строк), фон `widget_bg` |
 | `res/xml/word_widget_info.xml` | дескриптор виджета: `targetCell 4×2` (API 31+), `minWidth/Height 250×110dp`, `updatePeriodMillis` 30 мин, `resizeMode=none`, `previewLayout` |
 | `res/values/strings.xml` | имя «Слово дня», описание, заглушки-превью (запись №1), тексты плейсхолдера |
@@ -153,11 +168,12 @@ android/
 | модель данных | `lib/models/` | — |
 | строка виджета (нативная) | `android/.../res/values/strings.xml` | плейсхолдеры этапа 4 |
 | цвет виджета | `values/widget_colors.xml` + `values-night/widget_colors.xml` (пара!) | — |
-| ключ контракта Flutter↔Kotlin | `widget_sync_service.dart` + `WordWidgetProvider.kt` синхронно | 5 ключей `widget.*` |
+| ключ контракта Flutter↔Kotlin | `widget_sync_service.dart` + `WordWidgetProvider.kt` синхронно | 6 ключей: `widget.*` + `word_db_json` |
+| чистая нативная логика | object в `kotlin/…/` + JVM-тест в `android/app/src/test/kotlin/` | `WordOfDayCalculator.kt` (этап 5) |
 
 ## 9. Что появится по плану
 
-- **Этап 5** — ключ `word_db_json` в prefs, парсер `org.json` в провайдере, полуночный будильник в дополнение к `updatePeriodMillis`, ресивер `BOOT_COMPLETED` + право в манифесте.
+- **Этап 5** ✅ выполнен (27.09.2026) — ключ `word_db_json` в prefs, `WordOfDayCalculator.kt` (org.json) и автономный `onUpdate` с fallback-цепочкой, `BootCompletedReceiver` + право `RECEIVE_BOOT_COMPLETED` в манифесте. Полуночный будильник НЕ потребовался: гарантию смены слова даёт `updatePeriodMillis` 30 мин (PLAN.md §6, риски §9-2/§9-6).
 - **Этап 6** — `ui/widgets/word_card.dart`, `type_badge.dart`, полноценный `HomeScreen` (M3, бейджи типов: word=индиго, idiom=янтарь, phrasal_verb=teal).
 - **Этап 7** — `services/notification_service.dart`, канал `word_of_day`, расписание 09:00, permission-флоу.
 - **Этап 8** — PNG-иконки для API<26, PNG-превью виджета для API<31, матрица лаунчеров, релизная сборка.

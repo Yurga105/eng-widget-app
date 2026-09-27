@@ -1,4 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Этап 5 (PLAN.md §6): перерисовать виджет сразу после перезагрузки.
+         Точных будильников (SCHEDULE_EXACT_ALARM) и сети не запрашиваем. -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <application
         android:label="eng_widget_app"
         android:name="${applicationName}"
@@ -28,7 +31,7 @@
         <!-- Виджет «Слово дня» (PLAN.md §6). exported="false": обновления
              приходят защищённой системной рассылкой и явными интентами
              плагина home_widget. Поля слова дня пишет WidgetSyncService
-             на Dart (этап 4); автономный пересчёт — этап 5. -->
+             на Dart (этап 4); слово дня провайдер пересчитывает сам из word_db_json (этап 5). -->
         <receiver
             android:name=".WordWidgetProvider"
             android:exported="false"
@@ -39,6 +42,16 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/word_widget_info" />
+        </receiver>
+        <!-- Этап 5 (PLAN.md §6, риск №2 в §9): после BOOT_COMPLETED просим
+              систему вызвать onUpdate провайдера — приложение не запускаем,
+              слово пересчитается из word_db_json. -->
+        <receiver
+            android:name=".BootCompletedReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
         </receiver>
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->

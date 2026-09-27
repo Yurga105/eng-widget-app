@@ -17,11 +17,13 @@ const String miniDbJson = '{"version":1,"words":['
 /// Пишет в память вместо плагина home_widget — записи и вызовы обновления.
 class FakeHomeWidgetBackend implements HomeWidgetBackend {
   final Map<String, Object?> saved = <String, Object?>{};
+  final List<String> savedKeys = <String>[];
   final List<String?> updatedProviders = <String?>[];
 
   @override
   Future<bool?> saveWidgetData<T>(String id, T? data) async {
     saved[id] = data;
+    savedKeys.add(id);
     return true;
   }
 
@@ -74,7 +76,7 @@ void main() {
       expect(backend.saved[WidgetSyncService.keyWord], 'alpha');
     });
 
-    test('ровно пять ключей — контракт с Kotlin не расползается', () async {
+    test('ровно шесть ключей — контракт с Kotlin не расползается', () async {
       await buildService(() => DateTime(2026, 9, 27)).syncToday();
 
       expect(
@@ -85,8 +87,30 @@ void main() {
           WidgetSyncService.keyTranscription,
           WidgetSyncService.keyTranslation,
           WidgetSyncService.keyExample,
+          WidgetSyncService.keyDbJson,
         ]),
       );
+    });
+
+    test('word_db_json — исходный JSON базы целиком (этап 5)', () async {
+      await buildService(() => DateTime(2026, 9, 27)).syncToday();
+
+      expect(backend.saved[WidgetSyncService.keyDbJson], miniDbJson);
+    });
+
+    test('word_db_json пишется один раз на экземпляр сервиса', () async {
+      final service = buildService(() => DateTime(2026, 9, 27));
+      await service.syncToday();
+      await service.syncForDate(DateTime(2026, 9, 26));
+
+      expect(
+        backend.savedKeys
+            .where((key) => key == WidgetSyncService.keyDbJson)
+            .length,
+        1,
+        reason: 'база ~70 КБ неизменна — повторная перезапись не нужна',
+      );
+      expect(backend.saved[WidgetSyncService.keyDate], '2026-09-26');
     });
   });
 

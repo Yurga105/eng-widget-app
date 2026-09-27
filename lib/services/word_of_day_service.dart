@@ -40,6 +40,11 @@ class WordOfDayService {
     return words[indexFor(date, words.length)];
   }
 
+  /// Исходный JSON базы: его `WidgetSyncService` кладёт в prefs виджета
+  /// (ключ `word_db_json`) для автономного пересчёта слова нативной
+  /// стороной — этап 5 (PLAN.md §6).
+  Future<String> get databaseJson => _dictionary.loadRawJson();
+
   /// `seed = yyyy * 10000 + MM * 100 + dd` — ровно та же арифметика,
   /// что будет в `WordWidgetProvider.kt` (этап 5). Годы нашей эры дают
   /// неотрицательный seed.

@@ -17,6 +17,7 @@ class DictionaryService {
 
   final Future<String> Function(String path) _assetLoader;
   final List<WordEntry> _words = <WordEntry>[];
+  String? _rawJson;
   bool _loaded = false;
 
   /// Неизменяемый список записей (пуст до первого вызова [load]).
@@ -58,6 +59,17 @@ class DictionaryService {
         ),
       );
     _loaded = true;
+    _rawJson = raw;
     return words;
+  }
+
+  /// Исходный текст ассета (UTF-8, как на диске) — после успешного [load].
+  ///
+  /// Этап 5: этот же текст `WidgetSyncService` кладёт в prefs виджета
+  /// (ключ `word_db_json`), чтобы нативная сторона `org.json`-ом парсила
+  /// ровно ту же базу, что видит Flutter (риск №11 в PLAN.md §9).
+  Future<String> loadRawJson() async {
+    await load();
+    return _rawJson!;
   }
 }

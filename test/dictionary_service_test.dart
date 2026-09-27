@@ -110,6 +110,21 @@ void main() {
       expect(second, hasLength(1));
     });
 
+    test('loadRawJson — исходный текст базы для предзагрузки виджета (этап 5)',
+        () async {
+      final service = DictionaryService(assetLoader: (_) async => miniDbJson);
+
+      // Вызов до load(): сам грузит базу и возвращает текст как есть.
+      expect(await service.loadRawJson(), miniDbJson);
+      expect(await service.load(), hasLength(1));
+    });
+
+    test('loadRawJson: битый JSON — FormatException', () async {
+      final service = DictionaryService(assetLoader: (_) async => '{oops');
+
+      expect(service.loadRawJson(), throwsFormatException);
+    });
+
     test('отсутствует массив words — FormatException', () async {
       final service =
           DictionaryService(assetLoader: (_) async => '{"version":1}');
