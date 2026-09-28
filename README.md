@@ -1,17 +1,77 @@
-# eng_widget_app
+# eng_widget_app — «Слово дня» (Word of the Day)
 
-A new Flutter project.
+> Мини-приложение Flutter + нативный виджет Android для домашнего экрана (4×2).
+> Полностью **офлайн**: без сети, подписок и внешних API — источник данных локальный JSON-словарь.
 
-## Getting Started
+Каждый календарный день — новое английское слово, идиома или фразовый глагол уровня B1–B2: транскрипция IPA, перевод, пример и озвучка системным TTS-движком.
 
-This project is a starting point for a Flutter application.
+## Возможности
 
-A few resources to get you started if this is your first Flutter project:
+- **Виджет 4×2** на домашнем экране: слово, транскрипция, перевод, пример (обрезка до 2 строк); светлая/тёмная тема автоматически по системной
+- **Тап по виджету** → приложение с полной карточкой слова этого дня
+- **Слово дня** детерминировано формулой `seed(дата) % N` — одинаково при любом числе запусков, меняется после полуночи; год входит в seed → последовательность перемешивается ежегодно
+- **Автономная смена слова**: нативный `AppWidgetProvider` (Kotlin) сам пересчитывает слово при обновлении виджета — приложение запускать не нужно (включая после перезагрузки устройства)
+- **Ежедневное локальное уведомление** в 09:00 (по зоне устройства), тап → карточка слова
+- **Произношение**: кнопка-динамик в карточке озвучивает слово/фразу системным TTS-движком (en-US, офлайн, без прав); повторный тап или уход в фон — стоп; нет движка/голоса — кнопки нет (мягкая деградация)
+- **Material 3**, светлая и тёмная темы, язык интерфейса — русский
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+## Как это устроено
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Словарь — `assets/words_db.json` (160 записей: 50% слов + 50% идиом и фразовых глаголов)
+- Формула «слово дня» реализована **дважды с паритетом**: Dart (`lib/services/word_of_day_service.dart`) и Kotlin (`WordOfDayCalculator.kt`) — на общих тест-векторах
+- Мост Flutter ↔ виджет: предзагрузка всей базы в `SharedPreferences` (`home_widget`), нативная сторона читает её сама
+- Уведомления — `flutter_local_notifications` (+ `timezone`/`flutter_timezone` для локальной зоны), повтор переставляет нативный планировщик
+- Никаких сетевых прав: в манифесте только `RECEIVE_BOOT_COMPLETED`, `POST_NOTIFICATIONS` и `<queries>` для видимости TTS-движка (Android 11+)
+
+## Сборка и запуск
+
+Требуется Flutter SDK ^3.13.4 и Android-устройство/эмулятор (Android 7.0+, minSdk 24).
+
+```bash
+flutter pub get
+flutter run
+```
+
+Тесты:
+
+```bash
+flutter test                                    # 69 тестов (unit + widget)
+cd android && gradlew :app:testDebugUnitTest    # 7 JVM-тестов паритета формулы (нужен JAVA_HOME)
+```
+
+Релиз:
+
+```bash
+flutter build apk --release
+```
+
+## Структура проекта
+
+```
+lib/
+  main.dart                   # MaterialApp, темы M3, WidgetsBindingObserver
+  models/word_entry.dart      # модель записи словаря
+  services/                   # словарь, слово дня, мост виджета, уведомления, TTS
+  ui/
+    screens/home_screen.dart  # экран карточки слова дня
+    widgets/word_card.dart    # карточка + кнопка прослушивания
+assets/words_db.json          # словарь (единственный источник данных)
+android/app/src/main/kotlin/  # WordWidgetProvider, WordOfDayCalculator, BootCompletedReceiver
+docs/                         # документация проекта
+test/                         # тесты Flutter
+```
+
+Полная карта файлов и потоков данных — [`docs/PROJECT_STRUCTURE.md`](docs/PROJECT_STRUCTURE.md).
+
+## Документация
+
+| Документ | Что внутри |
+|---|---|
+| [`PLAN.md`](PLAN.md) | зафиксированные решения, стек, этапы 0–9, риски |
+| [`docs/KNOWLEDGE_BASE.md`](docs/KNOWLEDGE_BASE.md) | глоссарий терминов проекта |
+| [`docs/PROJECT_STRUCTURE.md`](docs/PROJECT_STRUCTURE.md) | карта файлов, тестов и потоков данных |
+| [`docs/QA_CHECKLIST.md`](docs/QA_CHECKLIST.md) | ручной чек-лист приёмки |
+
+## Статус
+
+v1.0 (этапы 0–9) ✅ — виджет, автономная смена слова, карточка, уведомления, произношение. Требования: Android 7.0+ (minSdk 24, targetSdk 36). Протестировано на Realme RMX2001. 69 Flutter-тестов + 7 Kotlin JVM-тестов, `flutter analyze` чисто.

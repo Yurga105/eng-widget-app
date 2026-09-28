@@ -163,6 +163,7 @@ android/
 | `docs/KNOWLEDGE_BASE.md` | словарь терминов проекта |
 | `docs/PROJECT_STRUCTURE.md` | этот документ |
 | `docs/QA_CHECKLIST.md` | ручной чек-лист приёмки (этапы 8–9): матрица лаунчеров, ребут, темы, уведомления, иконки и превью, релизный APK, произношение |
+| `README.md` | витрина репозитория (GitHub): возможности, устройство, сборка/запуск/тесты, ссылки на доки; обновляйте при заметных изменениях |
 | `pubspec.yaml` | зависимости (`home_widget 0.10.0`, `flutter_local_notifications 22.3.1`, `timezone` + `flutter_timezone` — этап 7, `flutter_tts 4.2.5` — этап 9), ассет `words_db.json`, версия SDK |
 | `pubspec.lock` | точная фиксация версий пакетов — коммитить |
 | `analysis_options.yaml` | включение flutter_lints |
