@@ -39,5 +39,19 @@
       "transcription": { "type": "String" },
       "translation": { "type": "String" }
     }
-  }
+  },
+  "wordImageAdd": "Add a photo association",
+  "@wordImageAdd": { "description": "Outlined button to attach a personal photo association to the word of the day (stage 12)" },
+  "wordImageReplace": "Change photo",
+  "@wordImageReplace": { "description": "Tooltip of the replace-photo action under the word image" },
+  "wordImageRemove": "Remove photo",
+  "@wordImageRemove": { "description": "Tooltip of the remove-photo action under the word image" },
+  "imageSourceTitle": "Photo source",
+  "@imageSourceTitle": { "description": "Title of the photo source picker (camera or gallery)" },
+  "imageSourceCamera": "Camera",
+  "@imageSourceCamera": { "description": "Pick the word photo with the device camera" },
+  "imageSourceGallery": "Gallery",
+  "@imageSourceGallery": { "description": "Pick the word photo from the gallery" },
+  "cancel": "Cancel",
+  "@cancel": { "description": "Generic cancel action (photo source picker)" }
 }

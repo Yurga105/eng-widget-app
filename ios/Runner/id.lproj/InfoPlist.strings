@@ -1,3 +1,8 @@
 /* Info.plist localization to Indonesian (stage 11): app display name
    under the icon and in the app switcher. */
 "CFBundleDisplayName" = "Kata Hari Ini";
+
+/* Stage 12: camera and photo library usage descriptions (iOS
+   permission dialog texts). */
+"NSCameraUsageDescription" = "Mengambil foto asosiasi untuk kata hari ini";
+"NSPhotoLibraryUsageDescription" = "Memilih foto asosiasi untuk kata hari ini dari pustaka";

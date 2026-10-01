@@ -12,5 +12,12 @@
   "notificationChannelName": "Kata Hari Ini",
   "notificationChannelDescription": "Pemberitahuan kata harian pada pukul {time}",
   "notificationTitle": "Kata Hari Ini — {word}",
-  "notificationBody": "{transcription} — {translation}"
+  "notificationBody": "{transcription} — {translation}",
+  "wordImageAdd": "Tambahkan foto asosiasi",
+  "wordImageReplace": "Ganti foto",
+  "wordImageRemove": "Hapus foto",
+  "imageSourceTitle": "Sumber foto",
+  "imageSourceCamera": "Kamera",
+  "imageSourceGallery": "Galeri",
+  "cancel": "Batal"
 }

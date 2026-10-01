@@ -85,5 +85,12 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<!-- Этап 12: описания использования камеры и фотобиблиотеки — iOS
+	     требует их при обращении к пикеру (без них приложение падает,
+	     App Store не пропустит). Локализованные версии — InfoPlist.strings. -->
+	<key>NSCameraUsageDescription</key>
+	<string>Take a photo association for the word of the day</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Pick a photo association for the word of the day from your library</string>
 </dict>
 </plist>

@@ -56,4 +56,25 @@ class AppLocalizationsId extends AppLocalizations {
   String notificationBody(String transcription, String translation) {
     return '$transcription — $translation';
   }
+
+  @override
+  String get wordImageAdd => 'Tambahkan foto asosiasi';
+
+  @override
+  String get wordImageReplace => 'Ganti foto';
+
+  @override
+  String get wordImageRemove => 'Hapus foto';
+
+  @override
+  String get imageSourceTitle => 'Sumber foto';
+
+  @override
+  String get imageSourceCamera => 'Kamera';
+
+  @override
+  String get imageSourceGallery => 'Galeri';
+
+  @override
+  String get cancel => 'Batal';
 }

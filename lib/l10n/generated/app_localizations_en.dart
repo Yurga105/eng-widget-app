@@ -56,4 +56,25 @@ class AppLocalizationsEn extends AppLocalizations {
   String notificationBody(String transcription, String translation) {
     return '$transcription — $translation';
   }
+
+  @override
+  String get wordImageAdd => 'Add a photo association';
+
+  @override
+  String get wordImageReplace => 'Change photo';
+
+  @override
+  String get wordImageRemove => 'Remove photo';
+
+  @override
+  String get imageSourceTitle => 'Photo source';
+
+  @override
+  String get imageSourceCamera => 'Camera';
+
+  @override
+  String get imageSourceGallery => 'Gallery';
+
+  @override
+  String get cancel => 'Cancel';
 }

@@ -12,5 +12,12 @@
   "notificationChannelName": "Слово дня",
   "notificationChannelDescription": "Ежедневное уведомление со словом дня в {time}",
   "notificationTitle": "Слово дня — {word}",
-  "notificationBody": "{transcription} — {translation}"
+  "notificationBody": "{transcription} — {translation}",
+  "wordImageAdd": "Добавить фото-ассоциацию",
+  "wordImageReplace": "Заменить фото",
+  "wordImageRemove": "Убрать фото",
+  "imageSourceTitle": "Источник фото",
+  "imageSourceCamera": "Камера",
+  "imageSourceGallery": "Галерея",
+  "cancel": "Отмена"
 }

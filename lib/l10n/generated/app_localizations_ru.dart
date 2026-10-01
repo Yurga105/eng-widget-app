@@ -56,4 +56,25 @@ class AppLocalizationsRu extends AppLocalizations {
   String notificationBody(String transcription, String translation) {
     return '$transcription — $translation';
   }
+
+  @override
+  String get wordImageAdd => 'Добавить фото-ассоциацию';
+
+  @override
+  String get wordImageReplace => 'Заменить фото';
+
+  @override
+  String get wordImageRemove => 'Убрать фото';
+
+  @override
+  String get imageSourceTitle => 'Источник фото';
+
+  @override
+  String get imageSourceCamera => 'Камера';
+
+  @override
+  String get imageSourceGallery => 'Галерея';
+
+  @override
+  String get cancel => 'Отмена';
 }

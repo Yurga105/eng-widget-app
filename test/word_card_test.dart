@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -30,6 +32,19 @@ const WordEntry _kPhrasalVerb = WordEntry(
   type: WordType.phrasalVerb,
 );
 
+/// Минимальный валидный PNG 1×1 (RGBA) — реальный файл для `Image.file`
+/// в тестах секции фото (этап 12).
+const List<int> kTinyPng = <int>[
+  0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A, //
+  0x00, 0x00, 0x00, 0x0D, 0x49, 0x48, 0x44, 0x52, //
+  0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, //
+  0x08, 0x06, 0x00, 0x00, 0x00, 0x1F, 0x15, 0xC4, 0x89, //
+  0x00, 0x00, 0x00, 0x0A, 0x49, 0x44, 0x41, 0x54, //
+  0x78, 0x9C, 0x63, 0x00, 0x01, 0x00, 0x00, 0x05, 0x00, 0x01, //
+  0x0D, 0x0A, 0x2D, 0xB4, //
+  0x00, 0x00, 0x00, 0x00, 0x49, 0x45, 0x4E, 0x44, 0xAE, 0x42, 0x60, 0x82,
+];
+
 /// Прокачивает карточку в том же окружении, что и HomeScreen: M3-палитра
 /// от зелёного семени (редизайн), скролл, внешние отступы экрана и
 /// делегаты локализации — дефолтная локаль тестов en.
@@ -42,6 +57,9 @@ Future<void> _pumpCard(
   VoidCallback? onListen,
   bool isListening = false,
   TargetPlatform platform = TargetPlatform.android,
+  String? imagePath,
+  VoidCallback? onPickImage,
+  VoidCallback? onRemoveImage,
 }) {
   return tester.pumpWidget(
     MaterialApp(
@@ -64,6 +82,9 @@ Future<void> _pumpCard(
             fromWidget: fromWidget,
             onListen: onListen,
             isListening: isListening,
+            imagePath: imagePath,
+            onPickImage: onPickImage,
+            onRemoveImage: onRemoveImage,
           ),
         ),
       ),
@@ -222,5 +243,72 @@ void main() {
 
     await tester.tap(find.byIcon(CupertinoIcons.volume_up));
     expect(taps, 1, reason: 'тап по Cupertino-кнопке должен дойти');
+  });
+
+  testWidgets('Нет фото — кнопка «Add a photo association» (этап 12)',
+      (tester) async {
+    var taps = 0;
+    await _pumpCard(tester, onPickImage: () => taps++);
+
+    expect(find.text('Add a photo association'), findsOneWidget);
+    expect(find.byType(Image), findsNothing,
+        reason: 'без фото картинки в карточке нет');
+
+    await tester.tap(find.text('Add a photo association'));
+    expect(taps, 1);
+  });
+
+  testWidgets('Без колбэков секции фото нет вовсе (этап 12)', (tester) async {
+    await _pumpCard(tester);
+
+    expect(find.text('Add a photo association'), findsNothing);
+    expect(find.byType(Image), findsNothing);
+  });
+
+  testWidgets('Есть фото — картинка + «заменить»/«убрать», тапы работают '
+      '(этап 12)', (tester) async {
+    // createTempSync, а не await createTemp: реальный async-IO внутри
+    // fake-async зоны testWidgets никогда не резолвится (как в widget_test,
+    // где файловый IO оборачивают runAsync). Синхронные вызовы — можно.
+    final tmp = Directory.systemTemp.createTempSync('word_card_img');
+    addTearDown(() => tmp.deleteSync(recursive: true));
+    final png = File('${tmp.path}${Platform.pathSeparator}7.jpg')
+      ..writeAsBytesSync(kTinyPng);
+
+    var replaced = 0;
+    var removed = 0;
+    await _pumpCard(
+      tester,
+      imagePath: png.path,
+      onPickImage: () => replaced++,
+      onRemoveImage: () => removed++,
+    );
+
+    expect(find.byType(Image), findsOneWidget);
+    expect(find.text('Add a photo association'), findsNothing);
+
+    // Карточка с фото выше экрана — прокручиваем кнопки в вьюпорт.
+    await tester.ensureVisible(find.byTooltip('Change photo'));
+    await tester.tap(find.byTooltip('Change photo'));
+    expect(replaced, 1);
+    await tester.ensureVisible(find.byTooltip('Remove photo'));
+    await tester.tap(find.byTooltip('Remove photo'));
+    expect(removed, 1);
+  });
+
+  testWidgets('Битый путь фото — заглушка ошибки вместо падения (этап 12)',
+      (tester) async {
+    await _pumpCard(
+      tester,
+      imagePath: 'Z:/definitely/missing/7.jpg',
+      onPickImage: () {},
+    );
+
+    // Декодирование падает асинхронно — прокручиваем кадры и ждём
+    // errorBuilder; исключений быть не должно.
+    await tester.pump(const Duration(milliseconds: 50));
+    expect(tester.takeException(), isNull);
+    expect(find.byType(Image), findsOneWidget,
+        reason: 'виджет-картинка остаётся с errorBuilder-заглушкой');
   });
 }

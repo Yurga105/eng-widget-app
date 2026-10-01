@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart' show CupertinoIcons;
 import 'package:flutter/material.dart';
 
@@ -24,6 +26,11 @@ import 'type_badge.dart';
 ///
 /// Этап 11: кнопка — адаптивная [PlatformIconActionButton]: на iOS это
 /// CupertinoButton с иконкой SF Symbols, на Android — IconButton.
+///
+/// Этап 12: [imagePath] — фото-ассоциация записи (`documents/word_images/
+/// {id}.jpg`, сервис `WordImageService`); [onPickImage] добавляет/заменяет
+/// фото, [onRemoveImage] удаляет. null-параметры прячут соответствующие
+/// элементы — карточка работает и без фото.
 class WordCard extends StatelessWidget {
   const WordCard({
     super.key,
@@ -32,6 +39,9 @@ class WordCard extends StatelessWidget {
     this.fromWidget = false,
     this.onListen,
     this.isListening = false,
+    this.imagePath,
+    this.onPickImage,
+    this.onRemoveImage,
   });
 
   final WordEntry entry;
@@ -44,6 +54,15 @@ class WordCard extends StatelessWidget {
 
   /// Идёт воспроизведение — кнопка показывает «стоп» вместо динамика.
   final bool isListening;
+
+  /// Путь к фото-ассоциации записи (этап 12); null — фото нет.
+  final String? imagePath;
+
+  /// Открыть выбор источника фото: добавить (фото нет) или заменить.
+  final VoidCallback? onPickImage;
+
+  /// Удалить фото-ассоциацию; null — кнопки удаления нет.
+  final VoidCallback? onRemoveImage;
 
   @override
   Widget build(BuildContext context) {
@@ -118,6 +137,24 @@ class WordCard extends StatelessWidget {
                   color: theme.colorScheme.onSurfaceVariant,
                 ),
               ),
+              // Этап 12: фото-ассоциация — визуальный якорь слова; стоит
+              // между транскрипцией и переводом, чтобы примеры (перевод
+              // + два предложения) остались замыкающими блоками карточки.
+              if (imagePath != null) ...[
+                const SizedBox(height: 12),
+                _WordImage(
+                  path: imagePath!,
+                  onReplace: onPickImage,
+                  onRemove: onRemoveImage,
+                ),
+              ] else if (onPickImage != null) ...[
+                const SizedBox(height: 12),
+                OutlinedButton.icon(
+                  onPressed: onPickImage,
+                  icon: const Icon(Icons.add_photo_alternate_outlined),
+                  label: Text(l10n.wordImageAdd),
+                ),
+              ],
               const SizedBox(height: 12),
               const Divider(height: 1),
               const SizedBox(height: 12),
@@ -146,6 +183,72 @@ class WordCard extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+/// Фото-ассоциация слова дня (этап 12): картинка 16:10 со скруглением и
+/// строка действий под ней — «заменить» и «убрать» (адаптивные
+/// [PlatformIconActionButton]). Битый/удалённый файл не роняет карточку —
+/// errorBuilder показывает заглушку с платформенной иконкой ошибки.
+class _WordImage extends StatelessWidget {
+  const _WordImage({required this.path, this.onReplace, this.onRemove});
+
+  final String path;
+  final VoidCallback? onReplace;
+  final VoidCallback? onRemove;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        ClipRRect(
+          borderRadius: BorderRadius.circular(12),
+          child: AspectRatio(
+            aspectRatio: 16 / 10,
+            child: Image.file(
+              File(path),
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) => Container(
+                color: theme.colorScheme.surfaceContainerHighest,
+                alignment: Alignment.center,
+                child: Icon(
+                  platformErrorIcon(context),
+                  color: theme.colorScheme.error,
+                ),
+              ),
+            ),
+          ),
+        ),
+        if (onReplace != null || onRemove != null)
+          Padding(
+            padding: const EdgeInsets.only(top: 4),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                if (onReplace != null)
+                  PlatformIconActionButton(
+                    onPressed: onReplace,
+                    tooltip: l10n.wordImageReplace,
+                    color: theme.colorScheme.onSurfaceVariant,
+                    materialIcon: Icons.photo_camera_outlined,
+                    cupertinoIcon: CupertinoIcons.camera,
+                  ),
+                if (onRemove != null)
+                  PlatformIconActionButton(
+                    onPressed: onRemove,
+                    tooltip: l10n.wordImageRemove,
+                    color: theme.colorScheme.onSurfaceVariant,
+                    materialIcon: Icons.delete_outline_rounded,
+                    cupertinoIcon: CupertinoIcons.trash,
+                  ),
+              ],
+            ),
+          ),
+      ],
     );
   }
 }

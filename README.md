@@ -15,6 +15,7 @@
 - **Произношение**: кнопка-динамик в карточке озвучивает слово/фразу системным TTS-движком (en-US, офлайн, без прав); повторный тап или уход в фон — стоп; нет движка/голоса — кнопки нет (мягкая деградация)
 - **Локализация**: интерфейс, уведомления и нативные строки виджета — en / ru / id (Bahasa Indonesia) по локали устройства; неподержанная локаль → английский; бренд «Word of Day» одинаков во всех языках
 - **iOS (этап 11)**: тот же продукт на iPhone/iPad (iOS 15+) — адаптивный интерфейс (Cupertino-навбар, SF-иконки, CupertinoActivityIndicator), локальные уведомления (Darwin), системный TTS; домашнего виджета на iOS в v1.0 нет (WidgetKit — v1.1, требуется Mac)
+- **Фото-ассоциация (этап 12)**: своя картинка к слову дня — камера или галерея (`image_picker`, сжатие maxWidth 1600 / quality 85), хранится по `id` записи (переживает годовые повторы слова), замена и удаление прямо из карточки; на виджет не попадает
 - **Material 3**, светлая тема с зелёной палитрой (тёмной темы приложения нет; виджет следует системной теме — светлой и тёмной)
 
 ## Как это устроено
@@ -24,6 +25,7 @@
 - Мост Flutter ↔ виджет: предзагрузка всей базы в `SharedPreferences` (`home_widget`), нативная сторона читает её сама
 - Уведомления — `flutter_local_notifications` (+ `timezone`/`flutter_timezone` для локальной зоны), повтор переставляет нативный планировщик; тексты и имя канала локализованы
 - Локализация — first-party стек `flutter_localizations` + `intl`: типобезопасные строки генерируются из ARB (`flutter gen-l10n`, `lib/l10n/`; сторонние l10n-пакеты не используются)
+- Фото-ассоциации — `image_picker` + `path_provider`: файлы `documents/word_images/{id}.jpg`, по одному на запись словаря; на Android ноль новых прав (системные intents/Photo Picker)
 - Никаких сетевых прав: в манифесте только `RECEIVE_BOOT_COMPLETED`, `POST_NOTIFICATIONS` и `<queries>` для видимости TTS-движка (Android 11+)
 
 ## Сборка и запуск
@@ -38,7 +40,7 @@ flutter run
 Тесты:
 
 ```bash
-flutter test                                    # 76 тестов (unit + widget)
+flutter test                                    # 91 тест (unit + widget)
 cd android && gradlew :app:testDebugUnitTest    # 7 JVM-тестов паритета формулы (нужен JAVA_HOME)
 ```
 
@@ -55,10 +57,10 @@ lib/
   main.dart                   # MaterialApp, темы M3, l10n, WidgetsBindingObserver
   l10n/                       # ARB-переводы en/ru/id + сгенерированные классы
   models/word_entry.dart      # модель записи словаря
-  services/                   # словарь, слово дня, мост виджета, уведомления, TTS
+  services/                   # словарь, слово дня, мост виджета, уведомления, TTS, фото-ассоциации
   ui/
     screens/home_screen.dart  # экран карточки слова дня
-    widgets/word_card.dart    # карточка + кнопка прослушивания
+    widgets/word_card.dart    # карточка + прослушивание + фото-ассоциация
 assets/words_db.json          # словарь (единственный источник данных)
 android/app/src/main/kotlin/  # WordWidgetProvider, WordOfDayCalculator, BootCompletedReceiver
 ios/                          # каркас iOS (Runner, Info.plist, ru/id-локализации, SPM)
@@ -72,11 +74,11 @@ test/                         # тесты Flutter
 
 | Документ | Что внутри |
 |---|---|
-| [`PLAN.md`](PLAN.md) | зафиксированные решения, стек, этапы 0–11, риски |
+| [`PLAN.md`](PLAN.md) | зафиксированные решения, стек, этапы 0–12, риски |
 | [`docs/KNOWLEDGE_BASE.md`](docs/KNOWLEDGE_BASE.md) | глоссарий терминов проекта |
 | [`docs/PROJECT_STRUCTURE.md`](docs/PROJECT_STRUCTURE.md) | карта файлов, тестов и потоков данных |
 | [`docs/QA_CHECKLIST.md`](docs/QA_CHECKLIST.md) | ручной чек-лист приёмки |
 
 ## Статус
 
-v1.0 (этапы 0–11) ✅ — виджет, автономная смена слова, карточка, уведомления, произношение, локализация en/ru/id, редизайн и поддержка iOS (адаптивный Material/Cupertino UI, Darwin-уведомления; сборка iOS — на Mac). Требования: Android 7.0+ (minSdk 24, targetSdk 36), iOS 15+. Протестировано на Realme RMX2001. 76 Flutter-тестов + 7 Kotlin JVM-тестов, `flutter analyze` чисто.
+v1.0 (этапы 0–12) ✅ — виджет, автономная смена слова, карточка, уведомления, произношение, локализация en/ru/id, редизайн, поддержка iOS (адаптивный Material/Cupertino UI, Darwin-уведомления; сборка iOS — на Mac) и фото-ассоциации к словам. Требования: Android 7.0+ (minSdk 24, targetSdk 36), iOS 15+. Протестировано на Realme RMX2001. 91 Flutter-тест + 7 Kotlin JVM-тестов, `flutter analyze` чисто.

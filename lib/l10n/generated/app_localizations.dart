@@ -177,6 +177,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{transcription} — {translation}'**
   String notificationBody(String transcription, String translation);
+
+  /// Outlined button to attach a personal photo association to the word of the day (stage 12)
+  ///
+  /// In en, this message translates to:
+  /// **'Add a photo association'**
+  String get wordImageAdd;
+
+  /// Tooltip of the replace-photo action under the word image
+  ///
+  /// In en, this message translates to:
+  /// **'Change photo'**
+  String get wordImageReplace;
+
+  /// Tooltip of the remove-photo action under the word image
+  ///
+  /// In en, this message translates to:
+  /// **'Remove photo'**
+  String get wordImageRemove;
+
+  /// Title of the photo source picker (camera or gallery)
+  ///
+  /// In en, this message translates to:
+  /// **'Photo source'**
+  String get imageSourceTitle;
+
+  /// Pick the word photo with the device camera
+  ///
+  /// In en, this message translates to:
+  /// **'Camera'**
+  String get imageSourceCamera;
+
+  /// Pick the word photo from the gallery
+  ///
+  /// In en, this message translates to:
+  /// **'Gallery'**
+  String get imageSourceGallery;
+
+  /// Generic cancel action (photo source picker)
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
 }
 
 class _AppLocalizationsDelegate

@@ -7,7 +7,9 @@ import '../../l10n/generated/app_localizations.dart';
 import '../../models/word_entry.dart';
 import '../../services/dictionary_service.dart';
 import '../../services/pronunciation_service.dart';
+import '../../services/word_image_service.dart';
 import '../../services/word_of_day_service.dart';
+import '../widgets/image_source_sheet.dart';
 import '../widgets/platform_widgets.dart';
 import '../widgets/word_card.dart';
 
@@ -40,6 +42,14 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   /// Произношение слова дня системным TTS — этап 9 (PLAN.md §1).
   late final PronunciationService _pronunciation;
+
+  /// Фото-ассоциации слов (этап 12, PLAN.md §1): выбор, хранение, удаление.
+  final WordImageService _wordImages = WordImageService();
+
+  /// Кэш future-ов «слово + фото» по дате (этап 12): FutureBuilder не
+  /// перезапускает загрузку на каждом билде, а смена фото подменяет
+  /// значение в кэше — карточка не мигает пустой секцией.
+  final Map<DateTime, Future<_WordCardData>> _cardFutures = {};
 
   @override
   void initState() {
@@ -86,6 +96,50 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     }
   }
 
+  /// Слово дня + его фото-ассоциация одним future (этап 12): фото ищется
+  /// по `entry.id` — ассоциация переживает ежегодные повторы слова.
+  Future<_WordCardData> _cardDataFor(DateTime date) =>
+      _cardFutures.putIfAbsent(date, () async {
+        final entry = await _wordOfDay.wordForDate(date);
+        final image = await _wordImages.imageFor(entry.id);
+        return _WordCardData(entry, image?.path);
+      });
+
+  /// Этап 12: платформенный выбор источника (лист/экшн-щит) → съёмка или
+  /// выбор из галереи → сохранение ассоциации. Отмена на любом шаге —
+  /// молча; сбой плагина сервис глотает сам.
+  Future<void> _pickWordImage(WordEntry entry) async {
+    final camera = await showImageSourcePicker(context);
+    if (camera == null || !mounted) {
+      return;
+    }
+    final path = await _wordImages.capture(
+      entry.id,
+      camera ? WordImageSource.camera : WordImageSource.gallery,
+    );
+    if (!mounted || path == null) {
+      return;
+    }
+    _replaceCardFuture(entry, path);
+  }
+
+  /// Этап 12: кнопка «убрать фото» — удалить ассоциацию записи.
+  Future<void> _removeWordImage(WordEntry entry) async {
+    await _wordImages.remove(entry.id);
+    if (mounted) {
+      _replaceCardFuture(entry, null);
+    }
+  }
+
+  /// Подменяет кэш карточки текущей даты: фото изменилось — карточка
+  /// перерисовывается без повторной загрузки слова.
+  void _replaceCardFuture(WordEntry entry, String? imagePath) {
+    setState(() {
+      _cardFutures[widget.widgetTapDate?.value ?? _wordOfDay.today] =
+          Future.value(_WordCardData(entry, imagePath));
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final tappedDate = widget.widgetTapDate?.value;
@@ -95,9 +149,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       // Этап 11: навбар адаптивный — CupertinoNavigationBar на iOS.
       appBar: PlatformAppBar(title: AppLocalizations.of(context).homeTitle),
       body: Center(
-        child: FutureBuilder<WordEntry>(
+        // Этап 12: слово и фото-ассоциация грузятся одним future
+        // (кэш по дате) — карточка не мигает пустой секцией фото.
+        child: FutureBuilder<_WordCardData>(
           key: ValueKey<DateTime>(date),
-          future: _wordOfDay.wordForDate(date),
+          future: _cardDataFor(date),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return _DictionaryError(error: snapshot.error);
@@ -105,6 +161,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             if (!snapshot.hasData) {
               return const PlatformProgressIndicator();
             }
+            final data = snapshot.data!;
             return SingleChildScrollView(
               padding: const EdgeInsets.all(16),
               child: Center(
@@ -117,16 +174,24 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   child: ValueListenableBuilder<bool>(
                     valueListenable: _pronunciation.isSpeaking,
                     builder: (context, speaking, _) => WordCard(
-                      entry: snapshot.data!,
+                      entry: data.entry,
                       dateLabel:
                           formatDate(date, Localizations.localeOf(context)),
                       fromWidget: tappedDate != null,
                       isListening: speaking,
                       onListen: _pronunciation.isAvailable
                           ? () => unawaited(
-                                _pronunciation.toggle(snapshot.data!.word),
+                                _pronunciation.toggle(data.entry.word),
                               )
                           : null,
+                      // Этап 12: фото-ассоциация и её действия (ключ — id
+                      // слова; замена/удаление подменяют future в кэше).
+                      imagePath: data.imagePath,
+                      onPickImage: () =>
+                          unawaited(_pickWordImage(data.entry)),
+                      onRemoveImage: data.imagePath == null
+                          ? null
+                          : () => unawaited(_removeWordImage(data.entry)),
                     ),
                   ),
                 ),
@@ -137,6 +202,14 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       ),
     );
   }
+}
+
+/// Слово дня + его фото-ассоциация — грузятся одним future (этап 12).
+class _WordCardData {
+  const _WordCardData(this.entry, this.imagePath);
+
+  final WordEntry entry;
+  final String? imagePath;
 }
 
 /// Ошибка загрузки словаря (битый ассет и т.п.): сообщаем честно,
