@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:eng_widget_app/l10n/generated/app_localizations.dart';
 import 'package:eng_widget_app/models/word_entry.dart';
 import 'package:eng_widget_app/ui/widgets/type_badge.dart';
 import 'package:eng_widget_app/ui/widgets/word_card.dart';
@@ -29,7 +30,8 @@ const WordEntry _kPhrasalVerb = WordEntry(
 );
 
 /// Прокачивает карточку в том же окружении, что и HomeScreen: M3-палитра
-/// от индиго-семени (PLAN.md §1), скролл и внешние отступы экрана.
+/// от зелёного семени (редизайн), скролл, внешние отступы экрана и
+/// делегаты локализации — дефолтная локаль тестов en.
 Future<void> _pumpCard(
   WidgetTester tester, {
   WordEntry entry = _kIdiom,
@@ -41,9 +43,11 @@ Future<void> _pumpCard(
 }) {
   return tester.pumpWidget(
     MaterialApp(
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF3F51B5),
+          seedColor: const Color(0xFF4CAF50),
           brightness: brightness,
         ),
       ),
@@ -75,39 +79,44 @@ void main() {
         findsOneWidget);
     expect(find.text('Пропустить эту встречу было очевидным решением.'),
         findsOneWidget);
-    expect(find.text('идиома'), findsOneWidget);
+    expect(find.text('idiom'), findsOneWidget);
     expect(find.text('27 сентября 2026'), findsOneWidget);
     // Без тапа по виджету метки быть не должно.
-    expect(find.text('из виджета'), findsNothing);
+    expect(find.text('from widget'), findsNothing);
   });
 
-  testWidgets('WordCard в тёмной теме рендерит те же данные', (tester) async {
+  testWidgets('WordCard в тёмной палитре рендерит те же данные', (tester) async {
     await _pumpCard(tester, brightness: Brightness.dark);
 
-    // Тема следует системной (PLAN.md §8): обе темы рендерят карточку
-    // без ошибок переполнения и с теми же данными.
+    // Карточка не зависит от схемы: любая тема рендерит её без ошибок
+    // переполнения и с теми же данными (само приложение теперь всегда
+    // светлое — ThemeMode.light, но виджет остаётся переиспользуемым).
     expect(find.text('no-brainer'), findsOneWidget);
-    expect(find.text('идиома'), findsOneWidget);
+    expect(find.text('idiom'), findsOneWidget);
   });
 
-  testWidgets('Метка «из виджета» появляется только при открытии с виджета',
+  testWidgets('Метка «from widget» появляется только при открытии с виджета',
       (tester) async {
     await _pumpCard(tester, fromWidget: true);
-    expect(find.text('из виджета'), findsOneWidget);
+    expect(find.text('from widget'), findsOneWidget);
 
     await _pumpCard(tester, fromWidget: false);
-    expect(find.text('из виджета'), findsNothing);
+    expect(find.text('from widget'), findsNothing);
   });
 
-  testWidgets('Бейджи трёх типов: русские подписи и цвета', (tester) async {
+  testWidgets('Бейджи трёх типов: локализованные подписи (en) и цвета',
+      (tester) async {
     for (final type in WordType.values) {
       await tester.pumpWidget(
         MaterialApp(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
           home: Scaffold(body: Center(child: TypeBadge(type: type))),
         ),
       );
 
-      expect(find.text(TypeBadge.labelFor(type)), findsOneWidget);
+      final context = tester.element(find.byType(TypeBadge));
+      expect(find.text(TypeBadge.labelFor(context, type)), findsOneWidget);
 
       final container = tester.widget<Container>(
         find.descendant(
@@ -120,10 +129,20 @@ void main() {
     }
 
     // Контракт подписей этапа 6 (PLAN.md §8) — явно, чтобы деградация
-    // не прошла незамеченной.
-    expect(TypeBadge.labelFor(WordType.word), 'слово');
-    expect(TypeBadge.labelFor(WordType.idiom), 'идиома');
-    expect(TypeBadge.labelFor(WordType.phrasalVerb), 'фразовый глагол');
+    // не прошла незамеченной. Тестовое окружение — локаль en.
+    await tester.pumpWidget(
+      MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: const Scaffold(
+          body: Center(child: TypeBadge(type: WordType.word)),
+        ),
+      ),
+    );
+    final context = tester.element(find.byType(TypeBadge));
+    expect(TypeBadge.labelFor(context, WordType.word), 'word');
+    expect(TypeBadge.labelFor(context, WordType.idiom), 'idiom');
+    expect(TypeBadge.labelFor(context, WordType.phrasalVerb), 'phrasal verb');
   });
 
   testWidgets('Карточка с фразовым глаголом вмещается на экране 320×480',
@@ -144,7 +163,7 @@ void main() {
     );
 
     expect(find.text('hang out with somebody'), findsOneWidget);
-    expect(find.text('фразовый глагол'), findsOneWidget);
+    expect(find.text('phrasal verb'), findsOneWidget);
     expect(find.byIcon(Icons.volume_up_rounded), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
@@ -154,7 +173,7 @@ void main() {
     var taps = 0;
     await _pumpCard(tester, onListen: () => taps++);
 
-    expect(find.byTooltip('Прослушать'), findsOneWidget);
+    expect(find.byTooltip('Listen'), findsOneWidget);
     await tester.tap(find.byIcon(Icons.volume_up_rounded));
 
     expect(taps, 1);
@@ -165,7 +184,7 @@ void main() {
     await _pumpCard(tester);
 
     expect(find.byIcon(Icons.volume_up_rounded), findsNothing);
-    expect(find.byTooltip('Прослушать'), findsNothing);
+    expect(find.byTooltip('Listen'), findsNothing);
     expect(find.text('no-brainer'), findsOneWidget,
         reason: 'карточка работает и без произношения');
   });
@@ -176,7 +195,7 @@ void main() {
 
     expect(find.byIcon(Icons.stop_rounded), findsOneWidget);
     expect(find.byIcon(Icons.volume_up_rounded), findsNothing);
-    expect(find.byTooltip('Остановить'), findsOneWidget);
+    expect(find.byTooltip('Stop'), findsOneWidget);
 
     // Речь закончилась — снова динамик.
     await _pumpCard(tester, onListen: () {}, isListening: false);

@@ -1,0 +1,16 @@
+{
+  "@@locale": "id",
+  "appTitle": "Word of Day",
+  "homeTitle": "Kata Hari Ini",
+  "wordTypeWord": "kata",
+  "wordTypeIdiom": "idiom",
+  "wordTypePhrasalVerb": "frasa kata kerja",
+  "listen": "Dengarkan",
+  "stopPlayback": "Hentikan",
+  "fromWidgetChip": "dari widget",
+  "dictionaryError": "Gagal memuat kamus",
+  "notificationChannelName": "Kata Hari Ini",
+  "notificationChannelDescription": "Pemberitahuan kata harian pada pukul {time}",
+  "notificationTitle": "Kata Hari Ini — {word}",
+  "notificationBody": "{transcription} — {translation}"
+}

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Bahasa Indonesia — целевой рынок приложения. Код ресурса — values-id
+     (Android сам отображает устройству устаревший код «in» на «id»).
+     Перевод в превью остаётся русским до локализации словаря (schema v2). -->
+<resources>
+    <string name="app_name">Word of Day</string>
+    <string name="word_widget_name">Kata Hari Ini</string>
+    <string name="word_widget_description">Kata, idiom, atau frasa kata kerja bahasa Inggris harian dengan terjemahan dan contoh</string>
+    <string name="word_widget_preview_word">accomplish</string>
+    <string name="word_widget_preview_transcription">/əˈkɑːmplɪʃ/</string>
+    <string name="word_widget_preview_translation">достигать, выполнять</string>
+    <string name="word_widget_preview_example">She accomplished all her goals this year.</string>
+    <string name="word_widget_empty_word">Kata Hari Ini</string>
+    <string name="word_widget_empty_translation">Buka aplikasi untuk melihat kata hari ini</string>
+</resources>

@@ -1,0 +1,16 @@
+{
+  "@@locale": "ru",
+  "appTitle": "Word of Day",
+  "homeTitle": "Слово дня",
+  "wordTypeWord": "слово",
+  "wordTypeIdiom": "идиома",
+  "wordTypePhrasalVerb": "фразовый глагол",
+  "listen": "Прослушать",
+  "stopPlayback": "Остановить",
+  "fromWidgetChip": "из виджета",
+  "dictionaryError": "Не удалось загрузить словарь",
+  "notificationChannelName": "Слово дня",
+  "notificationChannelDescription": "Ежедневное уведомление со словом дня в {time}",
+  "notificationTitle": "Слово дня — {word}",
+  "notificationBody": "{transcription} — {translation}"
+}

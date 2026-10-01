@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:home_widget/home_widget.dart';
 
+import 'l10n/generated/app_localizations.dart';
 import 'services/notification_service.dart';
 import 'services/widget_sync_service.dart';
 import 'ui/screens/home_screen.dart';
@@ -28,8 +29,9 @@ void main() {
 ///    полночь и на резюме; тап по уведомлению — тот же URI-контракт,
 ///    что и у виджета (холодный старт — через payload запуска).
 ///
-/// Темы Material 3 со seed-цветом «индиго» (PLAN.md §1), светлая и тёмная
-/// следуют за системной настройкой.
+/// Темы Material 3 со seed-цветом «мягкий зелёный» (редизайн для аудитории
+/// Индонезии: светлая природная палитра вместо индиго и тёмной темы),
+/// локализация интерфейса en/ru/id (см. `lib/l10n/`).
 class WordOfTheDayApp extends StatefulWidget {
   const WordOfTheDayApp({super.key});
 
@@ -86,20 +88,27 @@ class _WordOfTheDayAppState extends State<WordOfTheDayApp>
 
   @override
   Widget build(BuildContext context) {
-    const seedColor = Color(0xFF3F51B5); // индиго
+    // Редизайн: мягкий зелёный (hijau) вместо индиго — природный оттенок,
+    // ассоциирующийся с ростом и обучением. Фон экрана — светлый
+    // светло-зелёный (#F1F8E9), карточка — тёплый айвори (#FFFDF5).
+    const seedColor = Color(0xFF4CAF50);
     return MaterialApp(
-      title: 'Слово дня',
+      // Имя для ОС (переключатель задач) — локализуется вместе с UI.
+      onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
       debugShowCheckedModeBanner: false,
+      // Интернационализация en/ru/id; неопознанная локаль → en (первая
+      // в supportedLocales). Базовая резолюция MaterialApp справляется
+      // сама, включая legacy-коды Android ('in' → 'id').
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: seedColor),
+        scaffoldBackgroundColor: const Color(0xFFF1F8E9),
+        cardTheme: const CardThemeData(color: Color(0xFFFFFDF5)),
       ),
-      darkTheme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: seedColor,
-          brightness: Brightness.dark,
-        ),
-      ),
-      themeMode: ThemeMode.system,
+      // Тёмной темы нет: концепт «слово дня» должен вызывать позитивное
+      // настроение и на устройствах с системной тёмной темой.
+      themeMode: ThemeMode.light,
       home: HomeScreen(widgetTapDate: _widgetTapDate),
     );
   }

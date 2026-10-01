@@ -47,7 +47,9 @@ void main() {
     });
     expect(expectedWord, isNotNull);
 
-    expect(find.text('Слово дня'), findsOneWidget);
+    // Локаль тестового окружения — en: AppBar показывает homeTitle
+    // из AppLocalizations (бренд приложения — «Word of Day»).
+    expect(find.text('Word of Day'), findsOneWidget);
     expect(find.text(expectedWord!), findsOneWidget);
 
     // Демонтируем приложение: dispose гасит полуночный таймер и подписку,

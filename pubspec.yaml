@@ -1,5 +1,5 @@
 name: eng_widget_app
-description: "A new Flutter project."
+description: "Word of Day — a daily English word, idiom or phrasal verb with translation, example and pronunciation."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -41,6 +41,13 @@ dependencies:
   # Этап 9 (PLAN.md §1 «Произношение»): системный TTS-движок устройства —
   # офлайн, разрешений в манифесте не требует.
   flutter_tts: ^4.2.5
+  # Интернационализация UI (en/ru/id, целевой рынок — Индонезия):
+  # first-party стек flutter_localizations + intl с генерацией
+  # типобезопасных строк из ARB (flutter gen-l10n, см. l10n.yaml) —
+  # сторонние l10n-пакеты не привлекаем (принцип PLAN.md §2).
+  flutter_localizations:
+    sdk: flutter
+  intl: any
 
 dev_dependencies:
   flutter_test:
@@ -58,6 +65,9 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+
+  # Включает генерацию локализаций по l10n.yaml (flutter gen-l10n).
+  generate: true
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

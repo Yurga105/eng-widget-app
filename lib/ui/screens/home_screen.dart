@@ -1,37 +1,25 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
+import '../../l10n/generated/app_localizations.dart';
 import '../../models/word_entry.dart';
 import '../../services/dictionary_service.dart';
 import '../../services/pronunciation_service.dart';
 import '../../services/word_of_day_service.dart';
 import '../widgets/word_card.dart';
 
-/// Русские месяцы в родительном падеже для [formatDateRu].
-const List<String> _monthsGenitive = <String>[
-  'января',
-  'февраля',
-  'марта',
-  'апреля',
-  'мая',
-  'июня',
-  'июля',
-  'августа',
-  'сентября',
-  'октября',
-  'ноября',
-  'декабря',
-];
-
-/// «27 сентября 2026» — русская дата без зависимости от intl
-/// (PLAN.md §2: внешних пакетов сверх необходимых не берём).
-String formatDateRu(DateTime date) =>
-    '${date.day} ${_monthsGenitive[date.month - 1]} ${date.year}';
+/// «27 сентября 2026» / «27 September 2026» — локализованная дата.
+/// Символы дат (включая русские месяцы в родительном падеже) берёт
+/// `intl`; отдельного списка месяцев и сторонних пакетов не нужно.
+String formatDate(DateTime date, Locale locale) =>
+    DateFormat('d MMMM y', locale.toLanguageTag()).format(date);
 
 /// Экран «Слово дня» — этап 6 (PLAN.md §1, §8): один экран с большой
-/// карточкой [WordCard] слова выбранной даты; Material 3, тема следует
-/// системной (задаётся в `main.dart`), язык интерфейса — русский.
+/// карточкой [WordCard] слова выбранной даты; Material 3, светлая
+/// зелёная тема (задаётся в `main.dart`), язык интерфейса — en/ru/id
+/// по локали устройства (lib/l10n).
 ///
 /// [widgetTapDate] — слушаемая дата из тапа по виджету (этап 4);
 /// null → показываем сегодня. Дата приходит детерминированной формулой §5,
@@ -103,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     final date = tappedDate ?? _wordOfDay.today;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Слово дня')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context).homeTitle)),
       body: Center(
         child: FutureBuilder<WordEntry>(
           key: ValueKey<DateTime>(date),
@@ -128,7 +116,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                     valueListenable: _pronunciation.isSpeaking,
                     builder: (context, speaking, _) => WordCard(
                       entry: snapshot.data!,
-                      dateLabel: formatDateRu(date),
+                      dateLabel:
+                          formatDate(date, Localizations.localeOf(context)),
                       fromWidget: tappedDate != null,
                       isListening: speaking,
                       onListen: _pronunciation.isAvailable
@@ -170,7 +159,7 @@ class _DictionaryError extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           Text(
-            'Не удалось загрузить словарь',
+            AppLocalizations.of(context).dictionaryError,
             style: theme.textTheme.titleMedium,
             textAlign: TextAlign.center,
           ),

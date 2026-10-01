@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Палитра виджета — тёмная тема (переключается системой автоматически). -->
+<!-- Палитра виджета — ночная системная тема (переключается автоматически).
+     Приложение всегда светлое, но виджет живёт на домашнем экране и должен
+     уважать тёмную тему системы: тёмный «лесной» зелёный вместо чёрного. -->
 <resources>
-    <color name="widget_bg_color">#FF1C1B1F</color>
-    <color name="widget_word_color">#FF9FA8DA</color>
-    <color name="widget_transcription_color">#FFCAC4D0</color>
-    <color name="widget_translation_color">#FFE6E1E5</color>
-    <color name="widget_example_color">#FFCAC4D0</color>
+    <color name="widget_bg_color">#FF1B2B20</color>
+    <color name="widget_word_color">#FFA5D6A7</color>
+    <color name="widget_transcription_color">#FFB9CCC4</color>
+    <color name="widget_translation_color">#FFE8F0E9</color>
+    <color name="widget_example_color">#FFB9CCC4</color>
 </resources>

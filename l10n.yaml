@@ -1,0 +1,11 @@
+# Конфигурация генерации локализаций (flutter gen-l10n).
+# Шаблон — английский (en); переводы — ru и id (Bahasa Indonesia,
+# целевой рынок — Индонезия). ARB — это JSON с метаданными в ключах «@…».
+# Сгенерированный dart-код (output-dir) коммитится сознательно:
+# синтетический пакет в .dart_tool объявлен deprecated во Flutter —
+# явный output-dir внутри lib/ + git — рекомендованный способ.
+arb-dir: lib/l10n
+template-arb-file: app_en.arb
+output-localization-file: app_localizations.dart
+output-dir: lib/l10n/generated
+nullable-getter: false

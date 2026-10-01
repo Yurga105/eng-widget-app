@@ -1,7 +1,7 @@
 # Структура проекта «Слово дня» (eng_widget_app)
 
 > Карта каталогов и файлов: что где лежит, зачем нужно и как части связаны.
-> Актуально на 28.09.2026 (состояние после этапа 8).
+> Актуально на 01.10.2026 (состояние после этапа 10).
 > Термины и определения — в `docs/KNOWLEDGE_BASE.md`; план и статусы этапов — в `PLAN.md`.
 
 ## 1. Вид сверху
@@ -9,7 +9,8 @@
 ```text
 eng_widget_app/                 корень репозитория
 ├─ lib/                         весь Dart-код приложения (Flutter)
-│  ├─ main.dart                 входная точка: темы M3, синк виджета, приём тапов
+│  ├─ main.dart                 входная точка: темы M3 (зелёный seed, light-only), l10n, синк виджета, приём тапов
+│  ├─ l10n/                     ARB-переводы en/ru/id + generated/ (этап 10)
 │  ├─ models/                   модели данных (WordEntry, WordType)
 │  ├─ services/                 логика: словарь, формула слова дня, мост к виджету
 │  ├─ ui/screens/               экраны приложения
@@ -21,8 +22,9 @@ eng_widget_app/                 корень репозитория
 ├─ docs/                        документация: База знаний, QA-чек-лист + этот файл
 ├─ PLAN.md                      главный план: решения, этапы 0–8, риски, DoD
 ├─ pubspec.yaml / pubspec.lock  зависимости Flutter и их фиксация
+├─ l10n.yaml                    конфиг gen-l10n: ARB, шаблон en, output-dir (этап 10)
 ├─ analysis_options.yaml        правила линтера (flutter_lints)
-└─ README.md                    шаблонная заготовка Flutter
+└─ README.md                    витрина репозитория: возможности, сборка, ссылки на доки
 ```
 
 Принцип деления: `lib` — приложение, `android` — платформенная надстройка, `assets` — данные, `test` — зеркало `lib`. Служебные и не-в-git файлы — в разделе 7.
@@ -84,16 +86,17 @@ BootCompletedReceiver сразу после перезагрузки.
 
 | Файл | Роль | Зачем существует |
 |---|---|---|
-| `main.dart` | `main()` + `WordOfTheDayApp` | «Проводка» этапов 4–7: синк слова в виджет при старте, на `resumed` и в полночь (пере-планируемый Timer); подписка на тапы (`initiallyLaunchedFromHomeWidget` + `widgetClicked`) → `ValueNotifier`; этап 7 — старт `NotificationService` (разрешение 1 раз за запуск + расписание), перепланирование на резюме/в полночь, тап по уведомлению (тёплый — колбэк, холодный — payload запуска) → тот же `ValueNotifier`; темы Material 3 (seed — индиго `#3F51B5`, светлая и тёмная следуют системе) |
+| `main.dart` | `main()` + `WordOfTheDayApp` | «Проводка» этапов 4–7: синк слова в виджет при старте, на `resumed` и в полночь (пере-планируемый Timer); подписка на тапы (`initiallyLaunchedFromHomeWidget` + `widgetClicked`) → `ValueNotifier`; этап 7 — старт `NotificationService` (разрешение 1 раз за запуск + расписание), перепланирование на резюме/в полночь, тап по уведомлению (тёплый — колбэк, холодный — payload запуска) → тот же `ValueNotifier`; этап 10 — темы Material 3 (seed — зелёный `#4CAF50`, только светлая: `ThemeMode.light`), `localizationsDelegates` + `supportedLocales` (en/ru/id), `onGenerateTitle` |
 | `models/word_entry.dart` | `WordEntry`, `WordType` | модель записи словаря: `fromJson`/`toJson`, валидация `type`, полное равенство полей — основа тестов |
 | `services/dictionary_service.dart` | `DictionaryService` | чтение и парсинг `words_db.json` через `rootBundle` (UTF-8), кэш в памяти; `loadRawJson()` — исходный текст для `word_db_json` (этап 5); загрузчик подменяем в тестах |
 | `services/word_of_day_service.dart` | `WordOfDayService` | формула §5 (`seedFor`/`indexFor`) — зеркально в `WordOfDayCalculator.kt` (этап 5); `databaseJson` — исходный JSON для предзагрузки виджета; часы инжектируются (фейк в тестах) |
 | `services/widget_sync_service.dart` | `WidgetSyncService`, `HomeWidgetBackend` | мост к виджету: 5 ключей + `word_db_json` (база целиком, 1 раз на инстанс — этап 5) + `updateWidget`; `isoDate`/`widgetUri`/`dateFromWidgetUri`; интерфейс бэкенда введён ради тестируемости |
-| `services/notification_service.dart` | `NotificationService`, `FlutterNotificationsBackend` | уведомление этапа 7: канал `word_of_day`, ежедневно в 09:00 (`nextDailyAt` — чистая функция, час — константа `notifyHour`); контент — слово дня ДНЯ срабатывания; payload = URI-контракт виджета; разрешение спрашивается 1 раз за запуск, отказ не блокирует; все вызовы плагина «тихие» (`_quietly`); бэкенд держит `tz.local` (flutter_timezone → `Etc/GMT±` → UTC) и `matchDateTimeComponents: time` — повтор натив сам переставляет и восстанавливает после ребута |
+| `services/notification_service.dart` | `NotificationService`, `FlutterNotificationsBackend` | уведомление этапа 7: канал `word_of_day`, ежедневно в 09:00 (`nextDailyAt` — чистая функция, час — константа `notifyHour`); контент — слово дня ДНЯ срабатывания; payload = URI-контракт виджета; разрешение спрашивается 1 раз за запуск, отказ не блокирует; все вызовы плагина «тихие» (`_quietly`); бэкенд держит `tz.local` (flutter_timezone → `Etc/GMT±` → UTC) и `matchDateTimeComponents: time` — повтор натив сам переставляет и восстанавливает после ребута; этап 10: заголовок/тело/имя и описание канала локализованы (AppLocalizations по локали устройства, каноникализация `in`→`id`); описание канала — `{time}` из `notifyHour` (`DateFormat.jm` по локали, символы дат инициализирует сам сервис) |
 | `services/pronunciation_service.dart` | `PronunciationService`, `TtsBackend`, `FlutterTtsBackend` | произношение этапа 9: системный TTS-движок (`flutter_tts`), язык фиксированный `en-US`, `awaitSpeakCompletion(true)`; `isAvailable` — есть ли en-US-голос (нет → кнопки в карточке нет, риск §9-13), `isSpeaking` ValueNotifier — кнопка динамик↔«стоп»; `toggle`/`stop`/`dispose`; ошибки плагина глотаются `_quietly` (паттерн этапа 7) |
-| `ui/screens/home_screen.dart` | `HomeScreen` + `formatDateRu` | экран этапа 6: FutureBuilder → `WordCard` выбранной даты (из тапа по виджету или сегодня); русская дата без intl («27 сентября 2026»), maxWidth 600 на планшетах, аккуратный экран ошибки словаря; этап 9: владеет `PronunciationService` (старт в initState, dispose), `ValueListenableBuilder` над `isSpeaking` перерисовывает кнопку прослушивания, `WidgetsBindingObserver` — стоп речи в фоне и при смене даты из тапа по виджету |
+| `ui/screens/home_screen.dart` | `HomeScreen` + `formatDate` | экран этапа 6: FutureBuilder → `WordCard` выбранной даты (из тапа по виджету или сегодня); локализованная дата (intl `d MMMM y`, этап 10), maxWidth 600 на планшетах, аккуратный экран ошибки словаря; этап 9: владеет `PronunciationService` (старт в initState, dispose), `ValueListenableBuilder` над `isSpeaking` перерисовывает кнопку прослушивания, `WidgetsBindingObserver` — стоп речи в фоне и при смене даты из тапа по виджету |
 | `ui/widgets/word_card.dart` | `WordCard` | большая M3-карточка (`Card.filled`): Wrap-заголовок (бейдж типа, янтарная метка «из виджета», дата), слово, IPA, перевод, пример + перевод; чистый stateless — данными кормит экран; этап 9: строка слова — `Row` с `Expanded` (длинные фразы переносятся) и опциональной кнопкой-динамиком `onListen`/`isListening` (динамик ↔ «стоп»; `onListen == null` — кнопки нет) |
-| `ui/widgets/type_badge.dart` | `TypeBadge` | бейдж типа: «слово»/«идиома»/«фразовый глагол», фиксированные в обеих темах цвета (индиго `#3F51B5` / янтарь `#FFB300` / teal `#00796B`); публичные `labelFor`/`backgroundFor` — для тестов и переиспользования |
+| `ui/widgets/type_badge.dart` | `TypeBadge` | бейдж типа: «слово»/«идиома»/«фразовый глагол», фиксированные цвета (green 800 `#2E7D32` — этап 10 / янтарь `#FFB300` / teal `#00796B`), подписи локализованы (`labelFor(context, type)`); публичные `labelFor`/`backgroundFor` — для тестов и переиспользования |
+| `l10n/` (ARB + `generated/`) | `AppLocalizations` | локализация этапа 10: шаблон `app_en.arb`, переводы `app_ru.arb` / `app_id.arb`; `flutter gen-l10n` (конфиг `l10n.yaml`) генерирует типобезопасные классы в `l10n/generated/` — генерат коммитится; неподержанная локаль → en |
 
 Принцип: модели не знают про UI; вся логика — в сервисах (тестируются без интерфейса); экраны тонкие. Новый код: сервис → `services/`, экран → `ui/screens/`, переиспользуемый виджет UI → `ui/widgets/`.
 
@@ -108,7 +111,7 @@ BootCompletedReceiver сразу после перезагрузки.
 | `notification_service_test.dart` (12) | этап 7 на фейк-бэкенде: `nextDailyAt` (граница 09:00 ровно, переходы месяца/года), порядок `start` (initialize → permission → cancel → schedule), контент = слово дня срабатывания (до/после 09:00), payload-URI, отказ разрешения не отменяет расписание, сбои бэкенда глотаются, тап по payload → карточка даты (чужой payload игнорируется), reschedule заменяет расписание, холодный старт payload (успех/сбой) |
 | `pronunciation_service_test.dart` (9) | этап 9 на фейк-бэкенде (speak не завершается сам — Completer, имитация awaitSpeakCompletion): `start` → initialize→available(en-US), нет голоса/сбой движка — мягкая деградация (кнопки нет); `speak`/`toggle` во время речи → `stop`; ошибки бэкенда и поздние платформенные колбэки не роняют сервис; `dispose` глушит речь |
 | `widget_test.dart` | приложение целиком: мок обоих MethodChannel плагина (`home_widget`, `home_widget/updates`), запуск показывает слово дня по формуле §5 (регрессия экрана после этапа 6); уведомления этапа 7 без плагина тихо деградируют (`_quietly` ловит); демонтаж приложения в конце |
-| `word_card_test.dart` (9) | UI этапа 6: все поля карточки + дата и бейдж, тёмная тема, метка «из виджета» только при открытии с виджета, бейджи трёх типов (подпись + цвет), влезание карточки с фразовым глаголом на экран 320×480; этап 9 (+4): тап по динамику зовёт `onListen`, кнопки нет при `onListen == null` (TTS недоступен), иконка «стоп» во время речи, влезание 320×480 проверено с кнопкой |
+| `word_card_test.dart` (9) | UI этапа 6: все поля карточки + дата и бейдж, тёмная тема, метка «из виджета» только при открытии с виджета, бейджи трёх типов (подпись + цвет), влезание карточки с фразовым глаголом на экран 320×480; этап 9 (+4): тап по динамику зовёт `onListen`, кнопки нет при `onListen == null` (TTS недоступен), иконка «стоп» во время речи, влезание 320×480 проверено с кнопкой; этап 10 — ожидания переведены на en (делегаты l10n в пумпе, подписи бейджей из AppLocalizations) |
 
 Тесты зеркалят `lib/`: новый файл в `lib/` → парный в `test/` с суффиксом `_test`.
 
@@ -144,16 +147,16 @@ android/
 | `kotlin/.../BootCompletedReceiver.kt` | после BOOT_COMPLETED просит систему вызвать `onUpdate` провайдера (§9-2); приложение не запускается |
 | `res/layout/word_widget.xml` | RemoteViews-макет 4×2: слово (20sp) → транскрипция (12sp) → перевод (14sp) → пример (12sp, до 2 строк), фон `widget_bg` |
 | `res/xml/word_widget_info.xml` | дескриптор виджета: `targetCell 4×2` (API 31+), `minWidth/Height 250×110dp`, `updatePeriodMillis` 30 мин, `resizeMode=none`; превью: `previewImage` (PNG для лаунчеров API<31) + `previewLayout` (живой макет, API 31+) |
-| `res/values/strings.xml` | имя «Слово дня», описание, заглушки-превью (запись №1), тексты плейсхолдера |
-| `res/values/widget_colors.xml` + `res/values-night/widget_colors.xml` | палитры виджета для светлой и тёмной темы — менять только парой |
-| `res/values/styles.xml` + `res/values-night/styles.xml` | темы приложения и сплэша |
-| `res/values/ic_launcher_colors.xml` | цвета адаптивной иконки |
+| `res/values/strings.xml` | default-локаль en (этап 10): `app_name` «Word of Day» (бренд), имя/описание виджета, заглушки-превью (запись №1; перевод записи русский до schema v2), плейсхолдер; переводы — `values-ru/`, `values-id/` (legacy-код «in» на «id» маппит сам Android) |
+| `res/values/widget_colors.xml` + `res/values-night/widget_colors.xml` | палитры виджета: светлая — зелёная (этап 10; фон `#F1F8E9` = scaffold приложения), ночная — тёмно-зелёная; менять только парой; `launch_bg_color` — фон сплэша (светлый и в ночной теме — приложение light-only) |
+| `res/values/styles.xml` + `res/values-night/styles.xml` | темы окна и сплэша; с этапа 10 ночная тоже светлая (`launch_bg_color`) — приложение light-only |
+| `res/values/ic_launcher_colors.xml` | фон адаптивной иконки — зелёный green 500 `#4CAF50` (этап 10) |
 | `res/drawable/widget_bg.xml` | скруглённый фон виджета (16dp) |
 | `res/drawable/ic_launcher_foreground.xml` | вектор-глиф «W.» иконки (safe zone 108dp) |
 | `res/drawable/ic_stat_word.xml` | alpha-only вектор 24dp для строки уведомления: белая «W.» с янтарной точкой; `defaultIcon` в `notification_service.dart` (этап 8) |
 | `res/drawable-nodpi/widget_preview.png` | PNG-превью виджета 480×220 для лаунчеров API<31: карточка записи №1 («accomplish»); `nodpi` — не масштабируется по плотности (этап 8) |
 | `res/mipmap-anydpi-v26/ic_launcher.xml` | адаптивная иконка API 26+ (фон + глиф) |
-| `res/mipmap-*/ic_launcher.png` | растровые иконки для API<26 (этап 8): 48/72/96/144/192 px в mdpi/hdpi/xhdpi/xxhdpi/xxxhdpi — скруглённый индиго-квадрат с глифом «W.» |
+| `res/mipmap-*/ic_launcher.png` | растровые иконки для API<26 (этап 8): 48/72/96/144/192 px в mdpi/hdpi/xhdpi/xxhdpi/xxxhdpi — скруглённый зелёный квадрат с глифом «W.» (перегенерированы этапом 10) |
 
 ## 7. Корень и служебные файлы
 
@@ -162,10 +165,11 @@ android/
 | `PLAN.md` | главный план: решения §1, стек §2, структура §3, данные §4, формула §5, нативная логика §6, уведомления §7, этапы и статусы §8, риски §9, DoD §10 |
 | `docs/KNOWLEDGE_BASE.md` | словарь терминов проекта |
 | `docs/PROJECT_STRUCTURE.md` | этот документ |
-| `docs/QA_CHECKLIST.md` | ручной чек-лист приёмки (этапы 8–9): матрица лаунчеров, ребут, темы, уведомления, иконки и превью, релизный APK, произношение |
+| `docs/QA_CHECKLIST.md` | ручной чек-лист приёмки (этапы 8–10): матрица лаунчеров, ребут, темы, уведомления, иконки и превью, релизный APK, произношение, локализация/редизайн |
 | `README.md` | витрина репозитория (GitHub): возможности, устройство, сборка/запуск/тесты, ссылки на доки; обновляйте при заметных изменениях |
-| `pubspec.yaml` | зависимости (`home_widget 0.10.0`, `flutter_local_notifications 22.3.1`, `timezone` + `flutter_timezone` — этап 7, `flutter_tts 4.2.5` — этап 9), ассет `words_db.json`, версия SDK |
+| `pubspec.yaml` | зависимости (`home_widget 0.10.0`, `flutter_local_notifications 22.3.1`, `timezone` + `flutter_timezone` — этап 7, `flutter_tts 4.2.5` — этап 9, `flutter_localizations` (sdk) + `intl` — этап 10), ассет `words_db.json`, версия SDK, `generate: true` (gen-l10n) |
 | `pubspec.lock` | точная фиксация версий пакетов — коммитить |
+| `l10n.yaml` | конфиг `flutter gen-l10n` (этап 10): ARB-каталог `lib/l10n`, шаблон en, явный `output-dir` в `lib/l10n/generated` |
 | `analysis_options.yaml` | включение flutter_lints |
 | `.gitignore` | исключения из git: `build/`, `.dart_tool/`, `local.properties` и т.п. |
 | `.metadata`, `*.iml`, `.flutter-plugins-dependencies` | служебные файлы Flutter/IDE — руками не редактируются |
@@ -177,6 +181,7 @@ android/
 | логика/сервис | `lib/services/` + тест в `test/` | `notification_service.dart` (этап 7) |
 | экран | `lib/ui/screens/` | — |
 | переиспользуемый виджет UI | `lib/ui/widgets/` | `word_card.dart`, `type_badge.dart` (этап 6) |
+| строка UI (л10н) | `lib/l10n/app_*.arb` + перегенерация `flutter gen-l10n` | `app_en.arb` (шаблон) + `app_ru.arb` / `app_id.arb` (этап 10) |
 | модель данных | `lib/models/` | — |
 | строка виджета (нативная) | `android/.../res/values/strings.xml` | плейсхолдеры этапа 4 |
 | цвет виджета | `values/widget_colors.xml` + `values-night/widget_colors.xml` (пара!) | — |
@@ -190,6 +195,7 @@ android/
 - **Этап 7** ✅ выполнен (27.09.2026) — `services/notification_service.dart`: канал `word_of_day`, ежедневно 09:00 (`inexactAllowWhileIdle`, `matchDateTimeComponents: time` — повтор натив переставляет сам), контент = слово дня дня срабатывания, payload = URI-контракт виджета (тап → карточка того же дня), `POST_NOTIFICATIONS` 1 раз за запуск с мягкой деградацией; манифест: `POST_NOTIFICATIONS` + 2 receiver'а плагина; пакеты `timezone` + `flutter_timezone`; +12 тестов (flutter test 56/56), analyze чисто, debug-APK собирается. Ручная приёмка (приход в 09:00, тап, отказ в разрешении) — за пользователем.
 - **Этап 8** ✅ выполнен (28.09.2026) — PNG-иконки лаунчера `mipmap-{mdpi…xxxhdpi}/ic_launcher.png` (5 плотностей, 48–192 px), PNG-превью виджета `drawable-nodpi/widget_preview.png` + `previewImage` в дескрипторе, alpha-only иконка уведомлений `drawable/ic_stat_word.xml`; analyze чисто, flutter test 56/56, релизный APK собирается. Ручная матрица QA — `docs/QA_CHECKLIST.md`, приёмка — за пользователем.
 - **Этап 9** ✅ выполнен (28.09.2026) — `services/pronunciation_service.dart` (`TtsBackend`/`FlutterTtsBackend` + `PronunciationService`, мягкая деградация `_quietly`), кнопка-динамик в `WordCard` (`onListen`/`isListening`, null → кнопки нет), проводка в `HomeScreen` (`ValueListenableBuilder` + `WidgetsBindingObserver`: фон/смена даты → стоп речи), `<queries>` `TTS_SERVICE` в манифесте (Android 11+); пакет `flutter_tts ^4.2.5`; +13 тестов (flutter test 69/69), analyze чисто; релизный APK 45.4 МБ, `aapt dump permissions` — новых прав нет, `INTERNET` нет; установлен на RMX2001. Ручная приёмка (звук en-US, скорость, стоп тапом/фоном) — за пользователем.
+- **Этап 10** ✅ выполнен (01.10.2026) — локализация en/ru/id (first-party стек `flutter_localizations` + `intl`; ARB `lib/l10n/app_*.arb`, генерация `flutter gen-l10n` по `l10n.yaml` в `l10n/generated/` — коммитится; неподержанная локаль → en) + редизайн (seed зелёный `#4CAF50`, приложение light-only, светлый сплэш и в ночной теме — `launch_bg_color`, зелёные иконки: вектор + перегенерированные PNG) + бренд «Word of Day» (`app_name`, `onGenerateTitle`); нативные строки локализованы (`values-ru/`, `values-id/`: имя/описание виджета, плейсхолдер); уведомления: тексты и имя/описание канала по локали устройства (`in`→`id`); тесты переведены на en-ожидания (flutter test 69/69, количество сохранено), analyze чисто. Ручная приёмка (языки, ночная тема, канал в настройках ОС) — `docs/QA_CHECKLIST.md` §9, за пользователем.
 
 ## 10. Порядок чтения кода новичку
 

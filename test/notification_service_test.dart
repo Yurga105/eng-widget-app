@@ -18,12 +18,14 @@ class FakeBackend implements NotificationsBackend {
     int id,
     String title,
     String body,
+    String channelName,
     String payload,
     DateTime at,
   })> scheduled = <({
     int id,
     String title,
     String body,
+    String channelName,
     String payload,
     DateTime at,
   })>[];
@@ -50,6 +52,8 @@ class FakeBackend implements NotificationsBackend {
     required int id,
     required String title,
     required String body,
+    required String channelName,
+    required String channelDescription,
     required String payload,
     required DateTime at,
   }) async {
@@ -58,7 +62,8 @@ class FakeBackend implements NotificationsBackend {
     }
     calls.add('schedule:$id');
     scheduled.add(
-      (id: id, title: title, body: body, payload: payload, at: at),
+      (id: id, title: title, body: body, channelName: channelName,
+       payload: payload, at: at),
     );
   }
 
@@ -153,7 +158,10 @@ void main() {
       final s = backend.scheduled.single;
       expect(s.id, NotificationService.notificationId);
       expect(s.at, DateTime(2026, 9, 27, 9));
-      expect(s.title, 'Слово дня — ${expected.word}');
+      // Тестовое окружение — локаль en: строки уведомления берутся из
+      // AppLocalizations (заголовок и имя канала локализуются).
+      expect(s.title, 'Word of Day — ${expected.word}');
+      expect(s.channelName, 'Word of Day');
       expect(s.body, '${expected.transcription} — ${expected.translation}');
       expect(
         s.payload,
@@ -172,7 +180,7 @@ void main() {
 
       final s = backend.scheduled.single;
       expect(s.at, DateTime(2026, 9, 28, 9));
-      expect(s.title, 'Слово дня — ${expected.word}');
+      expect(s.title, 'Word of Day — ${expected.word}');
       expect(s.payload, 'wordoftheday://word?date=2026-09-28');
     });
 

@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Палитра виджета — светлая тема (PLAN.md §1: индиго-акцент, шрифт системный). -->
+<!-- Палитра виджета — светлая тема (редизайн: мягкий зелёный hijau вместо
+     индиго; фон совпадает со scaffoldBackgroundColor Flutter-приложения). -->
 <resources>
-    <color name="widget_bg_color">#FFFFFFFF</color>
-    <color name="widget_word_color">#FF303F9F</color>
+    <color name="widget_bg_color">#FFF1F8E9</color>
+    <color name="widget_word_color">#FF33691E</color>
     <color name="widget_transcription_color">#FF5F6368</color>
     <color name="widget_translation_color">#FF202124</color>
     <color name="widget_example_color">#FF5F6368</color>
+    <!-- Фон сплэша (drawable*/launch_background.xml): приложение светлое
+         и в ночной теме — системная тёмная подложка дала бы чёрную
+         вспышку перед светлым UI. -->
+    <color name="launch_bg_color">#FFF1F8E9</color>
 </resources>

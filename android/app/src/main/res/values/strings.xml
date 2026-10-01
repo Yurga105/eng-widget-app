@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Виджет «Слово дня» (PLAN.md §6). Локаль приложения — ru. -->
-    <string name="word_widget_name">Слово дня</string>
-    <string name="word_widget_description">Английское слово, идиома или фразовый глагол дня с переводом и примером</string>
+    <!-- Имя приложения (лейбл лончера и заголовок окна). Бренд «Word of
+         Day» одинаков во всех локалях; локализуются остальные строки
+         (values-ru, values-id). Default-локаль здесь — en. -->
+    <string name="app_name">Word of Day</string>
+
+    <!-- Виджет «Word of Day» (PLAN.md §6). -->
+    <string name="word_widget_name">Word of Day</string>
+    <string name="word_widget_description">A daily English word, idiom or phrasal verb with a translation and example</string>
 
     <!-- Статические тексты этапа 3: initialLayout и previewLayout до первого
-         onUpdate, а также превью в пикере. Совпадают с записью №1 базы. -->
+         onUpdate, а также превью в пикере. Совпадают с записью №1 базы.
+         Перевод остаётся русским, пока не локализован сам словарь
+         (schema v2 — отдельная задача, PLAN.md §6). -->
     <string name="word_widget_preview_word">accomplish</string>
     <string name="word_widget_preview_transcription">/əˈkɑːmplɪʃ/</string>
     <string name="word_widget_preview_translation">достигать, выполнять</string>
@@ -13,6 +20,6 @@
 
     <!-- Этап 4: плейсхолдер, если виджет добавлен до первого запуска
          приложения и prefs ещё пусты (риск №7 в PLAN.md §9). -->
-    <string name="word_widget_empty_word">Слово дня</string>
-    <string name="word_widget_empty_translation">Откройте приложение, чтобы увидеть слово дня</string>
+    <string name="word_widget_empty_word">Word of Day</string>
+    <string name="word_widget_empty_translation">Open the app to see today\'s word</string>
 </resources>

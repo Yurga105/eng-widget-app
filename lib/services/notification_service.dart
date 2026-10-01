@@ -1,9 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
+import 'package:intl/date_symbol_data_local.dart' as intl_dates;
+import 'package:intl/intl.dart' show Intl;
 import 'package:timezone/data/latest.dart' as tz_data;
 import 'package:timezone/timezone.dart' as tz;
 
+import '../l10n/generated/app_localizations.dart';
 import 'dictionary_service.dart';
 import 'widget_sync_service.dart';
 import 'word_of_day_service.dart';
@@ -25,10 +28,18 @@ abstract class NotificationsBackend {
   Future<bool> requestPermission();
 
   /// Ежедневное уведомление канала «Слово дня» на [at] по локальным часам.
+  ///
+  /// [channelName]/[channelDescription] локализованы вызывающей стороной:
+  /// Android разрешает переименовать существующий канал повторным
+  /// `createNotificationChannel` с тем же id (имя и описание — изменяемые
+  /// поля канала), поэтому смена языка устройства подхватывается при
+  /// следующем запуске без пересоздания канала.
   Future<void> scheduleDailyWord({
     required int id,
     required String title,
     required String body,
+    required String channelName,
+    required String channelDescription,
     required String payload,
     required DateTime at,
   });
@@ -85,6 +96,8 @@ class FlutterNotificationsBackend implements NotificationsBackend {
     required int id,
     required String title,
     required String body,
+    required String channelName,
+    required String channelDescription,
     required String payload,
     required DateTime at,
   }) async {
@@ -101,8 +114,8 @@ class FlutterNotificationsBackend implements NotificationsBackend {
       notificationDetails: NotificationDetails(
         android: AndroidNotificationDetails(
           NotificationService.channelId,
-          NotificationService.channelName,
-          channelDescription: NotificationService.channelDescription,
+          channelName,
+          channelDescription: channelDescription,
           importance: Importance.defaultImportance,
           priority: Priority.defaultPriority,
         ),
@@ -190,26 +203,39 @@ class NotificationService {
     NotificationsBackend? backend,
     DateTime Function()? clock,
     void Function(DateTime date)? onOpenWordCard,
+    Future<AppLocalizations> Function()? localizations,
   })  : _wordOfDay = wordOfDay ?? WordOfDayService(DictionaryService()),
         _backend = backend ?? FlutterNotificationsBackend(),
         _clock = clock ?? DateTime.now,
-        _openCard = onOpenWordCard;
+        _openCard = onOpenWordCard,
+        _localizationsLoader =
+            localizations ?? NotificationService._loadDeviceLocalizations;
 
   final WordOfDayService _wordOfDay;
   final NotificationsBackend _backend;
   final DateTime Function() _clock;
   final void Function(DateTime date)? _openCard;
+  final Future<AppLocalizations> Function() _localizationsLoader;
+
+  /// Локализация кэшируется на первый запуск: расписание переписывается
+  /// многократно за сессию, а делегат — синхронный и дешёвый.
+  AppLocalizations? _localizations;
 
   /// Один id на все перепланирования: новое расписание заменяет старое.
   static const int notificationId = 1;
 
+  /// Id канала неизменяем после создания — поэтому он константа, а вот
+  /// имя и описание локализуются при каждом перепланировании (Android
+  /// разрешает обновлять эти поля существующего канала).
   static const String channelId = 'word_of_day';
-  static const String channelName = 'Слово дня';
-  static const String channelDescription =
-      'Ежедневное уведомление со словом дня в 9:00 (PLAN.md §7)';
 
   /// Час срабатывания — константа v1 (PLAN.md §1: настроек в v1 нет).
   static const int notifyHour = 9;
+
+  /// «Час:минута» для локализованного описания канала: единственный
+  /// источник времени — [notifyHour]; формат по локали делает intl
+  /// (placeholder {time} в ARB: «9:00 AM» en / «9:00» ru / «09.00» id).
+  static final DateTime channelTime = DateTime(2024, 1, 1, notifyHour);
 
   /// Стартовый прогон: плагин + разрешение + расписание.
   ///
@@ -228,15 +254,44 @@ class NotificationService {
       _quietly('reschedule', () async {
         final fireAt = nextDailyAt(_clock());
         final word = await _wordOfDay.wordForDate(fireAt);
+        final l10n = await _resolveLocalizations();
         await _backend.cancel(notificationId);
         await _backend.scheduleDailyWord(
           id: notificationId,
-          title: 'Слово дня — ${word.word}',
-          body: '${word.transcription} — ${word.translation}',
+          title: l10n.notificationTitle(word.word),
+          body: l10n.notificationBody(word.transcription, word.translation),
+          channelName: l10n.notificationChannelName,
+          channelDescription: l10n.notificationChannelDescription(channelTime),
           payload: WidgetSyncService.widgetUri(fireAt).toString(),
           at: fireAt,
         );
       });
+
+  /// Локализованные строки уведомления: контекст здесь недоступен (сервис
+  /// стартует до отрисовки UI), поэтому грузим делегат по локали
+  /// устройства. Поддержанная локаль отсутствует → en (первая в
+  /// `supportedLocales`).
+  Future<AppLocalizations> _resolveLocalizations() async =>
+      _localizations ??= await _localizationsLoader();
+
+  static Future<AppLocalizations> _loadDeviceLocalizations() async {
+    final deviceLocale = PlatformDispatcher.instance.locale;
+    // Android может отдать устаревший ISO-код ('in' вместо 'id' для
+    // индонезийского) — intl каноникализирует ('in' → 'id', 'iw' → 'he').
+    final canonical =
+        Intl.canonicalizedLocale(deviceLocale.toString()).split('_').first;
+    final locale = AppLocalizations.supportedLocales.firstWhere(
+      (locale) => locale.languageCode == canonical,
+      orElse: () => AppLocalizations.supportedLocales.first,
+    );
+    // DateTime-плейсхолдеры ARB ({time} в описании канала) форматируются
+    // через DateFormat — intl требует инициализированных символов дат
+    // локали. В UI их грузит GlobalMaterialLocalizations, но сервис живёт
+    // без MaterialApp (стартует до первого кадра) — инициализируем сами;
+    // вызов идемпотентен и дешёв.
+    await intl_dates.initializeDateFormatting(locale.toString());
+    return AppLocalizations.delegate.load(locale);
+  }
 
   /// Payload холодного старта (запуск тапом по уведомлению) для main.dart.
   Future<String?> launchNotificationPayload() =>

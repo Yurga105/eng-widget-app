@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../l10n/generated/app_localizations.dart';
 import '../../models/word_entry.dart';
 import 'type_badge.dart';
 
@@ -10,9 +11,10 @@ import 'type_badge.dart';
 /// перевод, пример и его перевод. Виджет чистый и без состояния — данными
 /// его обеспечивает экран ([HomeScreen] + FutureBuilder).
 ///
-/// [dateLabel] — уже отформатированная русская дата («27 сентября 2026»,
-/// см. [formatDateRu] в `home_screen.dart`); [fromWidget] — карточка
-/// открыта тапом по виджету (появляется янтарная метка «из виджета»).
+/// [dateLabel] — уже отформатированная локализованная дата («27 сентября
+/// 2026» / «27 September 2026», см. [formatDate] в `home_screen.dart`);
+/// [fromWidget] — карточка открыта тапом по виджету (появляется янтарная
+/// метка «из виджета»).
 ///
 /// Этап 9: [onListen] — произнести слово системным TTS; null — голос
 /// недоступен, кнопки в карточке нет (мягкая деградация). [isListening] —
@@ -41,6 +43,7 @@ class WordCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context);
     return Card.filled(
       margin: EdgeInsets.zero,
       child: Padding(
@@ -90,7 +93,9 @@ class WordCard extends StatelessWidget {
                   if (onListen != null)
                     IconButton(
                       onPressed: onListen,
-                      tooltip: isListening ? 'Остановить' : 'Прослушать',
+                      tooltip: isListening
+                          ? l10n.stopPlayback
+                          : l10n.listen,
                       color: theme.colorScheme.primary,
                       icon: Icon(
                         isListening
@@ -165,7 +170,7 @@ class _FromWidgetChip extends StatelessWidget {
           ),
           const SizedBox(width: 4),
           Text(
-            'из виджета',
+            AppLocalizations.of(context).fromWidgetChip,
             style: theme.textTheme.labelMedium?.copyWith(
               color: isDark ? const Color(0xFFFFD54F) : const Color(0xFF8A5A00),
               fontWeight: FontWeight.w600,

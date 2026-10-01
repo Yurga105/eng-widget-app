@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Русская локаль нативных строк: виджет в пикере лончера, превью и
+     плейсхолдер. app_name не переводим — бренд «Word of Day» одинаков. -->
+<resources>
+    <string name="app_name">Word of Day</string>
+    <string name="word_widget_name">Слово дня</string>
+    <string name="word_widget_description">Английское слово, идиома или фразовый глагол дня с переводом и примером</string>
+    <string name="word_widget_preview_word">accomplish</string>
+    <string name="word_widget_preview_transcription">/əˈkɑːmplɪʃ/</string>
+    <string name="word_widget_preview_translation">достигать, выполнять</string>
+    <string name="word_widget_preview_example">She accomplished all her goals this year.</string>
+    <string name="word_widget_empty_word">Слово дня</string>
+    <string name="word_widget_empty_translation">Откройте приложение, чтобы увидеть слово дня</string>
+</resources>

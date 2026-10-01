@@ -1,0 +1,43 @@
+{
+  "@@locale": "en",
+  "appTitle": "Word of Day",
+  "@appTitle": { "description": "App title for the OS (task switcher, Android label)" },
+  "homeTitle": "Word of Day",
+  "@homeTitle": { "description": "Home screen AppBar title" },
+  "wordTypeWord": "word",
+  "@wordTypeWord": { "description": "Type badge label for a single word" },
+  "wordTypeIdiom": "idiom",
+  "@wordTypeIdiom": { "description": "Type badge label for an idiom" },
+  "wordTypePhrasalVerb": "phrasal verb",
+  "@wordTypePhrasalVerb": { "description": "Type badge label for a phrasal verb" },
+  "listen": "Listen",
+  "@listen": { "description": "Tooltip of the TTS play button" },
+  "stopPlayback": "Stop",
+  "@stopPlayback": { "description": "Tooltip of the TTS stop button while speaking" },
+  "fromWidgetChip": "from widget",
+  "@fromWidgetChip": { "description": "Amber chip shown when the card was opened from the home-screen widget" },
+  "dictionaryError": "Could not load the dictionary",
+  "@dictionaryError": { "description": "Error message when the dictionary asset fails to load" },
+  "notificationChannelName": "Word of Day",
+  "@notificationChannelName": { "description": "Android notification channel name" },
+  "notificationChannelDescription": "Daily word notification at {time}",
+  "@notificationChannelDescription": {
+    "description": "Android notification channel description; {time} is formatted per locale from NotificationService.notifyHour",
+    "placeholders": {
+      "time": { "type": "DateTime", "format": "jm" }
+    }
+  },
+  "notificationTitle": "Word of Day — {word}",
+  "@notificationTitle": {
+    "description": "Title of the daily notification",
+    "placeholders": { "word": { "type": "String" } }
+  },
+  "notificationBody": "{transcription} — {translation}",
+  "@notificationBody": {
+    "description": "Body of the daily notification",
+    "placeholders": {
+      "transcription": { "type": "String" },
+      "translation": { "type": "String" }
+    }
+  }
+}
