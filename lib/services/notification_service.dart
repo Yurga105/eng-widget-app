@@ -76,6 +76,15 @@ class FlutterNotificationsBackend implements NotificationsBackend {
     await _plugin.initialize(
       settings: InitializationSettings(
         android: AndroidInitializationSettings(defaultIcon),
+        // Этап 11 (iOS): маленькая статусбарная иконка не нужна — система
+        // показывает иконку приложения. Запросы разрешений внутри initialize
+        // отключены (дефолты Darwin* — true), чтобы системный диалог
+        // показывался ровно один раз — из [requestPermission], как на Android.
+        iOS: DarwinInitializationSettings(
+          requestAlertPermission: false,
+          requestBadgePermission: false,
+          requestSoundPermission: false,
+        ),
       ),
       onDidReceiveNotificationResponse: onNotificationTap == null
           ? null
@@ -86,6 +95,13 @@ class FlutterNotificationsBackend implements NotificationsBackend {
 
   @override
   Future<bool> requestPermission() async {
+    // Этап 11: iOS запрашивает alert/sound отдельным вызовом (в initialize
+    // запрос отключён). Бейдж не просим — приложение их не показывает.
+    if (defaultTargetPlatform == TargetPlatform.iOS) {
+      final ios = _plugin.resolvePlatformSpecificImplementation<
+          IOSFlutterLocalNotificationsPlugin>();
+      return await ios?.requestPermissions(alert: true, sound: true) ?? false;
+    }
     final android = _plugin.resolvePlatformSpecificImplementation<
         AndroidFlutterLocalNotificationsPlugin>();
     return await android?.requestNotificationsPermission() ?? false;
@@ -118,6 +134,13 @@ class FlutterNotificationsBackend implements NotificationsBackend {
           channelDescription: channelDescription,
           importance: Importance.defaultImportance,
           priority: Priority.defaultPriority,
+        ),
+        // Этап 11 (iOS): каналов-аналогов нет; баннер и звук показываем
+        // даже на переднем плане, бейдж не ставим.
+        iOS: DarwinNotificationDetails(
+          presentAlert: true,
+          presentBadge: false,
+          presentSound: true,
         ),
       ),
       // Без SCHEDULE_EXACT_ALARM (PLAN.md §6): «примерно в срок», но

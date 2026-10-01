@@ -1,0 +1,3 @@
+/* Info.plist localization to Indonesian (stage 11): app display name
+   under the icon and in the app switcher. */
+"CFBundleDisplayName" = "Kata Hari Ini";

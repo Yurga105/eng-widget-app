@@ -13,16 +13,36 @@ abstract class HomeWidgetBackend {
   Future<bool?> saveWidgetData<T>(String id, T? data);
 
   /// Просит систему обновить виджет; [androidName] — имя класса провайдера.
+  ///
+  /// iOS (этап 11): без WidgetKit-расширения вызов — no-op; когда
+  /// расширение появится, ему передаётся [WidgetSyncService.iosAppGroupId]
+  /// и `name` — имя таймлайна виджета.
   Future<bool?> updateWidget({String? name, String? androidName});
 }
 
 /// Продакшн-реализация поверх плагина home_widget.
+///
+/// Этап 11: [iosAppGroupId] переводит запись данных в общий контейнер
+/// App Group (UserDefaults(suiteName:) — единственный способ отдать их
+/// будущему WidgetKit-расширению). Сама группа включается в Xcode
+/// (Runner → Signing & Capabilities) с тем же значением; на Android
+/// вызов игнорируется плагином. Применяется лениво, один раз перед
+/// первой записью, поэтому класс больше не `const`.
 class PluginHomeWidgetBackend implements HomeWidgetBackend {
-  const PluginHomeWidgetBackend();
+  PluginHomeWidgetBackend({this.iosAppGroupId});
+
+  final String? iosAppGroupId;
+
+  bool _groupIdApplied = false;
 
   @override
-  Future<bool?> saveWidgetData<T>(String id, T? data) =>
-      HomeWidget.saveWidgetData<T>(id, data);
+  Future<bool?> saveWidgetData<T>(String id, T? data) async {
+    if (!_groupIdApplied && iosAppGroupId != null) {
+      await HomeWidget.setAppGroupId(iosAppGroupId!);
+      _groupIdApplied = true;
+    }
+    return HomeWidget.saveWidgetData<T>(id, data);
+  }
 
   @override
   Future<bool?> updateWidget({String? name, String? androidName}) =>
@@ -45,13 +65,19 @@ class PluginHomeWidgetBackend implements HomeWidgetBackend {
 class WidgetSyncService {
   WidgetSyncService({WordOfDayService? wordOfDay, HomeWidgetBackend? backend})
       : _wordOfDay = wordOfDay ?? WordOfDayService(DictionaryService()),
-        _backend = backend ?? const PluginHomeWidgetBackend();
+        _backend =
+            backend ?? PluginHomeWidgetBackend(iosAppGroupId: iosAppGroupId);
 
   final WordOfDayService _wordOfDay;
   final HomeWidgetBackend _backend;
 
   /// Имя класса провайдера для [HomeWidgetBackend.updateWidget].
   static const String androidProviderName = 'WordWidgetProvider';
+
+  /// App Group iOS — общий контейнер с будущим WidgetKit-расширением
+  /// (этап 11, задел). Значение должно совпадать с Xcode → Runner →
+  /// Signing & Capabilities → App Groups.
+  static const String iosAppGroupId = 'group.com.english.widget.engWidgetApp';
 
   // Контракт с WordWidgetProvider.kt — менять только вместе.
   static const String keyDate = 'widget.date';

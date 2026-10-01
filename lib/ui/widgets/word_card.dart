@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart' show CupertinoIcons;
 import 'package:flutter/material.dart';
 
 import '../../l10n/generated/app_localizations.dart';
 import '../../models/word_entry.dart';
+import 'platform_widgets.dart';
 import 'type_badge.dart';
 
 /// Большая карточка слова дня — этап 6 (PLAN.md §1, §3, §8),
@@ -19,6 +21,9 @@ import 'type_badge.dart';
 /// Этап 9: [onListen] — произнести слово системным TTS; null — голос
 /// недоступен, кнопки в карточке нет (мягкая деградация). [isListening] —
 /// идёт воспроизведение: иконка динамика меняется на «стоп».
+///
+/// Этап 11: кнопка — адаптивная [PlatformIconActionButton]: на iOS это
+/// CupertinoButton с иконкой SF Symbols, на Android — IconButton.
 class WordCard extends StatelessWidget {
   const WordCard({
     super.key,
@@ -91,17 +96,18 @@ class WordCard extends StatelessWidget {
                     ),
                   ),
                   if (onListen != null)
-                    IconButton(
+                    PlatformIconActionButton(
                       onPressed: onListen,
                       tooltip: isListening
                           ? l10n.stopPlayback
                           : l10n.listen,
                       color: theme.colorScheme.primary,
-                      icon: Icon(
-                        isListening
-                            ? Icons.stop_rounded
-                            : Icons.volume_up_rounded,
-                      ),
+                      materialIcon: isListening
+                          ? Icons.stop_rounded
+                          : Icons.volume_up_rounded,
+                      cupertinoIcon: isListening
+                          ? CupertinoIcons.stop_fill
+                          : CupertinoIcons.volume_up,
                     ),
                 ],
               ),

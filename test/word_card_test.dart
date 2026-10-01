@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -40,12 +41,15 @@ Future<void> _pumpCard(
   bool fromWidget = false,
   VoidCallback? onListen,
   bool isListening = false,
+  TargetPlatform platform = TargetPlatform.android,
 }) {
   return tester.pumpWidget(
     MaterialApp(
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       theme: ThemeData(
+        // Этап 11: платформа темы выбирает Material/Cupertino-ветки.
+        platform: platform,
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color(0xFF4CAF50),
           brightness: brightness,
@@ -200,5 +204,23 @@ void main() {
     // Речь закончилась — снова динамик.
     await _pumpCard(tester, onListen: () {}, isListening: false);
     expect(find.byIcon(Icons.volume_up_rounded), findsOneWidget);
+  });
+
+  testWidgets('iOS: кнопка прослушивания — CupertinoButton (этап 11)',
+      (tester) async {
+    var taps = 0;
+    await _pumpCard(
+      tester,
+      onListen: () => taps++,
+      platform: TargetPlatform.iOS,
+    );
+
+    // На iOS кнопка — Cupertino с иконкой SF Symbols, Material-иконки нет.
+    expect(find.byType(CupertinoButton), findsOneWidget);
+    expect(find.byIcon(CupertinoIcons.volume_up), findsOneWidget);
+    expect(find.byIcon(Icons.volume_up_rounded), findsNothing);
+
+    await tester.tap(find.byIcon(CupertinoIcons.volume_up));
+    expect(taps, 1, reason: 'тап по Cupertino-кнопке должен дойти');
   });
 }

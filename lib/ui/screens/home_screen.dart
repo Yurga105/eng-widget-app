@@ -8,6 +8,7 @@ import '../../models/word_entry.dart';
 import '../../services/dictionary_service.dart';
 import '../../services/pronunciation_service.dart';
 import '../../services/word_of_day_service.dart';
+import '../widgets/platform_widgets.dart';
 import '../widgets/word_card.dart';
 
 /// «27 сентября 2026» / «27 September 2026» — локализованная дата.
@@ -91,7 +92,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     final date = tappedDate ?? _wordOfDay.today;
 
     return Scaffold(
-      appBar: AppBar(title: Text(AppLocalizations.of(context).homeTitle)),
+      // Этап 11: навбар адаптивный — CupertinoNavigationBar на iOS.
+      appBar: PlatformAppBar(title: AppLocalizations.of(context).homeTitle),
       body: Center(
         child: FutureBuilder<WordEntry>(
           key: ValueKey<DateTime>(date),
@@ -101,7 +103,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               return _DictionaryError(error: snapshot.error);
             }
             if (!snapshot.hasData) {
-              return const CircularProgressIndicator();
+              return const PlatformProgressIndicator();
             }
             return SingleChildScrollView(
               padding: const EdgeInsets.all(16),
@@ -153,7 +155,7 @@ class _DictionaryError extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(
-            Icons.error_outline_rounded,
+            platformErrorIcon(context),
             size: 48,
             color: theme.colorScheme.error,
           ),

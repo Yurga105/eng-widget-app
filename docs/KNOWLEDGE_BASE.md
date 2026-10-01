@@ -1,7 +1,7 @@
 # База знаний — словарь терминов проекта «Слово дня» (eng_widget_app)
 
 > Живой глоссарий: понятия из кода, PLAN.md, коммитов и обсуждений — с короткими определениями и указанием, где термин живёт в репозитории.
-> Актуальность: 01.10.2026, состояние после этапа 10. Обновляйте при изменении архитектуры.
+> Актуальность: 01.10.2026, состояние после этапа 11. Обновляйте при изменении архитектуры.
 > Сопутствующий документ: `docs/PROJECT_STRUCTURE.md` — карта файлов и потоков данных.
 
 ## 1. Продукт и данные
@@ -197,13 +197,35 @@ index = seed mod N                        // N = 160
 
 **Права манифеста (этап 8)** — `aapt dump permissions` релизного APK: `INTERNET` отсутствует (в debug он появляется из оверлея `src/debug` Flutter — норма отладки). Merged-права релиза: наши `RECEIVE_BOOT_COMPLETED` + `POST_NOTIFICATIONS`; `VIBRATE` — flutter_local_notifications; `WAKE_LOCK`, `ACCESS_NETWORK_STATE`, `FOREGROUND_SERVICE` — androidx.work:work-runtime 2.11.2, который транзитивно тянет androidx.glance 1.2.0 (поддержка Glance-виджетов в home_widget 0.10.0, нами не используется). Сетевого доступа не даёт ни одно — DoD «ноль сетевых прав» трактуем как «нет `INTERNET` и прав, дающих трафик».
 
+**Swift Package Manager (iOS)** — с Flutter 3.35 новый шаблон `ios/` не использует CocoaPods: Podfile отсутствует, плагины подтягивает SPM через `ios/Flutter/ephemeral/Packages/FlutterGeneratedPluginSwiftPackage` (этап 11; генерат обновляет `flutter pub get`, `ephemeral/` в git не попадает).
+
+**Windows-станция и iOS** — `flutter build ipa` требует macOS+Xcode; на Windows валидация iOS-части статическая: `flutter analyze`/`flutter test` зелёные + SPM-резолв. Ручная приёмка — `docs/QA_CHECKLIST.md` §10 (при доступе к Mac).
+
 **Стиль коммитов** — subject `Этап N: …` + тело из буллетов `•`.
 
 ## 12. Процесс
 
 **PLAN.md** — единый источник правды: решения §1, стек §2, структура §3, данные §4, формула §5, нативная логика §6, уведомления §7, этапы §8, риски §9, DoD §10.
 
-**Этапы 0–10** — 0: каркас; 1: модель и словарь; 2: формула; 3: нативный виджет (статика); 4: мост Flutter↔виджет; 5: автономная смена; 6: UI; 7: уведомления; 8: QA и полировка; 9: произношение (системный TTS); 10: локализация en/ru/id + редизайн (зелёная палитра, light-only, бренд «Word of Day»). Текущий статус — таблица §8 PLAN.md.
+**Этапы 0–11** — 0: каркас; 1: модель и словарь; 2: формула; 3: нативный виджет (статика); 4: мост Flutter↔виджет; 5: автономная смена; 6: UI; 7: уведомления; 8: QA и полировка; 9: произношение (системный TTS); 10: локализация en/ru/id + редизайн (зелёная палитра, light-only, бренд «Word of Day»); 11: iOS (каркас, адаптивный UI, Darwin-уведомления, задел WidgetKit). Текущий статус — таблица §8 PLAN.md.
 
-**Definition of Done (§10)** — офлайн-смена слова ±30 мин без запуска приложения, тап → карточка дня, темы по системе, зелёные analyze/test, релизный APK, ноль сетевых прав.
+**Definition of Done (§10)** — офлайн-смена слова ±30 мин без запуска приложения, тап → карточка дня, темы по системе, зелёные analyze/test, релизный APK, ноль сетевых прав; iOS — статическая валидаемость каркаса, сборка/QA на Mac.
+
+## 13. iOS (этап 11)
+
+**Каркас ios/** — сгенерирован `flutter create --platforms=ios --org com.english.widget .` (bundle id `com.english.widget.engWidgetApp`, deployment target iOS 15.0). Собственного Swift-кода нет — только шаблонные AppDelegate/SceneDelegate; все платформенные отличия живут в Dart.
+
+**CFBundleDisplayName / InfoPlist.strings** — имя приложения: «Word of Day» в самом `Info.plist` (базовая en-локаль), «Слово дня»/«Kata Hari Ini» — в `ru.lproj/`/`id.lproj/InfoPlist.strings` (механизм локализации plist-ключей iOS). `CFBundleLocalizations` en/ru/id сообщает системе список поддерживаемых языков.
+
+**URI-схема wordoftheday (iOS)** — `CFBundleURLTypes` в Info.plist: приложение открывается по `wordoftheday://word?date=…` — тот же контракт, что у Android-виджета и payload уведомления; на iOS его будет использовать будущее WidgetKit-расширение (home_widget: `homeWidgetURL`). Проверка на симуляторе: `xcrun simctl openurl booted "wordoftheday://word?date=2026-09-27"`.
+
+**App Group** — `group.com.english.widget.engWidgetApp` (константа `WidgetSyncService.iosAppGroupId`): общий контейнер UserDefaults — единственный способ передать данные приложения WidgetKit-расширению. `PluginHomeWidgetBackend` применяет `HomeWidget.setAppGroupId` лениво, один раз перед первой записью (на Android вызов — no-op). Сама группа включается в Xcode → Runner → Signing & Capabilities → App Groups.
+
+**DarwinInitializationSettings / DarwinNotificationDetails** — iOS-ветки flutter_local_notifications: маленькая статусбарная иконка не нужна (система показывает иконку приложения); запросы разрешений внутри initialize отключены (дефолты Darwin* — true) — системный диалог показывается ровно один раз из `requestPermission()` через `requestPermissions(alert: true, sound: true)`; в деталях уведомления — `presentAlert`/`presentSound` true, `presentBadge` false. Boot-восстановление расписания не нужно: iOS сама хранит запланированные UNNotificationRequest после перезагрузки (в отличие от Android, где свой ресивер плагина).
+
+**platform_widgets.dart** — адаптивные хелперы этапа 11. `isAppleStyle(context)` = `Theme.of(context).platform == TargetPlatform.iOS` — именно платформа темы, а не `dart:io` `Platform.isIOS`: так iOS-ветки покрываются widget-тестами (`ThemeData(platform: TargetPlatform.iOS)`), а не только реальными устройствами. Состав: `PlatformAppBar` (CupertinoNavigationBar ↔ AppBar), `PlatformProgressIndicator` (CupertinoActivityIndicator ↔ CircularProgressIndicator), `PlatformIconActionButton` (CupertinoButton 44×44 по HIG ↔ IconButton с tooltip; SF Symbols через `CupertinoIcons`), `platformErrorIcon`. Полная пара Material/Cupertino-экранов не нужна: экраны текстовые, расходятся только эти элементы.
+
+**Single-size app icon** — формат Xcode 14+: один PNG 1024×1024 в `AppIcon.appiconset/` (`"idiom": "universal", "platform": "ios"` в Contents.json), остальные размеры деривирует акткомпилятор. Глиф «W.» нарисован GDI+ по координатам Android-вектора `ic_launcher_foreground.xml` (зелёный квадрат `#4CAF50`, белый штрих, янтарная точка); iOS маскирует иконку superellipse сам — квадрат без прозрачности и скруглений.
+
+**WidgetKit** — нативные виджеты iOS (SwiftUI TimelineProvider). Вне v1.0: требует Mac/Xcode и отдельный extension-таргет; Dart-сторона подготовлена (URI-схема + App Group) — появившись, расширение прочитает те же ключи из общего UserDefaults.
 
