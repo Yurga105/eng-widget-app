@@ -78,6 +78,7 @@ test/                         # тесты Flutter
 | [`docs/KNOWLEDGE_BASE.md`](docs/KNOWLEDGE_BASE.md) | глоссарий терминов проекта |
 | [`docs/PROJECT_STRUCTURE.md`](docs/PROJECT_STRUCTURE.md) | карта файлов, тестов и потоков данных |
 | [`docs/QA_CHECKLIST.md`](docs/QA_CHECKLIST.md) | ручной чек-лист приёмки |
+| [`docs/ideas/BACKLOG.md`](docs/ideas/BACKLOG.md) | бэклог бизнес-идей: категории, статусы, путь идеи до этапа плана |
 
 ## Статус
 
