@@ -60,6 +60,8 @@ Future<void> _pumpCard(
   String? imagePath,
   VoidCallback? onPickImage,
   VoidCallback? onRemoveImage,
+  bool isFavorite = false,
+  VoidCallback? onToggleFavorite,
 }) {
   return tester.pumpWidget(
     MaterialApp(
@@ -85,6 +87,8 @@ Future<void> _pumpCard(
             imagePath: imagePath,
             onPickImage: onPickImage,
             onRemoveImage: onRemoveImage,
+            isFavorite: isFavorite,
+            onToggleFavorite: onToggleFavorite,
           ),
         ),
       ),
@@ -310,5 +314,67 @@ void main() {
     expect(tester.takeException(), isNull);
     expect(find.byType(Image), findsOneWidget,
         reason: 'виджет-картинка остаётся с errorBuilder-заглушкой');
+  });
+
+  testWidgets('Звезда избранного: нет колбэка — нет звезды (этап 13)',
+      (tester) async {
+    await _pumpCard(tester, onListen: () {});
+
+    expect(find.byIcon(Icons.star_outline_rounded), findsNothing);
+    expect(find.byIcon(Icons.star_rounded), findsNothing);
+  });
+
+  testWidgets('Звезда: контур ↔ залитая янтарная, тап зовёт колбэк '
+      '(этап 13)', (tester) async {
+    var taps = 0;
+    await _pumpCard(
+      tester,
+      onListen: () {},
+      onToggleFavorite: () => taps++,
+    );
+
+    expect(find.byTooltip('Add to favorites'), findsOneWidget);
+    expect(find.byIcon(Icons.star_outline_rounded), findsOneWidget);
+    await tester.tap(find.byIcon(Icons.star_outline_rounded));
+    expect(taps, 1);
+
+    await _pumpCard(
+      tester,
+      onListen: () {},
+      isFavorite: true,
+      onToggleFavorite: () => taps++,
+    );
+
+    expect(find.byTooltip('Remove from favorites'), findsOneWidget);
+    final starIcon = find.byIcon(Icons.star_rounded);
+    expect(starIcon, findsOneWidget);
+    // Контракт цвета — параметр color самой кнопки: M3-IconButton красит
+    // глиф через свой style, а не через IconTheme контекста иконки,
+    // поэтому IconTheme.of на элементе Icon янтарный не увидит.
+    final button = tester.widget<IconButton>(
+      find.ancestor(of: starIcon, matching: find.byType(IconButton)),
+    );
+    expect(button.color, const Color(0xFFFFB300),
+        reason: 'залитая звезда — янтарный акцент палитры §1');
+
+    await tester.tap(starIcon);
+    expect(taps, 2);
+  });
+
+  testWidgets('iOS: звезда — CupertinoButton с SF-иконкой (этап 13)',
+      (tester) async {
+    var taps = 0;
+    await _pumpCard(
+      tester,
+      onListen: () {},
+      onToggleFavorite: () => taps++,
+      platform: TargetPlatform.iOS,
+    );
+
+    expect(find.byIcon(CupertinoIcons.star), findsOneWidget);
+    expect(find.byIcon(Icons.star_outline_rounded), findsNothing);
+
+    await tester.tap(find.byIcon(CupertinoIcons.star));
+    expect(taps, 1, reason: 'тап по Cupertino-звезде должен дойти');
   });
 }

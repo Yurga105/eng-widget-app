@@ -1,17 +1,20 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart' show CupertinoIcons;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../l10n/generated/app_localizations.dart';
 import '../../models/word_entry.dart';
 import '../../services/dictionary_service.dart';
+import '../../services/favorite_service.dart';
 import '../../services/pronunciation_service.dart';
 import '../../services/word_image_service.dart';
 import '../../services/word_of_day_service.dart';
 import '../widgets/image_source_sheet.dart';
 import '../widgets/platform_widgets.dart';
 import '../widgets/word_card.dart';
+import 'favorites_screen.dart';
 
 /// «27 сентября 2026» / «27 September 2026» — локализованная дата.
 /// Символы дат (включая русские месяцы в родительном падеже) берёт
@@ -46,6 +49,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   /// Фото-ассоциации слов (этап 12, PLAN.md §1): выбор, хранение, удаление.
   final WordImageService _wordImages = WordImageService();
 
+  /// Избранное (этап 13, идея B-002): один сервис на карточку дня,
+  /// список избранного и карточку избранного слова — состояние общее.
+  final FavoriteService _favorites = FavoriteService();
+
   /// Кэш future-ов «слово + фото» по дате (этап 12): FutureBuilder не
   /// перезапускает загрузку на каждом билде, а смена фото подменяет
   /// значение в кэше — карточка не мигает пустой секцией.
@@ -67,6 +74,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     widget.widgetTapDate?.removeListener(_onTapDateChanged);
     WidgetsBinding.instance.removeObserver(this);
     _pronunciation.dispose();
+    _favorites.dispose();
     super.dispose();
   }
 
@@ -140,14 +148,38 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     });
   }
 
+  /// Этап 13: экран списка избранного. Сервисы передаются дальше —
+  /// состояние и кэш едины с карточкой дня.
+  Future<void> _openFavorites() async {
+    await Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) => FavoritesScreen(
+          dictionary: _dictionary,
+          favorites: _favorites,
+          pronunciation: _pronunciation,
+          wordImages: _wordImages,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final tappedDate = widget.widgetTapDate?.value;
     final date = tappedDate ?? _wordOfDay.today;
 
     return Scaffold(
-      // Этап 11: навбар адаптивный — CupertinoNavigationBar на iOS.
-      appBar: PlatformAppBar(title: AppLocalizations.of(context).homeTitle),
+      // Этап 11: навбар адаптивный — CupertinoNavigationBar на iOS;
+      // этап 13: справа — вход в список избранного.
+      appBar: PlatformAppBar(
+        title: AppLocalizations.of(context).homeTitle,
+        trailing: PlatformIconActionButton(
+          onPressed: _openFavorites,
+          tooltip: AppLocalizations.of(context).favoritesTitle,
+          materialIcon: Icons.star_border_rounded,
+          cupertinoIcon: CupertinoIcons.star,
+        ),
+      ),
       body: Center(
         // Этап 12: слово и фото-ассоциация грузятся одним future
         // (кэш по дате) — карточка не мигает пустой секцией фото.
@@ -171,27 +203,37 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   // Этап 9: кнопка прослушивания перерисовывается по
                   // состоянию речи (динамик ↔ стоп); доступность проверяет
                   // сервис — недоступен голос, onListen == null и кнопки нет.
-                  child: ValueListenableBuilder<bool>(
-                    valueListenable: _pronunciation.isSpeaking,
-                    builder: (context, speaking, _) => WordCard(
-                      entry: data.entry,
-                      dateLabel:
-                          formatDate(date, Localizations.localeOf(context)),
-                      fromWidget: tappedDate != null,
-                      isListening: speaking,
-                      onListen: _pronunciation.isAvailable
-                          ? () => unawaited(
-                                _pronunciation.toggle(data.entry.word),
-                              )
-                          : null,
-                      // Этап 12: фото-ассоциация и её действия (ключ — id
-                      // слова; замена/удаление подменяют future в кэше).
-                      imagePath: data.imagePath,
-                      onPickImage: () =>
-                          unawaited(_pickWordImage(data.entry)),
-                      onRemoveImage: data.imagePath == null
-                          ? null
-                          : () => unawaited(_removeWordImage(data.entry)),
+                  // Этап 13: звезда перерисовывается по состоянию
+                  // избранного (тот же ValueNotifier слушает и список).
+                  child: ValueListenableBuilder<List<Favorite>>(
+                    valueListenable: _favorites.favorites,
+                    builder: (context, favs, _) =>
+                        ValueListenableBuilder<bool>(
+                      valueListenable: _pronunciation.isSpeaking,
+                      builder: (context, speaking, _) => WordCard(
+                        entry: data.entry,
+                        dateLabel:
+                            formatDate(date, Localizations.localeOf(context)),
+                        fromWidget: tappedDate != null,
+                        isListening: speaking,
+                        isFavorite: favs.any((f) => f.id == data.entry.id),
+                        onToggleFavorite: () => unawaited(
+                              _favorites.toggle(data.entry.id),
+                            ),
+                        onListen: _pronunciation.isAvailable
+                            ? () => unawaited(
+                                  _pronunciation.toggle(data.entry.word),
+                                )
+                            : null,
+                        // Этап 12: фото-ассоциация и её действия (ключ — id
+                        // слова; замена/удаление подменяют future в кэше).
+                        imagePath: data.imagePath,
+                        onPickImage: () =>
+                            unawaited(_pickWordImage(data.entry)),
+                        onRemoveImage: data.imagePath == null
+                            ? null
+                            : () => unawaited(_removeWordImage(data.entry)),
+                      ),
                     ),
                   ),
                 ),

@@ -214,6 +214,30 @@ abstract class AppLocalizations {
   /// **'Gallery'**
   String get imageSourceGallery;
 
+  /// Favorites screen AppBar title (stage 13)
+  ///
+  /// In en, this message translates to:
+  /// **'Favorites'**
+  String get favoritesTitle;
+
+  /// Empty state of the favorites list (stage 13)
+  ///
+  /// In en, this message translates to:
+  /// **'No favorite words yet — tap the star on a word card to save it'**
+  String get favoritesEmpty;
+
+  /// Tooltip of the outlined star button on a word card (stage 13)
+  ///
+  /// In en, this message translates to:
+  /// **'Add to favorites'**
+  String get favoriteAdd;
+
+  /// Tooltip of the filled amber star button on a word card (stage 13)
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from favorites'**
+  String get favoriteRemove;
+
   /// Generic cancel action (photo source picker)
   ///
   /// In en, this message translates to:

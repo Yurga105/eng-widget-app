@@ -76,5 +76,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get imageSourceGallery => 'Gallery';
 
   @override
+  String get favoritesTitle => 'Favorites';
+
+  @override
+  String get favoritesEmpty =>
+      'No favorite words yet — tap the star on a word card to save it';
+
+  @override
+  String get favoriteAdd => 'Add to favorites';
+
+  @override
+  String get favoriteRemove => 'Remove from favorites';
+
+  @override
   String get cancel => 'Cancel';
 }

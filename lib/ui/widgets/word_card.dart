@@ -8,6 +8,10 @@ import '../../models/word_entry.dart';
 import 'platform_widgets.dart';
 import 'type_badge.dart';
 
+/// Янтарная заливка звезды избранного (этап 13) — акцент палитры §1,
+/// тот же `#FFB300`, что у бейджа идиомы и метки «из виджета».
+const Color _kFavoriteStarColor = Color(0xFFFFB300);
+
 /// Большая карточка слова дня — этап 6 (PLAN.md §1, §3, §8),
 /// произношение — этап 9.
 ///
@@ -31,6 +35,10 @@ import 'type_badge.dart';
 /// {id}.jpg`, сервис `WordImageService`); [onPickImage] добавляет/заменяет
 /// фото, [onRemoveImage] удаляет. null-параметры прячут соответствующие
 /// элементы — карточка работает и без фото.
+///
+/// Этап 13: [isFavorite]/[onToggleFavorite] — звезда избранного в строке
+/// слова (слева от динамика): контурная (не в избранном) ↔ залитая
+/// янтарным. `onToggleFavorite == null` → звезды нет.
 class WordCard extends StatelessWidget {
   const WordCard({
     super.key,
@@ -42,6 +50,8 @@ class WordCard extends StatelessWidget {
     this.imagePath,
     this.onPickImage,
     this.onRemoveImage,
+    this.isFavorite = false,
+    this.onToggleFavorite,
   });
 
   final WordEntry entry;
@@ -63,6 +73,12 @@ class WordCard extends StatelessWidget {
 
   /// Удалить фото-ассоциацию; null — кнопки удаления нет.
   final VoidCallback? onRemoveImage;
+
+  /// Слово в избранном (этап 13) — звезда залита янтарным.
+  final bool isFavorite;
+
+  /// Тап по звезде — добавить/убрать из избранного; null — звезды нет.
+  final VoidCallback? onToggleFavorite;
 
   @override
   Widget build(BuildContext context) {
@@ -114,6 +130,26 @@ class WordCard extends StatelessWidget {
                       ),
                     ),
                   ),
+                  // Этап 13: звезда избранного — слева от динамика
+                  // (контурная ↔ залитая янтарным).
+                  if (onToggleFavorite != null) ...[
+                    PlatformIconActionButton(
+                      onPressed: onToggleFavorite,
+                      tooltip: isFavorite
+                          ? l10n.favoriteRemove
+                          : l10n.favoriteAdd,
+                      color: isFavorite
+                          ? _kFavoriteStarColor
+                          : theme.colorScheme.onSurfaceVariant,
+                      materialIcon: isFavorite
+                          ? Icons.star_rounded
+                          : Icons.star_outline_rounded,
+                      cupertinoIcon: isFavorite
+                          ? CupertinoIcons.star_fill
+                          : CupertinoIcons.star,
+                    ),
+                    if (onListen != null) const SizedBox(width: 4),
+                  ],
                   if (onListen != null)
                     PlatformIconActionButton(
                       onPressed: onListen,

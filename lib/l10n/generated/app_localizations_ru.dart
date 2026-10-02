@@ -76,5 +76,18 @@ class AppLocalizationsRu extends AppLocalizations {
   String get imageSourceGallery => 'Галерея';
 
   @override
+  String get favoritesTitle => 'Избранное';
+
+  @override
+  String get favoritesEmpty =>
+      'Пока пусто — нажмите звёздочку на карточке слова, чтобы сохранить его';
+
+  @override
+  String get favoriteAdd => 'Добавить в избранное';
+
+  @override
+  String get favoriteRemove => 'Убрать из избранного';
+
+  @override
   String get cancel => 'Отмена';
 }

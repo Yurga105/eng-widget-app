@@ -52,6 +52,14 @@
   "@imageSourceCamera": { "description": "Pick the word photo with the device camera" },
   "imageSourceGallery": "Gallery",
   "@imageSourceGallery": { "description": "Pick the word photo from the gallery" },
+  "favoritesTitle": "Favorites",
+  "@favoritesTitle": { "description": "Favorites screen AppBar title (stage 13)" },
+  "favoritesEmpty": "No favorite words yet — tap the star on a word card to save it",
+  "@favoritesEmpty": { "description": "Empty state of the favorites list (stage 13)" },
+  "favoriteAdd": "Add to favorites",
+  "@favoriteAdd": { "description": "Tooltip of the outlined star button on a word card (stage 13)" },
+  "favoriteRemove": "Remove from favorites",
+  "@favoriteRemove": { "description": "Tooltip of the filled amber star button on a word card (stage 13)" },
   "cancel": "Cancel",
   "@cancel": { "description": "Generic cancel action (photo source picker)" }
 }

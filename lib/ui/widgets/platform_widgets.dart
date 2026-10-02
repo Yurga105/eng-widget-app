@@ -21,10 +21,16 @@ bool isAppleStyle(BuildContext context) =>
     Theme.of(context).platform == TargetPlatform.iOS;
 
 /// Заголовок экрана: iOS — [CupertinoNavigationBar], иначе [AppBar].
+///
+/// [trailing] — действие справа (этап 13: вход в «Избранное»);
+/// null — навбар без действия.
 class PlatformAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const PlatformAppBar({super.key, required this.title});
+  const PlatformAppBar({super.key, required this.title, this.trailing});
 
   final String title;
+
+  /// Действие в правой части навбара (одна иконка-кнопка).
+  final Widget? trailing;
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
@@ -32,12 +38,16 @@ class PlatformAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     if (!isAppleStyle(context)) {
-      return AppBar(title: Text(title));
+      return AppBar(
+        title: Text(title),
+        actions: trailing == null ? null : <Widget>[trailing!],
+      );
     }
     // Непрозрачная светлая плашка под цвет поверхности приложения
     // (контент не скроллится под навбар, размытие не нужно).
     return CupertinoNavigationBar(
       middle: Text(title),
+      trailing: trailing,
       backgroundColor: Theme.of(context).colorScheme.surface,
     );
   }

@@ -19,5 +19,9 @@
   "imageSourceTitle": "Sumber foto",
   "imageSourceCamera": "Kamera",
   "imageSourceGallery": "Galeri",
+  "favoritesTitle": "Favorit",
+  "favoritesEmpty": "Belum ada kata favorit — ketuk bintang di kartu kata untuk menyimpannya",
+  "favoriteAdd": "Tambahkan ke favorit",
+  "favoriteRemove": "Hapus dari favorit",
   "cancel": "Batal"
 }

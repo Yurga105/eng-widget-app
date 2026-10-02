@@ -19,5 +19,9 @@
   "imageSourceTitle": "Источник фото",
   "imageSourceCamera": "Камера",
   "imageSourceGallery": "Галерея",
+  "favoritesTitle": "Избранное",
+  "favoritesEmpty": "Пока пусто — нажмите звёздочку на карточке слова, чтобы сохранить его",
+  "favoriteAdd": "Добавить в избранное",
+  "favoriteRemove": "Убрать из избранного",
   "cancel": "Отмена"
 }

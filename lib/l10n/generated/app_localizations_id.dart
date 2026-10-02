@@ -76,5 +76,18 @@ class AppLocalizationsId extends AppLocalizations {
   String get imageSourceGallery => 'Galeri';
 
   @override
+  String get favoritesTitle => 'Favorit';
+
+  @override
+  String get favoritesEmpty =>
+      'Belum ada kata favorit — ketuk bintang di kartu kata untuk menyimpannya';
+
+  @override
+  String get favoriteAdd => 'Tambahkan ke favorit';
+
+  @override
+  String get favoriteRemove => 'Hapus dari favorit';
+
+  @override
   String get cancel => 'Batal';
 }
