@@ -44,6 +44,20 @@ abstract class NotificationsBackend {
     required DateTime at,
   });
 
+  /// Одноразовое уведомление канала [channelId] в момент [at] — без
+  /// ежедневного повтора (этап 14: напоминание о квизе; следующее
+  /// расписание ставит приложение после прохождения квиза).
+  Future<void> scheduleOneShot({
+    required int id,
+    required String channelId,
+    required String title,
+    required String body,
+    required String channelName,
+    required String channelDescription,
+    required String payload,
+    required DateTime at,
+  });
+
   /// Снимает запланированное уведомление [id].
   Future<void> cancel(int id);
 
@@ -89,7 +103,7 @@ class FlutterNotificationsBackend implements NotificationsBackend {
       onDidReceiveNotificationResponse: onNotificationTap == null
           ? null
           : (NotificationResponse response) =>
-              onNotificationTap(response.payload ?? ''),
+                onNotificationTap(response.payload ?? ''),
     );
   }
 
@@ -98,12 +112,16 @@ class FlutterNotificationsBackend implements NotificationsBackend {
     // Этап 11: iOS запрашивает alert/sound отдельным вызовом (в initialize
     // запрос отключён). Бейдж не просим — приложение их не показывает.
     if (defaultTargetPlatform == TargetPlatform.iOS) {
-      final ios = _plugin.resolvePlatformSpecificImplementation<
-          IOSFlutterLocalNotificationsPlugin>();
+      final ios = _plugin
+          .resolvePlatformSpecificImplementation<
+            IOSFlutterLocalNotificationsPlugin
+          >();
       return await ios?.requestPermissions(alert: true, sound: true) ?? false;
     }
-    final android = _plugin.resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>();
+    final android = _plugin
+        .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin
+        >();
     return await android?.requestNotificationsPermission() ?? false;
   }
 
@@ -150,6 +168,45 @@ class FlutterNotificationsBackend implements NotificationsBackend {
     );
   }
 
+  /// Одноразовое уведомление (этап 14): то же, что ежедневное, но без
+  /// `matchDateTimeComponents` — сработает один раз; следующее расписание
+  /// ставит приложение (триггеры в `main.dart` + завершение квиза).
+  @override
+  Future<void> scheduleOneShot({
+    required int id,
+    required String channelId,
+    required String title,
+    required String body,
+    required String channelName,
+    required String channelDescription,
+    required String payload,
+    required DateTime at,
+  }) async {
+    await _ensureTimeZone();
+    await _plugin.zonedSchedule(
+      id: id,
+      title: title,
+      body: body,
+      payload: payload,
+      scheduledDate: tz.TZDateTime.from(at, tz.local),
+      notificationDetails: NotificationDetails(
+        android: AndroidNotificationDetails(
+          channelId,
+          channelName,
+          channelDescription: channelDescription,
+          importance: Importance.defaultImportance,
+          priority: Priority.defaultPriority,
+        ),
+        iOS: const DarwinNotificationDetails(
+          presentAlert: true,
+          presentBadge: false,
+          presentSound: true,
+        ),
+      ),
+      androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+    );
+  }
+
   @override
   Future<void> cancel(int id) => _plugin.cancel(id: id);
 
@@ -181,8 +238,10 @@ class FlutterNotificationsBackend implements NotificationsBackend {
     try {
       return (await FlutterTimezone.getLocalTimezone()).identifier;
     } catch (e) {
-      debugPrint('Notifications: flutter_timezone недоступен ($e), '
-          'переходим к запасному варианту');
+      debugPrint(
+        'Notifications: flutter_timezone недоступен ($e), '
+        'переходим к запасному варианту',
+      );
     }
     // Dart на Android отдаёт что-то вроде «GMT+03:00»; зоны Etc/GMT
     // покрывают только целые часы, и их знак инвертирован: Etc/GMT-3 = UTC+3.
@@ -226,18 +285,24 @@ class NotificationService {
     NotificationsBackend? backend,
     DateTime Function()? clock,
     void Function(DateTime date)? onOpenWordCard,
+    void Function()? onOpenQuiz,
     Future<AppLocalizations> Function()? localizations,
-  })  : _wordOfDay = wordOfDay ?? WordOfDayService(DictionaryService()),
-        _backend = backend ?? FlutterNotificationsBackend(),
-        _clock = clock ?? DateTime.now,
-        _openCard = onOpenWordCard,
-        _localizationsLoader =
-            localizations ?? NotificationService._loadDeviceLocalizations;
+  }) : _wordOfDay = wordOfDay ?? WordOfDayService(DictionaryService()),
+       _backend = backend ?? FlutterNotificationsBackend(),
+       _clock = clock ?? DateTime.now,
+       _openCard = onOpenWordCard,
+       _openQuiz = onOpenQuiz,
+       _localizationsLoader =
+           localizations ?? NotificationService._loadDeviceLocalizations;
 
   final WordOfDayService _wordOfDay;
   final NotificationsBackend _backend;
   final DateTime Function() _clock;
   final void Function(DateTime date)? _openCard;
+
+  /// Тап по напоминанию квиза (этап 14) — открыть экран квиза.
+  final void Function()? _openQuiz;
+
   final Future<AppLocalizations> Function() _localizationsLoader;
 
   /// Локализация кэшируется на первый запуск: расписание переписывается
@@ -260,6 +325,22 @@ class NotificationService {
   /// (placeholder {time} в ARB: «9:00 AM» en / «9:00» ru / «09.00» id).
   static final DateTime channelTime = DateTime(2024, 1, 1, notifyHour);
 
+  /// Id напоминания квиза (этап 14): свой id — независимое перепланирование
+  /// без отмены ежедневного «слова дня».
+  static const int quizNotificationId = 2;
+
+  /// Канал напоминаний квиза (имя/описание локализуются, id неизменяем).
+  static const String quizChannelId = 'quiz';
+
+  /// Час напоминания квиза — на час позже слова дня, чтобы напоминания
+  /// не конкурировали в 09:00.
+  static const int quizNotifyHour = 10;
+
+  /// Payload напоминания квиза: тот же URI-контракт `wordoftheday://`, но
+  /// без параметров — парсер даты его честно не поймает, ветка квиза
+  /// проверяется первой (тап → `main.dart` открывает экран квиза).
+  static const String quizPayloadUri = 'wordoftheday://quiz';
+
   /// Стартовый прогон: плагин + разрешение + расписание.
   ///
   /// Разрешение спрашиваем один раз за запуск (повторный запрос — не
@@ -267,10 +348,10 @@ class NotificationService {
   /// расписание всё равно ставится, виджет от уведомлений не зависит
   /// (риск №5 в §9).
   Future<void> start() => _quietly('start', () async {
-        await _backend.initialize(onNotificationTap: _handleNotificationTap);
-        await _backend.requestPermission();
-        await rescheduleDailyNotification();
-      });
+    await _backend.initialize(onNotificationTap: _handleNotificationTap);
+    await _backend.requestPermission();
+    await rescheduleDailyNotification();
+  });
 
   /// Переписывает расписание под ближайшее будущее 09:00.
   Future<void> rescheduleDailyNotification() =>
@@ -290,6 +371,52 @@ class NotificationService {
         );
       });
 
+  /// Напоминание о квизе (этап 14, идея B-006): одноразовое уведомление на
+  /// дату следующего квиза в [quizNotifyHour]:00.
+  ///
+  /// [nextQuizDate] == null (квиз ни разу не проходили) — только отмена:
+  /// напоминать до первого прохождения нечего, вход — по иконке. Дата в
+  /// прошлом (приложение не открывалось) — ближайшее будущее
+  /// [quizNotifyHour]:00: сегодня, если ещё рано, иначе завтра.
+  ///
+  /// Расписание не повторяется нативно (в отличие от «слова дня»), поэтому
+  /// метод зовут все триггеры перепланирования: старт, резюм, полночь и
+  /// завершение квиза (колбэк `QuizService.onQuizFinished`).
+  Future<void> rescheduleQuizReminder(DateTime? nextQuizDate) =>
+      _quietly('rescheduleQuiz', () async {
+        await _backend.cancel(quizNotificationId);
+        if (nextQuizDate == null) {
+          return;
+        }
+        var fireAt = DateTime(
+          nextQuizDate.year,
+          nextQuizDate.month,
+          nextQuizDate.day,
+          quizNotifyHour,
+        );
+        final now = _clock();
+        if (!fireAt.isAfter(now)) {
+          final today = DateTime(
+            now.year,
+            now.month,
+            now.day + (now.hour < quizNotifyHour ? 0 : 1),
+            quizNotifyHour,
+          );
+          fireAt = today;
+        }
+        final l10n = await _resolveLocalizations();
+        await _backend.scheduleOneShot(
+          id: quizNotificationId,
+          channelId: quizChannelId,
+          title: l10n.quizNotificationTitle,
+          body: l10n.quizNotificationBody,
+          channelName: l10n.quizNotificationChannelName,
+          channelDescription: l10n.quizNotificationChannelDescription,
+          payload: quizPayloadUri,
+          at: fireAt,
+        );
+      });
+
   /// Локализованные строки уведомления: контекст здесь недоступен (сервис
   /// стартует до отрисовки UI), поэтому грузим делегат по локали
   /// устройства. Поддержанная локаль отсутствует → en (первая в
@@ -301,8 +428,9 @@ class NotificationService {
     final deviceLocale = PlatformDispatcher.instance.locale;
     // Android может отдать устаревший ISO-код ('in' вместо 'id' для
     // индонезийского) — intl каноникализирует ('in' → 'id', 'iw' → 'he').
-    final canonical =
-        Intl.canonicalizedLocale(deviceLocale.toString()).split('_').first;
+    final canonical = Intl.canonicalizedLocale(deviceLocale.toString())
+        .split('_')
+        .first;
     final locale = AppLocalizations.supportedLocales.firstWhere(
       (locale) => locale.languageCode == canonical,
       orElse: () => AppLocalizations.supportedLocales.first,
@@ -317,9 +445,11 @@ class NotificationService {
   }
 
   /// Payload холодного старта (запуск тапом по уведомлению) для main.dart.
-  Future<String?> launchNotificationPayload() =>
-      _quietly<String?>('launchPayload', _backend.launchNotificationPayload,
-          orElse: null);
+  Future<String?> launchNotificationPayload() => _quietly<String?>(
+    'launchPayload',
+    _backend.launchNotificationPayload,
+    orElse: null,
+  );
 
   /// Ближайший будущий 09:00 по локальным часам: сегодня, если ещё рано,
   /// иначе завтра. Ровно в 09:00 — уже завтра (сегодняшнее сработало).
@@ -333,6 +463,11 @@ class NotificationService {
   }
 
   void _handleNotificationTap(String payload) {
+    // Этап 14: напоминание квиза — свой payload без даты.
+    if (payload == quizPayloadUri) {
+      _openQuiz?.call();
+      return;
+    }
     final date = WidgetSyncService.dateFromWidgetUri(Uri.tryParse(payload));
     if (date != null) {
       _openCard?.call(date);
@@ -355,4 +490,3 @@ class NotificationService {
     }
   }
 }
-

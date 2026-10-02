@@ -90,4 +90,52 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cancel => 'Cancel';
+
+  @override
+  String get quizTitle => 'Quiz';
+
+  @override
+  String quizProgress(int current, int total) {
+    return 'Question $current of $total';
+  }
+
+  @override
+  String get quizResultTitle => 'Your result';
+
+  @override
+  String quizResultScore(int correct, int total) {
+    return '$correct of $total correct';
+  }
+
+  @override
+  String get quizRepeatTitle => 'Words to repeat';
+
+  @override
+  String get quizRetry => 'Try again';
+
+  @override
+  String get quizDone => 'Done';
+
+  @override
+  String quizNextAt(String date) {
+    return 'Next quiz: $date';
+  }
+
+  @override
+  String get quizNotEnoughWords =>
+      'Not enough words for a quiz yet — save words with the star';
+
+  @override
+  String get quizNotificationChannelName => 'Quiz reminder';
+
+  @override
+  String get quizNotificationChannelDescription =>
+      'Reminder to repeat saved words every 3 days';
+
+  @override
+  String get quizNotificationTitle => 'Time for a quiz!';
+
+  @override
+  String get quizNotificationBody =>
+      'Check how well you remember your saved words';
 }

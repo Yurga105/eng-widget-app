@@ -90,4 +90,52 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get cancel => 'Batal';
+
+  @override
+  String get quizTitle => 'Kuis';
+
+  @override
+  String quizProgress(int current, int total) {
+    return 'Soal $current dari $total';
+  }
+
+  @override
+  String get quizResultTitle => 'Hasilmu';
+
+  @override
+  String quizResultScore(int correct, int total) {
+    return 'Benar $correct dari $total';
+  }
+
+  @override
+  String get quizRepeatTitle => 'Kata untuk diulang';
+
+  @override
+  String get quizRetry => 'Coba lagi';
+
+  @override
+  String get quizDone => 'Selesai';
+
+  @override
+  String quizNextAt(String date) {
+    return 'Kuis berikutnya: $date';
+  }
+
+  @override
+  String get quizNotEnoughWords =>
+      'Kata belum cukup untuk kuis — simpan kata dengan bintang';
+
+  @override
+  String get quizNotificationChannelName => 'Pengingat kuis';
+
+  @override
+  String get quizNotificationChannelDescription =>
+      'Pengingat untuk mengulang kata tersimpan setiap 3 hari';
+
+  @override
+  String get quizNotificationTitle => 'Saatnya kuis!';
+
+  @override
+  String get quizNotificationBody =>
+      'Periksa seberapa baik kamu mengingat kata tersimpan';
 }

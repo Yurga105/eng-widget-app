@@ -90,4 +90,52 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get cancel => 'Отмена';
+
+  @override
+  String get quizTitle => 'Квиз';
+
+  @override
+  String quizProgress(int current, int total) {
+    return 'Вопрос $current из $total';
+  }
+
+  @override
+  String get quizResultTitle => 'Ваш результат';
+
+  @override
+  String quizResultScore(int correct, int total) {
+    return 'Верно: $correct из $total';
+  }
+
+  @override
+  String get quizRepeatTitle => 'Слова на повторение';
+
+  @override
+  String get quizRetry => 'Ещё раз';
+
+  @override
+  String get quizDone => 'Готово';
+
+  @override
+  String quizNextAt(String date) {
+    return 'Следующий квиз: $date';
+  }
+
+  @override
+  String get quizNotEnoughWords =>
+      'Пока мало слов для квиза — сохраняйте их звёздочкой';
+
+  @override
+  String get quizNotificationChannelName => 'Напоминание о квизе';
+
+  @override
+  String get quizNotificationChannelDescription =>
+      'Напоминание повторить сохранённые слова каждые 3 дня';
+
+  @override
+  String get quizNotificationTitle => 'Пора пройти квиз!';
+
+  @override
+  String get quizNotificationBody =>
+      'Проверьте, как запомнились сохранённые слова';
 }

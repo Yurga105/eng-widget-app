@@ -243,6 +243,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Cancel'**
   String get cancel;
+
+  /// Quiz screen AppBar title and its toolbar icon (stage 14)
+  ///
+  /// In en, this message translates to:
+  /// **'Quiz'**
+  String get quizTitle;
+
+  /// Progress label above the quiz question
+  ///
+  /// In en, this message translates to:
+  /// **'Question {current} of {total}'**
+  String quizProgress(int current, int total);
+
+  /// Title of the quiz result screen (stage 14)
+  ///
+  /// In en, this message translates to:
+  /// **'Your result'**
+  String get quizResultTitle;
+
+  /// Quiz score, e.g. 4 of 5 correct
+  ///
+  /// In en, this message translates to:
+  /// **'{correct} of {total} correct'**
+  String quizResultScore(int correct, int total);
+
+  /// Section of mistaken words on the quiz result screen
+  ///
+  /// In en, this message translates to:
+  /// **'Words to repeat'**
+  String get quizRepeatTitle;
+
+  /// Button starting a new quiz round (stage 14)
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get quizRetry;
+
+  /// Button closing the quiz screen (stage 14)
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get quizDone;
+
+  /// Label with the date of the next quiz (3 days after finishing one)
+  ///
+  /// In en, this message translates to:
+  /// **'Next quiz: {date}'**
+  String quizNextAt(String date);
+
+  /// Empty state when the dictionary cannot build 4 answer options
+  ///
+  /// In en, this message translates to:
+  /// **'Not enough words for a quiz yet — save words with the star'**
+  String get quizNotEnoughWords;
+
+  /// Android notification channel for quiz reminders (stage 14)
+  ///
+  /// In en, this message translates to:
+  /// **'Quiz reminder'**
+  String get quizNotificationChannelName;
+
+  /// Android notification channel description for quiz reminders
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder to repeat saved words every 3 days'**
+  String get quizNotificationChannelDescription;
+
+  /// Title of the quiz reminder notification
+  ///
+  /// In en, this message translates to:
+  /// **'Time for a quiz!'**
+  String get quizNotificationTitle;
+
+  /// Body of the quiz reminder notification
+  ///
+  /// In en, this message translates to:
+  /// **'Check how well you remember your saved words'**
+  String get quizNotificationBody;
 }
 
 class _AppLocalizationsDelegate

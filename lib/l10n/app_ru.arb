@@ -23,5 +23,18 @@
   "favoritesEmpty": "Пока пусто — нажмите звёздочку на карточке слова, чтобы сохранить его",
   "favoriteAdd": "Добавить в избранное",
   "favoriteRemove": "Убрать из избранного",
-  "cancel": "Отмена"
+  "cancel": "Отмена",
+  "quizTitle": "Квиз",
+  "quizProgress": "Вопрос {current} из {total}",
+  "quizResultTitle": "Ваш результат",
+  "quizResultScore": "Верно: {correct} из {total}",
+  "quizRepeatTitle": "Слова на повторение",
+  "quizRetry": "Ещё раз",
+  "quizDone": "Готово",
+  "quizNextAt": "Следующий квиз: {date}",
+  "quizNotEnoughWords": "Пока мало слов для квиза — сохраняйте их звёздочкой",
+  "quizNotificationChannelName": "Напоминание о квизе",
+  "quizNotificationChannelDescription": "Напоминание повторить сохранённые слова каждые 3 дня",
+  "quizNotificationTitle": "Пора пройти квиз!",
+  "quizNotificationBody": "Проверьте, как запомнились сохранённые слова"
 }

@@ -23,5 +23,18 @@
   "favoritesEmpty": "Belum ada kata favorit — ketuk bintang di kartu kata untuk menyimpannya",
   "favoriteAdd": "Tambahkan ke favorit",
   "favoriteRemove": "Hapus dari favorit",
-  "cancel": "Batal"
+  "cancel": "Batal",
+  "quizTitle": "Kuis",
+  "quizProgress": "Soal {current} dari {total}",
+  "quizResultTitle": "Hasilmu",
+  "quizResultScore": "Benar {correct} dari {total}",
+  "quizRepeatTitle": "Kata untuk diulang",
+  "quizRetry": "Coba lagi",
+  "quizDone": "Selesai",
+  "quizNextAt": "Kuis berikutnya: {date}",
+  "quizNotEnoughWords": "Kata belum cukup untuk kuis — simpan kata dengan bintang",
+  "quizNotificationChannelName": "Pengingat kuis",
+  "quizNotificationChannelDescription": "Pengingat untuk mengulang kata tersimpan setiap 3 hari",
+  "quizNotificationTitle": "Saatnya kuis!",
+  "quizNotificationBody": "Periksa seberapa baik kamu mengingat kata tersimpan"
 }

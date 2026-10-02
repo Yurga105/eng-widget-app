@@ -35,8 +35,9 @@ void main() {
       const MethodChannel('home_widget/updates'),
       handler,
     );
-    final documents =
-        Directory.systemTemp.createTempSync('eng_widget_app_test');
+    final documents = Directory.systemTemp.createTempSync(
+      'eng_widget_app_test',
+    );
     messenger.setMockMethodCallHandler(
       const MethodChannel('plugins.flutter.io/path_provider'),
       (call) async => documents.path,
@@ -60,13 +61,16 @@ void main() {
     addTearDown(() {
       try {
         documents.deleteSync(recursive: true);
-      } catch (_) {/* папки уже нет — не страшно */}
+      } catch (_) {
+        /* папки уже нет — не страшно */
+      }
     });
     return documents;
   }
 
-  testWidgets('Приложение: слово дня, звезда избранного, список (этап 13)',
-      (tester) async {
+  testWidgets('Приложение: слово дня, звезда избранного, список (этап 13)', (
+    tester,
+  ) async {
     mockAppChannels();
 
     await tester.pumpWidget(const WordOfTheDayApp());
@@ -93,7 +97,9 @@ void main() {
     // Ожидаемое слово дня считаем той же формулой §5, что и приложение.
     String? expectedWord;
     await tester.runAsync(() async {
-      expectedWord = (await WordOfDayService(DictionaryService()).todayWord).word;
+      expectedWord = (await WordOfDayService(
+        DictionaryService(),
+      ).todayWord).word;
     });
     expect(expectedWord, isNotNull);
 
@@ -122,9 +128,7 @@ void main() {
     // дожидаемся ухода индикатора (Material и Cupertino) циклом runAsync.
     attempts = 0;
     while ((find.byType(CircularProgressIndicator).evaluate().isNotEmpty ||
-            find.byType(CupertinoActivityIndicator)
-                .evaluate()
-                .isNotEmpty) &&
+            find.byType(CupertinoActivityIndicator).evaluate().isNotEmpty) &&
         attempts < 50) {
       await tester.runAsync(
         () => Future<void>.delayed(const Duration(milliseconds: 100)),
@@ -141,6 +145,31 @@ void main() {
     await tester.pageBack();
     await tester.pumpAndSettle();
     expect(find.text('Favorites'), findsNothing);
+
+    // Этап 14: иконка квиза в AppBar открывает экран квиза (избранное
+    // пусто — вопросы добираются из словаря).
+    await tester.tap(find.byIcon(Icons.quiz_rounded));
+    await tester.pump();
+    attempts = 0;
+    while (find.byType(CircularProgressIndicator).evaluate().isNotEmpty &&
+        attempts < 50) {
+      await tester.runAsync(
+        () => Future<void>.delayed(const Duration(milliseconds: 100)),
+      );
+      await tester.pump();
+      attempts++;
+    }
+    await tester.pumpAndSettle();
+
+    expect(find.text('Quiz'), findsOneWidget);
+    expect(find.textContaining('Question 1 of'), findsOneWidget);
+    // 4 варианта ответа (FilledButton.tonal — это FilledButton).
+    expect(find.byType(FilledButton), findsNWidgets(4));
+
+    // Назад — снова карточка дня.
+    await tester.pageBack();
+    await tester.pumpAndSettle();
+    expect(find.text('Quiz'), findsNothing);
 
     // Демонтируем приложение: dispose гасит полуночный таймер и подписку,
     // иначе фреймворк пожалуется на незавершённую работу.

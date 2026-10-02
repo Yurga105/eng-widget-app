@@ -5,6 +5,7 @@ import 'package:home_widget/home_widget.dart';
 
 import 'l10n/generated/app_localizations.dart';
 import 'services/notification_service.dart';
+import 'services/quiz_service.dart';
 import 'services/widget_sync_service.dart';
 import 'ui/screens/home_screen.dart';
 
@@ -27,7 +28,12 @@ void main() {
 ///  - этап 7: старт [NotificationService] (разрешение спрашиваем один раз
 ///    за запуск, расписание уведомления в 09:00), перепланирование в
 ///    полночь и на резюме; тап по уведомлению — тот же URI-контракт,
-///    что и у виджета (холодный старт — через payload запуска).
+///    что и у виджета (холодный старт — через payload запуска);
+///  - этап 14: квиз-повторение — [QuizService] (один на приложение:
+///    история результатов для напоминаний и экрана) и одноразовое
+///    напоминание о квизе (перепланирование: старт/резюм/полночь и
+///    завершение квиза; тап — payload `wordoftheday://quiz` — открывает
+///    экран квиза сигналом [_quizOpenRequest]).
 ///
 /// Темы Material 3 со seed-цветом «мягкий зелёный» (редизайн для аудитории
 /// Индонезии: светлая природная палитра вместо индиго и тёмной темы),
@@ -50,7 +56,17 @@ class _WordOfTheDayAppState extends State<WordOfTheDayApp>
 
   /// Дата из последнего тапа по виджету или уведомлению;
   /// null — показываем сегодня.
-  final ValueNotifier<DateTime?> _widgetTapDate = ValueNotifier<DateTime?>(null);
+  final ValueNotifier<DateTime?> _widgetTapDate = ValueNotifier<DateTime?>(
+    null,
+  );
+
+  /// Этап 14: сигнал «открой квиз» — тап по напоминанию о квизе
+  /// (тёплый старт через onOpenQuiz, холодный — через payload запуска).
+  final ValueNotifier<bool> _quizOpenRequest = ValueNotifier<bool>(false);
+
+  /// Квиз-повторение (этап 14): один экземпляр на приложение — история
+  /// результатов (файл) едина для напоминаний и экрана квиза.
+  QuizService? _quiz;
 
   Timer? _midnightTimer;
   StreamSubscription<Uri?>? _tapSubscription;
@@ -61,6 +77,7 @@ class _WordOfTheDayAppState extends State<WordOfTheDayApp>
     WidgetsBinding.instance.addObserver(this);
     unawaited(_syncTodayQuietly());
     _startNotifications();
+    _startQuiz();
     _scheduleMidnightSync();
     _listenToWidgetTaps();
   }
@@ -71,6 +88,8 @@ class _WordOfTheDayAppState extends State<WordOfTheDayApp>
     _midnightTimer?.cancel();
     _tapSubscription?.cancel();
     _widgetTapDate.dispose();
+    _quizOpenRequest.dispose();
+    _quiz?.dispose();
     super.dispose();
   }
 
@@ -82,6 +101,9 @@ class _WordOfTheDayAppState extends State<WordOfTheDayApp>
       unawaited(_syncTodayQuietly());
       // Контент уведомления должен соответствовать ближайшему срабатыванию.
       unawaited(_notifications?.rescheduleDailyNotification());
+      // Этап 14: одноразовое напоминание квиза не повторяется нативно —
+      // перепланируем под свежую историю (мог сработать в фоне).
+      unawaited(_rescheduleQuizReminderQuietly());
       _scheduleMidnightSync();
     }
   }
@@ -109,7 +131,11 @@ class _WordOfTheDayAppState extends State<WordOfTheDayApp>
       // Тёмной темы нет: концепт «слово дня» должен вызывать позитивное
       // настроение и на устройствах с системной тёмной темой.
       themeMode: ThemeMode.light,
-      home: HomeScreen(widgetTapDate: _widgetTapDate),
+      home: HomeScreen(
+        widgetTapDate: _widgetTapDate,
+        quiz: _quiz,
+        quizOpenRequest: _quizOpenRequest,
+      ),
     );
   }
 
@@ -134,6 +160,8 @@ class _WordOfTheDayAppState extends State<WordOfTheDayApp>
       // Наступил новый день — ближайшее срабатывание сегодня в 09:00,
       // обновляем слово и в уведомлении.
       unawaited(_notifications?.rescheduleDailyNotification());
+      // Этап 14: мог наступить день квиза — напоминание должно стоять.
+      unawaited(_rescheduleQuizReminderQuietly());
       _scheduleMidnightSync();
     });
   }
@@ -147,8 +175,8 @@ class _WordOfTheDayAppState extends State<WordOfTheDayApp>
     HomeWidget.initiallyLaunchedFromHomeWidget()
         .then(_handleWidgetUri)
         .catchError((Object error) {
-      debugPrint('WidgetSync: не удалось прочитать стартовый URI: $error');
-    });
+          debugPrint('WidgetSync: не удалось прочитать стартовый URI: $error');
+        });
   }
 
   void _handleWidgetUri(Uri? uri) {
@@ -160,19 +188,54 @@ class _WordOfTheDayAppState extends State<WordOfTheDayApp>
 
   /// Этап 7: инициализация уведомлений (разрешение спрашиваем один раз
   /// за запуск, PLAN.md §7) и холодный старт тапом по уведомлению.
+  /// Этап 14: колбэк onOpenQuiz — тёплый старт тапом по напоминанию квиза.
   void _startNotifications() {
-    _notifications = NotificationService(onOpenWordCard: _openWordCard);
+    _notifications = NotificationService(
+      onOpenWordCard: _openWordCard,
+      onOpenQuiz: _openQuiz,
+    );
     unawaited(_notifications!.start());
-    _notifications!
-        .launchNotificationPayload()
-        .then(_handleNotificationPayload);
+    _notifications!.launchNotificationPayload().then(
+      _handleNotificationPayload,
+    );
+  }
+
+  /// Этап 14: квиз-сервис + стартовое перепланирование напоминания по
+  /// сохранённой истории (после перезапуска расписание одноразовое могло
+  /// сработать или пропасть — восстанавливаем).
+  void _startQuiz() {
+    _quiz = QuizService(
+      // Квиз пройден → напоминание на +3 дня (QuizService.nextQuizDate).
+      onQuizFinished: (nextQuizDate) =>
+          unawaited(_notifications?.rescheduleQuizReminder(nextQuizDate)),
+    );
+    unawaited(_rescheduleQuizReminderQuietly());
+  }
+
+  /// Этап 14: перепланировать напоминание квиза, когда история загружена
+  /// (null — квизов не было — метод просто снимет расписание).
+  Future<void> _rescheduleQuizReminderQuietly() async {
+    final quiz = _quiz;
+    if (quiz == null) {
+      return;
+    }
+    await quiz.load();
+    await _notifications?.rescheduleQuizReminder(quiz.nextQuizDate);
   }
 
   void _openWordCard(DateTime date) => _widgetTapDate.value = date;
 
+  /// Этап 14: открыть квиз (тап по напоминанию — тёплый старт).
+  void _openQuiz() => _quizOpenRequest.value = true;
+
   /// Payload уведомления — тот же URI-контракт, что и у виджета.
   void _handleNotificationPayload(String? payload) {
     if (payload == null) {
+      return;
+    }
+    // Холодный старт по напоминанию квиза (этап 14).
+    if (payload == NotificationService.quizPayloadUri) {
+      _openQuiz();
       return;
     }
     final date = WidgetSyncService.dateFromWidgetUri(Uri.tryParse(payload));
@@ -181,4 +244,3 @@ class _WordOfTheDayAppState extends State<WordOfTheDayApp>
     }
   }
 }
-

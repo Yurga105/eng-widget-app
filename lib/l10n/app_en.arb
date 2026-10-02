@@ -61,5 +61,46 @@
   "favoriteRemove": "Remove from favorites",
   "@favoriteRemove": { "description": "Tooltip of the filled amber star button on a word card (stage 13)" },
   "cancel": "Cancel",
-  "@cancel": { "description": "Generic cancel action (photo source picker)" }
+  "@cancel": { "description": "Generic cancel action (photo source picker)" },
+  "quizTitle": "Quiz",
+  "@quizTitle": { "description": "Quiz screen AppBar title and its toolbar icon (stage 14)" },
+  "quizProgress": "Question {current} of {total}",
+  "@quizProgress": {
+    "description": "Progress label above the quiz question",
+    "placeholders": {
+      "current": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "quizResultTitle": "Your result",
+  "@quizResultTitle": { "description": "Title of the quiz result screen (stage 14)" },
+  "quizResultScore": "{correct} of {total} correct",
+  "@quizResultScore": {
+    "description": "Quiz score, e.g. 4 of 5 correct",
+    "placeholders": {
+      "correct": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "quizRepeatTitle": "Words to repeat",
+  "@quizRepeatTitle": { "description": "Section of mistaken words on the quiz result screen" },
+  "quizRetry": "Try again",
+  "@quizRetry": { "description": "Button starting a new quiz round (stage 14)" },
+  "quizDone": "Done",
+  "@quizDone": { "description": "Button closing the quiz screen (stage 14)" },
+  "quizNextAt": "Next quiz: {date}",
+  "@quizNextAt": {
+    "description": "Label with the date of the next quiz (3 days after finishing one)",
+    "placeholders": { "date": { "type": "String" } }
+  },
+  "quizNotEnoughWords": "Not enough words for a quiz yet — save words with the star",
+  "@quizNotEnoughWords": { "description": "Empty state when the dictionary cannot build 4 answer options" },
+  "quizNotificationChannelName": "Quiz reminder",
+  "@quizNotificationChannelName": { "description": "Android notification channel for quiz reminders (stage 14)" },
+  "quizNotificationChannelDescription": "Reminder to repeat saved words every 3 days",
+  "@quizNotificationChannelDescription": { "description": "Android notification channel description for quiz reminders" },
+  "quizNotificationTitle": "Time for a quiz!",
+  "@quizNotificationTitle": { "description": "Title of the quiz reminder notification" },
+  "quizNotificationBody": "Check how well you remember your saved words",
+  "@quizNotificationBody": { "description": "Body of the quiz reminder notification" }
 }

@@ -14,24 +14,55 @@ class FakeBackend implements NotificationsBackend {
   /// Порядок вызовов по имени — проверяем «cancel до schedule».
   final List<String> calls = <String>[];
 
-  final List<({
-    int id,
-    String title,
-    String body,
-    String channelName,
-    String payload,
-    DateTime at,
-  })> scheduled = <({
-    int id,
-    String title,
-    String body,
-    String channelName,
-    String payload,
-    DateTime at,
-  })>[];
+  final List<
+    ({
+      int id,
+      String title,
+      String body,
+      String channelName,
+      String payload,
+      DateTime at,
+    })
+  >
+  scheduled =
+      <
+        ({
+          int id,
+          String title,
+          String body,
+          String channelName,
+          String payload,
+          DateTime at,
+        })
+      >[];
 
   String? launchPayloadValue;
   bool launchPayloadThrows = false;
+
+  /// Одноразовые расписания (этап 14: напоминание квиза).
+  final List<
+    ({
+      int id,
+      String channelId,
+      String title,
+      String body,
+      String channelName,
+      String payload,
+      DateTime at,
+    })
+  >
+  oneShots =
+      <
+        ({
+          int id,
+          String channelId,
+          String title,
+          String body,
+          String channelName,
+          String payload,
+          DateTime at,
+        })
+      >[];
 
   @override
   Future<void> initialize({
@@ -61,14 +92,44 @@ class FakeBackend implements NotificationsBackend {
       throw scheduleError!;
     }
     calls.add('schedule:$id');
-    scheduled.add(
-      (id: id, title: title, body: body, channelName: channelName,
-       payload: payload, at: at),
-    );
+    scheduled.add((
+      id: id,
+      title: title,
+      body: body,
+      channelName: channelName,
+      payload: payload,
+      at: at,
+    ));
   }
 
   @override
   Future<void> cancel(int id) async => calls.add('cancel:$id');
+
+  @override
+  Future<void> scheduleOneShot({
+    required int id,
+    required String channelId,
+    required String title,
+    required String body,
+    required String channelName,
+    required String channelDescription,
+    required String payload,
+    required DateTime at,
+  }) async {
+    if (scheduleError != null) {
+      throw scheduleError!;
+    }
+    calls.add('oneShot:$id');
+    oneShots.add((
+      id: id,
+      channelId: channelId,
+      title: title,
+      body: body,
+      channelName: channelName,
+      payload: payload,
+      at: at,
+    ));
+  }
 
   @override
   Future<String?> launchNotificationPayload() async {
@@ -122,20 +183,23 @@ void main() {
     late FakeBackend backend;
     var fakeNow = DateTime(2026, 9, 27, 8, 0);
     final List<DateTime> openedDates = <DateTime>[];
+    var quizOpens = 0;
 
     setUp(() {
       dictionary = DictionaryService();
       backend = FakeBackend();
       fakeNow = DateTime(2026, 9, 27, 8, 0);
       openedDates.clear();
+      quizOpens = 0;
     });
 
     NotificationService buildService() => NotificationService(
-          wordOfDay: WordOfDayService(dictionary, clock: () => fakeNow),
-          backend: backend,
-          clock: () => fakeNow,
-          onOpenWordCard: openedDates.add,
-        );
+      wordOfDay: WordOfDayService(dictionary, clock: () => fakeNow),
+      backend: backend,
+      clock: () => fakeNow,
+      onOpenWordCard: openedDates.add,
+      onOpenQuiz: () => quizOpens++,
+    );
 
     test('start: порядок — initialize, permission, cancel, schedule', () async {
       await buildService().start();
@@ -147,28 +211,31 @@ void main() {
       ]);
     });
 
-    test('утром до 09:00 — сегодняшнее слово и сегодняшняя дата (§7)', () async {
-      await buildService().start();
+    test(
+      'утром до 09:00 — сегодняшнее слово и сегодняшняя дата (§7)',
+      () async {
+        await buildService().start();
 
-      final words = await dictionary.load();
-      final expected = words[127]; // 20260927 mod 160 = 127 → id 128
-      expect(expected.id, 128);
+        final words = await dictionary.load();
+        final expected = words[127]; // 20260927 mod 160 = 127 → id 128
+        expect(expected.id, 128);
 
-      expect(backend.scheduled, hasLength(1));
-      final s = backend.scheduled.single;
-      expect(s.id, NotificationService.notificationId);
-      expect(s.at, DateTime(2026, 9, 27, 9));
-      // Тестовое окружение — локаль en: строки уведомления берутся из
-      // AppLocalizations (заголовок и имя канала локализуются).
-      expect(s.title, 'Word of Day — ${expected.word}');
-      expect(s.channelName, 'Word of Day');
-      expect(s.body, '${expected.transcription} — ${expected.translation}');
-      expect(
-        s.payload,
-        WidgetSyncService.widgetUri(DateTime(2026, 9, 27)).toString(),
-      );
-      expect(s.payload, 'wordoftheday://word?date=2026-09-27');
-    });
+        expect(backend.scheduled, hasLength(1));
+        final s = backend.scheduled.single;
+        expect(s.id, NotificationService.notificationId);
+        expect(s.at, DateTime(2026, 9, 27, 9));
+        // Тестовое окружение — локаль en: строки уведомления берутся из
+        // AppLocalizations (заголовок и имя канала локализуются).
+        expect(s.title, 'Word of Day — ${expected.word}');
+        expect(s.channelName, 'Word of Day');
+        expect(s.body, '${expected.transcription} — ${expected.translation}');
+        expect(
+          s.payload,
+          WidgetSyncService.widgetUri(DateTime(2026, 9, 27)).toString(),
+        );
+        expect(s.payload, 'wordoftheday://word?date=2026-09-27');
+      },
+    );
 
     test('после 09:00 — слово уже завтрашнего дня срабатывания', () async {
       fakeNow = DateTime(2026, 9, 27, 10, 0);
@@ -209,19 +276,18 @@ void main() {
       expect(openedDates, hasLength(1));
     });
 
-    test('reschedule заменяет предыдущее расписание (cancel + schedule)',
-        () async {
-      final service = buildService();
-      await service.start();
-      fakeNow = DateTime(2026, 9, 27, 21, 0);
-      await service.rescheduleDailyNotification();
+    test(
+      'reschedule заменяет предыдущее расписание (cancel + schedule)',
+      () async {
+        final service = buildService();
+        await service.start();
+        fakeNow = DateTime(2026, 9, 27, 21, 0);
+        await service.rescheduleDailyNotification();
 
-      expect(backend.scheduled, hasLength(2));
-      expect(
-        backend.scheduled.last.at,
-        DateTime(2026, 9, 28, 9),
-      );
-    });
+        expect(backend.scheduled, hasLength(2));
+        expect(backend.scheduled.last.at, DateTime(2026, 9, 28, 9));
+      },
+    );
 
     test('payload холодного старта прокидывается из бэкенда', () async {
       backend.launchPayloadValue = 'wordoftheday://word?date=2026-09-25';
@@ -236,5 +302,90 @@ void main() {
       expect(await buildService().launchNotificationPayload(), isNull);
     });
   });
-}
 
+  group('rescheduleQuizReminder — напоминание квиза (этап 14)', () {
+    late FakeBackend backend;
+    var fakeNow = DateTime(2026, 10, 2, 12, 0);
+
+    setUp(() {
+      backend = FakeBackend();
+      fakeNow = DateTime(2026, 10, 2, 12, 0);
+    });
+
+    NotificationService buildService() =>
+        NotificationService(backend: backend, clock: () => fakeNow);
+
+    test('null — только отмена: квизов не было, напоминать не о чем', () async {
+      await buildService().rescheduleQuizReminder(null);
+
+      expect(backend.oneShots, isEmpty);
+      expect(backend.calls, [
+        'cancel:${NotificationService.quizNotificationId}',
+      ]);
+    });
+
+    test(
+      'будущая дата — одноразовое уведомление в 10:00 канала quiz',
+      () async {
+        await buildService().rescheduleQuizReminder(DateTime(2026, 10, 5));
+
+        expect(backend.calls, [
+          'cancel:${NotificationService.quizNotificationId}',
+          'oneShot:${NotificationService.quizNotificationId}',
+        ]);
+        final shot = backend.oneShots.single;
+        expect(shot.id, NotificationService.quizNotificationId);
+        expect(shot.channelId, NotificationService.quizChannelId);
+        expect(shot.at, DateTime(2026, 10, 5, 10));
+        expect(shot.payload, NotificationService.quizPayloadUri);
+        // Локаль тестов — en.
+        expect(shot.title, 'Time for a quiz!');
+        expect(shot.channelName, 'Quiz reminder');
+      },
+    );
+
+    test('дата в прошлом — ближайшее будущее 10:00 (завтра)', () async {
+      await buildService().rescheduleQuizReminder(DateTime(2026, 10, 1));
+
+      expect(backend.oneShots.single.at, DateTime(2026, 10, 3, 10));
+    });
+
+    test('дата сегодня, сейчас до 10:00 — сегодня в 10:00', () async {
+      fakeNow = DateTime(2026, 10, 2, 8, 30);
+      await buildService().rescheduleQuizReminder(DateTime(2026, 10, 2));
+
+      expect(backend.oneShots.single.at, DateTime(2026, 10, 2, 10));
+    });
+
+    test('сбой бэкенда не роняет вызов (мягкая деградация)', () async {
+      backend.scheduleError = Exception('нет плагина');
+      await buildService().rescheduleQuizReminder(DateTime(2026, 10, 5));
+      expect(backend.oneShots, isEmpty);
+    });
+
+    test('тап по quiz-payload открывает квиз, не карточку даты', () async {
+      var quizOpens = 0;
+      final List<DateTime> openedDates = <DateTime>[];
+      final service = NotificationService(
+        backend: backend,
+        onOpenWordCard: openedDates.add,
+        onOpenQuiz: () => quizOpens++,
+      );
+      await service.start();
+      expect(backend.tapHandler, isNotNull);
+
+      backend.tapHandler!(NotificationService.quizPayloadUri);
+      expect(quizOpens, 1);
+      expect(
+        openedDates,
+        isEmpty,
+        reason: 'quiz-payload не должен открывать карточку слова',
+      );
+
+      // Слово дня по-прежнему открывает карточку.
+      backend.tapHandler!('wordoftheday://word?date=2026-09-26');
+      expect(openedDates, [DateTime(2026, 9, 26)]);
+      expect(quizOpens, 1);
+    });
+  });
+}

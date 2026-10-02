@@ -9,12 +9,14 @@ import '../../models/word_entry.dart';
 import '../../services/dictionary_service.dart';
 import '../../services/favorite_service.dart';
 import '../../services/pronunciation_service.dart';
+import '../../services/quiz_service.dart';
 import '../../services/word_image_service.dart';
 import '../../services/word_of_day_service.dart';
 import '../widgets/image_source_sheet.dart';
 import '../widgets/platform_widgets.dart';
 import '../widgets/word_card.dart';
 import 'favorites_screen.dart';
+import 'quiz_screen.dart';
 
 /// «27 сентября 2026» / «27 September 2026» — локализованная дата.
 /// Символы дат (включая русские месяцы в родительном падеже) берёт
@@ -31,9 +33,23 @@ String formatDate(DateTime date, Locale locale) =>
 /// null → показываем сегодня. Дата приходит детерминированной формулой §5,
 /// поэтому экран просто запрашивает слово для неё.
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key, this.widgetTapDate});
+  const HomeScreen({
+    super.key,
+    this.widgetTapDate,
+    this.quiz,
+    this.quizOpenRequest,
+  });
 
   final ValueNotifier<DateTime?>? widgetTapDate;
+
+  /// Квиз-повторение (этап 14): сервис общий с `main.dart` (напоминания
+  /// читают ту же историю) — передаётся снаружи; null (изолированные
+  /// тесты) — экран создаёт свой.
+  final QuizService? quiz;
+
+  /// Сигнал «открой квиз» — тап по напоминанию (этап 14), владелец —
+  /// `main.dart`; HomeScreen слушает и открывает экран квиза.
+  final ValueNotifier<bool>? quizOpenRequest;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -53,6 +69,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   /// список избранного и карточку избранного слова — состояние общее.
   final FavoriteService _favorites = FavoriteService();
 
+  /// Квиз-повторение (этап 14, идея B-006): общий с `main.dart` (если
+  /// передан) — напоминание и экран квиза читают одну историю результатов.
+  late final QuizService _quiz;
+
   /// Кэш future-ов «слово + фото» по дате (этап 12): FutureBuilder не
   /// перезапускает загрузку на каждом билде, а смена фото подменяет
   /// значение в кэше — карточка не мигает пустой секцией.
@@ -65,16 +85,27 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
     _wordOfDay = WordOfDayService(_dictionary);
     _pronunciation = PronunciationService();
+    _quiz = widget.quiz ?? QuizService();
     unawaited(_startPronunciation());
     widget.widgetTapDate?.addListener(_onTapDateChanged);
+    widget.quizOpenRequest?.addListener(_onQuizOpenRequest);
+    // Тап по напоминанию мог прийти до первого кадра (холодный старт):
+    // ValueNotifier дёргает листенеры только изменениями, поэтому
+    // стартовое значение проверяем сами.
+    WidgetsBinding.instance.addPostFrameCallback((_) => _onQuizOpenRequest());
   }
 
   @override
   void dispose() {
+    widget.quizOpenRequest?.removeListener(_onQuizOpenRequest);
     widget.widgetTapDate?.removeListener(_onTapDateChanged);
     WidgetsBinding.instance.removeObserver(this);
     _pronunciation.dispose();
     _favorites.dispose();
+    // Собственный сервис (не передан снаружи) — освобождаем сами.
+    if (widget.quiz == null) {
+      _quiz.dispose();
+    }
     super.dispose();
   }
 
@@ -163,6 +194,31 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     );
   }
 
+  /// Этап 14: сигнал из main.dart (тап по напоминанию) — открыть квиз.
+  void _onQuizOpenRequest() {
+    final request = widget.quizOpenRequest;
+    if (request == null || !request.value) {
+      return;
+    }
+    request.value = false; // сигнал обработан
+    if (mounted) {
+      unawaited(_openQuiz());
+    }
+  }
+
+  /// Этап 14: экран квиза-повторения (идея B-006).
+  Future<void> _openQuiz() async {
+    await Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) => QuizScreen(
+          dictionary: _dictionary,
+          favorites: _favorites,
+          quiz: _quiz,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final tappedDate = widget.widgetTapDate?.value;
@@ -170,14 +226,25 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
     return Scaffold(
       // Этап 11: навбар адаптивный — CupertinoNavigationBar на iOS;
-      // этап 13: справа — вход в список избранного.
+      // этап 13: справа — вход в список избранного; этап 14 — квиз.
       appBar: PlatformAppBar(
         title: AppLocalizations.of(context).homeTitle,
-        trailing: PlatformIconActionButton(
-          onPressed: _openFavorites,
-          tooltip: AppLocalizations.of(context).favoritesTitle,
-          materialIcon: Icons.star_border_rounded,
-          cupertinoIcon: CupertinoIcons.star,
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            PlatformIconActionButton(
+              onPressed: _openQuiz,
+              tooltip: AppLocalizations.of(context).quizTitle,
+              materialIcon: Icons.quiz_rounded,
+              cupertinoIcon: CupertinoIcons.question_circle,
+            ),
+            PlatformIconActionButton(
+              onPressed: _openFavorites,
+              tooltip: AppLocalizations.of(context).favoritesTitle,
+              materialIcon: Icons.star_border_rounded,
+              cupertinoIcon: CupertinoIcons.star,
+            ),
+          ],
         ),
       ),
       body: Center(
@@ -207,23 +274,23 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   // избранного (тот же ValueNotifier слушает и список).
                   child: ValueListenableBuilder<List<Favorite>>(
                     valueListenable: _favorites.favorites,
-                    builder: (context, favs, _) =>
-                        ValueListenableBuilder<bool>(
+                    builder: (context, favs, _) => ValueListenableBuilder<bool>(
                       valueListenable: _pronunciation.isSpeaking,
                       builder: (context, speaking, _) => WordCard(
                         entry: data.entry,
-                        dateLabel:
-                            formatDate(date, Localizations.localeOf(context)),
+                        dateLabel: formatDate(
+                          date,
+                          Localizations.localeOf(context),
+                        ),
                         fromWidget: tappedDate != null,
                         isListening: speaking,
                         isFavorite: favs.any((f) => f.id == data.entry.id),
-                        onToggleFavorite: () => unawaited(
-                              _favorites.toggle(data.entry.id),
-                            ),
+                        onToggleFavorite: () =>
+                            unawaited(_favorites.toggle(data.entry.id)),
                         onListen: _pronunciation.isAvailable
                             ? () => unawaited(
-                                  _pronunciation.toggle(data.entry.word),
-                                )
+                                _pronunciation.toggle(data.entry.word),
+                              )
                             : null,
                         // Этап 12: фото-ассоциация и её действия (ключ — id
                         // слова; замена/удаление подменяют future в кэше).
@@ -283,8 +350,9 @@ class _DictionaryError extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             '$error',
-            style: theme.textTheme.bodySmall
-                ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
             textAlign: TextAlign.center,
           ),
         ],
@@ -292,5 +360,3 @@ class _DictionaryError extends StatelessWidget {
     );
   }
 }
-
-
