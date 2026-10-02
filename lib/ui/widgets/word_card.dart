@@ -39,6 +39,9 @@ const Color _kFavoriteStarColor = Color(0xFFFFB300);
 /// Этап 13: [isFavorite]/[onToggleFavorite] — звезда избранного в строке
 /// слова (слева от динамика): контурная (не в избранном) ↔ залитая
 /// янтарным. `onToggleFavorite == null` → звезды нет.
+///
+/// Этап 15: [onShare] — «поделиться» (крайняя правая кнопка строки слова):
+/// рендер постера карточки в PNG и системный share sheet; null → кнопки нет.
 class WordCard extends StatelessWidget {
   const WordCard({
     super.key,
@@ -52,6 +55,7 @@ class WordCard extends StatelessWidget {
     this.onRemoveImage,
     this.isFavorite = false,
     this.onToggleFavorite,
+    this.onShare,
   });
 
   final WordEntry entry;
@@ -79,6 +83,10 @@ class WordCard extends StatelessWidget {
 
   /// Тап по звезде — добавить/убрать из избранного; null — звезды нет.
   final VoidCallback? onToggleFavorite;
+
+  /// Тап по «поделиться» — этап 15 (идея B-001): постер карточки → PNG →
+  /// системный share sheet; null — кнопки нет.
+  final VoidCallback? onShare;
 
   @override
   Widget build(BuildContext context) {
@@ -164,6 +172,18 @@ class WordCard extends StatelessWidget {
                           ? CupertinoIcons.stop_fill
                           : CupertinoIcons.volume_up,
                     ),
+                  // Этап 15: «поделиться» — крайняя правая кнопка строки.
+                  if (onShare != null) ...[
+                    if (onListen != null || onToggleFavorite != null)
+                      const SizedBox(width: 4),
+                    PlatformIconActionButton(
+                      onPressed: onShare,
+                      tooltip: l10n.shareCard,
+                      color: theme.colorScheme.onSurfaceVariant,
+                      materialIcon: Icons.share_rounded,
+                      cupertinoIcon: CupertinoIcons.share,
+                    ),
+                  ],
                 ],
               ),
               const SizedBox(height: 4),

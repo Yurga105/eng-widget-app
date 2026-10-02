@@ -138,4 +138,7 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get quizNotificationBody =>
       'Check how well you remember your saved words';
+
+  @override
+  String get shareCard => 'Share';
 }

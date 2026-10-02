@@ -62,6 +62,7 @@ Future<void> _pumpCard(
   VoidCallback? onRemoveImage,
   bool isFavorite = false,
   VoidCallback? onToggleFavorite,
+  VoidCallback? onShare,
 }) {
   return tester.pumpWidget(
     MaterialApp(
@@ -89,6 +90,7 @@ Future<void> _pumpCard(
             onRemoveImage: onRemoveImage,
             isFavorite: isFavorite,
             onToggleFavorite: onToggleFavorite,
+            onShare: onShare,
           ),
         ),
       ),
@@ -376,5 +378,44 @@ void main() {
 
     await tester.tap(find.byIcon(CupertinoIcons.star));
     expect(taps, 1, reason: 'тап по Cupertino-звезде должен дойти');
+  });
+
+  testWidgets('«Поделиться»: нет колбэка — нет кнопки (этап 15)',
+      (tester) async {
+    await _pumpCard(tester, onListen: () {});
+
+    expect(find.byIcon(Icons.share_rounded), findsNothing);
+    expect(find.byIcon(CupertinoIcons.share), findsNothing);
+  });
+
+  testWidgets('«Поделиться»: тултип и тап зовут колбэк (этап 15)',
+      (tester) async {
+    var taps = 0;
+    await _pumpCard(
+      tester,
+      onListen: () {},
+      onShare: () => taps++,
+    );
+
+    expect(find.byTooltip('Share'), findsOneWidget);
+    expect(find.byIcon(Icons.share_rounded), findsOneWidget);
+    await tester.tap(find.byIcon(Icons.share_rounded));
+    expect(taps, 1);
+  });
+
+  testWidgets('iOS: «поделиться» — CupertinoButton с SF-иконкой (этап 15)',
+      (tester) async {
+    var taps = 0;
+    await _pumpCard(
+      tester,
+      onListen: () {},
+      onShare: () => taps++,
+      platform: TargetPlatform.iOS,
+    );
+
+    expect(find.byIcon(CupertinoIcons.share), findsOneWidget);
+    expect(find.byIcon(Icons.share_rounded), findsNothing);
+    await tester.tap(find.byIcon(CupertinoIcons.share));
+    expect(taps, 1, reason: 'тап по Cupertino-«поделиться» должен дойти');
   });
 }

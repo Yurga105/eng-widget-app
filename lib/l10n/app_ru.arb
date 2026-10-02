@@ -36,5 +36,6 @@
   "quizNotificationChannelName": "Напоминание о квизе",
   "quizNotificationChannelDescription": "Напоминание повторить сохранённые слова каждые 3 дня",
   "quizNotificationTitle": "Пора пройти квиз!",
-  "quizNotificationBody": "Проверьте, как запомнились сохранённые слова"
+  "quizNotificationBody": "Проверьте, как запомнились сохранённые слова",
+  "shareCard": "Поделиться"
 }

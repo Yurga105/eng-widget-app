@@ -321,6 +321,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Check how well you remember your saved words'**
   String get quizNotificationBody;
+
+  /// Tooltip of the share button on a word card (stage 15)
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get shareCard;
 }
 
 class _AppLocalizationsDelegate

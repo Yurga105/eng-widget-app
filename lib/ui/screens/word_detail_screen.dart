@@ -3,10 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../../models/word_entry.dart';
+import '../../services/card_share_service.dart';
 import '../../services/favorite_service.dart';
 import '../../services/pronunciation_service.dart';
 import '../../services/word_image_service.dart';
 import '../widgets/platform_widgets.dart';
+import '../widgets/share_poster.dart';
 import '../widgets/word_card.dart';
 import 'home_screen.dart';
 
@@ -43,6 +45,10 @@ class WordDetailScreen extends StatefulWidget {
 
 class _WordDetailScreenState extends State<WordDetailScreen> {
   late final Future<String?> _image;
+
+  /// Шеринг карточки избранного слова (этап 15) — тот же постер, что и у
+  /// карточки дня; сервис без состояния — без dispose.
+  final CardShareService _cardShare = CardShareService();
 
   @override
   void initState() {
@@ -97,6 +103,15 @@ class _WordDetailScreenState extends State<WordDetailScreen> {
                               widget.pronunciation.toggle(widget.entry.word),
                             )
                         : null,
+                    // Этап 15: «поделиться» — как в карточке дня.
+                    onShare: () => unawaited(
+                        _cardShare.sharePoster(
+                          context: context,
+                          poster: (context) => SharePoster(entry: widget.entry),
+                          text:
+                              '${widget.entry.word} — ${widget.entry.translation}',
+                        ),
+                      ),
                     imagePath: snapshot.data,
                   ),
                 ),

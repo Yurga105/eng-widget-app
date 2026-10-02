@@ -102,5 +102,7 @@
   "quizNotificationTitle": "Time for a quiz!",
   "@quizNotificationTitle": { "description": "Title of the quiz reminder notification" },
   "quizNotificationBody": "Check how well you remember your saved words",
-  "@quizNotificationBody": { "description": "Body of the quiz reminder notification" }
+  "@quizNotificationBody": { "description": "Body of the quiz reminder notification" },
+  "shareCard": "Share",
+  "@shareCard": { "description": "Tooltip of the share button on a word card (stage 15)" }
 }

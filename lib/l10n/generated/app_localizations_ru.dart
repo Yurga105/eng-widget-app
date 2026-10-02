@@ -138,4 +138,7 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get quizNotificationBody =>
       'Проверьте, как запомнились сохранённые слова';
+
+  @override
+  String get shareCard => 'Поделиться';
 }

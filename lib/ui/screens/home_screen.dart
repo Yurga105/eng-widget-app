@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 
 import '../../l10n/generated/app_localizations.dart';
 import '../../models/word_entry.dart';
+import '../../services/card_share_service.dart';
 import '../../services/dictionary_service.dart';
 import '../../services/favorite_service.dart';
 import '../../services/pronunciation_service.dart';
@@ -14,6 +15,7 @@ import '../../services/word_image_service.dart';
 import '../../services/word_of_day_service.dart';
 import '../widgets/image_source_sheet.dart';
 import '../widgets/platform_widgets.dart';
+import '../widgets/share_poster.dart';
 import '../widgets/word_card.dart';
 import 'favorites_screen.dart';
 import 'quiz_screen.dart';
@@ -68,6 +70,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   /// Избранное (этап 13, идея B-002): один сервис на карточку дня,
   /// список избранного и карточку избранного слова — состояние общее.
   final FavoriteService _favorites = FavoriteService();
+
+  /// Шеринг карточки картинкой (этап 15, идея B-001): постер → PNG →
+  /// системный share sheet. Сервис без состояния — без dispose.
+  final CardShareService _cardShare = CardShareService();
 
   /// Квиз-повторение (этап 14, идея B-006): общий с `main.dart` (если
   /// передан) — напоминание и экран квиза читают одну историю результатов.
@@ -292,6 +298,17 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                 _pronunciation.toggle(data.entry.word),
                               )
                             : null,
+                        // Этап 15: «поделиться» — постер карточки → PNG →
+                        // системный share sheet (текст сопровождает картинку).
+                        onShare: () => unawaited(
+                            _cardShare.sharePoster(
+                              context: context,
+                              poster: (context) =>
+                                  SharePoster(entry: data.entry),
+                              text:
+                                  '${data.entry.word} — ${data.entry.translation}',
+                            ),
+                          ),
                         // Этап 12: фото-ассоциация и её действия (ключ — id
                         // слова; замена/удаление подменяют future в кэше).
                         imagePath: data.imagePath,

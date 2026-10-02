@@ -36,5 +36,6 @@
   "quizNotificationChannelName": "Pengingat kuis",
   "quizNotificationChannelDescription": "Pengingat untuk mengulang kata tersimpan setiap 3 hari",
   "quizNotificationTitle": "Saatnya kuis!",
-  "quizNotificationBody": "Periksa seberapa baik kamu mengingat kata tersimpan"
+  "quizNotificationBody": "Periksa seberapa baik kamu mengingat kata tersimpan",
+  "shareCard": "Bagikan"
 }

@@ -138,4 +138,7 @@ class AppLocalizationsId extends AppLocalizations {
   @override
   String get quizNotificationBody =>
       'Periksa seberapa baik kamu mengingat kata tersimpan';
+
+  @override
+  String get shareCard => 'Bagikan';
 }
