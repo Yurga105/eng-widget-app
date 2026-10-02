@@ -35,10 +35,14 @@ flutter build apk --debug
 adb -s WO7LLJ79ZL99EU95 install -r build\app\outputs\flutter-apk\app-debug.apk
 
 # 2. Остановить приложение и положить файлы (documents = app_flutter).
+#    Важно: cp отдельными командами — составная `sh -c "cat ... > ..."`
+#    из PowerShell не передаётся (кавычки теряются, mkdir получает 0 аргументов).
 adb -s WO7LLJ79ZL99EU95 shell am force-stop com.english.widget.eng_widget_app
 adb -s WO7LLJ79ZL99EU95 push tool\qa\favorites.json /data/local/tmp/favorites.json
 adb -s WO7LLJ79ZL99EU95 push tool\qa\quiz_results.json /data/local/tmp/quiz_results.json
-adb -s WO7LLJ79ZL99EU95 shell run-as com.english.widget.eng_widget_app sh -c "mkdir -p app_flutter && cat /data/local/tmp/favorites.json > app_flutter/favorites.json && cat /data/local/tmp/quiz_results.json > app_flutter/quiz_results.json"
+adb -s WO7LLJ79ZL99EU95 shell run-as com.english.widget.eng_widget_app mkdir -p app_flutter
+adb -s WO7LLJ79ZL99EU95 shell run-as com.english.widget.eng_widget_app cp /data/local/tmp/favorites.json app_flutter/favorites.json
+adb -s WO7LLJ79ZL99EU95 shell run-as com.english.widget.eng_widget_app cp /data/local/tmp/quiz_results.json app_flutter/quiz_results.json
 
 # 3. Проверить, что файлы легли.
 adb -s WO7LLJ79ZL99EU95 shell run-as com.english.widget.eng_widget_app ls -l app_flutter
