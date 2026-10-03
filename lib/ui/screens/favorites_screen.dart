@@ -8,6 +8,7 @@ import '../../models/word_entry.dart';
 import '../../services/dictionary_service.dart';
 import '../../services/favorite_service.dart';
 import '../../services/pronunciation_service.dart';
+import '../../services/user_example_service.dart';
 import '../../services/word_image_service.dart';
 import '../widgets/platform_widgets.dart';
 import '../widgets/type_badge.dart';
@@ -27,6 +28,7 @@ class FavoritesScreen extends StatelessWidget {
     required this.favorites,
     required this.pronunciation,
     required this.wordImages,
+    required this.userExamples,
   });
 
   /// Словарь — общий с HomeScreen экземпляр (кэш слов).
@@ -40,6 +42,10 @@ class FavoritesScreen extends StatelessWidget {
 
   /// Фото-ассоциации — общий с HomeScreen экземпляр.
   final WordImageService wordImages;
+
+  /// Свои примеры употребления (этап 16, идея B-003) — общий с HomeScreen
+  /// экземпляр: карточка избранного слова редактирует свою ассоциацию.
+  final UserExampleService userExamples;
 
   @override
   Widget build(BuildContext context) {
@@ -93,8 +99,9 @@ class FavoritesScreen extends StatelessWidget {
                     child: ListTile(
                       title: Text(
                         entry.word,
-                        style: theme.textTheme.titleMedium
-                            ?.copyWith(fontWeight: FontWeight.w600),
+                        style: theme.textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                       subtitle: Text(
                         entry.translation,
@@ -102,9 +109,8 @@ class FavoritesScreen extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                       trailing: TypeBadge(type: entry.type),
-                      onTap: () => unawaited(
-                        _openDetail(context, entry, favorite),
-                      ),
+                      onTap: () =>
+                          unawaited(_openDetail(context, entry, favorite)),
                     ),
                   );
                 },
@@ -130,6 +136,7 @@ class FavoritesScreen extends StatelessWidget {
           favorites: favorites,
           pronunciation: pronunciation,
           wordImages: wordImages,
+          userExamples: userExamples,
         ),
       ),
     );
@@ -197,8 +204,9 @@ class _FavoritesError extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             '$error',
-            style: theme.textTheme.bodySmall
-                ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
             textAlign: TextAlign.center,
           ),
         ],

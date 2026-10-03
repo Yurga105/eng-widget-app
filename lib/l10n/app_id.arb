@@ -37,5 +37,11 @@
   "quizNotificationChannelDescription": "Pengingat untuk mengulang kata tersimpan setiap 3 hari",
   "quizNotificationTitle": "Saatnya kuis!",
   "quizNotificationBody": "Periksa seberapa baik kamu mengingat kata tersimpan",
-  "shareCard": "Bagikan"
+  "shareCard": "Bagikan",
+  "userExampleSectionTitle": "Contohmu",
+  "userExampleAdd": "Tambahkan contohmu",
+  "userExampleHint": "Di mana kamu menemukan kata ini?",
+  "userExampleSave": "Simpan",
+  "userExampleEdit": "Ubah contoh",
+  "userExampleRemove": "Hapus contoh"
 }

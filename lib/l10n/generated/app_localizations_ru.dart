@@ -141,4 +141,22 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get shareCard => 'Поделиться';
+
+  @override
+  String get userExampleSectionTitle => 'Свой пример';
+
+  @override
+  String get userExampleAdd => 'Добавить свой пример';
+
+  @override
+  String get userExampleHint => 'Где вы встретили это слово?';
+
+  @override
+  String get userExampleSave => 'Сохранить';
+
+  @override
+  String get userExampleEdit => 'Изменить пример';
+
+  @override
+  String get userExampleRemove => 'Удалить пример';
 }

@@ -141,4 +141,22 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get shareCard => 'Bagikan';
+
+  @override
+  String get userExampleSectionTitle => 'Contohmu';
+
+  @override
+  String get userExampleAdd => 'Tambahkan contohmu';
+
+  @override
+  String get userExampleHint => 'Di mana kamu menemukan kata ini?';
+
+  @override
+  String get userExampleSave => 'Simpan';
+
+  @override
+  String get userExampleEdit => 'Ubah contoh';
+
+  @override
+  String get userExampleRemove => 'Hapus contoh';
 }

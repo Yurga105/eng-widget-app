@@ -10,6 +10,7 @@ import 'package:eng_widget_app/l10n/generated/app_localizations.dart';
 import 'package:eng_widget_app/services/dictionary_service.dart';
 import 'package:eng_widget_app/services/favorite_service.dart';
 import 'package:eng_widget_app/services/pronunciation_service.dart';
+import 'package:eng_widget_app/services/user_example_service.dart';
 import 'package:eng_widget_app/services/word_image_service.dart';
 import 'package:eng_widget_app/ui/screens/favorites_screen.dart';
 
@@ -49,15 +50,18 @@ void main() {
     tmp.deleteSync(recursive: true);
   });
 
-  FavoriteService buildService() => FavoriteService(
-        documentsDirectory: () async => tmp,
-      );
+  FavoriteService buildService() =>
+      FavoriteService(documentsDirectory: () async => tmp);
+
+  UserExampleService buildExamples() =>
+      UserExampleService(documentsDirectory: () async => tmp);
 
   /// Качает экран избранного и ждёт, пока FutureBuilder словаря
   /// отпустит спиннер (индикатор анимируется — pumpAndSettle нельзя).
   Future<void> pumpScreen(
     WidgetTester tester, {
     required FavoriteService favorites,
+    required UserExampleService userExamples,
     TargetPlatform platform = TargetPlatform.android,
   }) async {
     await tester.pumpWidget(
@@ -66,16 +70,14 @@ void main() {
         supportedLocales: AppLocalizations.supportedLocales,
         theme: ThemeData(
           platform: platform,
-          colorScheme:
-              ColorScheme.fromSeed(seedColor: const Color(0xFF4CAF50)),
+          colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF4CAF50)),
         ),
         home: FavoritesScreen(
           dictionary: DictionaryService(assetLoader: (_) async => miniDb),
           favorites: favorites,
           pronunciation: PronunciationService(),
-          wordImages: WordImageService(
-            documentsDirectory: () async => tmp,
-          ),
+          wordImages: WordImageService(documentsDirectory: () async => tmp),
+          userExamples: userExamples,
         ),
       ),
     );
@@ -91,28 +93,35 @@ void main() {
     }
   }
 
-  testWidgets('Пустое избранное — звезда-заглушка и подсказка (этап 13)',
-      (tester) async {
+  testWidgets('Пустое избранное — звезда-заглушка и подсказка (этап 13)', (
+    tester,
+  ) async {
     final favorites = buildService();
+    final examples = buildExamples();
     await favorites.load();
-    await pumpScreen(tester, favorites: favorites);
+    await pumpScreen(tester, favorites: favorites, userExamples: examples);
 
     expect(find.text('Favorites'), findsOneWidget);
     expect(
-      find.text('No favorite words yet — tap the star on a word card '
-          'to save it'),
+      find.text(
+        'No favorite words yet — tap the star on a word card '
+        'to save it',
+      ),
       findsOneWidget,
     );
     expect(find.byIcon(Icons.star_outline_rounded), findsOneWidget);
+    examples.dispose();
     favorites.dispose();
   });
 
-  testWidgets('Список: свежие сверху, элементы со словом и переводом',
-      (tester) async {
+  testWidgets('Список: свежие сверху, элементы со словом и переводом', (
+    tester,
+  ) async {
     final favorites = buildService();
+    final examples = buildExamples();
     await favorites.add(7);
     await favorites.add(42); // добавлен позже — должен быть выше
-    await pumpScreen(tester, favorites: favorites);
+    await pumpScreen(tester, favorites: favorites, userExamples: examples);
 
     expect(find.text('hang out'), findsOneWidget);
     expect(find.text('no-brainer'), findsOneWidget);
@@ -125,44 +134,55 @@ void main() {
     // Тайлы переиспользуют бейдж типа.
     expect(find.text('idiom'), findsOneWidget);
     expect(find.text('phrasal verb'), findsOneWidget);
+    examples.dispose();
     favorites.dispose();
   });
 
-  testWidgets('Свайп влево убирает слово из списка и файла (этап 13)',
-      (tester) async {
+  testWidgets('Свайп влево убирает слово из списка и файла (этап 13)', (
+    tester,
+  ) async {
     final favorites = buildService();
+    final examples = buildExamples();
     await favorites.add(7);
     await favorites.add(42);
-    await pumpScreen(tester, favorites: favorites);
+    await pumpScreen(tester, favorites: favorites, userExamples: examples);
 
     await tester.drag(find.text('hang out'), const Offset(-400, 0));
     await tester.pumpAndSettle();
 
     expect(find.text('hang out'), findsNothing);
     expect(favorites.favorites.value.map((f) => f.id), [7]);
-    final file = File('${tmp.path}${Platform.pathSeparator}'
-        '${FavoriteService.fileName}');
+    final file = File(
+      '${tmp.path}${Platform.pathSeparator}'
+      '${FavoriteService.fileName}',
+    );
     expect(file.existsSync(), isTrue, reason: 'файл перезаписан');
     expect(file.readAsStringSync(), contains('"id": 7'));
     expect(file.readAsStringSync(), isNot(contains('"id": 42')));
+    examples.dispose();
     favorites.dispose();
   });
 
-  testWidgets('Тап по элементу — полная карточка с датой добавления',
-      (tester) async {
+  testWidgets('Тап по элементу — полная карточка с датой добавления', (
+    tester,
+  ) async {
     // Фиксированная дата добавления — из файла, чтобы подпись карточки
     // была предсказуемой («27 September 2026», локаль тестов en).
-    File('${tmp.path}${Platform.pathSeparator}'
-            '${FavoriteService.fileName}')
-        .writeAsStringSync(jsonEncode(<String, Object>{
-      'version': 1,
-      'items': <Map<String, Object>>[
-        <String, Object>{'id': 7, 'added': '2026-09-27T12:00:00'},
-      ],
-    }));
+    File(
+      '${tmp.path}${Platform.pathSeparator}'
+      '${FavoriteService.fileName}',
+    ).writeAsStringSync(
+      jsonEncode(<String, Object>{
+        'version': 1,
+        'items': <Map<String, Object>>[
+          <String, Object>{'id': 7, 'added': '2026-09-27T12:00:00'},
+        ],
+      }),
+    );
     final favorites = buildService();
+    final examples = buildExamples();
     await favorites.load();
-    await pumpScreen(tester, favorites: favorites);
+    await pumpScreen(tester, favorites: favorites, userExamples: examples);
 
     await tester.tap(find.text('no-brainer'));
     await tester.pumpAndSettle();
@@ -170,30 +190,41 @@ void main() {
     // Слово видно дважды: заголовок детали и карточка.
     expect(find.text('no-brainer'), findsNWidgets(2));
     expect(find.text('/ˌnoʊˈbreɪnər/'), findsOneWidget);
-    expect(find.text('27 September 2026'), findsOneWidget,
-        reason: 'подпись карточки — дата добавления в избранное');
-    expect(find.byIcon(Icons.star_rounded), findsOneWidget,
-        reason: 'слово в избранном — звезда залита');
+    expect(
+      find.text('27 September 2026'),
+      findsOneWidget,
+      reason: 'подпись карточки — дата добавления в избранное',
+    );
+    expect(
+      find.byIcon(Icons.star_rounded),
+      findsOneWidget,
+      reason: 'слово в избранном — звезда залита',
+    );
 
     // Снимаем звезду прямо в карточке — сервис обновился.
     await tester.tap(find.byIcon(Icons.star_rounded));
     await tester.pump();
     expect(favorites.isFavorite(7), isFalse);
+    examples.dispose();
     favorites.dispose();
   });
 
-  testWidgets('iOS: пустое состояние — Cupertino-звезда (этап 13)',
-      (tester) async {
+  testWidgets('iOS: пустое состояние — Cupertino-звезда (этап 13)', (
+    tester,
+  ) async {
     final favorites = buildService();
+    final examples = buildExamples();
     await favorites.load();
     await pumpScreen(
       tester,
       favorites: favorites,
+      userExamples: examples,
       platform: TargetPlatform.iOS,
     );
 
     expect(find.byIcon(CupertinoIcons.star), findsOneWidget);
     expect(find.byIcon(Icons.star_outline_rounded), findsNothing);
+    examples.dispose();
     favorites.dispose();
   });
 }

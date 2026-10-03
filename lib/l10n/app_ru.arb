@@ -37,5 +37,11 @@
   "quizNotificationChannelDescription": "Напоминание повторить сохранённые слова каждые 3 дня",
   "quizNotificationTitle": "Пора пройти квиз!",
   "quizNotificationBody": "Проверьте, как запомнились сохранённые слова",
-  "shareCard": "Поделиться"
+  "shareCard": "Поделиться",
+  "userExampleSectionTitle": "Свой пример",
+  "userExampleAdd": "Добавить свой пример",
+  "userExampleHint": "Где вы встретили это слово?",
+  "userExampleSave": "Сохранить",
+  "userExampleEdit": "Изменить пример",
+  "userExampleRemove": "Удалить пример"
 }

@@ -11,6 +11,7 @@ import '../../services/dictionary_service.dart';
 import '../../services/favorite_service.dart';
 import '../../services/pronunciation_service.dart';
 import '../../services/quiz_service.dart';
+import '../../services/user_example_service.dart';
 import '../../services/word_image_service.dart';
 import '../../services/word_of_day_service.dart';
 import '../widgets/image_source_sheet.dart';
@@ -71,6 +72,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   /// список избранного и карточку избранного слова — состояние общее.
   final FavoriteService _favorites = FavoriteService();
 
+  /// Свои примеры употребления избранных слов (этап 16, идея B-003):
+  /// один сервис на приложение — карточка избранного слова читает и
+  /// меняет его напрямую.
+  final UserExampleService _userExamples = UserExampleService();
+
   /// Шеринг карточки картинкой (этап 15, идея B-001): постер → PNG →
   /// системный share sheet. Сервис без состояния — без dispose.
   final CardShareService _cardShare = CardShareService();
@@ -108,6 +114,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     WidgetsBinding.instance.removeObserver(this);
     _pronunciation.dispose();
     _favorites.dispose();
+    _userExamples.dispose();
     // Собственный сервис (не передан снаружи) — освобождаем сами.
     if (widget.quiz == null) {
       _quiz.dispose();
@@ -195,6 +202,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           favorites: _favorites,
           pronunciation: _pronunciation,
           wordImages: _wordImages,
+          userExamples: _userExamples,
         ),
       ),
     );
@@ -301,14 +309,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                         // Этап 15: «поделиться» — постер карточки → PNG →
                         // системный share sheet (текст сопровождает картинку).
                         onShare: () => unawaited(
-                            _cardShare.sharePoster(
-                              context: context,
-                              poster: (context) =>
-                                  SharePoster(entry: data.entry),
-                              text:
-                                  '${data.entry.word} — ${data.entry.translation}',
-                            ),
+                          _cardShare.sharePoster(
+                            context: context,
+                            poster: (context) => SharePoster(entry: data.entry),
+                            text:
+                                '${data.entry.word} — ${data.entry.translation}',
                           ),
+                        ),
                         // Этап 12: фото-ассоциация и её действия (ключ — id
                         // слова; замена/удаление подменяют future в кэше).
                         imagePath: data.imagePath,

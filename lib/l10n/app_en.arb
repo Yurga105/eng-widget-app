@@ -104,5 +104,17 @@
   "quizNotificationBody": "Check how well you remember your saved words",
   "@quizNotificationBody": { "description": "Body of the quiz reminder notification" },
   "shareCard": "Share",
-  "@shareCard": { "description": "Tooltip of the share button on a word card (stage 15)" }
+  "@shareCard": { "description": "Tooltip of the share button on a word card (stage 15)" },
+  "userExampleSectionTitle": "Your example",
+  "@userExampleSectionTitle": { "description": "Title of the personal example section on a favorite word card (stage 16)" },
+  "userExampleAdd": "Add your own example",
+  "@userExampleAdd": { "description": "Outlined button opening the personal example editor (stage 16)" },
+  "userExampleHint": "Where did you come across this word?",
+  "@userExampleHint": { "description": "Label of the multiline personal example input (stage 16)" },
+  "userExampleSave": "Save",
+  "@userExampleSave": { "description": "Button saving the personal example (stage 16)" },
+  "userExampleEdit": "Edit example",
+  "@userExampleEdit": { "description": "Tooltip of the edit action for the saved personal example (stage 16)" },
+  "userExampleRemove": "Remove example",
+  "@userExampleRemove": { "description": "Tooltip of the delete action for the saved personal example (stage 16)" }
 }

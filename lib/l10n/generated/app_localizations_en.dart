@@ -141,4 +141,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get shareCard => 'Share';
+
+  @override
+  String get userExampleSectionTitle => 'Your example';
+
+  @override
+  String get userExampleAdd => 'Add your own example';
+
+  @override
+  String get userExampleHint => 'Where did you come across this word?';
+
+  @override
+  String get userExampleSave => 'Save';
+
+  @override
+  String get userExampleEdit => 'Edit example';
+
+  @override
+  String get userExampleRemove => 'Remove example';
 }

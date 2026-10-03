@@ -327,6 +327,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Share'**
   String get shareCard;
+
+  /// Title of the personal example section on a favorite word card (stage 16)
+  ///
+  /// In en, this message translates to:
+  /// **'Your example'**
+  String get userExampleSectionTitle;
+
+  /// Outlined button opening the personal example editor (stage 16)
+  ///
+  /// In en, this message translates to:
+  /// **'Add your own example'**
+  String get userExampleAdd;
+
+  /// Label of the multiline personal example input (stage 16)
+  ///
+  /// In en, this message translates to:
+  /// **'Where did you come across this word?'**
+  String get userExampleHint;
+
+  /// Button saving the personal example (stage 16)
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get userExampleSave;
+
+  /// Tooltip of the edit action for the saved personal example (stage 16)
+  ///
+  /// In en, this message translates to:
+  /// **'Edit example'**
+  String get userExampleEdit;
+
+  /// Tooltip of the delete action for the saved personal example (stage 16)
+  ///
+  /// In en, this message translates to:
+  /// **'Remove example'**
+  String get userExampleRemove;
 }
 
 class _AppLocalizationsDelegate
