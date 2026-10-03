@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 
-/// Пробный preload-экран приветствия — идея B-009, ветка
-/// `trial/b-009-splash` (в main НЕ мерджится без решения владельца).
+import '../../l10n/generated/app_localizations.dart';
+
+/// Preload-экран приветствия — этап 17 (идея B-009, PLAN.md §8).
 ///
 /// Композиция по рекомендации бизнес-анализа: центр — бренд приложения
-/// (глиф «W.» как на иконке лаунчера, название, одна фраза «что это»),
-/// низ — логотип студии кружком. Тап в любую точку пропускает сплэш —
-/// он не должен быть барьером.
-///
-/// Строки пока по-русски: пробник смотрит владелец; при повышении до
-/// этапа 17 — перевести в ARB en/ru/id (TODO(l10n)).
+/// (глиф «W.» как на иконке лаунчера, название, теглайн из ARB), низ —
+/// логотип студии кружком. Тап в любую точку пропускает сплэш — он не
+/// должен быть барьером; вся зона тапа подписана для доступности
+/// (`Semantics` — «пропустить», ключ `welcomeSkip`).
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key, required this.onFinished});
 
@@ -67,94 +66,101 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return GestureDetector(
-      // Сплэш не задерживает: тап — сразу к слову дня.
-      onTap: widget.onFinished,
-      child: Scaffold(
-        body: SafeArea(
-          child: Column(
-            children: [
-              const Spacer(),
-              FadeTransition(
-                opacity: _fade,
-                child: ScaleTransition(
-                  scale: _scale,
-                  child: Column(
-                    children: [
-                      // Глиф «W.» — зеркало иконки лаунчера (этап 8/10).
-                      Container(
-                        width: 116,
-                        height: 116,
-                        decoration: BoxDecoration(
-                          color: theme.colorScheme.primary,
-                          borderRadius: BorderRadius.circular(28),
-                        ),
-                        alignment: Alignment.center,
-                        child: Text(
-                          'W.',
-                          style: TextStyle(
-                            fontSize: 56,
-                            fontWeight: FontWeight.w700,
-                            color: theme.colorScheme.onPrimary,
+    final l10n = AppLocalizations.of(context);
+    return Semantics(
+      // Тап в любую точку пропускает сплэш — зона подписана для
+      // скринридеров (кнопка «пропустить», этап 17).
+      label: l10n.welcomeSkip,
+      button: true,
+      child: GestureDetector(
+        // Сплэш не задерживает: тап — сразу к слову дня.
+        onTap: widget.onFinished,
+        child: Scaffold(
+          body: SafeArea(
+            child: Column(
+              children: [
+                const Spacer(),
+                FadeTransition(
+                  opacity: _fade,
+                  child: ScaleTransition(
+                    scale: _scale,
+                    child: Column(
+                      children: [
+                        // Глиф «W.» — зеркало иконки лаунчера (этап 8/10).
+                        Container(
+                          width: 116,
+                          height: 116,
+                          decoration: BoxDecoration(
+                            color: theme.colorScheme.primary,
+                            borderRadius: BorderRadius.circular(28),
+                          ),
+                          alignment: Alignment.center,
+                          child: Text(
+                            'W.',
+                            style: TextStyle(
+                              fontSize: 56,
+                              fontWeight: FontWeight.w700,
+                              color: theme.colorScheme.onPrimary,
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 24),
-                      Text(
-                        'Word of Day',
-                        style: theme.textTheme.headlineMedium?.copyWith(
-                          fontWeight: FontWeight.w700,
+                        const SizedBox(height: 24),
+                        Text(
+                          // Бренд не переводим (решение этапа 10).
+                          'Word of Day',
+                          style: theme.textTheme.headlineMedium?.copyWith(
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        // TODO(l10n): пробник; при повышении до этапа 17
-                        // перевести в ARB en/ru/id.
-                        'Слово дня с примером и произношением — офлайн',
-                        textAlign: TextAlign.center,
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          color: theme.colorScheme.onSurfaceVariant,
+                        const SizedBox(height: 8),
+                        Text(
+                          l10n.welcomeTagline,
+                          textAlign: TextAlign.center,
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            color: theme.colorScheme.onSurfaceVariant,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const Spacer(),
-              // Логотип студии кружком: даже фото-фон в круге с окантовкой
-              // выглядит аккуратно (в идеале — прозрачный PNG от студии).
-              FadeTransition(
-                opacity: _studioFade,
-                child: Container(
-                  width: 56,
-                  height: 56,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: theme.colorScheme.surface,
-                    border: Border.all(
-                      color: theme.colorScheme.primary.withValues(
-                        alpha: 0.35,
-                      ),
-                      width: 2,
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(2),
-                    child: ClipOval(
-                      child: Image.asset(
-                        'assets/brand/logo.jpg',
-                        fit: BoxFit.cover,
-                        errorBuilder: (_, _, _) => const SizedBox.shrink(),
-                      ),
+                      ],
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 24),
-            ],
+                const Spacer(),
+                // Логотип студии кружком: даже фото-фон в круге с окантовкой
+                // выглядит аккуратно (в идеале — прозрачный PNG от студии).
+                FadeTransition(
+                  opacity: _studioFade,
+                  child: Container(
+                    width: 56,
+                    height: 56,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: theme.colorScheme.surface,
+                      border: Border.all(
+                        color: theme.colorScheme.primary.withValues(
+                          alpha: 0.35,
+                        ),
+                        width: 2,
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(2),
+                      child: ClipOval(
+                        child: Image.asset(
+                          'assets/brand/logo.jpg',
+                          fit: BoxFit.cover,
+                          errorBuilder: (_, _, _) => const SizedBox.shrink(),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 24),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 }
+

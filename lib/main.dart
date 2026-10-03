@@ -34,7 +34,12 @@ void main() {
 ///    история результатов для напоминаний и экрана) и одноразовое
 ///    напоминание о квизе (перепланирование: старт/резюм/полночь и
 ///    завершение квиза; тап — payload `wordoftheday://quiz` — открывает
-///    экран квиза сигналом [_quizOpenRequest]).
+///    экран квиза сигналом [_quizOpenRequest]);
+///  - этап 17 (идея B-009): preload-экран приветствия [WelcomeScreen]
+///    на холодном старте обычного запуска (1,5 с, тап = пропуск);
+///    старт по дееплинку (виджет/уведомление/квиз) приветствие
+///    пропускает — до резолва стартового URI/payload первый кадр
+///    пустой (фон нативного сплэша `#F1F8E9`, вспышки нет).
 ///
 /// Темы Material 3 со seed-цветом «мягкий зелёный» (редизайн для аудитории
 /// Индонезии: светлая природная палитра вместо индиго и тёмной темы),
@@ -72,10 +77,20 @@ class _WordOfTheDayAppState extends State<WordOfTheDayApp>
   Timer? _midnightTimer;
   StreamSubscription<Uri?>? _tapSubscription;
 
-  /// Пробник B-009 (ветка trial/b-009-splash): показан ли preload-экран
-  /// приветствия. Холодный старт открывает [WelcomeScreen], который сам
-  /// вызывает колбэк, когда анимация доиграла или пользователь тапнул.
+  /// Этап 17 (идея B-009): показан ли preload-экран приветствия. Холодный
+  /// старт открывает [WelcomeScreen], который сам вызывает колбэк, когда
+  /// анимация доиграла или пользователь тапнул.
   bool _splashDone = false;
+
+  /// Этап 17: резолвен ли стартовый запуск. Стартовые источники (URI
+  /// виджета + payload уведомления) читаются асинхронно — до их ответа
+  /// держим первый кадр пустым: тот же фон `#F1F8E9`, что у нативного
+  /// сплэша и scaffold приложения, поэтому смены картинки не видно.
+  bool _launchResolved = false;
+
+  /// Этап 17: старт по дееплинку (тап по виджету/уведомлению/напоминанию
+  /// квиза) — [WelcomeScreen] не показываем, сразу [HomeScreen].
+  bool _launchedFromDeeplink = false;
 
   @override
   void initState() {
@@ -137,25 +152,27 @@ class _WordOfTheDayAppState extends State<WordOfTheDayApp>
       // Тёмной темы нет: концепт «слово дня» должен вызывать позитивное
       // настроение и на устройствах с системной тёмной темой.
       themeMode: ThemeMode.light,
-      home: _splashDone
+      home: _splashDone || _launchedFromDeeplink
           ? HomeScreen(
               widgetTapDate: _widgetTapDate,
               quiz: _quiz,
               quizOpenRequest: _quizOpenRequest,
             )
-          // Пробник B-009 (trial/b-009-splash): preload-экран только при
-          // обычном запуске приложения. Дееплинги (тап по виджету или
-          // уведомлению, этапы 4/7) приходят в ValueNotifier-ы корневого
-          // виджета и всплывут, как только HomeScreen смонтируется, —
-          // сплэш их не теряет. В боевом варианте (этап 17) сплэш при
-          // дееплинк-старте будет пропускаться совсем.
-          : WelcomeScreen(
-              onFinished: () {
-                if (!_splashDone) {
-                  setState(() => _splashDone = true);
-                }
-              },
-            ),
+          // Этап 17: до резолва стартовых источников (URI виджета,
+          // payload уведомления — миллисекунды) держим кадр пустым на
+          // фоне scaffold (#F1F8E9) — визуально продолжение нативного
+          // сплэша, без вспышки. Дееплинк-старт пропускает приветствие
+          // совсем, обычный — показывает [WelcomeScreen]; его колбэк
+          // (анимация доиграла / тап) переключает на карточку дня.
+          : !_launchResolved
+              ? const Scaffold(body: SizedBox.shrink())
+              : WelcomeScreen(
+                  onFinished: () {
+                    if (!_splashDone) {
+                      setState(() => _splashDone = true);
+                    }
+                  },
+                ),
     );
   }
 
@@ -192,17 +209,44 @@ class _WordOfTheDayAppState extends State<WordOfTheDayApp>
       onError: (Object error) =>
           debugPrint('WidgetSync: ошибка стрима тапов виджета: $error'),
     );
+    // Этап 17: стартовый URI — ещё и вход гейта приветствия: резолв
+    // (любой исход) отпирает первый кадр, валидная дата помечает запуск
+    // дееплинком.
     HomeWidget.initiallyLaunchedFromHomeWidget()
-        .then(_handleWidgetUri)
+        .then(_handleInitialLaunchUri)
         .catchError((Object error) {
           debugPrint('WidgetSync: не удалось прочитать стартовый URI: $error');
-        });
+        })
+        .whenComplete(_resolveLaunch);
   }
 
   void _handleWidgetUri(Uri? uri) {
     final date = WidgetSyncService.dateFromWidgetUri(uri);
     if (date != null) {
       _widgetTapDate.value = date;
+    }
+  }
+
+  /// Этап 17: стартовый URI виджета — та же карточка даты, но запуск
+  /// помечен дееплинком (приветствие пропускается).
+  void _handleInitialLaunchUri(Uri? uri) {
+    final date = WidgetSyncService.dateFromWidgetUri(uri);
+    if (date != null) {
+      _widgetTapDate.value = date;
+      _launchedFromDeeplink = true;
+    }
+  }
+
+  /// Этап 17: стартовые источники разобраны — гейт первого кадра
+  /// отпирается. Вызывается по разу с каждого источника (виджет,
+  /// уведомление); срабатывает второй.
+  void _resolveLaunch() {
+    if (_launchResolved) {
+      return;
+    }
+    _launchResolved = true;
+    if (mounted) {
+      setState(() {});
     }
   }
 
@@ -215,9 +259,17 @@ class _WordOfTheDayAppState extends State<WordOfTheDayApp>
       onOpenQuiz: _openQuiz,
     );
     unawaited(_notifications!.start());
-    _notifications!.launchNotificationPayload().then(
-      _handleNotificationPayload,
-    );
+    // Этап 17: резолв payload — второй вход гейта приветствия (ошибка
+    // чтения не должна держать первый кадр вечно).
+    _notifications!
+        .launchNotificationPayload()
+        .then(_handleLaunchPayload)
+        .catchError((Object error) {
+          debugPrint(
+            'Notifications: не удалось прочитать payload запуска: $error',
+          );
+        })
+        .whenComplete(_resolveLaunch);
   }
 
   /// Этап 14: квиз-сервис + стартовое перепланирование напоминания по
@@ -247,6 +299,17 @@ class _WordOfTheDayAppState extends State<WordOfTheDayApp>
 
   /// Этап 14: открыть квиз (тап по напоминанию — тёплый старт).
   void _openQuiz() => _quizOpenRequest.value = true;
+
+  /// Этап 17: payload запуска — общий разбор, плюс запуск помечается
+  /// дееплинком: холодный старт по уведомлению/напоминанию квиза —
+  /// без приветствия, сразу карточка/квиз.
+  void _handleLaunchPayload(String? payload) {
+    if (payload == null || payload.isEmpty) {
+      return;
+    }
+    _launchedFromDeeplink = true;
+    _handleNotificationPayload(payload);
+  }
 
   /// Payload уведомления — тот же URI-контракт, что и у виджета.
   void _handleNotificationPayload(String? payload) {

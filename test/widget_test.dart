@@ -9,6 +9,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:eng_widget_app/main.dart';
 import 'package:eng_widget_app/services/dictionary_service.dart';
 import 'package:eng_widget_app/services/word_of_day_service.dart';
+import 'package:eng_widget_app/ui/screens/welcome_screen.dart';
 
 void main() {
   // Общие приготовления (этап 13): в тестовом окружении нет платформенных
@@ -74,6 +75,18 @@ void main() {
     mockAppChannels();
 
     await tester.pumpWidget(const WordOfTheDayApp());
+
+    // Этап 17: холодный старт — preload-экран приветствия (стартовые
+    // моки отдают null → обычный запуск). pump прогоняет микрозадачи
+    // резолва стартовых источников и кадр после отпирания гейта.
+    await tester.pump();
+    await tester.pump();
+    expect(find.byType(WelcomeScreen), findsOneWidget);
+
+    // Тап пропускает приветствие мгновенно — под ним обычная карточка дня.
+    await tester.tap(find.byType(WelcomeScreen));
+    await tester.pump();
+    expect(find.byType(WelcomeScreen), findsNothing);
 
     // Ассет читается реальным асинхронным I/O, поэтому «оживляем» время
     // порциями через runAsync и ждём данные FutureBuilder'а. pumpAndSettle

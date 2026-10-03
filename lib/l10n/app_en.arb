@@ -116,5 +116,9 @@
   "userExampleEdit": "Edit example",
   "@userExampleEdit": { "description": "Tooltip of the edit action for the saved personal example (stage 16)" },
   "userExampleRemove": "Remove example",
-  "@userExampleRemove": { "description": "Tooltip of the delete action for the saved personal example (stage 16)" }
+  "@userExampleRemove": { "description": "Tooltip of the delete action for the saved personal example (stage 16)" },
+  "welcomeTagline": "A word of the day with an example and pronunciation — offline",
+  "@welcomeTagline": { "description": "One-line description of the app on the welcome screen (stage 17, idea B-009)" },
+  "welcomeSkip": "Skip",
+  "@welcomeSkip": { "description": "Accessibility label of the tap-to-skip zone of the welcome screen (stage 17)" }
 }

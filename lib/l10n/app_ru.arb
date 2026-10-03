@@ -43,5 +43,7 @@
   "userExampleHint": "Где вы встретили это слово?",
   "userExampleSave": "Сохранить",
   "userExampleEdit": "Изменить пример",
-  "userExampleRemove": "Удалить пример"
+  "userExampleRemove": "Удалить пример",
+  "welcomeTagline": "Слово дня с примером и произношением — офлайн",
+  "welcomeSkip": "Пропустить"
 }

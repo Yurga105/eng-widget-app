@@ -159,4 +159,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get userExampleRemove => 'Remove example';
+
+  @override
+  String get welcomeTagline =>
+      'A word of the day with an example and pronunciation — offline';
+
+  @override
+  String get welcomeSkip => 'Skip';
 }

@@ -43,5 +43,7 @@
   "userExampleHint": "Di mana kamu menemukan kata ini?",
   "userExampleSave": "Simpan",
   "userExampleEdit": "Ubah contoh",
-  "userExampleRemove": "Hapus contoh"
+  "userExampleRemove": "Hapus contoh",
+  "welcomeTagline": "Kata hari ini dengan contoh dan pelafalan — offline",
+  "welcomeSkip": "Lewati"
 }
