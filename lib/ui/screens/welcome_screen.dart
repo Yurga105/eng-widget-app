@@ -5,9 +5,10 @@ import '../../l10n/generated/app_localizations.dart';
 /// Preload-экран приветствия — этап 17 (идея B-009, PLAN.md §8).
 ///
 /// Композиция по рекомендации бизнес-анализа: центр — бренд приложения
-/// (глиф «W.» как на иконке лаунчера, название, теглайн из ARB), низ —
-/// логотип студии кружком. Тап в любую точку пропускает сплэш — он не
-/// должен быть барьером; вся зона тапа подписана для доступности
+/// (глиф «W.» как на иконке лаунчера, название и английский теглайн —
+/// не переводим, как бренд этапа 10; глиф и название — системный serif),
+/// низ — логотип студии кружком. Тап в любую точку пропускает сплэш —
+/// он не должен быть барьером; вся зона тапа подписана для доступности
 /// (`Semantics` — «пропустить», ключ `welcomeSkip`).
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key, required this.onFinished});
@@ -98,6 +99,10 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                           child: Text(
                             'W.',
                             style: TextStyle(
+                              // Системный serif (на Android — Noto Serif):
+                              // «словарная» серьёзность вместо дефолтного
+                              // Roboto (правка по итогам приёмки этапа 17).
+                              fontFamily: 'serif',
                               fontSize: 56,
                               fontWeight: FontWeight.w700,
                               color: theme.colorScheme.onPrimary,
@@ -109,12 +114,17 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                           // Бренд не переводим (решение этапа 10).
                           'Word of Day',
                           style: theme.textTheme.headlineMedium?.copyWith(
+                            fontFamily: 'serif',
                             fontWeight: FontWeight.w700,
+                            letterSpacing: 0.5,
                           ),
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          l10n.welcomeTagline,
+                          // Теглайн — часть бренда: всегда английский,
+                          // без упоминания офлайна (правка по итогам
+                          // приёмки этапа 17).
+                          'A word of the day with an example and pronunciation',
                           textAlign: TextAlign.center,
                           style: theme.textTheme.bodyMedium?.copyWith(
                             color: theme.colorScheme.onSurfaceVariant,

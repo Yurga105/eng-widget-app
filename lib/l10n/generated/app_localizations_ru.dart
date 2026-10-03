@@ -161,8 +161,5 @@ class AppLocalizationsRu extends AppLocalizations {
   String get userExampleRemove => 'Удалить пример';
 
   @override
-  String get welcomeTagline => 'Слово дня с примером и произношением — офлайн';
-
-  @override
   String get welcomeSkip => 'Пропустить';
 }

@@ -161,9 +161,5 @@ class AppLocalizationsId extends AppLocalizations {
   String get userExampleRemove => 'Hapus contoh';
 
   @override
-  String get welcomeTagline =>
-      'Kata hari ini dengan contoh dan pelafalan — offline';
-
-  @override
   String get welcomeSkip => 'Lewati';
 }

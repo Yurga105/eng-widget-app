@@ -364,12 +364,6 @@ abstract class AppLocalizations {
   /// **'Remove example'**
   String get userExampleRemove;
 
-  /// One-line description of the app on the welcome screen (stage 17, idea B-009)
-  ///
-  /// In en, this message translates to:
-  /// **'A word of the day with an example and pronunciation — offline'**
-  String get welcomeTagline;
-
   /// Accessibility label of the tap-to-skip zone of the welcome screen (stage 17)
   ///
   /// In en, this message translates to:
