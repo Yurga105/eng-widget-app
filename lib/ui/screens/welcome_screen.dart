@@ -120,14 +120,21 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                           ),
                         ),
                         const SizedBox(height: 8),
-                        Text(
-                          // Теглайн — часть бренда: всегда английский,
-                          // без упоминания офлайна (правка по итогам
-                          // приёмки этапа 17).
-                          'A word of the day with an example and pronunciation',
-                          textAlign: TextAlign.center,
-                          style: theme.textTheme.bodyMedium?.copyWith(
-                            color: theme.colorScheme.onSurfaceVariant,
+                        ConstrainedBox(
+                          // Страховка вёрстки: длинная строка переносится
+                          // в ≤2 строки по центру, а не тянется от края
+                          // до края (правка по итогам приёмки этапа 17).
+                          constraints: const BoxConstraints(maxWidth: 320),
+                          child: Text(
+                            // Теглайн — часть бренда: всегда английский;
+                            // короткий и честный — без «офлайна» и без
+                            // «произношения» (качество системного TTS не
+                            // выносим в слоган; правка приёмки 03.10.2026).
+                            'A new English word every day',
+                            textAlign: TextAlign.center,
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              color: theme.colorScheme.onSurfaceVariant,
+                            ),
                           ),
                         ),
                       ],

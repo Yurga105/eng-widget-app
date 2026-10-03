@@ -109,10 +109,7 @@ void main() {
     // Тексты в дереве с первого кадра (проявляются анимацией);
     // логотип студии — через errorBuilder (ассет-канал уже молчит).
     expect(find.text('Word of Day'), findsOneWidget);
-    expect(
-      find.text('A word of the day with an example and pronunciation'),
-      findsOneWidget,
-    );
+    expect(find.text('A new English word every day'), findsOneWidget);
     expect(finished, 0);
 
     await tester.pumpAndSettle();
@@ -151,12 +148,10 @@ void main() {
   testWidgets('Теглайн — часть бренда (ru): всегда английский', (tester) async {
     await tester.pumpWidget(host(locale: const Locale('ru')));
 
-    // Правка по итогам приёмки этапа 17: теглайн не переводим (как бренд)
-    // и без упоминания офлайна; в ru-локали локализован только Semantics.
-    expect(
-      find.text('A word of the day with an example and pronunciation'),
-      findsOneWidget,
-    );
+    // Правка по итогам приёмки этапа 17: теглайн не переводим (как бренд),
+    // короткий и честный — без офлайна и без обещания произношения;
+    // в ru-локали локализован только Semantics.
+    expect(find.text('A new English word every day'), findsOneWidget);
     expect(find.text('Word of Day'), findsOneWidget);
   });
 }
