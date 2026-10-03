@@ -80,6 +80,9 @@ flutter:
   # Локальный словарь приложения (PLAN.md §4).
   assets:
     - assets/words_db.json
+    # Пробник B-009 (ветка trial/b-009-splash): логотип студии для
+    # preload-экрана приветствия; в main попадёт только с этапом 17.
+    - assets/brand/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

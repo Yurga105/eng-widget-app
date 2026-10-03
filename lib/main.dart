@@ -8,6 +8,7 @@ import 'services/notification_service.dart';
 import 'services/quiz_service.dart';
 import 'services/widget_sync_service.dart';
 import 'ui/screens/home_screen.dart';
+import 'ui/screens/welcome_screen.dart';
 
 void main() {
   runApp(const WordOfTheDayApp());
@@ -71,6 +72,11 @@ class _WordOfTheDayAppState extends State<WordOfTheDayApp>
   Timer? _midnightTimer;
   StreamSubscription<Uri?>? _tapSubscription;
 
+  /// Пробник B-009 (ветка trial/b-009-splash): показан ли preload-экран
+  /// приветствия. Холодный старт открывает [WelcomeScreen], который сам
+  /// вызывает колбэк, когда анимация доиграла или пользователь тапнул.
+  bool _splashDone = false;
+
   @override
   void initState() {
     super.initState();
@@ -131,11 +137,25 @@ class _WordOfTheDayAppState extends State<WordOfTheDayApp>
       // Тёмной темы нет: концепт «слово дня» должен вызывать позитивное
       // настроение и на устройствах с системной тёмной темой.
       themeMode: ThemeMode.light,
-      home: HomeScreen(
-        widgetTapDate: _widgetTapDate,
-        quiz: _quiz,
-        quizOpenRequest: _quizOpenRequest,
-      ),
+      home: _splashDone
+          ? HomeScreen(
+              widgetTapDate: _widgetTapDate,
+              quiz: _quiz,
+              quizOpenRequest: _quizOpenRequest,
+            )
+          // Пробник B-009 (trial/b-009-splash): preload-экран только при
+          // обычном запуске приложения. Дееплинги (тап по виджету или
+          // уведомлению, этапы 4/7) приходят в ValueNotifier-ы корневого
+          // виджета и всплывут, как только HomeScreen смонтируется, —
+          // сплэш их не теряет. В боевом варианте (этап 17) сплэш при
+          // дееплинк-старте будет пропускаться совсем.
+          : WelcomeScreen(
+              onFinished: () {
+                if (!_splashDone) {
+                  setState(() => _splashDone = true);
+                }
+              },
+            ),
     );
   }
 
