@@ -24,7 +24,10 @@ void main() {
   // платформа переставала отвечать каналу вовсе: карточка дня в следующих
   // тестах ждала ассет вечно (вечный спиннер). Поэтому за чтение ассетов
   // отвечаем сами — байтами файлов из каталога assets/ репозитория.
-  Directory mockAppChannels() {
+  /// [withSavedLanguageChoice] = false — свежая установка без
+  /// settings.json: холодный старт с en/неподдержанной системной
+  /// локалью покажет онбординг-пикер языка (правка приёмки 05.10.2026).
+  Directory mockAppChannels({bool withSavedLanguageChoice = true}) {
     Future<Object?>? handler(MethodCall call) async => null;
     final messenger =
         TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger;
@@ -43,6 +46,18 @@ void main() {
       const MethodChannel('plugins.flutter.io/path_provider'),
       (call) async => documents.path,
     );
+    // Выбор языка предзаписан (system, онбординги показаны): прежние
+    // e2e-маршруты не встречают пикер языка; false — свежая установка.
+    if (withSavedLanguageChoice) {
+      File(
+        '${documents.path}${Platform.pathSeparator}settings.json',
+      ).writeAsStringSync(jsonEncode(<String, Object>{
+        'version': 3,
+        'appLanguage': 'system',
+        'languagePromptShown': true,
+        'onboardingShown': true,
+      }));
+    }
     Future<ByteData?>? assetsHandler(ByteData? message) async {
       final key = utf8.decode(
         message!.buffer.asUint8List(
@@ -184,21 +199,19 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Quiz'), findsNothing);
 
-    // Этап 18: шестерёнка справа открывает настройки; пикер — «как в
-    // системе» + 5 языков (English опцией не выбирается — template-фолбэк).
-    // Этап 19: ниже добавилась секция «Translation language» — ещё 5 строк.
+    // Этапы 18–19 (правка приёмки 05.10.2026): шестерёнка справа
+    // открывает настройки; единая секция «Language» — «как в системе»
+    // + 6 языков, включая English (переводы слов для него — русские).
     await tester.tap(find.byIcon(Icons.settings_rounded));
     await tester.pump();
     await tester.pumpAndSettle();
     expect(find.text('Settings'), findsOneWidget);
-    expect(find.text('Interface language'), findsOneWidget);
-    expect(find.text('Translation language'), findsOneWidget);
-    expect(find.byType(ListTile), findsNWidgets(11));
+    expect(find.text('Language'), findsOneWidget);
+    expect(find.byType(ListTile), findsNWidgets(7));
 
     // Тап по Deutsch — язык меняется мгновенно, включая уже открытый
-    // экран настроек (нотифаер сервиса слушает и main.dart). Аутоним
-    // в двух секциях — тапаем первую (язык интерфейса).
-    await tester.tap(find.text('Deutsch').first);
+    // экран настроек (нотифаер сервиса слушает и main.dart).
+    await tester.tap(find.text('Deutsch'));
     await tester.pump();
     await tester.pumpAndSettle();
     expect(find.text('Einstellungen'), findsOneWidget);
@@ -240,6 +253,44 @@ void main() {
     // первого теста не нужен (и опасен: см. гонку ассет-канала выше).
     expect(find.text('Wort des Tages'), findsOneWidget);
 
+    await tester.pumpWidget(const SizedBox.shrink());
+    await tester.pump();
+  });
+
+  testWidgets('Холодный старт с en-локалью: пикер языка → Русский → карточка',
+      (tester) async {
+    mockAppChannels(withSavedLanguageChoice: false);
+    tester.platformDispatcher.localeTestValue = const Locale('en');
+    tester.platformDispatcher.localesTestValue = const <Locale>[Locale('en')];
+    addTearDown(() {
+      tester.platformDispatcher.clearLocaleTestValue();
+      tester.platformDispatcher.clearLocalesTestValue();
+    });
+
+    await tester.pumpWidget(const WordOfTheDayApp());
+    await tester.pump();
+    await tester.pump();
+    expect(find.byType(WelcomeScreen), findsOneWidget);
+    await tester.tap(find.byType(WelcomeScreen));
+    await tester.pump();
+    await tester.pump();
+
+    // Правка приёмки 05.10.2026: en-системная локаль без сохранённого
+    // выбора — вместо карточки онбординг-пикер языка (выбор обязателен,
+    // English в списке есть).
+    expect(find.text('Choose your language'), findsOneWidget);
+    expect(find.text('English'), findsOneWidget);
+
+    // Выбор «Русский» — весь интерфейс мгновенно на русском, вопрос
+    // больше не задаётся.
+    await tester.tap(find.text('Русский'));
+    await tester.pump();
+    await tester.pump();
+    expect(find.text('Слово дня'), findsOneWidget);
+    expect(find.text('Choose your language'), findsNothing);
+
+    // Демонтируем приложение: dispose гасит полуночный таймер и подписку,
+    // иначе фреймворк пожалуется на незавершённую работу.
     await tester.pumpWidget(const SizedBox.shrink());
     await tester.pump();
   });

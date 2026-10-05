@@ -48,6 +48,17 @@ void main() {
         const MethodChannel('plugins.flutter.io/path_provider'),
         (call) async => documents.path,
       );
+      // Правка приёмки 05.10.2026: выбор языка предзаписан — гейт
+      // онбординга языка не должен перехватывать этот e2e-маршрут
+      // (пикер языка при en-локали проверяется в widget_test.dart).
+      File(
+        '${documents.path}${Platform.pathSeparator}settings.json',
+      ).writeAsStringSync(jsonEncode(<String, Object>{
+        'version': 3,
+        'appLanguage': 'system',
+        'languagePromptShown': true,
+        'onboardingShown': true,
+      }));
       Future<ByteData?>? assetsHandler(ByteData? message) async {
         final key = utf8.decode(
           message!.buffer.asUint8List(

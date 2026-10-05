@@ -167,11 +167,25 @@ class AppLocalizationsRu extends AppLocalizations {
   String get settingsTitle => 'Настройки';
 
   @override
-  String get settingsInterfaceLanguage => 'Язык интерфейса';
+  String get settingsLanguage => 'Язык';
 
   @override
   String get languageSystem => 'Как в системе';
 
   @override
-  String get settingsTranslationLanguage => 'Язык переводов';
+  String settingsLanguageSystemDetails(String interface, String translations) {
+    return 'Интерфейс: $interface · Переводы: $translations';
+  }
+
+  @override
+  String settingsEnglishTranslations(String language) {
+    return 'Переводы слов: $language';
+  }
+
+  @override
+  String get languagePickTitle => 'Выберите язык';
+
+  @override
+  String get languagePickSubtitle =>
+      'Приложение целиком — интерфейс и переводы слов';
 }

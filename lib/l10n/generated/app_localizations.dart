@@ -382,23 +382,41 @@ abstract class AppLocalizations {
   /// **'Settings'**
   String get settingsTitle;
 
-  /// Section header of the interface language picker (stage 18)
+  /// Section header of the single app language picker: controls both the UI and word translations (stage 18/19 rework, 05.10.2026)
   ///
   /// In en, this message translates to:
-  /// **'Interface language'**
-  String get settingsInterfaceLanguage;
+  /// **'Language'**
+  String get settingsLanguage;
 
-  /// Picker option: follow the device system language (stage 18)
+  /// Picker option: follow the device system language for both UI and translations (rework 05.10.2026)
   ///
   /// In en, this message translates to:
   /// **'Follow system'**
   String get languageSystem;
 
-  /// Section header of the word translation language picker (stage 19)
+  /// Subtitle of the Follow system option: what the device locale actually resolves to (language autonyms are passed in)
   ///
   /// In en, this message translates to:
-  /// **'Translation language'**
-  String get settingsTranslationLanguage;
+  /// **'Interface: {interface} · Translations: {translations}'**
+  String settingsLanguageSystemDetails(String interface, String translations);
+
+  /// Subtitle of the English option: the dictionary has no English translations, so they stay Russian; {language} is the Russian autonym
+  ///
+  /// In en, this message translates to:
+  /// **'Word translations: {language}'**
+  String settingsEnglishTranslations(String language);
+
+  /// Title of the first-launch language picker (shown once when the device locale is English or unsupported)
+  ///
+  /// In en, this message translates to:
+  /// **'Choose your language'**
+  String get languagePickTitle;
+
+  /// Subtitle of the first-launch language picker
+  ///
+  /// In en, this message translates to:
+  /// **'The whole app — interface and word translations — will use it'**
+  String get languagePickSubtitle;
 }
 
 class _AppLocalizationsDelegate

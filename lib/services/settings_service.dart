@@ -4,10 +4,11 @@ import 'dart:io';
 import 'dart:ui' show Locale;
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart' show WidgetsBinding;
 import 'package:path_provider/path_provider.dart';
 
-/// Язык интерфейса, который пользователь может выбрать вручную
-/// (этап 18, идея B-005). [autonym] — название «на самом языке»
+/// Язык приложения, который пользователь может выбрать вручную
+/// (этапы 18–19, идея B-005). [autonym] — название «на самом языке»
 /// («Русский», «Deutsch»): аутонимы не переводятся, поэтому живут
 /// в коде, а не в ARB-файлах — одинаковые в любой локали.
 class InterfaceLanguage {
@@ -16,17 +17,21 @@ class InterfaceLanguage {
   /// Код локали: ключ `settings.json` и [Locale.languageCode].
   final String code;
 
-  /// Название для пикера настроек (одинаковое во всех локалях).
+  /// Название для пикеров (одинаковое во всех локалях).
   final String autonym;
 }
 
-/// Языки интерфейса пикера настроек — единственная точка расширения:
-/// новый язык = ARB-файл `app_xx.arb` (+ нативные строки по образцу
-/// существующих) и одна строка здесь; валидация, пикер и тесты читают
-/// этот список. en в списке нет сознательно: он template-фолбэк
-/// локализации (неподдержанная системная локаль → en, `l10n.yaml`) и
-/// вручную не выбирается.
+/// Языки приложения — единственная точка расширения: новый язык =
+/// ARB-файл `app_xx.arb` (+ нативные строки по образцу существующих),
+/// переводы в словаре v2 и одна строка здесь; валидация, пикеры и
+/// тесты читают этот список. en в списке есть (правка приёмки
+/// 05.10.2026): он template-фолбэк локализации (неподдержанная
+/// системная локаль → en, `l10n.yaml`) и выбирается онбордингом/
+/// настройками; английских переводов слов в словаре нет (приложение
+/// учит английскому), поэтому для «en» переводы остаются русскими —
+/// см. [SettingsService.resolveTranslationLanguage].
 const List<InterfaceLanguage> kInterfaceLanguages = <InterfaceLanguage>[
+  InterfaceLanguage('en', 'English'),
   InterfaceLanguage('ru', 'Русский'),
   InterfaceLanguage('id', 'Bahasa Indonesia'),
   InterfaceLanguage('de', 'Deutsch'),
@@ -34,21 +39,31 @@ const List<InterfaceLanguage> kInterfaceLanguages = <InterfaceLanguage>[
   InterfaceLanguage('es', 'Español'),
 ];
 
-/// Настройки приложения (этапы 18–19, идея B-005): язык интерфейса
-/// (schema v1) и язык переводов слов (этап 19, schema v2).
+/// Настройки приложения (этапы 18–19, идея B-005; правка приёмки
+/// 05.10.2026): единый язык приложения — интерфейс, переводы слов,
+/// виджет и уведомление (schema v3).
+///
+/// Правка приёмки 05.10.2026 (репорт этапа 19): вместо двух независимых
+/// настроек (язык интерфейса v1 + язык переводов v2) — одна: код из
+/// [kInterfaceLanguages] или [systemLanguage] — «как в системе», когда
+/// интерфейс и переводы следуют системной локали устройства. Системная
+/// en/неподдержанная локаль: интерфейс — English, а онбординг один раз
+/// предлагает выбрать язык ([languagePromptShown],
+/// `language_pick_screen.dart`). Ручной «en» — интерфейс English с
+/// русскими переводами слов.
 ///
 /// Хранение — JSON-файл `documents/settings.json` по паттерну
 /// `FavoriteService` (этап 13): инжектируемый каталог documents, после
 /// его резолва — синхронный файловый IO (детерминирован в fake-async
 /// тестах), «тихие» ошибки — смена языка не должна ронять приложение.
-/// В окружении без плагина path_provider (тесты виджетов) сервис
-/// молча работает с системным языком.
+/// Файлы v1/v2 (две настройки) читаются с миграцией: старые настройки
+/// схлопываются в [appLanguage] (приоритет — выбору интерфейса),
+/// онбординги считаются показанными — приложением уже пользовались.
 ///
-/// Состояние — публичные нотифаеры: [localeOverride]
-/// (`ValueNotifier<String?>`, null = «как в системе») и
-/// [translationLanguage] (`ValueNotifier<String>`, язык переводов,
-/// этап 19): `main.dart` пересобирает MaterialApp по первому, экран
-/// настроек слушает оба — смена языка мгновенная, без перезапуска.
+/// Состояние — нотифаер [appLanguage] (`ValueNotifier<String>`):
+/// `main.dart` пересобирает MaterialApp и перепланирует виджет/
+/// уведомление, экран настроек и онбординг-пикер слушают его — смена
+/// языка мгновенная, без перезапуска.
 class SettingsService {
   SettingsService({Future<Directory> Function()? documentsDirectory})
       : _documentsDirectory =
@@ -64,123 +79,229 @@ class SettingsService {
   /// Значение «как в системе» в `settings.json`.
   static const String systemLanguage = 'system';
 
-  /// Язык переводов по умолчанию (этап 19): он есть у каждой записи
-  /// словаря v2; файлы настроек v1 без ключа читаются как «ru».
+  /// Код английского: фолбэк локализации интерфейса; выбирается
+  /// онбордингом/настройками, переводов слов для него в словаре нет.
+  static const String englishLanguage = 'en';
+
+  /// Язык переводов по умолчанию: он есть у каждой записи словаря v2.
   static const String defaultTranslationLanguage = 'ru';
+
+  /// Коды языков с переводами в словаре v2 (этап 19): все языки
+  /// приложения, кроме английского.
+  static const Set<String> translationLanguageCodes = <String>{
+    'ru', 'id', 'de', 'fr', 'es',
+  };
 
   final Future<Directory> Function() _documentsDirectory;
 
-  /// Выбранный язык интерфейса: код из [kInterfaceLanguages] или
-  /// null — «как в системе» (обычная резолв локали MaterialApp).
-  final ValueNotifier<String?> localeOverride = ValueNotifier<String?>(null);
+  /// Единый язык приложения: код из [kInterfaceLanguages] или
+  /// [systemLanguage] — «как в системе» (интерфейс — обычная резолв
+  /// MaterialApp, переводы — [resolveTranslationLanguage]).
+  final ValueNotifier<String> appLanguage =
+      ValueNotifier<String>(systemLanguage);
 
-  /// Язык, на котором показываются перевод и пример слова (этап 19,
-  /// часть 2): один из кодов [kInterfaceLanguages], без опции «как в
-  /// системе» — по умолчанию [defaultTranslationLanguage].
-  final ValueNotifier<String> translationLanguage =
-      ValueNotifier<String>(defaultTranslationLanguage);
+  /// Онбординг-пикер языка уже показывался: выбор сделан или системная
+  /// локаль поддержана переводами — вопрос не нужен.
+  bool languagePromptShown = false;
+
+  /// Знакомство с функционалом (этап 20) уже показывалось.
+  bool onboardingShown = false;
 
   /// Стартовое чтение: выполняется один раз; повторные вызовы [load]
   /// ждут тот же future (детерминизм в тестах).
   Future<void>? _loading;
 
+  bool _loaded = false;
+
+  /// Стартовое чтение завершилось (файл прочитан или тихий дефолт):
+  /// гейты онбордингов в main.dart смотрят сюда, чтобы не спрашивать
+  /// до того, как файл прочитан.
+  bool get isLoaded => _loaded;
+
   /// Локаль для `MaterialApp.locale`: null — системная резолюция
   /// (включая канонизацию legacy-кода Android «in» → «id»), иначе
-  /// выбранный в настройках язык.
+  /// выбранный язык приложения.
   Locale? get locale {
-    final code = localeOverride.value;
-    if (code == null || code == systemLanguage) {
+    final code = appLanguage.value;
+    if (code == systemLanguage) {
       return null;
     }
     return Locale(code);
   }
 
+  /// Язык приложения из системной локали: канонизация legacy-кода
+  /// Android «in» → «id»; неподдержанная → «en» (template-фолбэк
+  /// локализации, `l10n.yaml`).
+  static String interfaceLanguageForSystemLocale(Locale locale) {
+    final code = locale.languageCode == 'in' ? 'id' : locale.languageCode;
+    for (final language in kInterfaceLanguages) {
+      if (language.code == code) {
+        return language.code;
+      }
+    }
+    return englishLanguage;
+  }
+
+  /// Чистый резолв языка переводов (тестируется без платформы).
+  /// Ручной выбор — он сам, «en» → [defaultTranslationLanguage]
+  /// (английских переводов в словаре нет). «system» — язык системной
+  /// локали, если словарь его переводит, иначе русский дефолт.
+  static String resolveTranslationLanguage(
+    String appLanguage,
+    Locale systemLocale,
+  ) {
+    if (appLanguage != systemLanguage) {
+      return appLanguage == englishLanguage
+          ? defaultTranslationLanguage
+          : appLanguage;
+    }
+    final system = interfaceLanguageForSystemLocale(systemLocale);
+    return translationLanguageCodes.contains(system)
+        ? system
+        : defaultTranslationLanguage;
+  }
+
+  /// Чистый предикат гейта онбординга языка: язык ещё не спрашивали,
+  /// режим «как в системе», системная локаль не поддержана переводами
+  /// (интерфейс ушёл в en-фолбэк).
+  static bool shouldPromptLanguage({
+    required bool promptShown,
+    required String appLanguage,
+    required Locale systemLocale,
+  }) {
+    if (promptShown || appLanguage != systemLanguage) {
+      return false;
+    }
+    final system = interfaceLanguageForSystemLocale(systemLocale);
+    return !translationLanguageCodes.contains(system);
+  }
+
+  /// Язык переводов слов/примеров сейчас: ручной выбор или системная
+  /// локаль в режиме «как в системе». Читатели в build (карточка,
+  /// избранное, квиз, постер) и проводка виджета/уведомления в main.
+  String get effectiveTranslationLanguage => resolveTranslationLanguage(
+        appLanguage.value,
+        WidgetsBinding.instance.platformDispatcher.locale,
+      );
+
+  /// Нужен ли онбординг-пикер языка — см. [shouldPromptLanguage].
+  bool get needsLanguagePrompt => shouldPromptLanguage(
+        promptShown: languagePromptShown,
+        appLanguage: appLanguage.value,
+        systemLocale: WidgetsBinding.instance.platformDispatcher.locale,
+      );
+
   /// Прочитать сохранённый выбор (перезапуск приложения). Битый файл,
-  /// ошибки плагина — тихий «как в системе» (мягкая деградация, §9).
+  /// ошибки плагина — тихие дефолты (мягкая деградация, §9).
   Future<void> load() => _loading ??= _loadFromFile();
 
   Future<void> _loadFromFile() async {
     try {
       final file = await _fileFor();
       if (!file.existsSync()) {
-        return; // первый запуск — системная локаль
+        return; // первый запуск — дефолты («system», онбординги впереди)
       }
       final decoded = jsonDecode(file.readAsStringSync());
       if (decoded is! Map<String, dynamic>) {
         throw const FormatException('верхний уровень — не объект');
       }
-      localeOverride.value = _validated(decoded['interfaceLanguage']);
-      translationLanguage.value =
-          _validatedTranslation(decoded['translationLanguage']);
+      _decode(decoded);
     } catch (e) {
       debugPrint(
           'Settings: $fileName не прочитан ($e) — значения по умолчанию');
-      localeOverride.value = null;
-      translationLanguage.value = defaultTranslationLanguage;
+      appLanguage.value = systemLanguage;
+      languagePromptShown = false;
+      onboardingShown = false;
+    } finally {
+      _loaded = true;
     }
   }
 
-  /// Выбрать язык интерфейса (экран настроек). null или [systemLanguage]
-  /// — «как в системе»; неизвестный код тихо превращается в «как в
-  /// системе» (та же валидация, что при чтении). Нотифаер обновляется
-  /// сразу — UI отзывчив; при сбое записи файл отстанет от выбора
-  /// (после перезапуска вернёмся к последней успешной записи).
-  Future<void> setInterfaceLanguage(String? code) async {
-    await load(); // стартовое чтение завершилось до первой записи
-    final normalized = _validated(code);
-    localeOverride.value = normalized;
-    try {
-      final file = await _fileFor();
-      file.writeAsStringSync(_encode(normalized), flush: true);
-    } catch (e) {
-      debugPrint('Settings: $fileName не записан ($e)');
+  /// Мигрирующее чтение: v3 — как есть; v1/v2 — старые настройки
+  /// схлопываются в [appLanguage] (приоритет — выбору интерфейса),
+  /// онбординги считаются показанными: приложением уже пользовались.
+  void _decode(Map<String, dynamic> decoded) {
+    final version = (decoded['version'] as num?)?.toInt() ?? 1;
+    if (version >= 3) {
+      appLanguage.value = _validatedAppLanguage(decoded['appLanguage']);
+      languagePromptShown = decoded['languagePromptShown'] == true;
+      onboardingShown = decoded['onboardingShown'] == true;
+      return;
     }
+    final interface = _validatedAppLanguage(decoded['interfaceLanguage']);
+    if (interface != systemLanguage) {
+      appLanguage.value = interface;
+    } else if (version >= 2) {
+      final translations = decoded['translationLanguage'];
+      if (translations is String &&
+          translationLanguageCodes.contains(translations) &&
+          translations != defaultTranslationLanguage) {
+        appLanguage.value = translations;
+      }
+    }
+    languagePromptShown = true;
+    onboardingShown = true;
   }
 
-  /// Выбрать язык переводов слов и примеров (этап 19, часть 2).
-  /// Неизвестный код тихо заменяется дефолтом [defaultTranslationLanguage]
-  /// (та же валидация, что при чтении). Нотифаер обновляется сразу — UI
-  /// отзывчив; слушателей карточки/виджета/уведомлений подключают
-  /// шаги 4–6 этапа 19.
-  Future<void> setTranslationLanguage(String code) async {
-    await load(); // стартовое чтение завершилось до первой записи
-    final normalized = _validatedTranslation(code);
-    translationLanguage.value = normalized;
-    try {
-      final file = await _fileFor();
-      file.writeAsStringSync(_encode(localeOverride.value), flush: true);
-    } catch (e) {
-      debugPrint('Settings: $fileName не записан ($e)');
-    }
-  }
-
-  /// Валидные значения: [systemLanguage] (→ null) или код из
-  /// [kInterfaceLanguages]; устаревшее/кривое — «как в системе».
-  String? _validated(Object? raw) {
-    if (raw is! String || raw == systemLanguage) {
-      return null;
-    }
-    return kInterfaceLanguages.any((l) => l.code == raw) ? raw : null;
-  }
-
-  /// Валидные значения языка переводов: код из [kInterfaceLanguages];
-  /// устаревшее/кривое — дефолт [defaultTranslationLanguage] («ru»).
-  String _validatedTranslation(Object? raw) {
+  /// Валидные значения: [systemLanguage] или код из [kInterfaceLanguages];
+  /// устаревшее/кривое — «как в системе».
+  String _validatedAppLanguage(Object? raw) {
     if (raw is! String) {
-      return defaultTranslationLanguage;
+      return systemLanguage;
     }
-    return kInterfaceLanguages.any((l) => l.code == raw)
+    return raw == systemLanguage ||
+            kInterfaceLanguages.any((language) => language.code == raw)
         ? raw
-        : defaultTranslationLanguage;
+        : systemLanguage;
   }
 
-  /// Schema v2 (этап 19): обе настройки в одном файле. Файлы v1 читаются
-  /// без миграции — отсутствующий `translationLanguage` получит дефолт.
-  String _encode(String? interfaceCode) =>
+  /// Выбрать язык приложения (экран настроек / онбординг-пикер).
+  /// [systemLanguage] — «как в системе»; неизвестный код тихо
+  /// превращается в «как в системе» (та же валидация, что при чтении).
+  /// Нотифаер обновляется сразу — UI отзывчив; при сбое записи файл
+  /// отстанет от выбора (после перезапуска вернёмся к последней
+  /// успешной записи).
+  Future<void> setAppLanguage(String code) async {
+    await load(); // стартовое чтение завершилось до первой записи
+    final normalized = _validatedAppLanguage(code);
+    appLanguage.value = normalized;
+    await _persist();
+  }
+
+  /// Запомнить, что онбординг-пикер языка показан (выбор сделан или
+  /// системная локаль поддержана переводами — вопрос не понадобился).
+  Future<void> markLanguagePromptShown() async {
+    await load();
+    languagePromptShown = true;
+    await _persist();
+  }
+
+  /// Запомнить, что знакомство с функционалом показано (этап 20).
+  Future<void> markOnboardingShown() async {
+    await load();
+    onboardingShown = true;
+    await _persist();
+  }
+
+  /// Записать файл; сбой тихий — состояние нотифаера уже верное.
+  Future<void> _persist() async {
+    try {
+      final file = await _fileFor();
+      file.writeAsStringSync(_encode(), flush: true);
+    } catch (e) {
+      debugPrint('Settings: $fileName не записан ($e)');
+    }
+  }
+
+  /// Schema v3 (правка приёмки 05.10.2026): один язык приложения и
+  /// флаги онбордингов. Файлы v1/v2 читаются с миграцией ([_decode]),
+  /// любая запись после чтения пишет v3.
+  String _encode() =>
       const JsonEncoder.withIndent('  ').convert(<String, Object?>{
-        'version': 2,
-        'interfaceLanguage': interfaceCode ?? systemLanguage,
-        'translationLanguage': translationLanguage.value,
+        'version': 3,
+        'appLanguage': appLanguage.value,
+        'languagePromptShown': languagePromptShown,
+        'onboardingShown': onboardingShown,
       });
 
   Future<File> _fileFor() async {
@@ -190,7 +311,6 @@ class SettingsService {
 
   /// Освободить слушателей; вызывается из `dispose` владельца в main.
   void dispose() {
-    localeOverride.dispose();
-    translationLanguage.dispose();
+    appLanguage.dispose();
   }
 }

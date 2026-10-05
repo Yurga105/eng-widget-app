@@ -46,7 +46,10 @@
   "userExampleRemove": "Beispiel löschen",
   "welcomeSkip": "Überspringen",
   "settingsTitle": "Einstellungen",
-  "settingsInterfaceLanguage": "App-Sprache",
+  "settingsLanguage": "Sprache",
   "languageSystem": "Wie das System",
-  "settingsTranslationLanguage": "Übersetzungssprache"
+  "settingsLanguageSystemDetails": "Oberfläche: {interface} · Übersetzungen: {translations}",
+  "settingsEnglishTranslations": "Wortübersetzungen: {language}",
+  "languagePickTitle": "Wähle deine Sprache",
+  "languagePickSubtitle": "Die ganze App — Oberfläche und Wortübersetzungen — verwendet sie"
 }

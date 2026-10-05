@@ -6,15 +6,16 @@ import '../../l10n/generated/app_localizations.dart';
 import '../../services/settings_service.dart';
 import '../widgets/platform_widgets.dart';
 
-/// Экран настроек (этапы 18–19, идея B-005): две секции. «Язык
-/// интерфейса» (этап 18): «Как в системе» (сброс ручного выбора,
-/// подпись показывает, что реально дала бы системная локаль) и языки
-/// из [kInterfaceLanguages]; «Язык переводов» (этап 19, часть 2): те
-/// же языки аутонимами — на них показываются перевод и пример слова
-/// (карточка, виджет, уведомление). Название языка не переводится.
+/// Экран настроек (этапы 18–19, идея B-005; правка приёмки 05.10.2026):
+/// одна секция «Язык» вместо двух — единый язык приложения управляет
+/// и интерфейсом, и переводами слов. Опции: «Как в системе» (сброс
+/// ручного выбора; подпись показывает, что реально дала бы системная
+/// локаль — язык интерфейса и язык переводов) и языки из
+/// [kInterfaceLanguages]; у English подпись «переводы слов: Русский» —
+/// английских переводов в словаре нет. Название языка не переводится.
 ///
 /// Экран не держит состояния: текущий выбор — нотифаер сервиса,
-/// тап сразу пишет его через [SettingsService.setInterfaceLanguage];
+/// тап сразу пишет его через [SettingsService.setAppLanguage];
 /// перерисовку опций и всего приложения (включая этот экран) делает
 /// слушатель в `main.dart` — смена мгновенная.
 class SettingsScreen extends StatelessWidget {
@@ -33,55 +34,39 @@ class SettingsScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 16, bottom: 4),
             child: Text(
-              l10n.settingsInterfaceLanguage,
-              style: Theme.of(context).textTheme.titleSmall,
-            ),
-          ),
-          Card(
-            margin: EdgeInsets.zero,
-            child: ValueListenableBuilder<String?>(
-              valueListenable: settings.localeOverride,
-              builder: (context, selected, _) => Column(
-                children: <Widget>[
-                  _LanguageTile(
-                    title: l10n.languageSystem,
-                    subtitle: _systemLanguageName(context),
-                    selected: selected == null,
-                    onTap: () =>
-                        unawaited(settings.setInterfaceLanguage(null)),
-                  ),
-                  for (final language in kInterfaceLanguages)
-                    _LanguageTile(
-                      title: language.autonym,
-                      selected: selected == language.code,
-                      onTap: () => unawaited(
-                        settings.setInterfaceLanguage(language.code),
-                      ),
-                    ),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(height: 24),
-          Padding(
-            padding: const EdgeInsets.only(left: 16, bottom: 4),
-            child: Text(
-              l10n.settingsTranslationLanguage,
+              l10n.settingsLanguage,
               style: Theme.of(context).textTheme.titleSmall,
             ),
           ),
           Card(
             margin: EdgeInsets.zero,
             child: ValueListenableBuilder<String>(
-              valueListenable: settings.translationLanguage,
+              valueListenable: settings.appLanguage,
               builder: (context, selected, _) => Column(
                 children: <Widget>[
+                  _LanguageTile(
+                    title: l10n.languageSystem,
+                    subtitle: _systemLanguageDetails(context),
+                    selected: selected == SettingsService.systemLanguage,
+                    onTap: () => unawaited(
+                      settings.setAppLanguage(SettingsService.systemLanguage),
+                    ),
+                  ),
                   for (final language in kInterfaceLanguages)
                     _LanguageTile(
                       title: language.autonym,
+                      // Правка приёмки 05.10.2026: English — опция;
+                      // английских переводов в словаре нет, подпись
+                      // честно говорит, что переводы останутся русскими.
+                      subtitle:
+                          language.code == SettingsService.englishLanguage
+                              ? l10n.settingsEnglishTranslations(_autonymOf(
+                                  SettingsService
+                                      .defaultTranslationLanguage))
+                              : null,
                       selected: selected == language.code,
                       onTap: () => unawaited(
-                        settings.setTranslationLanguage(language.code),
+                        settings.setAppLanguage(language.code),
                       ),
                     ),
                 ],
@@ -93,21 +78,27 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
+  String _autonymOf(String code) => kInterfaceLanguages
+      .firstWhere((language) => language.code == code)
+      .autonym;
+
   /// Что дала бы системная локаль — подпись опции «Как в системе»:
-  /// аутоним поддержанного языка («Deutsch») или «English» — фактический
-  /// фолбэк локализации для неподдержанных. По platformDispatcher,
-  /// а не Localizations: тот уже отражает ручной выбор.
-  String _systemLanguageName(BuildContext context) {
-    // В проде view.locale == platformDispatcher.locale (одна цепочка);
-    // читаем platformDispatcher — в тестах переопределяется вместе со
-    // списком локалей.
+  /// язык интерфейса (аутоним поддержанного или «English»-фолбэк) и
+  /// язык переводов (en/неподдержанная → русский дефолт словаря).
+  /// По platformDispatcher, а не Localizations: тот уже отражает
+  /// ручной выбор; в тестах переопределяется вместе со списком локалей.
+  String _systemLanguageDetails(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final system = WidgetsBinding.instance.platformDispatcher.locale;
-    for (final language in kInterfaceLanguages) {
-      if (language.code == system.languageCode) {
-        return language.autonym;
-      }
-    }
-    return 'English';
+    final interface = SettingsService.interfaceLanguageForSystemLocale(system);
+    final translations = SettingsService.resolveTranslationLanguage(
+      SettingsService.systemLanguage,
+      system,
+    );
+    return l10n.settingsLanguageSystemDetails(
+      _autonymOf(interface),
+      _autonymOf(translations),
+    );
   }
 }
 

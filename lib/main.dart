@@ -9,6 +9,7 @@ import 'services/quiz_service.dart';
 import 'services/settings_service.dart';
 import 'services/widget_sync_service.dart';
 import 'ui/screens/home_screen.dart';
+import 'ui/screens/language_pick_screen.dart';
 import 'ui/screens/welcome_screen.dart';
 
 void main() {
@@ -47,10 +48,13 @@ void main() {
 /// локализация интерфейса en/ru/id/de/fr/es — системная локаль или
 /// ручной выбор (см. `lib/l10n/`).
 ///
-/// Этап 18 (идея B-005, часть 1): [SettingsService] — язык интерфейса.
-/// Нотифаер сервиса слушается в [build]: смена языка в настройках
-/// пересобирает MaterialApp с новым `locale` мгновенно; null =
-/// «как в системе» (обычная резолв MaterialApp).
+/// Этапы 18–19 (идея B-005; правка приёмки 05.10.2026): [SettingsService]
+/// — единый язык приложения (интерфейс + переводы слов). Нотифаер
+/// слушается в [build]: смена языка пересобирает MaterialApp с новым
+/// `locale` мгновенно; «как в системе» — обычная резолв MaterialApp,
+/// смену системного языка на лету доспанивает [didChangeLocales].
+/// Системная локаль en/неподдержанная — один раз [LanguagePickScreen]
+/// (гейт в [build]), затем обычный маршрут.
 class WordOfTheDayApp extends StatefulWidget {
   const WordOfTheDayApp({super.key});
 
@@ -113,11 +117,20 @@ class _WordOfTheDayAppState extends State<WordOfTheDayApp>
     _startQuiz();
     _scheduleMidnightSync();
     _listenToWidgetTaps();
-    _settings.localeOverride.addListener(_onInterfaceLanguageChanged);
-    // Этап 19: смена языка переводов — пересобрать дерево (карточка,
-    // избранное, квиз и постер читают значение в build) и перепланировать
-    // уведомление «слово дня» с телом на новом языке.
-    _settings.translationLanguage.addListener(_onTranslationLanguageChanged);
+    // Правка приёмки 05.10.2026: единый язык приложения — смена меняет
+    // интерфейс (locale MaterialApp), переводы (карточка/избранное/квиз/
+    // постер читают резолв в build), виджет и уведомление «слово дня».
+    // Слушатель срабатывает и на стартовое чтение файла: сохранённый
+    // выбор ≠ «system» доспанивает виджет и уведомление после загрузки.
+    _settings.appLanguage.addListener(_onAppLanguageChanged);
+    // Гейт онбординга языка ([LanguagePickScreen]) оценивается после
+    // чтения settings.json: чтение не меняет нотифаер, если выбор
+    // совпал с дефолтом, — пересобираем дерево явно.
+    unawaited(_settings.load().then((_) {
+      if (mounted) {
+        setState(() {});
+      }
+    }));
   }
 
   @override
@@ -128,10 +141,7 @@ class _WordOfTheDayAppState extends State<WordOfTheDayApp>
     _widgetTapDate.dispose();
     _quizOpenRequest.dispose();
     _quiz?.dispose();
-    _settings.localeOverride.removeListener(_onInterfaceLanguageChanged);
-    _settings.translationLanguage.removeListener(
-      _onTranslationLanguageChanged,
-    );
+    _settings.appLanguage.removeListener(_onAppLanguageChanged);
     _settings.dispose();
     super.dispose();
   }
@@ -145,7 +155,7 @@ class _WordOfTheDayAppState extends State<WordOfTheDayApp>
       // Контент уведомления должен соответствовать ближайшему срабатыванию.
       unawaited(
         _notifications?.rescheduleDailyNotification(
-          translationLanguage: _settings.translationLanguage.value,
+          translationLanguage: _settings.effectiveTranslationLanguage,
         ),
       );
       // Этап 14: одноразовое напоминание квиза не повторяется нативно —
@@ -155,29 +165,45 @@ class _WordOfTheDayAppState extends State<WordOfTheDayApp>
     }
   }
 
-  /// Этап 18: язык интерфейса сменился в настройках — пересобираем
-  /// дерево; новый `locale` [build] берёт из нотифаера сервиса.
-  void _onInterfaceLanguageChanged() {
-    if (mounted) {
-      setState(() {});
-    }
-  }
-
-  /// Этап 19 (идея B-005, часть 2): язык переводов сменился — пересобираем
-  /// дерево (карточка/избранное/квиз/постер читают нотифаер в build),
-  /// сразу перерисовываем виджет (новый язык уходит в prefs —
-  /// `widget.translation` + `widget.translation_lang`) и перепланируем
-  /// «слово дня» с телом на новом языке. Слушатель срабатывает и на
-  /// стартовое чтение файла: сохранённый выбор ≠ «ru» доспанивает
-  /// уведомление и виджет после загрузки настроек.
-  void _onTranslationLanguageChanged() {
+  /// Правка приёмки 05.10.2026: единый язык приложения сменился —
+  /// пересобираем дерево (locale MaterialApp и все читатели резолва
+  /// переводов в build), сразу перерисовываем виджет (новый язык уходит
+  /// в prefs — `widget.translation` + `widget.translation_lang`) и
+  /// перепланируем «слово дня» с телом на новом языке. Слушатель
+  /// срабатывает и на стартовое чтение файла: сохранённый выбор ≠
+  /// «system» доспанивает виджет и уведомление после загрузки настроек.
+  void _onAppLanguageChanged() {
     if (mounted) {
       setState(() {});
     }
     unawaited(_syncTodayQuietly());
     unawaited(
       _notifications?.rescheduleDailyNotification(
-        translationLanguage: _settings.translationLanguage.value,
+        translationLanguage: _settings.effectiveTranslationLanguage,
+      ),
+    );
+  }
+
+  /// Правка приёмки 05.10.2026: в режиме «как в системе» переводы
+  /// следуют системной локали — пользователь сменил язык устройства
+  /// на лету. Интерфейс перерисует MaterialApp сам; карточку, виджет
+  /// и уведомление доспаниваем здесь (при ручном выборе системная
+  /// смена ничего не меняет — выходим раньше).
+  @override
+  void didChangeLocales(List<Locale>? locales) {
+    super.didChangeLocales(locales);
+    if (locales == null ||
+        locales.isEmpty ||
+        _settings.appLanguage.value != SettingsService.systemLanguage) {
+      return;
+    }
+    if (mounted) {
+      setState(() {});
+    }
+    unawaited(_syncTodayQuietly());
+    unawaited(
+      _notifications?.rescheduleDailyNotification(
+        translationLanguage: _settings.effectiveTranslationLanguage,
       ),
     );
   }
@@ -197,10 +223,23 @@ class _WordOfTheDayAppState extends State<WordOfTheDayApp>
       // сама, включая legacy-коды Android ('in' → 'id').
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      // Этап 18: ручной выбор языка; null — системная резолв MaterialApp
-      // (включая канонизацию legacy-кода «in» → «id»), неподдержанная
-      // системная локаль → en-фолбэк локализации.
+      // Этапы 18–19 (правка приёмки 05.10.2026): единый язык приложения;
+      // «как в системе» — системная резолв MaterialApp (включая
+      // канонизацию legacy-кода «in» → «id»), неподдержанная системная
+      // локаль → en-фолбэк локализации.
       locale: _settings.locale,
+      // Правка приёмки 05.10.2026: template-фолбэк локализации — en.
+      // gen-l10n отдаёт supportedLocales отсортированными (первая — de),
+      // и стандартная резолв MaterialApp для неподдержанных системных
+      // локалей (ko, kk…) выбирала бы немецкий. Резолвим сами: код из
+      // [SettingsService.interfaceLanguageForSystemLocale] — системная
+      // локаль, поддержанная приложением, либо en. Ручной выбор
+      // (`locale` выше) идёт мимо этого колбэка.
+      localeResolutionCallback: (deviceLocale, supportedLocales) => Locale(
+        SettingsService.interfaceLanguageForSystemLocale(
+          deviceLocale ?? const Locale('en'),
+        ),
+      ),
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: seedColor),
         scaffoldBackgroundColor: const Color(0xFFF1F8E9),
@@ -210,12 +249,24 @@ class _WordOfTheDayAppState extends State<WordOfTheDayApp>
       // настроение и на устройствах с системной тёмной темой.
       themeMode: ThemeMode.light,
       home: _splashDone || _launchedFromDeeplink
-          ? HomeScreen(
-              widgetTapDate: _widgetTapDate,
-              quiz: _quiz,
-              quizOpenRequest: _quizOpenRequest,
-              settings: _settings,
-            )
+          ? _settings.isLoaded && _settings.needsLanguagePrompt
+              // Правка приёмки 05.10.2026: системная локаль en/не
+              // поддержана — один раз спрашиваем язык приложения
+              // (интерфейс + переводы), затем обычный маршрут.
+              ? LanguagePickScreen(
+                  settings: _settings,
+                  onDone: () {
+                    if (mounted) {
+                      setState(() {});
+                    }
+                  },
+                )
+              : HomeScreen(
+                  widgetTapDate: _widgetTapDate,
+                  quiz: _quiz,
+                  quizOpenRequest: _quizOpenRequest,
+                  settings: _settings,
+                )
           // Этап 17: до резолва стартовых источников (URI виджета,
           // payload уведомления — миллисекунды) держим кадр пустым на
           // фоне scaffold (#F1F8E9) — визуально продолжение нативного
@@ -239,7 +290,7 @@ class _WordOfTheDayAppState extends State<WordOfTheDayApp>
   Future<void> _syncTodayQuietly() async {
     try {
       await _widgetSync.syncToday(
-        translationLanguage: _settings.translationLanguage.value,
+        translationLanguage: _settings.effectiveTranslationLanguage,
       );
     } catch (e) {
       debugPrint('WidgetSync: не удалось синхронизировать виджет: $e');
@@ -258,7 +309,7 @@ class _WordOfTheDayAppState extends State<WordOfTheDayApp>
       // обновляем слово и в уведомлении.
       unawaited(
         _notifications?.rescheduleDailyNotification(
-          translationLanguage: _settings.translationLanguage.value,
+          translationLanguage: _settings.effectiveTranslationLanguage,
         ),
       );
       // Этап 14: мог наступить день квиза — напоминание должно стоять.
@@ -324,7 +375,7 @@ class _WordOfTheDayAppState extends State<WordOfTheDayApp>
     );
     unawaited(
       _notifications!.start(
-        translationLanguage: _settings.translationLanguage.value,
+        translationLanguage: _settings.effectiveTranslationLanguage,
       ),
     );
     // Этап 17: резолв payload — второй вход гейта приветствия (ошибка

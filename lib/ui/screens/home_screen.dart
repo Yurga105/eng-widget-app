@@ -218,7 +218,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           pronunciation: _pronunciation,
           wordImages: _wordImages,
           userExamples: _userExamples,
-          translationLanguage: _settings.translationLanguage.value,
+          translationLanguage: _settings.effectiveTranslationLanguage,
         ),
       ),
     );
@@ -253,7 +253,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           dictionary: _dictionary,
           favorites: _favorites,
           quiz: _quiz,
-          translationLanguage: _settings.translationLanguage.value,
+          translationLanguage: _settings.effectiveTranslationLanguage,
         ),
       ),
     );
@@ -328,7 +328,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                         // Этап 19: перевод и пример — на выбранном языке
                         // (фолбэк записи — русские поля v1).
                         translationLanguage:
-                            _settings.translationLanguage.value,
+                            _settings.effectiveTranslationLanguage,
                         dateLabel: formatDate(
                           date,
                           Localizations.localeOf(context),
@@ -351,10 +351,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                             poster: (context) => SharePoster(
                               entry: data.entry,
                               translationLanguage:
-                                  _settings.translationLanguage.value,
+                                  _settings.effectiveTranslationLanguage,
                             ),
                             text: '${data.entry.word} — '
-                                '${data.entry.translationFor(_settings.translationLanguage.value)}',
+                                '${data.entry.translationFor(_settings.effectiveTranslationLanguage)}',
                           ),
                         ),
                         // Этап 12: фото-ассоциация и её действия (ключ — id

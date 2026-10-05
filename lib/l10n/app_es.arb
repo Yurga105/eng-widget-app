@@ -46,7 +46,10 @@
   "userExampleRemove": "Eliminar ejemplo",
   "welcomeSkip": "Omitir",
   "settingsTitle": "Ajustes",
-  "settingsInterfaceLanguage": "Idioma de la aplicación",
+  "settingsLanguage": "Idioma",
   "languageSystem": "Como el sistema",
-  "settingsTranslationLanguage": "Idioma de las traducciones"
+  "settingsLanguageSystemDetails": "Interfaz: {interface} · Traducciones: {translations}",
+  "settingsEnglishTranslations": "Traducciones de palabras: {language}",
+  "languagePickTitle": "Elige tu idioma",
+  "languagePickSubtitle": "Toda la aplicación — interfaz y traducciones de palabras — la usará"
 }

@@ -46,7 +46,10 @@
   "userExampleRemove": "Hapus contoh",
   "welcomeSkip": "Lewati",
   "settingsTitle": "Pengaturan",
-  "settingsInterfaceLanguage": "Bahasa antarmuka",
+  "settingsLanguage": "Bahasa",
   "languageSystem": "Ikuti sistem",
-  "settingsTranslationLanguage": "Bahasa terjemahan"
+  "settingsLanguageSystemDetails": "Antarmuka: {interface} · Terjemahan: {translations}",
+  "settingsEnglishTranslations": "Terjemahan kata: {language}",
+  "languagePickTitle": "Pilih bahasa Anda",
+  "languagePickSubtitle": "Seluruh aplikasi — antarmuka dan terjemahan kata — akan menggunakannya"
 }

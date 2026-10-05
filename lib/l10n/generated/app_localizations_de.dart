@@ -167,11 +167,25 @@ class AppLocalizationsDe extends AppLocalizations {
   String get settingsTitle => 'Einstellungen';
 
   @override
-  String get settingsInterfaceLanguage => 'App-Sprache';
+  String get settingsLanguage => 'Sprache';
 
   @override
   String get languageSystem => 'Wie das System';
 
   @override
-  String get settingsTranslationLanguage => 'Übersetzungssprache';
+  String settingsLanguageSystemDetails(String interface, String translations) {
+    return 'Oberfläche: $interface · Übersetzungen: $translations';
+  }
+
+  @override
+  String settingsEnglishTranslations(String language) {
+    return 'Wortübersetzungen: $language';
+  }
+
+  @override
+  String get languagePickTitle => 'Wähle deine Sprache';
+
+  @override
+  String get languagePickSubtitle =>
+      'Die ganze App — Oberfläche und Wortübersetzungen — verwendet sie';
 }

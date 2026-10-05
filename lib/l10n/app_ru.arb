@@ -46,7 +46,10 @@
   "userExampleRemove": "Удалить пример",
   "welcomeSkip": "Пропустить",
   "settingsTitle": "Настройки",
-  "settingsInterfaceLanguage": "Язык интерфейса",
+  "settingsLanguage": "Язык",
   "languageSystem": "Как в системе",
-  "settingsTranslationLanguage": "Язык переводов"
+  "settingsLanguageSystemDetails": "Интерфейс: {interface} · Переводы: {translations}",
+  "settingsEnglishTranslations": "Переводы слов: {language}",
+  "languagePickTitle": "Выберите язык",
+  "languagePickSubtitle": "Приложение целиком — интерфейс и переводы слов"
 }

@@ -167,11 +167,25 @@ class AppLocalizationsFr extends AppLocalizations {
   String get settingsTitle => 'Réglages';
 
   @override
-  String get settingsInterfaceLanguage => 'Langue de l\'application';
+  String get settingsLanguage => 'Langue';
 
   @override
   String get languageSystem => 'Comme le système';
 
   @override
-  String get settingsTranslationLanguage => 'Langue des traductions';
+  String settingsLanguageSystemDetails(String interface, String translations) {
+    return 'Interface : $interface · Traductions : $translations';
+  }
+
+  @override
+  String settingsEnglishTranslations(String language) {
+    return 'Traductions des mots : $language';
+  }
+
+  @override
+  String get languagePickTitle => 'Choisissez votre langue';
+
+  @override
+  String get languagePickSubtitle =>
+      'Toute l\'application — interface et traductions des mots — l\'utilisera';
 }
