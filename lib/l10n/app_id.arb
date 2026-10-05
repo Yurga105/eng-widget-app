@@ -51,5 +51,13 @@
   "settingsLanguageSystemDetails": "Antarmuka: {interface} · Terjemahan: {translations}",
   "settingsEnglishTranslations": "Terjemahan kata: {language}",
   "languagePickTitle": "Pilih bahasa Anda",
-  "languagePickSubtitle": "Seluruh aplikasi — antarmuka dan terjemahan kata — akan menggunakannya"
+  "languagePickSubtitle": "Seluruh aplikasi — antarmuka dan terjemahan kata — akan menggunakannya",
+  "onboardingTitle1": "Kata baru setiap hari",
+  "onboardingBody1": "Satu kata bahasa Inggris per hari — lengkap dengan transkripsi, terjemahan, dan contoh. Langkah kecil setiap hari.",
+  "onboardingTitle2": "Selalu di depan mata",
+  "onboardingBody2": "Tambahkan widget ke layar utama — kata hari ini terlihat tanpa membuka aplikasi.",
+  "onboardingTitle3": "Ingat untuk selamanya",
+  "onboardingBody3": "Simpan kata dengan bintang, tambahkan asosiasi foto, dan ulangi dalam kuis setiap 3 hari.",
+  "onboardingNext": "Lanjut",
+  "onboardingStart": "Mulai"
 }

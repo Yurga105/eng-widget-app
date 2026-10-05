@@ -188,4 +188,31 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get languagePickSubtitle =>
       'Die ganze App — Oberfläche und Wortübersetzungen — verwendet sie';
+
+  @override
+  String get onboardingTitle1 => 'Jeden Tag ein neues Wort';
+
+  @override
+  String get onboardingBody1 =>
+      'Ein englisches Wort pro Tag — mit Lautschrift, Übersetzung und Beispiel. Kleine Schritte, jeden Tag.';
+
+  @override
+  String get onboardingTitle2 => 'Immer im Blick';
+
+  @override
+  String get onboardingBody2 =>
+      'Füge das Widget zum Startbildschirm hinzu — das Wort des Tages ist sichtbar, ohne die App zu öffnen.';
+
+  @override
+  String get onboardingTitle3 => 'Nachhaltig merken';
+
+  @override
+  String get onboardingBody3 =>
+      'Speichere Wörter mit dem Stern, füge Foto-Assoziationen hinzu und wiederhole sie alle 3 Tage im Quiz.';
+
+  @override
+  String get onboardingNext => 'Weiter';
+
+  @override
+  String get onboardingStart => 'Los geht\'s';
 }

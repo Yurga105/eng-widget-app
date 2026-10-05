@@ -51,5 +51,13 @@
   "settingsLanguageSystemDetails": "Интерфейс: {interface} · Переводы: {translations}",
   "settingsEnglishTranslations": "Переводы слов: {language}",
   "languagePickTitle": "Выберите язык",
-  "languagePickSubtitle": "Приложение целиком — интерфейс и переводы слов"
+  "languagePickSubtitle": "Приложение целиком — интерфейс и переводы слов",
+  "onboardingTitle1": "Новое слово каждый день",
+  "onboardingBody1": "Одно английское слово в день — с транскрипцией, переводом и примером. Маленькие шаги каждый день.",
+  "onboardingTitle2": "Всегда перед глазами",
+  "onboardingBody2": "Добавьте виджет на домашний экран — слово дня видно, даже когда приложение не открыто.",
+  "onboardingTitle3": "Запоминать надолго",
+  "onboardingBody3": "Сохраняйте слова звёздочкой, добавляйте фото-ассоциации и повторяйте их в квизе каждые 3 дня.",
+  "onboardingNext": "Далее",
+  "onboardingStart": "Начать"
 }

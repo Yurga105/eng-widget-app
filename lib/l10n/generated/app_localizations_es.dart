@@ -188,4 +188,31 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get languagePickSubtitle =>
       'Toda la aplicación — interfaz y traducciones de palabras — la usará';
+
+  @override
+  String get onboardingTitle1 => 'Una palabra nueva cada día';
+
+  @override
+  String get onboardingBody1 =>
+      'Una palabra inglesa al día — con transcripción, traducción y ejemplo. Pasos pequeños, cada día.';
+
+  @override
+  String get onboardingTitle2 => 'Siempre a la vista';
+
+  @override
+  String get onboardingBody2 =>
+      'Añade el widget a tu pantalla de inicio: la palabra del día se ve sin abrir la aplicación.';
+
+  @override
+  String get onboardingTitle3 => 'Recordar para siempre';
+
+  @override
+  String get onboardingBody3 =>
+      'Guarda palabras con la estrella, añade asociaciones con fotos y repítelas en un cuestionario cada 3 días.';
+
+  @override
+  String get onboardingNext => 'Siguiente';
+
+  @override
+  String get onboardingStart => 'Empezar';
 }

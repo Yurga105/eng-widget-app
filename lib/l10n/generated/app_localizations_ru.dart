@@ -188,4 +188,31 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get languagePickSubtitle =>
       'Приложение целиком — интерфейс и переводы слов';
+
+  @override
+  String get onboardingTitle1 => 'Новое слово каждый день';
+
+  @override
+  String get onboardingBody1 =>
+      'Одно английское слово в день — с транскрипцией, переводом и примером. Маленькие шаги каждый день.';
+
+  @override
+  String get onboardingTitle2 => 'Всегда перед глазами';
+
+  @override
+  String get onboardingBody2 =>
+      'Добавьте виджет на домашний экран — слово дня видно, даже когда приложение не открыто.';
+
+  @override
+  String get onboardingTitle3 => 'Запоминать надолго';
+
+  @override
+  String get onboardingBody3 =>
+      'Сохраняйте слова звёздочкой, добавляйте фото-ассоциации и повторяйте их в квизе каждые 3 дня.';
+
+  @override
+  String get onboardingNext => 'Далее';
+
+  @override
+  String get onboardingStart => 'Начать';
 }

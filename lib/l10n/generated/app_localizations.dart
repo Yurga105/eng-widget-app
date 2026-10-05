@@ -417,6 +417,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The whole app — interface and word translations — will use it'**
   String get languagePickSubtitle;
+
+  /// Onboarding slide 1 title (stage 20)
+  ///
+  /// In en, this message translates to:
+  /// **'A new word every day'**
+  String get onboardingTitle1;
+
+  /// Onboarding slide 1 body (stage 20)
+  ///
+  /// In en, this message translates to:
+  /// **'One English word a day — with transcription, translation and an example. Small steps, every day.'**
+  String get onboardingBody1;
+
+  /// Onboarding slide 2 title: the home-screen widget, the key value (stage 20)
+  ///
+  /// In en, this message translates to:
+  /// **'Always in sight'**
+  String get onboardingTitle2;
+
+  /// Onboarding slide 2 body (stage 20)
+  ///
+  /// In en, this message translates to:
+  /// **'Add the widget to your home screen — the word of the day is visible without opening the app.'**
+  String get onboardingBody2;
+
+  /// Onboarding slide 3 title (stage 20)
+  ///
+  /// In en, this message translates to:
+  /// **'Remember for good'**
+  String get onboardingTitle3;
+
+  /// Onboarding slide 3 body (stage 20)
+  ///
+  /// In en, this message translates to:
+  /// **'Save words with the star, add photo associations and repeat them in a quiz every 3 days.'**
+  String get onboardingBody3;
+
+  /// Button advancing the onboarding to the next slide (stage 20)
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get onboardingNext;
+
+  /// Button on the last onboarding slide: finishes the tour and asks for the notification permission (stage 20)
+  ///
+  /// In en, this message translates to:
+  /// **'Get started'**
+  String get onboardingStart;
 }
 
 class _AppLocalizationsDelegate

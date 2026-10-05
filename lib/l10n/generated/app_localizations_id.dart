@@ -188,4 +188,31 @@ class AppLocalizationsId extends AppLocalizations {
   @override
   String get languagePickSubtitle =>
       'Seluruh aplikasi — antarmuka dan terjemahan kata — akan menggunakannya';
+
+  @override
+  String get onboardingTitle1 => 'Kata baru setiap hari';
+
+  @override
+  String get onboardingBody1 =>
+      'Satu kata bahasa Inggris per hari — lengkap dengan transkripsi, terjemahan, dan contoh. Langkah kecil setiap hari.';
+
+  @override
+  String get onboardingTitle2 => 'Selalu di depan mata';
+
+  @override
+  String get onboardingBody2 =>
+      'Tambahkan widget ke layar utama — kata hari ini terlihat tanpa membuka aplikasi.';
+
+  @override
+  String get onboardingTitle3 => 'Ingat untuk selamanya';
+
+  @override
+  String get onboardingBody3 =>
+      'Simpan kata dengan bintang, tambahkan asosiasi foto, dan ulangi dalam kuis setiap 3 hari.';
+
+  @override
+  String get onboardingNext => 'Lanjut';
+
+  @override
+  String get onboardingStart => 'Mulai';
 }

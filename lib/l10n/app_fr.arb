@@ -51,5 +51,13 @@
   "settingsLanguageSystemDetails": "Interface : {interface} · Traductions : {translations}",
   "settingsEnglishTranslations": "Traductions des mots : {language}",
   "languagePickTitle": "Choisissez votre langue",
-  "languagePickSubtitle": "Toute l'application — interface et traductions des mots — l'utilisera"
+  "languagePickSubtitle": "Toute l'application — interface et traductions des mots — l'utilisera",
+  "onboardingTitle1": "Un nouveau mot chaque jour",
+  "onboardingBody1": "Un mot anglais par jour — avec transcription, traduction et exemple. De petits pas, chaque jour.",
+  "onboardingTitle2": "Toujours sous les yeux",
+  "onboardingBody2": "Ajoutez le widget à votre écran d'accueil — le mot du jour est visible sans ouvrir l'application.",
+  "onboardingTitle3": "Mémoriser durablement",
+  "onboardingBody3": "Enregistrez des mots avec l'étoile, ajoutez des associations photo et révisez-les en quiz tous les 3 jours.",
+  "onboardingNext": "Suivant",
+  "onboardingStart": "Commencer"
 }

@@ -10,6 +10,7 @@ import 'services/settings_service.dart';
 import 'services/widget_sync_service.dart';
 import 'ui/screens/home_screen.dart';
 import 'ui/screens/language_pick_screen.dart';
+import 'ui/screens/onboarding_screen.dart';
 import 'ui/screens/welcome_screen.dart';
 
 void main() {
@@ -127,8 +128,16 @@ class _WordOfTheDayAppState extends State<WordOfTheDayApp>
     // чтения settings.json: чтение не меняет нотифаер, если выбор
     // совпал с дефолтом, — пересобираем дерево явно.
     unawaited(_settings.load().then((_) {
-      if (mounted) {
-        setState(() {});
+      if (!mounted) {
+        return;
+      }
+      setState(() {});
+      // Этап 20 (B-011): тем, кто онбординг уже видел, уведомления
+      // стартуем как раньше — сразу после загрузки настроек; новичкам
+      // — по кнопке «Начать» онбординга (диалог разрешения поверх
+      // знакомства отпугивает).
+      if (_settings.onboardingShown) {
+        unawaited(_startDailyNotificationAfterOnboarding());
       }
     }));
   }
@@ -261,12 +270,28 @@ class _WordOfTheDayAppState extends State<WordOfTheDayApp>
                     }
                   },
                 )
-              : HomeScreen(
-                  widgetTapDate: _widgetTapDate,
-                  quiz: _quiz,
-                  quizOpenRequest: _quizOpenRequest,
-                  settings: _settings,
-                )
+              : _settings.isLoaded && !_settings.onboardingShown
+                  // Этап 20 (B-011): знакомство с ценностью — один раз,
+                  // после пикера языка (если он был). «Начать» запрашивает
+                  // разрешение на уведомления, Skip откладывает запрос
+                  // до следующего запуска.
+                  ? OnboardingScreen(
+                      onStart: () {
+                        unawaited(_startDailyNotificationAfterOnboarding());
+                      },
+                      onDone: () {
+                        unawaited(_settings.markOnboardingShown());
+                        if (mounted) {
+                          setState(() {});
+                        }
+                      },
+                    )
+                  : HomeScreen(
+                      widgetTapDate: _widgetTapDate,
+                      quiz: _quiz,
+                      quizOpenRequest: _quizOpenRequest,
+                      settings: _settings,
+                    )
           // Этап 17: до резолва стартовых источников (URI виджета,
           // payload уведомления — миллисекунды) держим кадр пустым на
           // фоне scaffold (#F1F8E9) — визуально продолжение нативного
@@ -368,15 +393,15 @@ class _WordOfTheDayAppState extends State<WordOfTheDayApp>
   /// Этап 7: инициализация уведомлений (разрешение спрашиваем один раз
   /// за запуск, PLAN.md §7) и холодный старт тапом по уведомлению.
   /// Этап 14: колбэк onOpenQuiz — тёплый старт тапом по напоминанию квиза.
+  /// Этап 20 (B-011): сам `start` (запрос разрешения + расписание)
+  /// перенесён в [_startDailyNotificationAfterOnboarding] — он зовётся
+  /// после онбординга («Начать») или сразу после загрузки настроек для
+  /// тех, кто онбординг уже видел; payload запуска читается всегда —
+  /// холодный старт по уведомлению от гейта не зависит.
   void _startNotifications() {
     _notifications = NotificationService(
       onOpenWordCard: _openWordCard,
       onOpenQuiz: _openQuiz,
-    );
-    unawaited(
-      _notifications!.start(
-        translationLanguage: _settings.effectiveTranslationLanguage,
-      ),
     );
     // Этап 17: резолв payload — второй вход гейта приветствия (ошибка
     // чтения не должна держать первый кадр вечно).
@@ -389,6 +414,15 @@ class _WordOfTheDayAppState extends State<WordOfTheDayApp>
           );
         })
         .whenComplete(_resolveLaunch);
+  }
+
+  /// Этап 20 (B-011): запрос разрешения на уведомления и расписание
+  /// «слова дня» — по кнопке «Начать» онбординга либо стартовым прогоном
+  /// для тех, кто онбординг уже видел. Сбои плагина глотает сам сервис.
+  Future<void> _startDailyNotificationAfterOnboarding() async {
+    await _notifications?.start(
+      translationLanguage: _settings.effectiveTranslationLanguage,
+    );
   }
 
   /// Этап 14: квиз-сервис + стартовое перепланирование напоминания по

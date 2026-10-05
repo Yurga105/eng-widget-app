@@ -270,16 +270,19 @@ class SettingsService {
 
   /// Запомнить, что онбординг-пикер языка показан (выбор сделан или
   /// системная локаль поддержана переводами — вопрос не понадобился).
+  /// Флаг ставится сразу (до записи) — гейты перестают спрашивать
+  /// детерминированно, даже до завершения файлового IO.
   Future<void> markLanguagePromptShown() async {
-    await load();
     languagePromptShown = true;
+    await load();
     await _persist();
   }
 
   /// Запомнить, что знакомство с функционалом показано (этап 20).
+  /// Флаг ставится сразу — гейт в main.dart закрывается мгновенно.
   Future<void> markOnboardingShown() async {
-    await load();
     onboardingShown = true;
+    await load();
     await _persist();
   }
 

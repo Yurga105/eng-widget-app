@@ -281,13 +281,21 @@ void main() {
     expect(find.text('Choose your language'), findsOneWidget);
     expect(find.text('English'), findsOneWidget);
 
-    // Выбор «Русский» — весь интерфейс мгновенно на русском, вопрос
-    // больше не задаётся.
+    // Выбор «Русский» — весь интерфейс мгновенно на русском; вопрос
+    // языка больше не задаётся, дальше — онбординг знакомства (этап 20).
     await tester.tap(find.text('Русский'));
     await tester.pump();
     await tester.pump();
-    expect(find.text('Слово дня'), findsOneWidget);
+    expect(find.text('Новое слово каждый день'), findsOneWidget);
     expect(find.text('Choose your language'), findsNothing);
+
+    // Пропуск знакомства — сразу карточка дня; запрос разрешения на
+    // уведомления отложен до следующего запуска (этап 20).
+    await tester.tap(find.text('Пропустить'));
+    await tester.pump();
+    await tester.pump();
+    expect(find.text('Слово дня'), findsOneWidget);
+    expect(find.text('Новое слово каждый день'), findsNothing);
 
     // Демонтируем приложение: dispose гасит полуночный таймер и подписку,
     // иначе фреймворк пожалуется на незавершённую работу.

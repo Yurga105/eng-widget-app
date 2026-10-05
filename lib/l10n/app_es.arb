@@ -51,5 +51,13 @@
   "settingsLanguageSystemDetails": "Interfaz: {interface} · Traducciones: {translations}",
   "settingsEnglishTranslations": "Traducciones de palabras: {language}",
   "languagePickTitle": "Elige tu idioma",
-  "languagePickSubtitle": "Toda la aplicación — interfaz y traducciones de palabras — la usará"
+  "languagePickSubtitle": "Toda la aplicación — interfaz y traducciones de palabras — la usará",
+  "onboardingTitle1": "Una palabra nueva cada día",
+  "onboardingBody1": "Una palabra inglesa al día — con transcripción, traducción y ejemplo. Pasos pequeños, cada día.",
+  "onboardingTitle2": "Siempre a la vista",
+  "onboardingBody2": "Añade el widget a tu pantalla de inicio: la palabra del día se ve sin abrir la aplicación.",
+  "onboardingTitle3": "Recordar para siempre",
+  "onboardingBody3": "Guarda palabras con la estrella, añade asociaciones con fotos y repítelas en un cuestionario cada 3 días.",
+  "onboardingNext": "Siguiente",
+  "onboardingStart": "Empezar"
 }
