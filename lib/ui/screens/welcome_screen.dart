@@ -22,14 +22,15 @@ class WelcomeScreen extends StatefulWidget {
 
 class _WelcomeScreenState extends State<WelcomeScreen>
     with SingleTickerProviderStateMixin {
-  late final AnimationController _controller = AnimationController(
-    vsync: this,
-    duration: const Duration(milliseconds: 1500),
-  )..addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        widget.onFinished();
-      }
-    });
+  late final AnimationController _controller =
+      AnimationController(
+        vsync: this,
+        duration: const Duration(milliseconds: 1500),
+      )..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          widget.onFinished();
+        }
+      });
 
   /// Появление центрального блока.
   late final Animation<double> _fade = CurvedAnimation(
@@ -78,101 +79,109 @@ class _WelcomeScreenState extends State<WelcomeScreen>
         onTap: widget.onFinished,
         child: Scaffold(
           body: SafeArea(
-            child: Column(
-              children: [
-                const Spacer(),
-                FadeTransition(
-                  opacity: _fade,
-                  child: ScaleTransition(
-                    scale: _scale,
-                    child: Column(
-                      children: [
-                        // Глиф «W.» — зеркало иконки лаунчера (этап 8/10).
-                        Container(
-                          width: 116,
-                          height: 116,
-                          decoration: BoxDecoration(
-                            color: theme.colorScheme.primary,
-                            borderRadius: BorderRadius.circular(28),
+            // SizedBox держит колонку на всю ширину экрана: без неё Column
+            // сжимается по ширине самого широкого ребёнка — с коротким
+            // теглайном (страховочные 320 лог. px) весь центральный блок
+            // вместе с логотипом уезжал к левому краю (правка по итогам
+            // приёмки 03.10.2026, поймано геометрическим тестом).
+            child: SizedBox(
+              width: double.infinity,
+              child: Column(
+                children: [
+                  const Spacer(),
+                  FadeTransition(
+                    opacity: _fade,
+                    child: ScaleTransition(
+                      scale: _scale,
+                      child: Column(
+                        children: [
+                          // Глиф «W.» — зеркало иконки лаунчера (этап 8/10).
+                          Container(
+                            width: 116,
+                            height: 116,
+                            decoration: BoxDecoration(
+                              color: theme.colorScheme.primary,
+                              borderRadius: BorderRadius.circular(28),
+                            ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              'W.',
+                              style: TextStyle(
+                                // Системный serif (на Android — Noto Serif):
+                                // «словарная» серьёзность вместо дефолтного
+                                // Roboto (правка по итогам приёмки этапа 17).
+                                fontFamily: 'serif',
+                                fontSize: 56,
+                                fontWeight: FontWeight.w700,
+                                color: theme.colorScheme.onPrimary,
+                              ),
+                            ),
                           ),
-                          alignment: Alignment.center,
-                          child: Text(
-                            'W.',
-                            style: TextStyle(
-                              // Системный serif (на Android — Noto Serif):
-                              // «словарная» серьёзность вместо дефолтного
-                              // Roboto (правка по итогам приёмки этапа 17).
+                          const SizedBox(height: 24),
+                          Text(
+                            // Бренд не переводим (решение этапа 10).
+                            'Word of Day',
+                            style: theme.textTheme.headlineMedium?.copyWith(
                               fontFamily: 'serif',
-                              fontSize: 56,
                               fontWeight: FontWeight.w700,
-                              color: theme.colorScheme.onPrimary,
+                              letterSpacing: 0.5,
                             ),
                           ),
-                        ),
-                        const SizedBox(height: 24),
-                        Text(
-                          // Бренд не переводим (решение этапа 10).
-                          'Word of Day',
-                          style: theme.textTheme.headlineMedium?.copyWith(
-                            fontFamily: 'serif',
-                            fontWeight: FontWeight.w700,
-                            letterSpacing: 0.5,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        ConstrainedBox(
-                          // Страховка вёрстки: длинная строка переносится
-                          // в ≤2 строки по центру, а не тянется от края
-                          // до края (правка по итогам приёмки этапа 17).
-                          constraints: const BoxConstraints(maxWidth: 320),
-                          child: Text(
-                            // Теглайн — часть бренда: всегда английский;
-                            // короткий и честный — без «офлайна» и без
-                            // «произношения» (качество системного TTS не
-                            // выносим в слоган; правка приёмки 03.10.2026).
-                            'A new English word every day',
-                            textAlign: TextAlign.center,
-                            style: theme.textTheme.bodyMedium?.copyWith(
-                              color: theme.colorScheme.onSurfaceVariant,
+                          const SizedBox(height: 8),
+                          ConstrainedBox(
+                            // Страховка вёрстки: длинная строка переносится
+                            // в ≤2 строки по центру, а не тянется от края
+                            // до края (правка по итогам приёмки этапа 17).
+                            constraints: const BoxConstraints(maxWidth: 320),
+                            child: Text(
+                              // Теглайн — часть бренда: всегда английский;
+                              // короткий и честный — без «офлайна» и без
+                              // «произношения» (качество системного TTS не
+                              // выносим в слоган; правка приёмки 03.10.2026).
+                              'A new English word every day',
+                              textAlign: TextAlign.center,
+                              style: theme.textTheme.bodyMedium?.copyWith(
+                                color: theme.colorScheme.onSurfaceVariant,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                const Spacer(),
-                // Логотип студии кружком: даже фото-фон в круге с окантовкой
-                // выглядит аккуратно (в идеале — прозрачный PNG от студии).
-                FadeTransition(
-                  opacity: _studioFade,
-                  child: Container(
-                    width: 56,
-                    height: 56,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: theme.colorScheme.surface,
-                      border: Border.all(
-                        color: theme.colorScheme.primary.withValues(
-                          alpha: 0.35,
-                        ),
-                        width: 2,
+                        ],
                       ),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(2),
-                      child: ClipOval(
-                        child: Image.asset(
-                          'assets/brand/logo.jpg',
-                          fit: BoxFit.cover,
-                          errorBuilder: (_, _, _) => const SizedBox.shrink(),
+                  ),
+                  const Spacer(),
+                  // Логотип студии кружком: даже фото-фон в круге с окантовкой
+                  // выглядит аккуратно (в идеале — прозрачный PNG от студии).
+                  FadeTransition(
+                    opacity: _studioFade,
+                    child: Container(
+                      width: 56,
+                      height: 56,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: theme.colorScheme.surface,
+                        border: Border.all(
+                          color: theme.colorScheme.primary.withValues(
+                            alpha: 0.35,
+                          ),
+                          width: 2,
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(2),
+                        child: ClipOval(
+                          child: Image.asset(
+                            'assets/brand/logo.jpg',
+                            fit: BoxFit.cover,
+                            errorBuilder: (_, _, _) => const SizedBox.shrink(),
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 24),
-              ],
+                  const SizedBox(height: 24),
+                ],
+              ),
             ),
           ),
         ),
@@ -180,4 +189,3 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     );
   }
 }
-
