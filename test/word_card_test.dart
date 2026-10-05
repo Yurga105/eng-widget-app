@@ -32,6 +32,30 @@ const WordEntry _kPhrasalVerb = WordEntry(
   type: WordType.phrasalVerb,
 );
 
+/// Длинное одиночное слово — репорт приёмки 05.10.2026: ломалось в строке
+/// слова посимвольно («passionat / e») вместо одной строки.
+const WordEntry _kLongWord = WordEntry(
+  id: 9,
+  word: 'passionate',
+  transcription: '/ˈpæʃənət/',
+  translation: 'страстный, увлечённый',
+  example: "She's passionate about marine biology.",
+  exampleRu: 'Она страстно увлечена морской биологией.',
+  type: WordType.word,
+);
+
+/// Самая длинная лексема БД (29 символов) — многословная, обязана
+/// переноситься, а не сжиматься одной строкой (гибрид правки).
+const WordEntry _kLongestIdiom = WordEntry(
+  id: 10,
+  word: 'kill two birds with one stone',
+  transcription: '/kɪl tuː bɜːdz/',
+  translation: 'убить двух зайцев',
+  example: 'Cycling to work kills two birds with one stone.',
+  exampleRu: 'Ездить на работу на велосипеде — убить двух зайцев.',
+  type: WordType.idiom,
+);
+
 /// Минимальный валидный PNG 1×1 (RGBA) — реальный файл для `Image.file`
 /// в тестах секции фото (этап 12).
 const List<int> kTinyPng = <int>[
@@ -196,6 +220,63 @@ void main() {
     expect(find.text('hang out with somebody'), findsOneWidget);
     expect(find.text('phrasal verb'), findsOneWidget);
     expect(find.byIcon(Icons.volume_up_rounded), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets(
+      'Длинное одиночное слово — одной строкой, без посимвольного переноса',
+      (tester) async {
+    // Репорт приёмки 05.10.2026: «passionate» не влезало в строку и
+    // ломалось на «passionat / e». Худший случай строки слова: три кнопки
+    // (звезда, динамик, поделиться) на узком экране критерия этапа 6.
+    tester.view.physicalSize = const Size(320, 480);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(tester.view.reset);
+
+    await _pumpCard(
+      tester,
+      entry: _kLongWord,
+      onToggleFavorite: () {},
+      onListen: () {},
+      onShare: () {},
+    );
+
+    final wordRect = tester.getRect(find.text('passionate'));
+    final rowRect = tester.getRect(
+      find.ancestor(of: find.text('passionate'), matching: find.byType(Row)),
+    );
+
+    // Отрисованная (уже после scaleDown трансформа FittedBox) ширина
+    // слова не выходит за строку — слово в одну строку.
+    expect(wordRect.width, lessThanOrEqualTo(rowRect.width + 0.5));
+    expect(wordRect.right, lessThanOrEqualTo(rowRect.right + 0.5));
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('Самая длинная идиома БД переносится, а не сжимается в кроху',
+      (tester) async {
+    // Гибрид правки 05.10.2026: многословная лексема сохраняет перенос
+    // этапа 6 — «kill two birds with one stone» (29 символов, максимум
+    // БД) обязана остаться читаемой (≥2 строк), а не ужаться одной
+    // строкой мелким кеглем.
+    tester.view.physicalSize = const Size(320, 480);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(tester.view.reset);
+
+    await _pumpCard(
+      tester,
+      entry: _kLongestIdiom,
+      onToggleFavorite: () {},
+      onListen: () {},
+      onShare: () {},
+    );
+
+    final idiomRect =
+        tester.getRect(find.text('kill two birds with one stone'));
+
+    // Высота от двух строк (кегль 28) — перенос сохранился; одна ужатая
+    // строка была бы в разы ниже.
+    expect(idiomRect.height, greaterThan(40));
     expect(tester.takeException(), isNull);
   });
 

@@ -92,6 +92,12 @@ class WordCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context);
+    // Слово дня — headlineMedium w700, акцент карточки (этап 6); стиль
+    // вынесен: используется и в переносимом, и в сжимаемом варианте.
+    final wordStyle = theme.textTheme.headlineMedium?.copyWith(
+      fontWeight: FontWeight.w700,
+      color: theme.colorScheme.onSurface,
+    );
     return Card.filled(
       margin: EdgeInsets.zero,
       child: Padding(
@@ -123,20 +129,24 @@ class WordCard extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 16),
-              // Этап 9: слово и кнопка прослушивания в одной строке —
-              // Expanded разрешает длинным фразовым глаголам переноситься,
-              // кнопка остаётся справа (критерий «влезает на 320×480»).
+              // Слово и кнопки строки (этапы 6/9/13/15). Одиночное слово —
+              // всегда одной строкой: длинное («passionate») ужмётся кеглем
+              // через FittedBox scaleDown, а не сломается посимвольно на
+              // вторую строку (правка приёмки 05.10.2026; тот же приём,
+              // что у заголовка постера). Многословная лексема (фразовый
+              // глагол, идиома) переносится на ≤2 строки — критерий этапа 6
+              // «влезает на 320×480», кнопки остаются справа.
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Expanded(
-                    child: Text(
-                      entry.word,
-                      style: theme.textTheme.headlineMedium?.copyWith(
-                        fontWeight: FontWeight.w700,
-                        color: theme.colorScheme.onSurface,
-                      ),
-                    ),
+                    child: entry.word.contains(' ')
+                        ? Text(entry.word, style: wordStyle)
+                        : FittedBox(
+                            fit: BoxFit.scaleDown,
+                            alignment: Alignment.centerLeft,
+                            child: Text(entry.word, style: wordStyle),
+                          ),
                   ),
                   // Этап 13: звезда избранного — слева от динамика
                   // (контурная ↔ залитая янтарным).
