@@ -25,7 +25,9 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   late final AnimationController _controller =
       AnimationController(
         vsync: this,
-        duration: const Duration(milliseconds: 1500),
+        // 2,5 с — правка приёмки 05.10.2026 (было 1,5 с): дольше держит
+        // бренд; тап в любую точку остаётся мгновенным пропуском.
+        duration: const Duration(milliseconds: 2500),
       )..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
           widget.onFinished();
