@@ -6,6 +6,7 @@ import 'package:home_widget/home_widget.dart';
 import 'l10n/generated/app_localizations.dart';
 import 'services/notification_service.dart';
 import 'services/quiz_service.dart';
+import 'services/settings_service.dart';
 import 'services/widget_sync_service.dart';
 import 'ui/screens/home_screen.dart';
 import 'ui/screens/welcome_screen.dart';
@@ -43,7 +44,13 @@ void main() {
 ///
 /// Темы Material 3 со seed-цветом «мягкий зелёный» (редизайн для аудитории
 /// Индонезии: светлая природная палитра вместо индиго и тёмной темы),
-/// локализация интерфейса en/ru/id (см. `lib/l10n/`).
+/// локализация интерфейса en/ru/id/de/fr/es — системная локаль или
+/// ручной выбор (см. `lib/l10n/`).
+///
+/// Этап 18 (идея B-005, часть 1): [SettingsService] — язык интерфейса.
+/// Нотифаер сервиса слушается в [build]: смена языка в настройках
+/// пересобирает MaterialApp с новым `locale` мгновенно; null =
+/// «как в системе» (обычная резолв MaterialApp).
 class WordOfTheDayApp extends StatefulWidget {
   const WordOfTheDayApp({super.key});
 
@@ -74,6 +81,11 @@ class _WordOfTheDayAppState extends State<WordOfTheDayApp>
   /// результатов (файл) едина для напоминаний и экрана квиза.
   QuizService? _quiz;
 
+  /// Этап 18 (идея B-005, часть 1): настройки — ручной выбор языка
+  /// интерфейса. Один экземпляр на приложение: его же получает
+  /// [HomeScreen], в него пишет экран настроек.
+  final SettingsService _settings = SettingsService();
+
   Timer? _midnightTimer;
   StreamSubscription<Uri?>? _tapSubscription;
 
@@ -101,6 +113,7 @@ class _WordOfTheDayAppState extends State<WordOfTheDayApp>
     _startQuiz();
     _scheduleMidnightSync();
     _listenToWidgetTaps();
+    _settings.localeOverride.addListener(_onInterfaceLanguageChanged);
   }
 
   @override
@@ -111,6 +124,8 @@ class _WordOfTheDayAppState extends State<WordOfTheDayApp>
     _widgetTapDate.dispose();
     _quizOpenRequest.dispose();
     _quiz?.dispose();
+    _settings.localeOverride.removeListener(_onInterfaceLanguageChanged);
+    _settings.dispose();
     super.dispose();
   }
 
@@ -129,6 +144,14 @@ class _WordOfTheDayAppState extends State<WordOfTheDayApp>
     }
   }
 
+  /// Этап 18: язык интерфейса сменился в настройках — пересобираем
+  /// дерево; новый `locale` [build] берёт из нотифаера сервиса.
+  void _onInterfaceLanguageChanged() {
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     // Редизайн: мягкий зелёный (hijau) вместо индиго — природный оттенок,
@@ -144,6 +167,10 @@ class _WordOfTheDayAppState extends State<WordOfTheDayApp>
       // сама, включая legacy-коды Android ('in' → 'id').
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
+      // Этап 18: ручной выбор языка; null — системная резолв MaterialApp
+      // (включая канонизацию legacy-кода «in» → «id»), неподдержанная
+      // системная локаль → en-фолбэк локализации.
+      locale: _settings.locale,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: seedColor),
         scaffoldBackgroundColor: const Color(0xFFF1F8E9),
@@ -157,6 +184,7 @@ class _WordOfTheDayAppState extends State<WordOfTheDayApp>
               widgetTapDate: _widgetTapDate,
               quiz: _quiz,
               quizOpenRequest: _quizOpenRequest,
+              settings: _settings,
             )
           // Этап 17: до резолва стартовых источников (URI виджета,
           // payload уведомления — миллисекунды) держим кадр пустым на

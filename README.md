@@ -66,6 +66,7 @@ lib/
     screens/favorites_screen.dart  # список избранного (этап 13)
     screens/word_detail_screen.dart  # карточка избранного слова (этап 13)
     screens/quiz_screen.dart  # квиз-повторение каждые 3 дня (этап 14)
+    screens/settings_screen.dart  # язык интерфейса (этап 18)
     widgets/word_card.dart    # карточка + прослушивание + фото-ассоциация + звезда избранного
 assets/words_db.json          # словарь (единственный источник данных)
 android/app/src/main/kotlin/  # WordWidgetProvider, WordOfDayCalculator, BootCompletedReceiver

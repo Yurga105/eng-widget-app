@@ -11,6 +11,7 @@ import '../../services/dictionary_service.dart';
 import '../../services/favorite_service.dart';
 import '../../services/pronunciation_service.dart';
 import '../../services/quiz_service.dart';
+import '../../services/settings_service.dart';
 import '../../services/user_example_service.dart';
 import '../../services/word_image_service.dart';
 import '../../services/word_of_day_service.dart';
@@ -20,6 +21,7 @@ import '../widgets/share_poster.dart';
 import '../widgets/word_card.dart';
 import 'favorites_screen.dart';
 import 'quiz_screen.dart';
+import 'settings_screen.dart';
 
 /// «27 сентября 2026» / «27 September 2026» — локализованная дата.
 /// Символы дат (включая русские месяцы в родительном падеже) берёт
@@ -29,8 +31,8 @@ String formatDate(DateTime date, Locale locale) =>
 
 /// Экран «Слово дня» — этап 6 (PLAN.md §1, §8): один экран с большой
 /// карточкой [WordCard] слова выбранной даты; Material 3, светлая
-/// зелёная тема (задаётся в `main.dart`), язык интерфейса — en/ru/id
-/// по локали устройства (lib/l10n).
+/// зелёная тема (задаётся в `main.dart`), язык интерфейса — системная
+/// локаль или ручной выбор в настройках (этап 18, lib/l10n).
 ///
 /// [widgetTapDate] — слушаемая дата из тапа по виджету (этап 4);
 /// null → показываем сегодня. Дата приходит детерминированной формулой §5,
@@ -41,6 +43,7 @@ class HomeScreen extends StatefulWidget {
     this.widgetTapDate,
     this.quiz,
     this.quizOpenRequest,
+    this.settings,
   });
 
   final ValueNotifier<DateTime?>? widgetTapDate;
@@ -53,6 +56,11 @@ class HomeScreen extends StatefulWidget {
   /// Сигнал «открой квиз» — тап по напоминанию (этап 14), владелец —
   /// `main.dart`; HomeScreen слушает и открывает экран квиза.
   final ValueNotifier<bool>? quizOpenRequest;
+
+  /// Настройки (этап 18): общий с `main.dart` — смена языка в настройках
+  /// видна всему приложению; null (изолированные тесты) — экран создаёт
+  /// свой. Владелец состояния — `main.dart`.
+  final SettingsService? settings;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -85,6 +93,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   /// передан) — напоминание и экран квиза читают одну историю результатов.
   late final QuizService _quiz;
 
+  /// Настройки (этап 18): язык интерфейса; передаётся на экран настроек.
+  late final SettingsService _settings;
+
   /// Кэш future-ов «слово + фото» по дате (этап 12): FutureBuilder не
   /// перезапускает загрузку на каждом билде, а смена фото подменяет
   /// значение в кэше — карточка не мигает пустой секцией.
@@ -98,6 +109,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     _wordOfDay = WordOfDayService(_dictionary);
     _pronunciation = PronunciationService();
     _quiz = widget.quiz ?? QuizService();
+    _settings = widget.settings ?? SettingsService();
     unawaited(_startPronunciation());
     widget.widgetTapDate?.addListener(_onTapDateChanged);
     widget.quizOpenRequest?.addListener(_onQuizOpenRequest);
@@ -118,6 +130,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     // Собственный сервис (не передан снаружи) — освобождаем сами.
     if (widget.quiz == null) {
       _quiz.dispose();
+    }
+    if (widget.settings == null) {
+      _settings.dispose();
     }
     super.dispose();
   }
@@ -208,6 +223,15 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     );
   }
 
+  /// Этап 18: экран настроек — язык интерфейса (смена мгновенная).
+  Future<void> _openSettings() async {
+    await Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) => SettingsScreen(settings: _settings),
+      ),
+    );
+  }
+
   /// Этап 14: сигнал из main.dart (тап по напоминанию) — открыть квиз.
   void _onQuizOpenRequest() {
     final request = widget.quizOpenRequest;
@@ -240,7 +264,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
     return Scaffold(
       // Этап 11: навбар адаптивный — CupertinoNavigationBar на iOS;
-      // этап 13: справа — вход в список избранного; этап 14 — квиз.
+      // этап 13: справа — вход в список избранного; этап 14 — квиз;
+      // этап 18 — настройки (крайняя справа).
       appBar: PlatformAppBar(
         title: AppLocalizations.of(context).homeTitle,
         trailing: Row(
@@ -257,6 +282,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               tooltip: AppLocalizations.of(context).favoritesTitle,
               materialIcon: Icons.star_border_rounded,
               cupertinoIcon: CupertinoIcons.star,
+            ),
+            PlatformIconActionButton(
+              onPressed: _openSettings,
+              tooltip: AppLocalizations.of(context).settingsTitle,
+              materialIcon: Icons.settings_rounded,
+              cupertinoIcon: CupertinoIcons.gear,
             ),
           ],
         ),

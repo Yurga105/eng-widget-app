@@ -1,0 +1,8 @@
+/* Info.plist localization to German (stage 18): app display name
+   under the icon and in the app switcher. */
+"CFBundleDisplayName" = "Wort des Tages";
+
+/* Stage 12: camera and photo library usage descriptions (iOS
+   permission dialog texts). */
+"NSCameraUsageDescription" = "Foto-Assoziation zum Wort des Tages aufnehmen";
+"NSPhotoLibraryUsageDescription" = "Foto-Assoziation zum Wort des Tages aus der Mediathek auswählen";

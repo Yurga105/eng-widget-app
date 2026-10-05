@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Испанская локаль нативных строк (этап 18): виджет в пикере лончера,
+     превью и плейсхолдер. app_name не переводим — бренд «Word of Day»
+     одинаков. Перевод превью остаётся русским до локализации словаря
+     (schema v2). -->
+<resources>
+    <string name="app_name">Word of Day</string>
+    <string name="word_widget_name">Palabra del día</string>
+    <string name="word_widget_description">Una palabra, expresión o verbo compuesto de inglés cada día, con traducción y ejemplo</string>
+    <string name="word_widget_preview_word">accomplish</string>
+    <string name="word_widget_preview_transcription">/əˈkɑːmplɪʃ/</string>
+    <string name="word_widget_preview_translation">достигать, выполнять</string>
+    <string name="word_widget_preview_example">She accomplished all her goals this year.</string>
+    <string name="word_widget_empty_word">Palabra del día</string>
+    <string name="word_widget_empty_translation">Abre la aplicación para ver la palabra del día</string>
+</resources>

@@ -162,4 +162,13 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get welcomeSkip => 'Lewati';
+
+  @override
+  String get settingsTitle => 'Pengaturan';
+
+  @override
+  String get settingsInterfaceLanguage => 'Bahasa antarmuka';
+
+  @override
+  String get languageSystem => 'Ikuti sistem';
 }

@@ -118,5 +118,11 @@
   "userExampleRemove": "Remove example",
   "@userExampleRemove": { "description": "Tooltip of the delete action for the saved personal example (stage 16)" },
   "welcomeSkip": "Skip",
-  "@welcomeSkip": { "description": "Accessibility label of the tap-to-skip zone of the welcome screen (stage 17)" }
+  "@welcomeSkip": { "description": "Accessibility label of the tap-to-skip zone of the welcome screen (stage 17)" },
+  "settingsTitle": "Settings",
+  "@settingsTitle": { "description": "Settings screen AppBar title (stage 18)" },
+  "settingsInterfaceLanguage": "Interface language",
+  "@settingsInterfaceLanguage": { "description": "Section header of the interface language picker (stage 18)" },
+  "languageSystem": "Follow system",
+  "@languageSystem": { "description": "Picker option: follow the device system language (stage 18)" }
 }

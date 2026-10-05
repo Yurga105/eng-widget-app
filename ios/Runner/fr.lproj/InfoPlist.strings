@@ -1,0 +1,8 @@
+/* Info.plist localization to French (stage 18): app display name
+   under the icon and in the app switcher. */
+"CFBundleDisplayName" = "Mot du jour";
+
+/* Stage 12: camera and photo library usage descriptions (iOS
+   permission dialog texts). */
+"NSCameraUsageDescription" = "Prendre une photo d'association pour le mot du jour";
+"NSPhotoLibraryUsageDescription" = "Choisir une photo d'association pour le mot du jour dans la photothèque";

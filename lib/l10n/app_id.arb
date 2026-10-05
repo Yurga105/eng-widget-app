@@ -44,5 +44,8 @@
   "userExampleSave": "Simpan",
   "userExampleEdit": "Ubah contoh",
   "userExampleRemove": "Hapus contoh",
-  "welcomeSkip": "Lewati"
+  "welcomeSkip": "Lewati",
+  "settingsTitle": "Pengaturan",
+  "settingsInterfaceLanguage": "Bahasa antarmuka",
+  "languageSystem": "Ikuti sistem"
 }

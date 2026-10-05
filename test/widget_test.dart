@@ -184,8 +184,59 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Quiz'), findsNothing);
 
+    // Этап 18: шестерёнка справа открывает настройки; пикер — «как в
+    // системе» + 5 языков (English опцией не выбирается — template-фолбэк).
+    await tester.tap(find.byIcon(Icons.settings_rounded));
+    await tester.pump();
+    await tester.pumpAndSettle();
+    expect(find.text('Settings'), findsOneWidget);
+    expect(find.text('Interface language'), findsOneWidget);
+    expect(find.byType(ListTile), findsNWidgets(6));
+
+    // Тап по Deutsch — язык меняется мгновенно, включая уже открытый
+    // экран настроек (нотифаер сервиса слушает и main.dart).
+    await tester.tap(find.text('Deutsch'));
+    await tester.pump();
+    await tester.pumpAndSettle();
+    expect(find.text('Einstellungen'), findsOneWidget);
+
+    // Назад — домашний экран уже на немецком (homeTitle, не бренд).
+    // pageBack ищет кнопку по en-тултипу «Back» — на de он «Zurück»,
+    // поэтому тапаем по типу кнопки, он от локали не зависит.
+    await tester.tap(find.byType(BackButton));
+    await tester.pumpAndSettle();
+    expect(find.text('Wort des Tages'), findsOneWidget);
+
     // Демонтируем приложение: dispose гасит полуночный таймер и подписку,
     // иначе фреймворк пожалуется на незавершённую работу.
+    await tester.pumpWidget(const SizedBox.shrink());
+    await tester.pump();
+  });
+
+  testWidgets('Системная локаль de → немецкий интерфейс без ручного выбора',
+      (tester) async {
+    mockAppChannels();
+    tester.platformDispatcher.localeTestValue = const Locale('de');
+    tester.platformDispatcher.localesTestValue = const <Locale>[Locale('de')];
+    addTearDown(() {
+      tester.platformDispatcher.clearLocaleTestValue();
+      tester.platformDispatcher.clearLocalesTestValue();
+    });
+
+    await tester.pumpWidget(const WordOfTheDayApp());
+    await tester.pump();
+    await tester.pump();
+    expect(find.byType(WelcomeScreen), findsOneWidget);
+    await tester.tap(find.byType(WelcomeScreen));
+    await tester.pump();
+    await tester.pump();
+
+    // settings.json ещё не существует → locale = null → обычная резолв
+    // MaterialApp: системная локаль de теперь поддерживается (этап 18).
+    // AppBar рисуется до загрузки словаря, поэтому спиннер-цикл из
+    // первого теста не нужен (и опасен: см. гонку ассет-канала выше).
+    expect(find.text('Wort des Tages'), findsOneWidget);
+
     await tester.pumpWidget(const SizedBox.shrink());
     await tester.pump();
   });

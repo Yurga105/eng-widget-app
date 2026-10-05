@@ -162,4 +162,13 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get welcomeSkip => 'Пропустить';
+
+  @override
+  String get settingsTitle => 'Настройки';
+
+  @override
+  String get settingsInterfaceLanguage => 'Язык интерфейса';
+
+  @override
+  String get languageSystem => 'Как в системе';
 }

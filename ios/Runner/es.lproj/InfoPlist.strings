@@ -1,0 +1,8 @@
+/* Info.plist localization to Spanish (stage 18): app display name
+   under the icon and in the app switcher. */
+"CFBundleDisplayName" = "Palabra del día";
+
+/* Stage 12: camera and photo library usage descriptions (iOS
+   permission dialog texts). */
+"NSCameraUsageDescription" = "Hacer una foto de asociación para la palabra del día";
+"NSPhotoLibraryUsageDescription" = "Elegir una foto de asociación para la palabra del día en la fototeca";

@@ -162,4 +162,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get welcomeSkip => 'Skip';
+
+  @override
+  String get settingsTitle => 'Settings';
+
+  @override
+  String get settingsInterfaceLanguage => 'Interface language';
+
+  @override
+  String get languageSystem => 'Follow system';
 }

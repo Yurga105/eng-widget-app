@@ -44,5 +44,8 @@
   "userExampleSave": "Сохранить",
   "userExampleEdit": "Изменить пример",
   "userExampleRemove": "Удалить пример",
-  "welcomeSkip": "Пропустить"
+  "welcomeSkip": "Пропустить",
+  "settingsTitle": "Настройки",
+  "settingsInterfaceLanguage": "Язык интерфейса",
+  "languageSystem": "Как в системе"
 }

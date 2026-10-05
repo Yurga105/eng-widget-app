@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Французская локаль нативных строк (этап 18): виджет в пикере лончера,
+     превью и плейсхолдер. app_name не переводим — бренд «Word of Day»
+     одинаков. Перевод превью остаётся русским до локализации словаря
+     (schema v2). -->
+<resources>
+    <string name="app_name">Word of Day</string>
+    <string name="word_widget_name">Mot du jour</string>
+    <string name="word_widget_description">Un mot, une expression ou un verbe à particule anglais chaque jour, avec traduction et exemple</string>
+    <string name="word_widget_preview_word">accomplish</string>
+    <string name="word_widget_preview_transcription">/əˈkɑːmplɪʃ/</string>
+    <string name="word_widget_preview_translation">достигать, выполнять</string>
+    <string name="word_widget_preview_example">She accomplished all her goals this year.</string>
+    <string name="word_widget_empty_word">Mot du jour</string>
+    <string name="word_widget_empty_translation">Ouvrez l\'appli pour voir le mot du jour</string>
+</resources>
