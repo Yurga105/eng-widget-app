@@ -155,4 +155,80 @@ void main() {
     expect(kInterfaceLanguages.any((l) => l.code == 'en'), isFalse,
         reason: 'en — template-фолбэк, опцией не выбирается');
   });
+
+  test('load: файла нет → язык переводов по умолчанию «ru»', () async {
+    final service = buildService();
+    await service.load();
+    expect(service.translationLanguage.value,
+        SettingsService.defaultTranslationLanguage);
+    service.dispose();
+  });
+
+  test('v1-файл без translationLanguage → «ru», миграция не нужна', () async {
+    storageFile().writeAsStringSync(jsonEncode(<String, Object>{
+      'version': 1,
+      'interfaceLanguage': 'de',
+    }));
+    final service = buildService();
+    await service.load();
+    expect(service.localeOverride.value, 'de');
+    expect(service.translationLanguage.value, 'ru');
+    service.dispose();
+  });
+
+  test('setTranslationLanguage: нотифаер + файл v2, интерфейс сохраняется',
+      () async {
+    final service = buildService();
+    await service.setInterfaceLanguage('id');
+    await service.setTranslationLanguage('fr');
+
+    expect(service.translationLanguage.value, 'fr');
+    final raw = storageFile().readAsStringSync();
+    expect(raw, contains('"translationLanguage": "fr"'));
+    expect(raw, contains('"interfaceLanguage": "id"'));
+    expect(raw, contains('"version": 2'));
+    service.dispose();
+  });
+
+  test('мусор в translationLanguage файла → дефолт «ru»', () async {
+    storageFile().writeAsStringSync(jsonEncode(<String, Object>{
+      'version': 2,
+      'interfaceLanguage': 'system',
+      'translationLanguage': 'kk', // язык не поддерживается
+    }));
+    final unknown = buildService();
+    await unknown.load();
+    expect(unknown.translationLanguage.value, 'ru');
+    unknown.dispose();
+
+    storageFile().writeAsStringSync(jsonEncode(<String, Object>{
+      'version': 2,
+      'translationLanguage': 42, // не строка
+    }));
+    final wrongType = buildService();
+    await wrongType.load();
+    expect(wrongType.translationLanguage.value, 'ru');
+    wrongType.dispose();
+  });
+
+  test('неизвестный код при выборе → дефолт «ru» (валидация записи)',
+      () async {
+    final service = buildService();
+    await service.setTranslationLanguage('xx');
+    expect(service.translationLanguage.value, 'ru');
+    expect(storageFile().readAsStringSync(),
+        contains('"translationLanguage": "ru"'));
+    service.dispose();
+  });
+
+  test('язык переводов переживает новый экземпляр сервиса', () async {
+    final first = buildService();
+    await first.setTranslationLanguage('es');
+    first.dispose();
+
+    final second = buildService();
+    await second.load();
+    expect(second.translationLanguage.value, 'es');
+    second.dispose();
+  });
 }

@@ -301,4 +301,70 @@ void main() {
       service.dispose();
     });
   });
+
+  group('generate — язык переводов (этап 19, идея B-005)', () {
+    test('translationLanguage: варианты и correctIndex на выбранном языке',
+        () {
+      WordEntry de(int id, String word) => WordEntry(
+            id: id,
+            word: word,
+            transcription: '/x/',
+            translation: 'русское-$id',
+            example: 'example',
+            exampleRu: 'пример',
+            type: WordType.word,
+            translations: <String, String>{
+              'ru': 'русское-$id',
+              'de': 'deutsches-$id',
+            },
+          );
+
+      final dict = <WordEntry>[
+        de(1, 'a'),
+        de(2, 'b'),
+        de(3, 'c'),
+        de(4, 'd'),
+        de(5, 'e'),
+        de(6, 'f'),
+      ];
+      final questions = QuizService.generate(
+        questionPool: dict,
+        dictionary: dict,
+        random: Random(1),
+        translationLanguage: 'de',
+      );
+
+      expect(questions, hasLength(QuizService.questionCount));
+      final germanOptions = <String>{
+        for (final e in dict) 'deutsches-${e.id}',
+      };
+      for (final q in questions) {
+        final correct = 'deutsches-${q.entry.id}';
+        expect(q.options, contains(correct));
+        expect(q.options[q.correctIndex], correct);
+        expect(
+          q.options.toSet().difference(germanOptions),
+          isEmpty,
+          reason: 'дистракторы тоже на немецком, без русских полей v1',
+        );
+      }
+    });
+
+    test('дефолт (без параметра) — прежнее поведение на русских полях', () {
+      final dict = dictionary();
+      final questions = QuizService.generate(
+        questionPool: dict,
+        dictionary: dict,
+        random: Random(1),
+      );
+
+      for (final q in questions) {
+        expect(
+          q.options[q.correctIndex],
+          q.entry.translation,
+          reason: 'ru-фолбэк — ровно как до этапа 19',
+        );
+      }
+    });
+  });
 }

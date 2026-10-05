@@ -171,4 +171,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get languageSystem => 'Follow system';
+
+  @override
+  String get settingsTranslationLanguage => 'Translation language';
 }

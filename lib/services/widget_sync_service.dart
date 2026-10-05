@@ -84,6 +84,11 @@ class WidgetSyncService {
   static const String keyWord = 'widget.word';
   static const String keyTranscription = 'widget.transcription';
   static const String keyTranslation = 'widget.translation';
+
+  /// Язык переводов виджета — этап 19 (идея B-005): нативный провайдер
+  /// в автономном режиме берёт перевод из карты `translations` записи v2
+  /// по этому коду; фолбэк калькулятора — русское поле v1.
+  static const String keyTranslationLang = 'widget.translation_lang';
   static const String keyExample = 'widget.example';
 
   /// Вся база слов одним JSON-текстом — этап 5 (PLAN.md §6).
@@ -99,16 +104,32 @@ class WidgetSyncService {
   static const String uriDateParam = 'date';
 
   /// Сохраняет слово сегодняшего дня и обновляет виджет.
-  Future<void> syncToday() => syncForDate(_wordOfDay.today);
+  ///
+  /// [translationLanguage] (этап 19) — язык перевода в prefs: в
+  /// `widget.translation` пишется уже перевод выбранного языка (фолбэк
+  /// записи — русский), в `widget.translation_lang` — сам код для
+  /// автономного пересчёта на Kotlin.
+  Future<void> syncToday({String translationLanguage = 'ru'}) =>
+      syncForDate(_wordOfDay.today, translationLanguage: translationLanguage);
 
   /// Сохраняет слово дня для [date] и обновляет виджет.
-  Future<void> syncForDate(DateTime date) async {
+  Future<void> syncForDate(
+    DateTime date, {
+    String translationLanguage = 'ru',
+  }) async {
     await _ensureDatabasePreloaded();
     final word = await _wordOfDay.wordForDate(date);
     await _backend.saveWidgetData<String>(keyDate, isoDate(date));
     await _backend.saveWidgetData<String>(keyWord, word.word);
     await _backend.saveWidgetData<String>(keyTranscription, word.transcription);
-    await _backend.saveWidgetData<String>(keyTranslation, word.translation);
+    await _backend.saveWidgetData<String>(
+      keyTranslation,
+      word.translationFor(translationLanguage),
+    );
+    await _backend.saveWidgetData<String>(
+      keyTranslationLang,
+      translationLanguage,
+    );
     await _backend.saveWidgetData<String>(keyExample, word.example);
     await _backend.updateWidget(androidName: androidProviderName);
   }

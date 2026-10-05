@@ -171,4 +171,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get languageSystem => 'Wie das System';
+
+  @override
+  String get settingsTranslationLanguage => 'Übersetzungssprache';
 }

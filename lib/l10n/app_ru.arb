@@ -47,5 +47,6 @@
   "welcomeSkip": "Пропустить",
   "settingsTitle": "Настройки",
   "settingsInterfaceLanguage": "Язык интерфейса",
-  "languageSystem": "Как в системе"
+  "languageSystem": "Как в системе",
+  "settingsTranslationLanguage": "Язык переводов"
 }

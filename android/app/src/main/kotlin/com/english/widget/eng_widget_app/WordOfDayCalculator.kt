@@ -41,20 +41,32 @@ object WordOfDayCalculator {
 
     /**
      * Слово дня для [date] из JSON базы (формат `assets/words_db.json`,
-     * ключ prefs `word_db_json`). Возвращает `null`, если база не читается
+     * ключ prefs `word_db_json`). [lang] — код языка переводов (этап 19,
+     * идея B-005; ключ prefs `widget.translation_lang`, паритет
+     * `WordEntry.translationFor` на Dart): перевод берётся из карты v2
+     * `translations` записи, при отсутствии карты/языка/пустом значении —
+     * русское поле v1. Возвращает `null`, если база не читается
      * или пуста — пусть виджет уходит на fallback-ключи / плейсхолдер
      * (риски №7–8 в PLAN.md §9), а не падает.
      */
-    fun entryFor(dbJson: String, date: LocalDate): WidgetWord? = try {
+    fun entryFor(dbJson: String, date: LocalDate, lang: String = "ru"): WidgetWord? = try {
         val words = JSONObject(dbJson).getJSONArray("words")
         val entry = words.getJSONObject(indexFor(date, words.length()))
         WidgetWord(
             word = entry.getString("word"),
             transcription = entry.optString("transcription", ""),
-            translation = entry.optString("translation", ""),
+            translation = translationFor(entry, lang),
             example = entry.optString("example", ""),
         )
     } catch (_: Exception) {
         null
+    }
+
+    /** Перевод записи на [lang] из карты v2 `translations`; нет карты,
+     *  нет ключа или пусто — русское поле v1 (как на Dart). */
+    private fun translationFor(entry: JSONObject, lang: String): String {
+        val fallback = entry.optString("translation", "")
+        val translations = entry.optJSONObject("translations") ?: return fallback
+        return translations.optString(lang, fallback).ifEmpty { fallback }
     }
 }

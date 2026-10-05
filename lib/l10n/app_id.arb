@@ -47,5 +47,6 @@
   "welcomeSkip": "Lewati",
   "settingsTitle": "Pengaturan",
   "settingsInterfaceLanguage": "Bahasa antarmuka",
-  "languageSystem": "Ikuti sistem"
+  "languageSystem": "Ikuti sistem",
+  "settingsTranslationLanguage": "Bahasa terjemahan"
 }

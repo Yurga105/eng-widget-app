@@ -34,8 +34,8 @@ const List<InterfaceLanguage> kInterfaceLanguages = <InterfaceLanguage>[
   InterfaceLanguage('es', 'Español'),
 ];
 
-/// Настройки приложения (этап 18, идея B-005): пока одна — язык
-/// интерфейса.
+/// Настройки приложения (этапы 18–19, идея B-005): язык интерфейса
+/// (schema v1) и язык переводов слов (этап 19, schema v2).
 ///
 /// Хранение — JSON-файл `documents/settings.json` по паттерну
 /// `FavoriteService` (этап 13): инжектируемый каталог documents, после
@@ -44,10 +44,11 @@ const List<InterfaceLanguage> kInterfaceLanguages = <InterfaceLanguage>[
 /// В окружении без плагина path_provider (тесты виджетов) сервис
 /// молча работает с системным языком.
 ///
-/// Состояние — публичный [localeOverride] (`ValueNotifier<String?>`,
-/// null = «как в системе»): `main.dart` пересобирает MaterialApp с
-/// новым `locale`, экран настроек слушает тот же нотифаер — смена
-/// языка мгновенная, без перезапуска приложения.
+/// Состояние — публичные нотифаеры: [localeOverride]
+/// (`ValueNotifier<String?>`, null = «как в системе») и
+/// [translationLanguage] (`ValueNotifier<String>`, язык переводов,
+/// этап 19): `main.dart` пересобирает MaterialApp по первому, экран
+/// настроек слушает оба — смена языка мгновенная, без перезапуска.
 class SettingsService {
   SettingsService({Future<Directory> Function()? documentsDirectory})
       : _documentsDirectory =
@@ -63,11 +64,21 @@ class SettingsService {
   /// Значение «как в системе» в `settings.json`.
   static const String systemLanguage = 'system';
 
+  /// Язык переводов по умолчанию (этап 19): он есть у каждой записи
+  /// словаря v2; файлы настроек v1 без ключа читаются как «ru».
+  static const String defaultTranslationLanguage = 'ru';
+
   final Future<Directory> Function() _documentsDirectory;
 
   /// Выбранный язык интерфейса: код из [kInterfaceLanguages] или
   /// null — «как в системе» (обычная резолв локали MaterialApp).
   final ValueNotifier<String?> localeOverride = ValueNotifier<String?>(null);
+
+  /// Язык, на котором показываются перевод и пример слова (этап 19,
+  /// часть 2): один из кодов [kInterfaceLanguages], без опции «как в
+  /// системе» — по умолчанию [defaultTranslationLanguage].
+  final ValueNotifier<String> translationLanguage =
+      ValueNotifier<String>(defaultTranslationLanguage);
 
   /// Стартовое чтение: выполняется один раз; повторные вызовы [load]
   /// ждут тот же future (детерминизм в тестах).
@@ -99,9 +110,13 @@ class SettingsService {
         throw const FormatException('верхний уровень — не объект');
       }
       localeOverride.value = _validated(decoded['interfaceLanguage']);
+      translationLanguage.value =
+          _validatedTranslation(decoded['translationLanguage']);
     } catch (e) {
-      debugPrint('Settings: $fileName не прочитан ($e) — системный язык');
+      debugPrint(
+          'Settings: $fileName не прочитан ($e) — значения по умолчанию');
       localeOverride.value = null;
+      translationLanguage.value = defaultTranslationLanguage;
     }
   }
 
@@ -122,6 +137,23 @@ class SettingsService {
     }
   }
 
+  /// Выбрать язык переводов слов и примеров (этап 19, часть 2).
+  /// Неизвестный код тихо заменяется дефолтом [defaultTranslationLanguage]
+  /// (та же валидация, что при чтении). Нотифаер обновляется сразу — UI
+  /// отзывчив; слушателей карточки/виджета/уведомлений подключают
+  /// шаги 4–6 этапа 19.
+  Future<void> setTranslationLanguage(String code) async {
+    await load(); // стартовое чтение завершилось до первой записи
+    final normalized = _validatedTranslation(code);
+    translationLanguage.value = normalized;
+    try {
+      final file = await _fileFor();
+      file.writeAsStringSync(_encode(localeOverride.value), flush: true);
+    } catch (e) {
+      debugPrint('Settings: $fileName не записан ($e)');
+    }
+  }
+
   /// Валидные значения: [systemLanguage] (→ null) или код из
   /// [kInterfaceLanguages]; устаревшее/кривое — «как в системе».
   String? _validated(Object? raw) {
@@ -131,10 +163,24 @@ class SettingsService {
     return kInterfaceLanguages.any((l) => l.code == raw) ? raw : null;
   }
 
-  String _encode(String? code) =>
+  /// Валидные значения языка переводов: код из [kInterfaceLanguages];
+  /// устаревшее/кривое — дефолт [defaultTranslationLanguage] («ru»).
+  String _validatedTranslation(Object? raw) {
+    if (raw is! String) {
+      return defaultTranslationLanguage;
+    }
+    return kInterfaceLanguages.any((l) => l.code == raw)
+        ? raw
+        : defaultTranslationLanguage;
+  }
+
+  /// Schema v2 (этап 19): обе настройки в одном файле. Файлы v1 читаются
+  /// без миграции — отсутствующий `translationLanguage` получит дефолт.
+  String _encode(String? interfaceCode) =>
       const JsonEncoder.withIndent('  ').convert(<String, Object?>{
-        'version': 1,
-        'interfaceLanguage': code ?? systemLanguage,
+        'version': 2,
+        'interfaceLanguage': interfaceCode ?? systemLanguage,
+        'translationLanguage': translationLanguage.value,
       });
 
   Future<File> _fileFor() async {
@@ -143,5 +189,8 @@ class SettingsService {
   }
 
   /// Освободить слушателей; вызывается из `dispose` владельца в main.
-  void dispose() => localeOverride.dispose();
+  void dispose() {
+    localeOverride.dispose();
+    translationLanguage.dispose();
+  }
 }

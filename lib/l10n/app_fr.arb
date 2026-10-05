@@ -47,5 +47,6 @@
   "welcomeSkip": "Passer",
   "settingsTitle": "Réglages",
   "settingsInterfaceLanguage": "Langue de l'application",
-  "languageSystem": "Comme le système"
+  "languageSystem": "Comme le système",
+  "settingsTranslationLanguage": "Langue des traductions"
 }

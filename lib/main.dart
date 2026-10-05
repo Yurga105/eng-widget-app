@@ -114,6 +114,10 @@ class _WordOfTheDayAppState extends State<WordOfTheDayApp>
     _scheduleMidnightSync();
     _listenToWidgetTaps();
     _settings.localeOverride.addListener(_onInterfaceLanguageChanged);
+    // Этап 19: смена языка переводов — пересобрать дерево (карточка,
+    // избранное, квиз и постер читают значение в build) и перепланировать
+    // уведомление «слово дня» с телом на новом языке.
+    _settings.translationLanguage.addListener(_onTranslationLanguageChanged);
   }
 
   @override
@@ -125,6 +129,9 @@ class _WordOfTheDayAppState extends State<WordOfTheDayApp>
     _quizOpenRequest.dispose();
     _quiz?.dispose();
     _settings.localeOverride.removeListener(_onInterfaceLanguageChanged);
+    _settings.translationLanguage.removeListener(
+      _onTranslationLanguageChanged,
+    );
     _settings.dispose();
     super.dispose();
   }
@@ -136,7 +143,11 @@ class _WordOfTheDayAppState extends State<WordOfTheDayApp>
     if (state == AppLifecycleState.resumed) {
       unawaited(_syncTodayQuietly());
       // Контент уведомления должен соответствовать ближайшему срабатыванию.
-      unawaited(_notifications?.rescheduleDailyNotification());
+      unawaited(
+        _notifications?.rescheduleDailyNotification(
+          translationLanguage: _settings.translationLanguage.value,
+        ),
+      );
       // Этап 14: одноразовое напоминание квиза не повторяется нативно —
       // перепланируем под свежую историю (мог сработать в фоне).
       unawaited(_rescheduleQuizReminderQuietly());
@@ -150,6 +161,25 @@ class _WordOfTheDayAppState extends State<WordOfTheDayApp>
     if (mounted) {
       setState(() {});
     }
+  }
+
+  /// Этап 19 (идея B-005, часть 2): язык переводов сменился — пересобираем
+  /// дерево (карточка/избранное/квиз/постер читают нотифаер в build),
+  /// сразу перерисовываем виджет (новый язык уходит в prefs —
+  /// `widget.translation` + `widget.translation_lang`) и перепланируем
+  /// «слово дня» с телом на новом языке. Слушатель срабатывает и на
+  /// стартовое чтение файла: сохранённый выбор ≠ «ru» доспанивает
+  /// уведомление и виджет после загрузки настроек.
+  void _onTranslationLanguageChanged() {
+    if (mounted) {
+      setState(() {});
+    }
+    unawaited(_syncTodayQuietly());
+    unawaited(
+      _notifications?.rescheduleDailyNotification(
+        translationLanguage: _settings.translationLanguage.value,
+      ),
+    );
   }
 
   @override
@@ -208,7 +238,9 @@ class _WordOfTheDayAppState extends State<WordOfTheDayApp>
   /// платформенной реализации в тестах) логируем и глотаем.
   Future<void> _syncTodayQuietly() async {
     try {
-      await _widgetSync.syncToday();
+      await _widgetSync.syncToday(
+        translationLanguage: _settings.translationLanguage.value,
+      );
     } catch (e) {
       debugPrint('WidgetSync: не удалось синхронизировать виджет: $e');
     }
@@ -224,7 +256,11 @@ class _WordOfTheDayAppState extends State<WordOfTheDayApp>
       unawaited(_syncTodayQuietly());
       // Наступил новый день — ближайшее срабатывание сегодня в 09:00,
       // обновляем слово и в уведомлении.
-      unawaited(_notifications?.rescheduleDailyNotification());
+      unawaited(
+        _notifications?.rescheduleDailyNotification(
+          translationLanguage: _settings.translationLanguage.value,
+        ),
+      );
       // Этап 14: мог наступить день квиза — напоминание должно стоять.
       unawaited(_rescheduleQuizReminderQuietly());
       _scheduleMidnightSync();
@@ -286,7 +322,11 @@ class _WordOfTheDayAppState extends State<WordOfTheDayApp>
       onOpenWordCard: _openWordCard,
       onOpenQuiz: _openQuiz,
     );
-    unawaited(_notifications!.start());
+    unawaited(
+      _notifications!.start(
+        translationLanguage: _settings.translationLanguage.value,
+      ),
+    );
     // Этап 17: резолв payload — второй вход гейта приветствия (ошибка
     // чтения не должна держать первый кадр вечно).
     _notifications!

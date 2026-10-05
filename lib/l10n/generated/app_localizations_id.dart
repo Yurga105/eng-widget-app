@@ -171,4 +171,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get languageSystem => 'Ikuti sistem';
+
+  @override
+  String get settingsTranslationLanguage => 'Bahasa terjemahan';
 }

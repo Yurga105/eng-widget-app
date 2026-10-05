@@ -32,6 +32,7 @@ class QuizScreen extends StatefulWidget {
     required this.dictionary,
     required this.favorites,
     required this.quiz,
+    this.translationLanguage = 'ru',
   });
 
   /// Словарь — общий с HomeScreen экземпляр (кэш слов).
@@ -42,6 +43,10 @@ class QuizScreen extends StatefulWidget {
 
   /// Сервис результатов и цикла «каждые 3 дня».
   final QuizService quiz;
+
+  /// Язык переводов вариантов и списка «слова на повторение» (этап 19,
+  /// идея B-005) — общий с HomeScreen выбор; «ru» — поведение v1.
+  final String translationLanguage;
 
   @override
   State<QuizScreen> createState() => _QuizScreenState();
@@ -94,6 +99,7 @@ class _QuizScreenState extends State<QuizScreen> {
       final questions = QuizService.generate(
         questionPool: favoriteEntries,
         dictionary: entries,
+        translationLanguage: widget.translationLanguage,
       );
       if (!mounted) {
         return;
@@ -361,7 +367,9 @@ class _ResultView extends StatelessWidget {
                     dense: true,
                     title: Text(entry.word),
                     subtitle: Text(
-                      entry.translation,
+                      entry.translationFor(
+                        state.widget.translationLanguage,
+                      ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),

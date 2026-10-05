@@ -1,0 +1,160 @@
+1|Tahun ini dia mencapai semua tujuannya.|In diesem Jahr hat sie alle ihre Ziele erreicht.|Cette année, elle a atteint tous ses objectifs.|Este año ha logrado todos sus objetivos.
+2|Butuh waktu sebulan untuk menyesuaikan diri dengan jadwal baru.|Ich brauchte einen Monat, um mich an den neuen Zeitplan zu gewöhnen.|Il m'a fallu un mois pour m'adapter au nouvel emploi du temps.|Me llevó un mes adaptarme al nuevo horario.
+3|Kami tidak mampu berlibur musim panas ini.|Diesen Sommer können wir uns keinen Urlaub leisten.|Cet été, nous ne pouvons pas nous permettre de partir en vacances.|Este verano no podemos permitirnos unas vacaciones.
+4|Aku selalu cemas sebelum wawancara kerja.|Vor Vorstellungsgesprächen bin ich immer nervös.|Je suis toujours anxieux avant les entretiens d'embauche.|Siempre me pongo nervioso antes de las entrevistas de trabajo.
+5|Aku sangat menghargai bantuanmu.|Ich bin dir wirklich dankbar für deine Hilfe.|J'apprécie vraiment ton aide.|De verdad agradezco tu ayuda.
+6|Kita butuh pendekatan baru untuk masalah ini.|Wir brauchen einen neuen Ansatz für dieses Problem.|Il nous faut une approche nouvelle de ce problème.|Necesitamos un enfoque nuevo para este problema.
+7|Sebelum ngopi aku menghindari membuka email.|Vor dem Kaffee vermeide ich es, in die Mails zu schauen.|Avant mon café, j'évite de consulter mes mails.|Antes del café evito mirar el correo.
+8|Keheningan setelah leluconnya terasa canggung sekali.|Die Stille nach seinem Witz war so peinlich.|Le silence après sa blague était tellement gênant.|El silencio tras su chiste fue incómodo de verdad.
+9|Jalan kaki sebentar bisa menaikkan energi Anda.|Ein kurzer Spaziergang kann dich richtig aufmuntern.|Une courte marche peut recharger votre énergie.|Un paseo corto puede recargar tu energía.
+10|Aku menghabiskan satu jam di toko buku.|Ich habe eine Stunde in der Buchhandlung gestöbert.|J'ai passé une heure à feuilleter les livres en librairie.|Me pasé una hora hojeando libros en la librería.
+11|Belajar memasak menjadi tantangan nyata baginya.|Kochen zu lernen war für ihn eine echte Herausforderung.|Apprendre à cuisiner a été un vrai défi pour lui.|Aprender a cocinar fue todo un reto para él.
+12|Perjalanan kerjaku butuh sekitar empat puluh menit.|Mein Arbeitsweg dauert etwa vierzig Minuten.|Mon trajet au travail prend environ quarante minutes.|Mi trayecto al trabajo dura unos cuarenta minutos.
+13|Dia terdengar percaya diri saat presentasi.|In der Präsentation klang sie selbstbewusst.|À la présentation, elle a paru très sûre d'elle.|En la presentación sonó muy segura.
+14|Apakah Sabtu pagi cocok untuk telepon kita?|Passt Samstagmorgen für unser Telefonat?|Le samedi matin vous conviendrait-il pour notre appel ?|¿El sábado por la mañana te va bien para la llamada?
+15|Tidur sangat penting bagi daya ingat Anda.|Schlaf ist entscheidend für dein Gedächtnis.|Le sommeil est crucial pour ta mémoire.|Dormir es crucial para tu memoria.
+16|Anak-anak secara alami penasaran pada segalanya.|Kinder sind von Natur aus neugierig auf alles.|Les enfants sont naturellement curieux de tout.|Los niños son curiosos por naturaleza con todo.
+17|Dengan harga segitu, hotelnya cukup layak.|Für den Preis war das Hotel ordentlich.|Pour ce prix, l'hôtel était tout à fait correct.|Para ese precio, el hotel estaba bastante bien.
+18|Penerbangan tertunda dua jam.|Der Flug hatte zwei Stunden Verspätung.|Le vol a eu deux heures de retard.|El vuelo se retrasó dos horas.
+19|Paketnya akan diantar besok.|Das Paket wird morgen zugestellt.|Le colis sera livré demain.|El paquete lo entregarán mañana.
+20|Berhenti doomscrolling dan pergi tidur!|Hör auf mit dem Doomscrolling und schlaf!|Arrête le doomscrolling et va dormir !|¡Deja el doomscrolling y vete a dormir!
+21|Dia bersemangat memulai pekerjaan barunya.|Er war begierig darauf, seinen neuen Job anzufangen.|Il était impatient de commencer son nouveau travail.|Estaba deseando empezar su nuevo trabajo.
+22|Rekan baru kami ramah dan mudah diajak bergaul.|Unser neuer Kollege ist freundlich und unkompliziert.|Notre nouveau collègue est sympathique et décontracté.|Nuestro nuevo compañero es simpático y relajado.
+23|Aplikasi ini membuat perencanaan jauh lebih efisien.|Diese App macht die Planung viel effizienter.|Cette application rend la planification bien plus efficace.|Esta app hace que planificar sea mucho más eficiente.
+24|Tidak pernah terlambat untuk merangkul perubahan.|Es ist nie zu spät, Veränderungen anzunehmen.|Il n'est jamais trop tard pour accepter le changement.|Nunca es tarde para aceptar los cambios.
+25|Air esensial bagi semua makhluk hidup.|Wasser ist für alles Leben unerlässlich.|L'eau est essentielle à tout ce qui vit.|El agua es esencial para todo ser vivo.
+26|Aku kelelahan setelah shift malam.|Nach der Nachtschicht war ich völlig erschöpft.|J'étais épuisé après le service de nuit.|Quedé agotado después del turno de noche.
+27|Akunnya tentu saja palsu.|Das Konto war natürlich gefälscht.|Le compte était faux, bien sûr.|La cuenta era falsa, claro.
+28|Mungkinkah menyelesaikan semuanya sebelum Jumat?|Ist es machbar, bis Freitag alles fertig zu machen?|Est-il réaliste de tout finir d'ici vendredi ?|¿Es viable terminar todo antes del viernes?
+29|Bos saya fleksibel soal jam kerja.|Mein Chef ist flexibel bei den Arbeitszeiten.|Mon chef est flexible sur les horaires.|Mi jefe es flexible con el horario de trabajo.
+30|Kesal karena internet yang lambat.|Er ärgerte sich über das langsame Internet.|Il s'est agacé à cause d'Internet trop lent.|Se frustró por el internet lento.
+31|Kami dua kali pacaran, lalu dia menghilang begitu saja.|Wir hatten zwei Dates, dann hat er sich einfach nicht mehr gemeldet.|On s'est vus deux fois, puis il m'a ghostée.|Tuvimos dos citas y luego desapareció sin más.
+32|Dia langsung memahami inti idenya.|Sie hat die Idee sofort begriffen.|Elle a saisi l'idée tout de suite.|Captó la idea enseguida.
+33|Rasa bersalah membuatnya tak bisa tidur semalaman.|Das Schuldgefühl ließ ihn die ganze Nacht nicht schlafen.|La culpabilité l'a empêché de dormir toute la nuit.|El sentimiento de culpa no le dejó dormir en toda la noche.
+34|Maaf aku membentak: aku cuma lapar dan marah.|Tut mir leid, dass ich geschnappt habe — ich war einfach hangry.|Désolé d'avoir piqué une crise : j'étais juste affamé.|Perdón por estallar: era solo hambre y mal humor.
+35|Memperpanjang paspor itu benar-benar merepotkan.|Den Pass zu erneuern ist echt eine Plage.|Renouveler le passeport, quelle galère.|Renovar el pasaporte es un fastidio tremendo.
+36|Filmnya tidak seheboh hype-nya.|Der Film wurde dem Hype nicht gerecht.|Le film n'a pas été à la hauteur du battage.|La película no estuvo a la altura del bombo.
+37|Jangan abaikan tanda-tanda bahaya.|Ignoriere die Warnsignale nicht.|N'ignore pas les signaux d'alerte.|No ignores las señales de alerta.
+38|Kamu benar-benar menkesankan pewawancara.|Du hast die Interviewer wirklich beeindruckt.|Tu as vraiment impressionné les recruteurs.|De verdad impresionaste a los entrevistadores.
+39|Kami berniat pindah musim semi depan.|Wir haben vor, nächsten Frühling umzuziehen.|Nous avons l'intention de déménager au printemps prochain.|Tenemos la intención de mudarnos la próxima primavera.
+40|Hari Minggu diciptakan untuk bermalas-malasan.|Sonntage sind zum Faulenzen da.|Les dimanches sont faits pour paresser.|Los domingos están hechos para la pereza.
+41|Setelah lagu hit itu, bandnya masuk arus utama.|Nach diesem Hit wurde die Band zum Mainstream.|Après ce tube, le groupe est passé dans le grand public.|Después del éxito, el grupo se hizo mainstream.
+42|Pola pikir bertumbuh mengubah segalanya.|Eine Wachstumsmentalität verändert alles.|Un état d'esprit de croissance change tout.|Una mentalidad de crecimiento lo cambia todo.
+43|Mereka bernegosiasi dan mendapat gaji lebih baik.|Sie haben ein besseres Gehalt ausgehandelt.|Ils ont négocié un meilleur salaire.|Negociaron un mejor salario.
+44|Lagu ini memenuhiku dengan nostalgia.|Dieses Lied erfüllt mich mit Nostalgie.|Cette chanson me remplit de nostalgie.|Esta canción me llena de nostalgia.
+45|Jangan biarkan berita membuatmu kewalahan.|Lass dich von den Nachrichten nicht überwältigen.|Ne te laisse pas submerger par les actualités.|No dejes que las noticias te abrumen.
+46|Dia penuh gairah pada biologi laut.|Ihre Leidenschaft ist die Meeresbiologie.|Elle est passionnée par la biologie marine.|Le apasiona la biología marina.
+47|Bagi remaja, pendapat sebaya sangat penting.|Für Teenager ist die Meinung der Gleichaltrigen wichtig.|Pour les ados, l'avis des camarades compte beaucoup.|Para los adolescentes, la opinión de sus iguales importa mucho.
+48|Sebelum film, waktu kita masih banyak.|Vor dem Film haben wir reichlich Zeit.|Nous avons largement le temps avant la séance.|Antes de la sesión tenemos tiempo de sobra.
+49|Restorannya bagus, tapi harganya agak mahal.|Das Restaurant ist super, aber ziemlich teuer.|Le restaurant est super, mais un peu cher.|El restaurante es estupendo, pero carillo.
+50|Aku menunda esai ini berminggu-minggu.|Ich habe Wochen lang dieses Essay aufgeschoben.|J'ai procrastiné des semaines sur cette dissertation.|Llevo semanas procrastinando este ensayo.
+51|Tidur yang baik meningkatkan produktivitas.|Guter Schlaf steigert die Produktivität.|Bien dormir augmente la productivité.|Un buen sueño aumenta la productividad.
+52|Fakta acak membuat hariku lebih baik.|Eine zufällige Tatsache hat meinen Tag besser gemacht.|Un fait aléatoire a égayé ma journée.|Un dato aleatorio mejoró mi día.
+53|Saat ini aku tak bisa mengingat namanya.|Ich kann mich gerade nicht an ihren Namen erinnern.|Là, je n'arrive pas à me rappeler son nom.|Ahora mismo no consigo recordar su nombre.
+54|Jalan kaki singkat membuat kepala lebih jernih.|Ein kurzer Spaziergang klärt den Kopf.|Une courte marche clarifie l'esprit.|Un paseo corto despeja la mente.
+55|Dia enggan mengakui kesalahannya.|Er hat seinen Fehler nur widerwillig zugegeben.|Il a reconnu son erreur à contrecœur.|Reconoció su error de mala gana.
+56|Main ponsel saat makan malam itu tidak sopan.|Beim Abendessen am Handy zu sein ist unhöflich.|Être sur son portable pendant le dîner est impoli.|Estar con el móvil en la cena es de mala educación.
+57|Tidak perlu buru-buru — kirim kapan pun bisa.|Keine Eile — schick es, wann immer du kannst.|Pas de pression — envoie-le quand tu peux.|Sin prisa: envíalo cuando puedas.
+58|Dia sangat paham soal teknologi.|Sie versteht richtig viel von Technik.|Elle s'y connaît vraiment en technologie.|Entiende muchísimo de tecnología.
+59|Sejam aku menggulir tanpa sadar.|Eine Stunde habe ich gescrollt, ohne es zu merken.|J'ai fait défiler une heure sans m'en rendre compte.|Llevaba una hora deslizando sin darme cuenta.
+60|Mandi busa adalah cara favoritku merawat diri.|Ein Schaumbad ist meine Lieblingsform der Selbstfürsorge.|Un bain moussant est mon moment de détente préféré.|Un baño de espuma es mi cuidado personal favorito.
+61|Kamu tidak punya pulpen cadangan?|Hast du keinen Ersatzkuli?|Tu n'as pas un stylo de rechange ?|¿No tienes un bolígrafo de repuesto?
+62|Kami menghabiskan satu musim dalam semalam.|Wir haben die ganze Staffel in einer Nacht gestreamt.|On a regardé toute la saison en une nuit.|Nos vimos la temporada entera en una noche.
+63|Bangun pagi masih terasa berat bagiku.|Frühes Aufstehen fällt mir immer noch schwer.|Se lever tôt me reste encore difficile.|Madrugar todavía me cuesta trabajo.
+64|Tanpa sengaja aku menggeser ke kanan.|Ich habe aus Versehen nach rechts gewischt.|J'ai balayé vers la droite par accident.|Deslicé hacia la derecha sin querer.
+65|Tempatnya bagus, meski agak bising.|Schöner Ort, allerdings etwas laut.|Endroit sympa, pourtant un peu bruyant.|El sitio está bien, aunque un poco ruidoso.
+66|Tren ini sekarang ada di mana-mana.|Dieser Trend ist gerade überall.|Cette tendance est partout en ce moment.|Esta tendencia está por todas partes.
+67|Senin khas: kopi, rapat, kopi lagi.|Typischer Montag: Kaffee, Meetings, wieder Kaffee.|Lundi typique : café, réunions, encore du café.|Lunes típico: café, reuniones y más café.
+68|Pantau waktu layar Anda dengan kesadaran.|Sei achtsam mit deiner Bildschirmzeit.|Sois attentif à ton temps d'écran.|Vigila con conciencia tu tiempo de pantalla.
+69|Sungguh aku menikmati buku itu.|Das Buch hat mir wirklich gefallen.|J'ai sincèrement aimé ce livre.|De verdad disfruté con ese libro.
+70|Dia menekuni bahasa itu dengan sungguh-sungguh.|Sie hat sich voll und ganz in die Sprache eingetaucht.|Elle s'est plongée corps et âme dans la langue.|Se sumergió de lleno en el idioma.
+71|Orang tua bekerja menata banyak hal setiap hari.|Berufstätige Eltern jonglieren täglich mit vielem.|Les parents qui travaillent jonglent chaque jour.|Los padres que trabajan combinan mil cosas a diario.
+72|Aku menetapkan batas waktu layar untuk diriku.|Ich habe mir ein Limit für die Bildschirmzeit gesetzt.|Je me suis fixé une limite de temps d'écran.|Me puse un límite de tiempo de pantalla.
+73|Aku benar-benar begadang semalaman.|Ich habe buchstäblich die ganze Nacht nicht geschlafen.|Je n'ai littéralement pas dormi de la nuit.|Literalmente no dormí en toda la noche.
+74|Manfaatkan konferensi untuk membangun jaringan.|Nutze Konferenzen, um Kontakte zu knüpfen.|Utilise les conférences pour créer des liens.|Aprovecha las conferencias para hacer contactos.
+75|Kita sempurnakan presentasinya sebelum Jumat.|Bringen wir die Präsentation bis Freitag auf Vordermann.|Peaufinons la présentation avant vendredi.|Pulamos la presentación antes del viernes.
+76|Dia berhenti merokok tahun lalu.|Er hat letztes Jahr mit dem Rauchen aufgehört.|Il a arrêté de fumer l'année dernière.|Dejó de fumar el año pasado.
+77|Bersikaplah realistis soal tenggat waktu.|Sei realistisch mit deinen Fristen.|Sois réaliste avec tes délais.|Sé realista con los plazos.
+78|Akhir pekan membantuku memulihkan tenaga.|Am Wochenende kann ich neue Kraft tanken.|Le week-end m'aide à recharger les batteries.|Los fines de semana me ayudan a recargar energías.
+79|Cukup sempurnakan paragraf terakhirnya sedikit.|Justiere nur den letzten Absatz leicht.|Retouche juste un peu le dernier paragraphe.|Retoca solo un poco el último párrafo.
+80|Kami pindah ke apartemen yang lebih luas.|Wir sind in eine größere Wohnung gezogen.|Nous avons migré vers un appartement plus grand.|Nos mudamos a un piso más espacioso.
+81|Melewatkan rapat itu keputusan yang jelas.|Das Meeting ausfallen zu lassen war eine klare Sache.|Rater cette réunion était une évidence.|Faltarse a esa reunión fue lo más obvio.
+82|Ujiannya ternyata mudah sekali.|Die Prüfung war ein Kinderspiel.|L'examen était un jeu d'enfant.|El examen fue pan comido.
+83|Ia bercanda untuk mencairkan suasana.|Er hat einen Witz gemacht, um das Eis zu brechen.|Il a raconté une blague pour briser la glace.|Contó un chiste para romper el hielo.
+84|Tak bisa keluar — harus belajar sungguh-sungguh.|Ich kann nicht raus — ich muss pauken.|Je ne peux pas sortir — je dois bûcher.|No puedo salir: me toca ponerme a estudiar.
+85|Hari ini aku merasa kurang sehat.|Ich fühle mich heute etwas angezählt.|Je me sens un peu patraque aujourd'hui.|Hoy me siento algo pachucho.
+86|Jangan bocorkan kejutan pesta itu!|Verrate nichts von der Überraschungsparty!|Ne vends pas la mèche sur la fête !|¡No te vayas de la lengua con la fiesta!
+87|Kami jarang sekali makan di luar.|Wir essen alle Jubeljahre mal auswärts.|On mange au restaurant tous les trente-six du mois.|Comemos fuera de Pascua a Ramos.
+88|Ponsel itu harganya sangat mahal.|Das Handy hat ein Vermögen gekostet.|Ce téléphone a coûté les yeux de la tête.|Ese móvil costó un ojo de la cara.
+89|Aku benar-benar lelah: saatnya tidur.|Ich bin erledigt — Zeit, mich zu pennen.|Je suis épuisé : l'heure de pieuter.|Estoy hecho polvo: hora de irme a la cama.
+90|Aku masih ragu soal tawaran itu.|Ich bin beim Angebot noch unentschlossen.|Je suis encore indécis face à l'offre.|Sigo indeciso con la oferta.
+91|Aku memberanikan diri menelepon dokter gigi.|Ich habe in den sauren Apfel gebissen und den Zahnarzt angerufen.|J'ai serré les dents et j'ai appelé le dentiste.|Hice de tripas corazón y llamé al dentista.
+92|Hampir semua diperbaiki — mari berhenti untuk hari ini.|Wir haben fast alles repariert — machen wir für heute Schluss.|On a presque tout réparé — restons-en là pour aujourd'hui.|Casi todo está arreglado: dejémoslo por hoy.
+93|Mereka memotong biaya material, dan atapnya jadi bocor.|Sie haben gepfuscht, und das Dach hat geleckt.|Ils ont bâclé les matériaux et le toit a fui.|Ahorraron en materiales y el techo terminó goteando.
+94|Ia selalu berjuang lebih keras untuk pelanggan.|Sie geht für Kunden immer über das Nötige hinaus.|Elle fait toujours plus que nécessaire pour les clients.|Siempre da un paso más por los clientes.
+95|Dengan harga seperti ini, kita semua senasib.|Bei diesen Preisen sitzen wir alle im selben Boot.|Avec ces prix, nous sommes tous dans le même bateau.|Con estos precios estamos todos en el mismo barco.
+96|Tolong jaga kopiku, ya.|Pass bitte auf meinen Kaffee auf.|Surveille mon café, s'il te plaît.|Vigila mi café, por favor.
+97|Bermain gim membantunya melepas stres.|Zocken hilft ihm, Dampf abzulassen.|Les jeux vidéo l'aident à évacuer la pression.|Los videojuegos le ayudan a desahogarse.
+98|Pesan sekarang, atau kita kehilangan kesempatan.|Buche jetzt, sonst verpassen wir den Anschluss.|Réserve maintenant, sinon on rate le coche.|Reserva ya o perderemos la oportunidad.
+99|Kira-kira sekitar dua puluh.|Aus dem Kopf: ungefähr zwanzig.|De mémoire, c'est environ vingt.|A bote pronto, unos veinte.
+100|Mari pastikan kita sama-sama paham.|Stellen wir sicher, dass wir auf dem gleichen Stand sind.|Assurons-nous que nous sommes sur la même longueur d'onde.|Asegurémonos de que estamos en la misma página.
+101|Tenang, aku cuma mempermainkanmu!|Entspann dich, ich nehm dich nur auf den Arm!|Détends-toi, je te fais marcher !|¡Tranquilo, te estoy tomando el pelo!
+102|Kami tidak selalu sepaham.|Wir sind nicht immer einer Meinung.|Nous ne voyons pas toujours les choses de la même façon.|No siempre compartimos el mismo punto de vista.
+103|Baru saja disebut, langsung muncul — nih dia!|Vom Teufel gesprochen — da kommt sie ja!|Quand on parle du loup, on en voit la queue — la voilà !|Hablando del rey de Roma... ¡y ahí está!
+104|Penundaan itu jadi batas kesabarannya.|Die Verspätung war für ihn der Tropfen, der das Fass zum Überlaufen brachte.|Le retard a été la goutte d'eau qui a fait déborder le vase.|El retraso fue la gota que colmó el vaso.
+105|Jangan menyerah setelah sekali gagal.|Wirf nicht nach einem Fehlschlag das Handtuch.|N'abandonne pas après un premier échec.|No tires la toalla tras el primer fracaso.
+106|Rencana liburan kami masih di udara.|Unser Urlaubsplan ist noch völlig offen.|Nos projets de vacances restent en suspens.|Nuestros planes de vacaciones siguen en el aire.
+107|Dia minta maaf kalau babi bisa terbang.|Er entschuldigt sich, wenn Ostern und Weihnachten auf einen Tag fallen.|Il s'excusera quand les poules auront des dents.|Se disculpará cuando las ranas críen pelo.
+108|Kehilangan pekerjaan itu ternyata berkah terselubung.|Den Job zu verlieren hat sich am Ende als Glück erwiesen.|Perdre ce travail s'est révélé être un mal pour un bien.|Perder ese trabajo acabó siendo un mal por un bien.
+109|Kodenya rusak dan kami kembali ke titik nol.|Der Code ist kaputtgegangen und wir fangen wieder bei null an.|Le code a cassé et nous voilà de retour à la case départ.|El código se rompió y volvimos a la casilla de salida.
+110|Sebelum peluncuran, kami kerap begadang hingga larut.|Vor dem Launch haben wir bis tief in die Nacht gearbeitet.|Avant le lancement, on travaillait jusqu'à pas d'heure.|Antes del lanzamiento trabajábamos hasta la madrugada.
+111|Dia lulus ujian dengan susah payah.|Er hat die Prüfung nur mit knapper Not bestanden.|Il a réussi l'examen de justesse.|Aprobó el examen por los pelos.
+112|Pencurinya tertangkap tangan.|Der Dieb wurde auf frischer Tat ertappt.|Le voleur a été pris la main dans le sac.|Pillaron al ladrón con las manos en la masa.
+113|Vasanya pecah — tak ada gunanya menyesal.|Die Vase ist kaputt — was geschehen ist, ist geschehen.|Le vase est cassé — inutile de pleurer sur le lait renversé.|El jarrón está roto: no sirve de nada llorar sobre la leche derramada.
+114|Aku cuma bermain advokat di sini.|Ich spiele hier nur den Anwalt des Teufels.|Je joue juste ici à l'avocat du diable.|Solo estoy haciendo de abogado del diablo.
+115|Ketika ia menang, dia harus mengakui kesalannya.|Als sie gewann, musste er seine Worte zurücknehmen.|Quand elle a gagné, il a dû reconnaître qu'il avait eu tort.|Cuando ella ganó, tuvo que tragarse sus palabras.
+116|Memecahkan vasanya, ia harus menanggung akibatnya.|Er hat die Vase zerbrochen und musste die Konsequenzen tragen.|Ayant cassé le vase, il a dû assumer les conséquences.|Al romper el jarrón, tuvo que afrontar las consecuencias.
+117|Tepat sebelum pernikahan, dia tiba-tiba panik.|Kurz vor der Hochzeit hat er kalte Füße bekommen.|Juste avant le mariage, il s'est dégonflé.|Justo antes de la boda le entró el pánico.
+118|Mari kita beranggapan baik tentang dia.|Gehen wir im Zweifel vom Besten aus.|Accordons-lui le bénéfice du doute.|Démosle el beneficio de la duda.
+119|Komentarmu tepat sasaran.|Mit diesem Kommentar hast du den Nagel auf den Kopf getroffen.|Ta remarque est dans le mille.|Tu comentario dio en el clavo.
+120|Semua ikut-ikutan tren kecerdasan buatan.|Alle sind auf den KI-Zug aufgesprungen.|Tout le monde a sauté dans le train de l'IA.|Todos se subieron al carro de la IA.
+121|Bersepeda ke kantor sekaligus dua untung.|Mit dem Rad zur Arbeit schlägt man zwei Fliegen mit einer Klappe.|Aller au travail à vélo, c'est faire d'une pierre deux coups.|Ir al trabajo en bici mata dos pájaros de un tiro.
+122|Dia membocorkan rahasia soal hadiah itu.|Beim Geschenk hat er die Katze aus dem Sack gelassen.|Il a dévoilé le pot aux roses à propos du cadeau.|Se le escapó el secreto del regalo.
+123|Aku tipe begadang: otakku baru nyala jam sepuluh malam.|Ich bin eine Nachteule — mein Gehirn wacht erst um 22 Uhr auf.|Je suis un oiseau de nuit : mon cerveau s'éveille vers 22 h.|Soy un búho: mi cerebro despierta a las diez de la noche.
+124|Siapa bangun pagi, dia dapat diskon terbaik.|Wer früh aufsteht, ergattert die besten Schnäppchen.|Qui se lève tôt attrape les meilleures affaires.|Quien madruga se lleva las mejores ofertas.
+125|Sejak lamaran itu, dia selalu sangat bahagia.|Seit dem Antrag ist sie im siebten Himmel.|Depuis la demande en mariage, elle est aux anges.|Desde la propuesta está en el séptimo cielo.
+126|Sahabat lama tiba-tiba mengirimiku pesan.|Eine alte Freundin hat mir aus heiterem Himmel geschrieben.|Un vieil ami m'a écrit à l'improviste.|Un viejo amigo me escribió de repente.
+127|Malam ini tak ada rencana: kita improvisasi saja.|Kein Plan für heute Abend — wir entscheiden nach Situation.|Pas de plan ce soir — on improvisera selon les circonstances.|No hay plan para esta noche: improvisaremos.
+128|Bayangkan dirimu sepuluh menit di posisinya.|Versetze dich eine Minute in ihre Lage.|Mets-toi une minute à sa place.|Ponte un minuto en su lugar.
+129|Bisa kita tunda makan siangnya?|Kann ich unser Mittagessen verschieben?|Puis-je remettre notre déjeuner à plus tard ?|¿Puedo dejar el almuerzo para otra ocasión?
+130|Sebagai patokan, sisihkan sepuluh persen penghasilan.|Als Faustregel: lege zehn Prozent des Einkommens zurück.|En règle générale, épargne dix pour cent de tes revenus.|Como regla general, ahorra el diez por ciento de tus ingresos.
+131|Setelah kopi, tenagaku kembali.|Nach dem Kaffee kam mein zweiter Atem.|Après le café, j'ai retrouvé un second souffle.|Después del café recuperé el aliento.
+132|Aku sudah kirim tawarannya: sekarang giliranmu.|Ich habe das Angebot geschickt — jetzt bist du dran.|J'ai envoyé l'offre : la balle est dans ton camp.|Envié la oferta: ahora te toca a ti.
+133|Waktu terasa cepat saat kita bersenang.|Die Zeit vergeht schnell, wenn man Spaß hat.|Le temps passe vite quand on s'amuse.|El tiempo vuela cuando te diviertes.
+134|Ayo saling kabari Senin depan.|Lass uns Montag kurz Kontakt aufnehmen.|Redonne-moi des nouvelles lundi.|Quedamos para dar un toque el lunes.
+135|Podcast itu memberiku bahan perenungan.|Dieser Podcast hat mir Stoff zum Nachdenken gegeben.|Ce podcast m'a donné de quoi réfléchir.|Ese podcast me dio comida para pensar.
+136|Sabtu kami nongkrong di mal.|Samstags treffen wir uns im Einkaufszentrum.|Le samedi, on traîne au centre commercial.|Los sábados quedamos en el centro comercial.
+137|Tak berhasil juga memecahkan teka-teki ini.|Ich komme bei diesem Rätsel einfach nicht weiter.|Je n'arrive pas à résoudre cette énigme.|No logro entender este rompecabezas.
+138|Tenang: kereta datang tiap lima menit.|Entspann dich — der Zug kommt alle fünf Minuten.|Détends-toi : le train passe toutes les cinq minutes.|Tranquilo: el tren pasa cada cinco minutos.
+139|Dia menemukan ide cemerlang.|Sie hatte einen brillanten Einfall.|Elle a trouvé une idée brillante.|Se le ocurrió una idea brillante.
+140|Bulan ini aku mengurangi gula.|Diesen Monat reduziere ich Zucker.|Ce mois-ci, je réduis le sucre.|Este mes estoy recortando el azúcar.
+141|Akhirnya kami pesan pizza lagi.|Am Ende haben wir wieder Pizza bestellt.|Au final, on a encore commandé une pizza.|Al final volvimos a pedir pizza.
+142|Jawabannya kutemukan di forum.|Die Antwort habe ich im Forum herausgefunden.|J'ai découvert la réponse sur un forum.|Averigüé la respuesta en un foro.
+143|Dengan rekan kerja, akurku lumayan baik.|Mit meinen Kollegen komme ich ziemlich gut aus.|Je m'entends plutôt bien avec mes collègues.|Me llevo bastante bien con mis compañeros.
+144|Jangan menyerah pada percobaan pertama.|Gib nie nach dem ersten Versuch auf.|N'abandonne jamais dès la première tentative.|Nunca te rindas al primer intento.
+145|Tak sabarnya menantikan perjalanan musim panas kita.|Ich freue mich schon auf unsere Sommerreise.|J'attends notre voyage d'été avec impatience.|Espero con ilusión nuestro viaje de verano.
+146|Pagi tadi susu kita habis.|Heute Morgen war die Milch alle.|Ce matin, on n'avait plus de lait.|Esta mañana se nos acabó la leche.
+147|Dia sangat suka pamer mobil barunya.|Er zeigt sein neues Auto total gerne her.|Il adore crâner avec sa nouvelle voiture.|Le encanta presumir de su coche nuevo.
+148|Laptopku tiba-tiba mati.|Mein Laptop ist plötzlich heruntergefahren.|Mon ordinateur s'est soudainement éteint.|Mi portátil se apagó de repente.
+149|Jadwalnya kita bereskan besok.|Den Zeitplan klären wir morgen.|On réglera l'emploi du temps demain.|El horario lo resolvemos mañana.
+150|Presentasinya benar-benar menonjol.|Ihre Präsentation ist richtig aufgefallen.|Sa présentation a vraiment retenu l'attention.|Su presentación destacó de verdad.
+151|Pesawatnya lepas landas tepat waktu.|Das Flugzeug ist pünktlich gestartet.|L'avion a décollé à l'heure.|El avión despegó puntual.
+152|Pada akhirnya semuanya berjalan baik.|Am Ende hat alles geklappt.|Au final, tout s'est bien passé.|Al final todo salió bien.
+153|Jangan tunda kunjungan ke dokter gigi.|Sage den Zahnarzttermin nicht auf.|Ne remets pas la visite chez le dentiste.|No aplaces la visita al dentista.
+154|Tak tahan lagi dengan kebisingan ini.|Diesen Lärm kann ich nicht mehr ertragen.|Je ne peux plus supporter ce bruit.|Ya no aguanto este ruido.
+155|Coba lihat kedai kopi barunya!|Schau dir die neue Kaffeebar an!|Va voir le nouveau café !|¡Échale un vistazo a la cafetería nueva!
+156|Ayo sempatkan ngobrol sambil ngopi.|Lass uns irgendwann einen Kaffee trinken und quatschen.|On devrait se revoir autour d'un café un de ces jours.|Quedemos algún día para tomar un café y ponernos al día.
+157|Mampirlah kalau kamu di sekitar.|Schau vorbei, wenn du in der Nähe bist.|Passe quand tu seras dans le coin.|Pasa si andas por la zona.
+158|Setiap Jumat kami makan di luar.|Jeden Freitag essen wir auswärts.|Chaque vendredi, on mange au restaurant.|Todos los viernes cenamos fuera.
+159|Masuk ke akunmu untuk menyimpan progres.|Logge dich ein, um deinen Fortschritt zu speichern.|Connecte-toi pour sauvegarder ta progression.|Inicia sesión para guardar tu progreso.
+160|Istirahat yang cukup, atau kamu akan burnout.|Erhol dich richtig, sonst burnest du aus.|Repose-toi bien, sinon tu vas craquer.|Descansa bien o acabarás quemado.

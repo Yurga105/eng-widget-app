@@ -17,8 +17,10 @@ import java.time.LocalDate
  *     первом запуске приложения): провайдер сам пересчитывает слово дня
  *     формулой §5 через [WordOfDayCalculator] → смена слова после полуночи
  *     БЕЗ запуска приложения (`updatePeriodMillis` ≤ 30 мин; сразу после
- *     ребута — `BootCompletedReceiver`).
- *  2. Пять ключей `widget.*` (этап 4) — последние поля, записанные Flutter.
+ *     ребута — `BootCompletedReceiver`). Этап 19: язык перевода — ключ
+ *     `widget.translation_lang`, фолбэк — русское поле записи.
+ *  2. Шесть ключей `widget.*` (этапы 4 и 19) — последние поля, записанные
+ *     Flutter; `widget.translation` уже перевод выбранного языка.
  *  3. Плейсхолдер — prefs пусты, виджет добавлен до первого запуска
  *     (риск №7 в PLAN.md §9).
  *
@@ -38,9 +40,12 @@ class WordWidgetProvider : HomeWidgetProvider() {
         widgetData: SharedPreferences,
     ) {
         // Автономный путь: база в prefs → сами считаем слово сегодня.
+        // Этап 19: язык переводов — ключ `widget.translation_lang` (пишет
+        // Flutter), фолбэк калькулятора — русское поле v1.
         val today = LocalDate.now()
         val dbJson = widgetData.getString(KEY_DB_JSON, null)
-        val computed = dbJson?.let { WordOfDayCalculator.entryFor(it, today) }
+        val lang = widgetData.getString(KEY_TRANSLATION_LANG, null) ?: DEFAULT_LANG
+        val computed = dbJson?.let { WordOfDayCalculator.entryFor(it, today, lang) }
 
         // Дата для URI тапа — ровно та, что показана: сегодня у автономного
         // слова, иначе последняя записанная Flutter (иначе карточка тапа
@@ -107,6 +112,10 @@ class WordWidgetProvider : HomeWidgetProvider() {
         const val KEY_WORD = "widget.word"
         const val KEY_TRANSCRIPTION = "widget.transcription"
         const val KEY_TRANSLATION = "widget.translation"
+
+        /// Этап 19 (B-005): язык переводов виджета для автономного пересчёта.
+        const val KEY_TRANSLATION_LANG = "widget.translation_lang"
+        const val DEFAULT_LANG = "ru"
         const val KEY_EXAMPLE = "widget.example"
         const val URI_SCHEME = "wordoftheday"
         const val URI_HOST = "word"

@@ -11,6 +11,9 @@ import 'type_badge.dart';
 /// (этап 3). Пример предложения и фото-ассоциация на постер не идут:
 /// личный контент в шеринге не нужен, а высота 4:5 ограничена.
 ///
+/// Этап 19 (идея B-005, часть 2): [translationLanguage] — язык перевода
+/// на постере; перевода на язык нет — фолбэк записи на русский.
+///
 /// Цвета — явные константы светлой палитры (редизайн этапа 10), НЕ Theme:
 /// постер обязан выглядеть одинаково при любой теме окружения и в тестах;
 /// приложение light-only, поэтому постер всегда светлый.
@@ -18,9 +21,16 @@ import 'type_badge.dart';
 /// Рисуется сервисом [CardShareService] через корневой оверлей за правым
 /// краем экрана и растеризуется `RepaintBoundary.toImage` в PNG.
 class SharePoster extends StatelessWidget {
-  const SharePoster({super.key, required this.entry});
+  const SharePoster({
+    super.key,
+    required this.entry,
+    this.translationLanguage = 'ru',
+  });
 
   final WordEntry entry;
+
+  /// Код языка перевода на постере (этап 19); «ru» — поведение v1.
+  final String translationLanguage;
 
   /// Логический размер постера: 360×450, соотношение 4:5. Публичная
   /// константа — по ней сервис позиционирует оверлей и считает pixelRatio.
@@ -90,7 +100,7 @@ class SharePoster extends StatelessWidget {
           // Перевод может быть длинным («проводить время вместе…») —
           // четыре строки с ellipsis вместо выхода за границы постера.
           Text(
-            entry.translation,
+            entry.translationFor(translationLanguage),
             maxLines: 4,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(

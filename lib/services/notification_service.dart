@@ -347,14 +347,23 @@ class NotificationService {
   /// раньше следующего запуска, PLAN.md §7); отказ — мягкая деградация:
   /// расписание всё равно ставится, виджет от уведомлений не зависит
   /// (риск №5 в §9).
-  Future<void> start() => _quietly('start', () async {
-    await _backend.initialize(onNotificationTap: _handleNotificationTap);
-    await _backend.requestPermission();
-    await rescheduleDailyNotification();
-  });
+  Future<void> start({String translationLanguage = 'ru'}) =>
+      _quietly('start', () async {
+        await _backend.initialize(onNotificationTap: _handleNotificationTap);
+        await _backend.requestPermission();
+        await rescheduleDailyNotification(
+          translationLanguage: translationLanguage,
+        );
+      });
 
   /// Переписывает расписание под ближайшее будущее 09:00.
-  Future<void> rescheduleDailyNotification() =>
+  ///
+  /// [translationLanguage] (этап 19, идея B-005) — язык перевода в теле
+  /// уведомления: словарь v2 даёт id/de/fr/es, фолбэк записи — русский.
+  /// Смена языка в настройках → перепланирование (слушатель в main.dart).
+  Future<void> rescheduleDailyNotification({
+    String translationLanguage = 'ru',
+  }) =>
       _quietly('reschedule', () async {
         final fireAt = nextDailyAt(_clock());
         final word = await _wordOfDay.wordForDate(fireAt);
@@ -363,7 +372,10 @@ class NotificationService {
         await _backend.scheduleDailyWord(
           id: notificationId,
           title: l10n.notificationTitle(word.word),
-          body: l10n.notificationBody(word.transcription, word.translation),
+          body: l10n.notificationBody(
+            word.transcription,
+            word.translationFor(translationLanguage),
+          ),
           channelName: l10n.notificationChannelName,
           channelDescription: l10n.notificationChannelDescription(channelTime),
           payload: WidgetSyncService.widgetUri(fireAt).toString(),

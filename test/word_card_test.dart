@@ -499,4 +499,55 @@ void main() {
     await tester.tap(find.byIcon(CupertinoIcons.share));
     expect(taps, 1, reason: 'тап по Cupertino-«поделиться» должен дойти');
   });
+
+  testWidgets('этап 19: перевод и пример на выбранном языке, фолбэк — ru',
+      (tester) async {
+    const entry = WordEntry(
+      id: 1,
+      word: 'accomplish',
+      transcription: '/əˈkɑːmplɪʃ/',
+      translation: 'достигать',
+      example: 'She did it.',
+      exampleRu: 'Она это сделала.',
+      type: WordType.word,
+      translations: <String, String>{
+        'ru': 'достигать',
+        'de': 'erreichen',
+        'es': 'lograr',
+      },
+      exampleTranslations: <String, String>{
+        'ru': 'Она это сделала.',
+        'de': 'Sie hat es geschafft.',
+        'es': 'Lo logró.',
+      },
+    );
+
+    Future<void> pump(String language) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: Scaffold(
+            body: SingleChildScrollView(
+              child: WordCard(entry: entry, translationLanguage: language),
+            ),
+          ),
+        ),
+      );
+      await tester.pump();
+    }
+
+    await pump('de');
+    expect(find.text('erreichen'), findsOneWidget);
+    expect(find.text('Sie hat es geschafft.'), findsOneWidget);
+
+    await pump('es');
+    expect(find.text('lograr'), findsOneWidget);
+    expect(find.text('erreichen'), findsNothing);
+
+    // Перевода на французский в записи нет — фолбэк на русские поля v1.
+    await pump('fr');
+    expect(find.text('достигать'), findsOneWidget);
+    expect(find.text('Она это сделала.'), findsOneWidget);
+  });
 }

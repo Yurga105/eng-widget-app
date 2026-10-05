@@ -393,6 +393,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Follow system'**
   String get languageSystem;
+
+  /// Section header of the word translation language picker (stage 19)
+  ///
+  /// In en, this message translates to:
+  /// **'Translation language'**
+  String get settingsTranslationLanguage;
 }
 
 class _AppLocalizationsDelegate

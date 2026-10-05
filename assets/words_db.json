@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "words": [
     {
       "id": 1,
@@ -8,7 +8,21 @@
       "translation": "достигать, выполнять",
       "example": "She accomplished all her goals this year.",
       "example_ru": "В этом году она достигла всех своих целей.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "достигать, выполнять",
+        "id": "mencapai, melaksanakan",
+        "de": "erreichen, vollbringen",
+        "fr": "accomplir, réaliser",
+        "es": "lograr, llevar a cabo"
+      },
+      "example_translations": {
+        "ru": "В этом году она достигла всех своих целей.",
+        "id": "Tahun ini dia mencapai semua tujuannya.",
+        "de": "In diesem Jahr hat sie alle ihre Ziele erreicht.",
+        "fr": "Cette année, elle a atteint tous ses objectifs.",
+        "es": "Este año ha logrado todos sus objetivos."
+      }
     },
     {
       "id": 2,
@@ -17,7 +31,21 @@
       "translation": "приспосабливаться, адаптироваться",
       "example": "It took me a month to adapt to the new schedule.",
       "example_ru": "Мне понадобился месяц, чтобы привыкнуть к новому графику.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "приспосабливаться, адаптироваться",
+        "id": "menyesuaikan diri",
+        "de": "sich anpassen",
+        "fr": "s'adapter",
+        "es": "adaptarse"
+      },
+      "example_translations": {
+        "ru": "Мне понадобился месяц, чтобы привыкнуть к новому графику.",
+        "id": "Butuh waktu sebulan untuk menyesuaikan diri dengan jadwal baru.",
+        "de": "Ich brauchte einen Monat, um mich an den neuen Zeitplan zu gewöhnen.",
+        "fr": "Il m'a fallu un mois pour m'adapter au nouvel emploi du temps.",
+        "es": "Me llevó un mes adaptarme al nuevo horario."
+      }
     },
     {
       "id": 3,
@@ -26,7 +54,21 @@
       "translation": "позволить себе (о деньгах)",
       "example": "We can't afford a vacation this summer.",
       "example_ru": "Этим летом мы не можем позволить себе отпуск.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "позволить себе (о деньгах)",
+        "id": "mampu membeli",
+        "de": "sich leisten können",
+        "fr": "se permettre",
+        "es": "permitirse"
+      },
+      "example_translations": {
+        "ru": "Этим летом мы не можем позволить себе отпуск.",
+        "id": "Kami tidak mampu berlibur musim panas ini.",
+        "de": "Diesen Sommer können wir uns keinen Urlaub leisten.",
+        "fr": "Cet été, nous ne pouvons pas nous permettre de partir en vacances.",
+        "es": "Este verano no podemos permitirnos unas vacaciones."
+      }
     },
     {
       "id": 4,
@@ -35,7 +77,21 @@
       "translation": "тревожный, обеспокоенный",
       "example": "I always get anxious before job interviews.",
       "example_ru": "Перед собеседованиями я всегда волнуюсь.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "тревожный, обеспокоенный",
+        "id": "cemas, khawatir",
+        "de": "ängstlich, besorgt",
+        "fr": "anxieux, inquiet",
+        "es": "ansioso, preocupado"
+      },
+      "example_translations": {
+        "ru": "Перед собеседованиями я всегда волнуюсь.",
+        "id": "Aku selalu cemas sebelum wawancara kerja.",
+        "de": "Vor Vorstellungsgesprächen bin ich immer nervös.",
+        "fr": "Je suis toujours anxieux avant les entretiens d'embauche.",
+        "es": "Siempre me pongo nervioso antes de las entrevistas de trabajo."
+      }
     },
     {
       "id": 5,
@@ -44,7 +100,21 @@
       "translation": "ценить, быть благодарным",
       "example": "I really appreciate your help.",
       "example_ru": "Я очень ценю твою помощь.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "ценить, быть благодарным",
+        "id": "menghargai",
+        "de": "schätzen, dankbar sein",
+        "fr": "apprécier, être reconnaissant",
+        "es": "valorar, agradecer"
+      },
+      "example_translations": {
+        "ru": "Я очень ценю твою помощь.",
+        "id": "Aku sangat menghargai bantuanmu.",
+        "de": "Ich bin dir wirklich dankbar für deine Hilfe.",
+        "fr": "J'apprécie vraiment ton aide.",
+        "es": "De verdad agradezco tu ayuda."
+      }
     },
     {
       "id": 6,
@@ -53,7 +123,21 @@
       "translation": "подход, метод",
       "example": "We need a fresh approach to this problem.",
       "example_ru": "К этой проблеме нужен свежий подход.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "подход, метод",
+        "id": "pendekatan, cara",
+        "de": "Ansatz, Methode",
+        "fr": "approche, méthode",
+        "es": "enfoque, método"
+      },
+      "example_translations": {
+        "ru": "К этой проблеме нужен свежий подход.",
+        "id": "Kita butuh pendekatan baru untuk masalah ini.",
+        "de": "Wir brauchen einen neuen Ansatz für dieses Problem.",
+        "fr": "Il nous faut une approche nouvelle de ce problème.",
+        "es": "Necesitamos un enfoque nuevo para este problema."
+      }
     },
     {
       "id": 7,
@@ -62,7 +146,21 @@
       "translation": "избегать, уклоняться",
       "example": "I avoid checking email before coffee.",
       "example_ru": "До первой чашки кофе я в почту не заглядываю.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "избегать, уклоняться",
+        "id": "menghindari",
+        "de": "vermeiden",
+        "fr": "éviter",
+        "es": "evitar"
+      },
+      "example_translations": {
+        "ru": "До первой чашки кофе я в почту не заглядываю.",
+        "id": "Sebelum ngopi aku menghindari membuka email.",
+        "de": "Vor dem Kaffee vermeide ich es, in die Mails zu schauen.",
+        "fr": "Avant mon café, j'évite de consulter mes mails.",
+        "es": "Antes del café evito mirar el correo."
+      }
     },
     {
       "id": 8,
@@ -71,7 +169,21 @@
       "translation": "неловкий, неудобный",
       "example": "The silence after his joke was so awkward.",
       "example_ru": "Пауза после его шутки вышла такой неловкой.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "неловкий, неудобный",
+        "id": "canggung, memalukan",
+        "de": "unbehaglich, peinlich",
+        "fr": "gênant, embarrassant",
+        "es": "incómodo, embarazoso"
+      },
+      "example_translations": {
+        "ru": "Пауза после его шутки вышла такой неловкой.",
+        "id": "Keheningan setelah leluconnya terasa canggung sekali.",
+        "de": "Die Stille nach seinem Witz war so peinlich.",
+        "fr": "Le silence après sa blague était tellement gênant.",
+        "es": "El silencio tras su chiste fue incómodo de verdad."
+      }
     },
     {
       "id": 9,
@@ -80,7 +192,21 @@
       "translation": "усиливать, поднимать",
       "example": "A short walk can boost your energy.",
       "example_ru": "Короткая прогулка может взбодрить.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "усиливать, поднимать",
+        "id": "meningkatkan",
+        "de": "steigern, ankurbeln",
+        "fr": "booster, augmenter",
+        "es": "potenciar, aumentar"
+      },
+      "example_translations": {
+        "ru": "Короткая прогулка может взбодрить.",
+        "id": "Jalan kaki sebentar bisa menaikkan energi Anda.",
+        "de": "Ein kurzer Spaziergang kann dich richtig aufmuntern.",
+        "fr": "Une courte marche peut recharger votre énergie.",
+        "es": "Un paseo corto puede recargar tu energía."
+      }
     },
     {
       "id": 10,
@@ -89,7 +215,21 @@
       "translation": "просматривать, листать",
       "example": "I spent an hour browsing the bookstore.",
       "example_ru": "Я целый час листал книги в магазине.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "просматривать, листать",
+        "id": "menjelajah, melihat-lihat",
+        "de": "stöbern, durchblättern",
+        "fr": "feuilleter, naviguer",
+        "es": "ojear, hojear"
+      },
+      "example_translations": {
+        "ru": "Я целый час листал книги в магазине.",
+        "id": "Aku menghabiskan satu jam di toko buku.",
+        "de": "Ich habe eine Stunde in der Buchhandlung gestöbert.",
+        "fr": "J'ai passé une heure à feuilleter les livres en librairie.",
+        "es": "Me pasé una hora hojeando libros en la librería."
+      }
     },
     {
       "id": 11,
@@ -98,7 +238,21 @@
       "translation": "вызов, сложная задача",
       "example": "Learning to cook was a real challenge for him.",
       "example_ru": "Научиться готовить стало для него настоящим вызовом.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "вызов, сложная задача",
+        "id": "tantangan",
+        "de": "Herausforderung",
+        "fr": "défi",
+        "es": "reto, desafío"
+      },
+      "example_translations": {
+        "ru": "Научиться готовить стало для него настоящим вызовом.",
+        "id": "Belajar memasak menjadi tantangan nyata baginya.",
+        "de": "Kochen zu lernen war für ihn eine echte Herausforderung.",
+        "fr": "Apprendre à cuisiner a été un vrai défi pour lui.",
+        "es": "Aprender a cocinar fue todo un reto para él."
+      }
     },
     {
       "id": 12,
@@ -107,7 +261,21 @@
       "translation": "добираться до работы",
       "example": "My commute takes about forty minutes.",
       "example_ru": "Дорога на работу занимает у меня минут сорок.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "добираться до работы",
+        "id": "perjalanan ke kerja",
+        "de": "Arbeitsweg",
+        "fr": "trajet domicile-travail",
+        "es": "trayecto al trabajo"
+      },
+      "example_translations": {
+        "ru": "Дорога на работу занимает у меня минут сорок.",
+        "id": "Perjalanan kerjaku butuh sekitar empat puluh menit.",
+        "de": "Mein Arbeitsweg dauert etwa vierzig Minuten.",
+        "fr": "Mon trajet au travail prend environ quarante minutes.",
+        "es": "Mi trayecto al trabajo dura unos cuarenta minutos."
+      }
     },
     {
       "id": 13,
@@ -116,7 +284,21 @@
       "translation": "уверенный в себе",
       "example": "She sounded confident during the presentation.",
       "example_ru": "На презентации она звучала уверенно.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "уверенный в себе",
+        "id": "percaya diri",
+        "de": "selbstbewusst",
+        "fr": "sûr de soi",
+        "es": "seguro de sí mismo"
+      },
+      "example_translations": {
+        "ru": "На презентации она звучала уверенно.",
+        "id": "Dia terdengar percaya diri saat presentasi.",
+        "de": "In der Präsentation klang sie selbstbewusst.",
+        "fr": "À la présentation, elle a paru très sûre d'elle.",
+        "es": "En la presentación sonó muy segura."
+      }
     },
     {
       "id": 14,
@@ -125,7 +307,21 @@
       "translation": "удобный, подходящий",
       "example": "Is Saturday morning convenient for our call?",
       "example_ru": "Субботнее утро удобно для звонка?",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "удобный, подходящий",
+        "id": "nyaman, praktis",
+        "de": "bequem, passend",
+        "fr": "pratique, commode",
+        "es": "conveniente, práctico"
+      },
+      "example_translations": {
+        "ru": "Субботнее утро удобно для звонка?",
+        "id": "Apakah Sabtu pagi cocok untuk telepon kita?",
+        "de": "Passt Samstagmorgen für unser Telefonat?",
+        "fr": "Le samedi matin vous conviendrait-il pour notre appel ?",
+        "es": "¿El sábado por la mañana te va bien para la llamada?"
+      }
     },
     {
       "id": 15,
@@ -134,7 +330,21 @@
       "translation": "критически важный",
       "example": "Sleep is crucial for your memory.",
       "example_ru": "Сон критически важен для памяти.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "критически важный",
+        "id": "sangat penting",
+        "de": "entscheidend",
+        "fr": "crucial, décisif",
+        "es": "crucial, fundamental"
+      },
+      "example_translations": {
+        "ru": "Сон критически важен для памяти.",
+        "id": "Tidur sangat penting bagi daya ingat Anda.",
+        "de": "Schlaf ist entscheidend für dein Gedächtnis.",
+        "fr": "Le sommeil est crucial pour ta mémoire.",
+        "es": "Dormir es crucial para tu memoria."
+      }
     },
     {
       "id": 16,
@@ -143,7 +353,21 @@
       "translation": "любопытный, пытливый",
       "example": "Kids are naturally curious about everything.",
       "example_ru": "Дети от природы всё хотят узнать.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "любопытный, пытливый",
+        "id": "ingin tahu",
+        "de": "neugierig, wissbegierig",
+        "fr": "curieux, avide de savoir",
+        "es": "curioso, inquieto"
+      },
+      "example_translations": {
+        "ru": "Дети от природы всё хотят узнать.",
+        "id": "Anak-anak secara alami penasaran pada segalanya.",
+        "de": "Kinder sind von Natur aus neugierig auf alles.",
+        "fr": "Les enfants sont naturellement curieux de tout.",
+        "es": "Los niños son curiosos por naturaleza con todo."
+      }
     },
     {
       "id": 17,
@@ -152,7 +376,21 @@
       "translation": "приличный, неплохой",
       "example": "The hotel was decent for that price.",
       "example_ru": "За такие деньги отель был приличный.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "приличный, неплохой",
+        "id": "cukup baik, layak",
+        "de": "anständig, ordentlich",
+        "fr": "correct, honorable",
+        "es": "decente, aceptable"
+      },
+      "example_translations": {
+        "ru": "За такие деньги отель был приличный.",
+        "id": "Dengan harga segitu, hotelnya cukup layak.",
+        "de": "Für den Preis war das Hotel ordentlich.",
+        "fr": "Pour ce prix, l'hôtel était tout à fait correct.",
+        "es": "Para ese precio, el hotel estaba bastante bien."
+      }
     },
     {
       "id": 18,
@@ -161,7 +399,21 @@
       "translation": "задержка, откладывать",
       "example": "The flight was delayed by two hours.",
       "example_ru": "Рейс задержали на два часа.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "задержка, откладывать",
+        "id": "keterlambatan, menunda",
+        "de": "Verzögerung, verzögern",
+        "fr": "retard, reporter",
+        "es": "retraso, retrasar"
+      },
+      "example_translations": {
+        "ru": "Рейс задержали на два часа.",
+        "id": "Penerbangan tertunda dua jam.",
+        "de": "Der Flug hatte zwei Stunden Verspätung.",
+        "fr": "Le vol a eu deux heures de retard.",
+        "es": "El vuelo se retrasó dos horas."
+      }
     },
     {
       "id": 19,
@@ -170,7 +422,21 @@
       "translation": "доставлять, привозить",
       "example": "The package will be delivered tomorrow.",
       "example_ru": "Посылку доставят завтра.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "доставлять, привозить",
+        "id": "mengantarkan",
+        "de": "liefern, zustellen",
+        "fr": "livrer, remettre",
+        "es": "entregar"
+      },
+      "example_translations": {
+        "ru": "Посылку доставят завтра.",
+        "id": "Paketnya akan diantar besok.",
+        "de": "Das Paket wird morgen zugestellt.",
+        "fr": "Le colis sera livré demain.",
+        "es": "El paquete lo entregarán mañana."
+      }
     },
     {
       "id": 20,
@@ -179,7 +445,21 @@
       "translation": "думскроллинг, листание плохих новостей",
       "example": "Stop doomscrolling and go to sleep!",
       "example_ru": "Хватит листать плохие новости — ложись спать!",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "думскроллинг, листание плохих новостей",
+        "id": "doomscrolling",
+        "de": "Doomscrolling",
+        "fr": "doomscrolling",
+        "es": "doomscrolling"
+      },
+      "example_translations": {
+        "ru": "Хватит листать плохие новости — ложись спать!",
+        "id": "Berhenti doomscrolling dan pergi tidur!",
+        "de": "Hör auf mit dem Doomscrolling und schlaf!",
+        "fr": "Arrête le doomscrolling et va dormir !",
+        "es": "¡Deja el doomscrolling y vete a dormir!"
+      }
     },
     {
       "id": 21,
@@ -188,7 +468,21 @@
       "translation": "страстно желающий",
       "example": "He was eager to start his new job.",
       "example_ru": "Он горел желанием приступить к новой работе.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "страстно желающий",
+        "id": "antusias, bersemangat",
+        "de": "eifrig, begierig",
+        "fr": "impatient, avide",
+        "es": "ansioso por, entusiasta"
+      },
+      "example_translations": {
+        "ru": "Он горел желанием приступить к новой работе.",
+        "id": "Dia bersemangat memulai pekerjaan barunya.",
+        "de": "Er war begierig darauf, seinen neuen Job anzufangen.",
+        "fr": "Il était impatient de commencer son nouveau travail.",
+        "es": "Estaba deseando empezar su nuevo trabajo."
+      }
     },
     {
       "id": 22,
@@ -197,7 +491,21 @@
       "translation": "покладистый, лёгкий в общении",
       "example": "Our new teammate is friendly and easygoing.",
       "example_ru": "Новый коллега оказался дружелюбным и лёгким в общении.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "покладистый, лёгкий в общении",
+        "id": "santai, mudah diajak",
+        "de": "unkompliziert, entspannt",
+        "fr": "décontracté, facile à vivre",
+        "es": "relajado, tratable"
+      },
+      "example_translations": {
+        "ru": "Новый коллега оказался дружелюбным и лёгким в общении.",
+        "id": "Rekan baru kami ramah dan mudah diajak bergaul.",
+        "de": "Unser neuer Kollege ist freundlich und unkompliziert.",
+        "fr": "Notre nouveau collègue est sympathique et décontracté.",
+        "es": "Nuestro nuevo compañero es simpático y relajado."
+      }
     },
     {
       "id": 23,
@@ -206,7 +514,21 @@
       "translation": "эффективный, действенный",
       "example": "This app makes planning much more efficient.",
       "example_ru": "Приложение заметно упрощает планирование.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "эффективный, действенный",
+        "id": "efisien",
+        "de": "effizient",
+        "fr": "efficace",
+        "es": "eficiente"
+      },
+      "example_translations": {
+        "ru": "Приложение заметно упрощает планирование.",
+        "id": "Aplikasi ini membuat perencanaan jauh lebih efisien.",
+        "de": "Diese App macht die Planung viel effizienter.",
+        "fr": "Cette application rend la planification bien plus efficace.",
+        "es": "Esta app hace que planificar sea mucho más eficiente."
+      }
     },
     {
       "id": 24,
@@ -215,7 +537,21 @@
       "translation": "принять (перемены), обнимать",
       "example": "It's never too late to embrace change.",
       "example_ru": "Перемены никогда не поздно принять.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "принять (перемены), обнимать",
+        "id": "merangkul, menerima",
+        "de": "annehmen, umarmen",
+        "fr": "accepter, embrasser",
+        "es": "aceptar, abrazar"
+      },
+      "example_translations": {
+        "ru": "Перемены никогда не поздно принять.",
+        "id": "Tidak pernah terlambat untuk merangkul perubahan.",
+        "de": "Es ist nie zu spät, Veränderungen anzunehmen.",
+        "fr": "Il n'est jamais trop tard pour accepter le changement.",
+        "es": "Nunca es tarde para aceptar los cambios."
+      }
     },
     {
       "id": 25,
@@ -224,7 +560,21 @@
       "translation": "необходимый, важнейший",
       "example": "Water is essential for every living thing.",
       "example_ru": "Вода необходима всему живому.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "необходимый, важнейший",
+        "id": "esensial, penting",
+        "de": "wesentlich, unerlässlich",
+        "fr": "essentiel, indispensable",
+        "es": "esencial, imprescindible"
+      },
+      "example_translations": {
+        "ru": "Вода необходима всему живому.",
+        "id": "Air esensial bagi semua makhluk hidup.",
+        "de": "Wasser ist für alles Leben unerlässlich.",
+        "fr": "L'eau est essentielle à tout ce qui vit.",
+        "es": "El agua es esencial para todo ser vivo."
+      }
     },
     {
       "id": 26,
@@ -233,7 +583,21 @@
       "translation": "измученный, без сил",
       "example": "I was exhausted after the night shift.",
       "example_ru": "После ночной смены я был выжат как лимон.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "измученный, без сил",
+        "id": "kelelahan, lesu",
+        "de": "erschöpft",
+        "fr": "épuisé",
+        "es": "agotado"
+      },
+      "example_translations": {
+        "ru": "После ночной смены я был выжат как лимон.",
+        "id": "Aku kelelahan setelah shift malam.",
+        "de": "Nach der Nachtschicht war ich völlig erschöpft.",
+        "fr": "J'étais épuisé après le service de nuit.",
+        "es": "Quedé agotado después del turno de noche."
+      }
     },
     {
       "id": 27,
@@ -242,7 +606,21 @@
       "translation": "поддельный, ненастоящий",
       "example": "The account was fake, of course.",
       "example_ru": "Аккаунт, конечно, оказался фейковым.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "поддельный, ненастоящий",
+        "id": "palsu, tiruan",
+        "de": "falsch, gefälscht",
+        "fr": "faux, contrefait",
+        "es": "falso, fingido"
+      },
+      "example_translations": {
+        "ru": "Аккаунт, конечно, оказался фейковым.",
+        "id": "Akunnya tentu saja palsu.",
+        "de": "Das Konto war natürlich gefälscht.",
+        "fr": "Le compte était faux, bien sûr.",
+        "es": "La cuenta era falsa, claro."
+      }
     },
     {
       "id": 28,
@@ -251,7 +629,21 @@
       "translation": "осуществимый, реалистичный",
       "example": "Is it feasible to finish everything by Friday?",
       "example_ru": "Реально ли закончить всё к пятнице?",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "осуществимый, реалистичный",
+        "id": "mungkin, layak",
+        "de": "machbar, realisierbar",
+        "fr": "réalisable, faisable",
+        "es": "viable, realizable"
+      },
+      "example_translations": {
+        "ru": "Реально ли закончить всё к пятнице?",
+        "id": "Mungkinkah menyelesaikan semuanya sebelum Jumat?",
+        "de": "Ist es machbar, bis Freitag alles fertig zu machen?",
+        "fr": "Est-il réaliste de tout finir d'ici vendredi ?",
+        "es": "¿Es viable terminar todo antes del viernes?"
+      }
     },
     {
       "id": 29,
@@ -260,7 +652,21 @@
       "translation": "гибкий (о графике, плане)",
       "example": "My boss is flexible about working hours.",
       "example_ru": "Начальник гибко относится к рабочим часам.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "гибкий (о графике, плане)",
+        "id": "fleksibel",
+        "de": "flexibel",
+        "fr": "flexible",
+        "es": "flexible"
+      },
+      "example_translations": {
+        "ru": "Начальник гибко относится к рабочим часам.",
+        "id": "Bos saya fleksibel soal jam kerja.",
+        "de": "Mein Chef ist flexibel bei den Arbeitszeiten.",
+        "fr": "Mon chef est flexible sur les horaires.",
+        "es": "Mi jefe es flexible con el horario de trabajo."
+      }
     },
     {
       "id": 30,
@@ -269,7 +675,21 @@
       "translation": "раздосадованный, расстроенный",
       "example": "He got frustrated with the slow internet.",
       "example_ru": "Он раздражался из-за медленного интернета.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "раздосадованный, расстроенный",
+        "id": "frustrasi, jengkel",
+        "de": "frustriert",
+        "fr": "frustré, agacé",
+        "es": "frustrado"
+      },
+      "example_translations": {
+        "ru": "Он раздражался из-за медленного интернета.",
+        "id": "Kesal karena internet yang lambat.",
+        "de": "Er ärgerte sich über das langsame Internet.",
+        "fr": "Il s'est agacé à cause d'Internet trop lent.",
+        "es": "Se frustró por el internet lento."
+      }
     },
     {
       "id": 31,
@@ -278,7 +698,21 @@
       "translation": "резко пропасть, игнорировать",
       "example": "We went on two dates, then he ghosted me.",
       "example_ru": "Мы дважды встретились, а потом он просто пропал.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "резко пропасть, игнорировать",
+        "id": "menghilang tanpa kabar",
+        "de": "sich absichtlich nicht melden",
+        "fr": "ghoster, disparaître",
+        "es": "desaparecer sin avisar"
+      },
+      "example_translations": {
+        "ru": "Мы дважды встретились, а потом он просто пропал.",
+        "id": "Kami dua kali pacaran, lalu dia menghilang begitu saja.",
+        "de": "Wir hatten zwei Dates, dann hat er sich einfach nicht mehr gemeldet.",
+        "fr": "On s'est vus deux fois, puis il m'a ghostée.",
+        "es": "Tuvimos dos citas y luego desapareció sin más."
+      }
     },
     {
       "id": 32,
@@ -287,7 +721,21 @@
       "translation": "понимать, ухватывать (суть)",
       "example": "She grasped the idea right away.",
       "example_ru": "Она сразу ухватила суть идеи.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "понимать, ухватывать (суть)",
+        "id": "memahami, mencerna",
+        "de": "begreifen, erfassen",
+        "fr": "saisir, comprendre",
+        "es": "comprender, captar"
+      },
+      "example_translations": {
+        "ru": "Она сразу ухватила суть идеи.",
+        "id": "Dia langsung memahami inti idenya.",
+        "de": "Sie hat die Idee sofort begriffen.",
+        "fr": "Elle a saisi l'idée tout de suite.",
+        "es": "Captó la idea enseguida."
+      }
     },
     {
       "id": 33,
@@ -296,7 +744,21 @@
       "translation": "чувство вины",
       "example": "Guilt kept him awake all night.",
       "example_ru": "Чувство вины не давало ему уснуть всю ночь.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "чувство вины",
+        "id": "rasa bersalah",
+        "de": "Schuldgefühl",
+        "fr": "culpabilité",
+        "es": "sentimiento de culpa"
+      },
+      "example_translations": {
+        "ru": "Чувство вины не давало ему уснуть всю ночь.",
+        "id": "Rasa bersalah membuatnya tak bisa tidur semalaman.",
+        "de": "Das Schuldgefühl ließ ihn die ganze Nacht nicht schlafen.",
+        "fr": "La culpabilité l'a empêché de dormir toute la nuit.",
+        "es": "El sentimiento de culpa no le dejó dormir en toda la noche."
+      }
     },
     {
       "id": 34,
@@ -305,7 +767,21 @@
       "translation": "раздражённый от голода",
       "example": "Sorry I snapped — I was just hangry.",
       "example_ru": "Извини, что огрызнулся: я просто был голоден и зол.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "раздражённый от голода",
+        "id": "lapar dan marah",
+        "de": "hangry: hungrig und sauer",
+        "fr": "affamé et fâcheux",
+        "es": "hambriento y enfadado"
+      },
+      "example_translations": {
+        "ru": "Извини, что огрызнулся: я просто был голоден и зол.",
+        "id": "Maaf aku membentak: aku cuma lapar dan marah.",
+        "de": "Tut mir leid, dass ich geschnappt habe — ich war einfach hangry.",
+        "fr": "Désolé d'avoir piqué une crise : j'étais juste affamé.",
+        "es": "Perdón por estallar: era solo hambre y mal humor."
+      }
     },
     {
       "id": 35,
@@ -314,7 +790,21 @@
       "translation": "морока, канитель",
       "example": "Renewing the passport is such a hassle.",
       "example_ru": "Продлить паспорт — сплошная морока.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "морока, канитель",
+        "id": "ribet, urusan merepotkan",
+        "de": "Umstände, Ärgernis",
+        "fr": "galère, tracas",
+        "es": "fastidio, engorro"
+      },
+      "example_translations": {
+        "ru": "Продлить паспорт — сплошная морока.",
+        "id": "Memperpanjang paspor itu benar-benar merepotkan.",
+        "de": "Den Pass zu erneuern ist echt eine Plage.",
+        "fr": "Renouveler le passeport, quelle galère.",
+        "es": "Renovar el pasaporte es un fastidio tremendo."
+      }
     },
     {
       "id": 36,
@@ -323,7 +813,21 @@
       "translation": "ажиотаж, хайп",
       "example": "The movie didn't live up to the hype.",
       "example_ru": "Фильм не оправдал хайпа.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "ажиотаж, хайп",
+        "id": "hype, kehebohan",
+        "de": "Hype",
+        "fr": "hype, engouement",
+        "es": "hype, bombo"
+      },
+      "example_translations": {
+        "ru": "Фильм не оправдал хайпа.",
+        "id": "Filmnya tidak seheboh hype-nya.",
+        "de": "Der Film wurde dem Hype nicht gerecht.",
+        "fr": "Le film n'a pas été à la hauteur du battage.",
+        "es": "La película no estuvo a la altura del bombo."
+      }
     },
     {
       "id": 37,
@@ -332,7 +836,21 @@
       "translation": "игнорировать, не замечать",
       "example": "Don't ignore the warning signs.",
       "example_ru": "Не игнорируй тревожные сигналы.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "игнорировать, не замечать",
+        "id": "mengabaikan",
+        "de": "ignorieren",
+        "fr": "ignorer",
+        "es": "ignorar"
+      },
+      "example_translations": {
+        "ru": "Не игнорируй тревожные сигналы.",
+        "id": "Jangan abaikan tanda-tanda bahaya.",
+        "de": "Ignoriere die Warnsignale nicht.",
+        "fr": "N'ignore pas les signaux d'alerte.",
+        "es": "No ignores las señales de alerta."
+      }
     },
     {
       "id": 38,
@@ -341,7 +859,21 @@
       "translation": "произвести впечатление",
       "example": "You really impressed the interviewers.",
       "example_ru": "Ты сильно впечатлил интервьюеров.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "произвести впечатление",
+        "id": "menkesankan",
+        "de": "beeindrucken",
+        "fr": "impressionner",
+        "es": "impresionar"
+      },
+      "example_translations": {
+        "ru": "Ты сильно впечатлил интервьюеров.",
+        "id": "Kamu benar-benar menkesankan pewawancara.",
+        "de": "Du hast die Interviewer wirklich beeindruckt.",
+        "fr": "Tu as vraiment impressionné les recruteurs.",
+        "es": "De verdad impresionaste a los entrevistadores."
+      }
     },
     {
       "id": 39,
@@ -350,7 +882,21 @@
       "translation": "намереваться, собираться",
       "example": "We intend to move next spring.",
       "example_ru": "Мы собираемся переехать следующей весной.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "намереваться, собираться",
+        "id": "berniat",
+        "de": "beabsichtigen, vorhaben",
+        "fr": "avoir l'intention de",
+        "es": "tener la intención de"
+      },
+      "example_translations": {
+        "ru": "Мы собираемся переехать следующей весной.",
+        "id": "Kami berniat pindah musim semi depan.",
+        "de": "Wir haben vor, nächsten Frühling umzuziehen.",
+        "fr": "Nous avons l'intention de déménager au printemps prochain.",
+        "es": "Tenemos la intención de mudarnos la próxima primavera."
+      }
     },
     {
       "id": 40,
@@ -359,7 +905,21 @@
       "translation": "ленивый",
       "example": "Sundays are made for being lazy.",
       "example_ru": "Воскресенья созданы для лени.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "ленивый",
+        "id": "malas",
+        "de": "faul",
+        "fr": "paresseux",
+        "es": "perezoso"
+      },
+      "example_translations": {
+        "ru": "Воскресенья созданы для лени.",
+        "id": "Hari Minggu diciptakan untuk bermalas-malasan.",
+        "de": "Sonntage sind zum Faulenzen da.",
+        "fr": "Les dimanches sont faits pour paresser.",
+        "es": "Los domingos están hechos para la pereza."
+      }
     },
     {
       "id": 41,
@@ -368,7 +928,21 @@
       "translation": "мейнстрим, массовая культура",
       "example": "The band went mainstream after that hit.",
       "example_ru": "После хита группа ушла в мейнстрим.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "мейнстрим, массовая культура",
+        "id": "arus utama, mainstream",
+        "de": "Mainstream",
+        "fr": "courant dominant, mainstream",
+        "es": "corriente principal"
+      },
+      "example_translations": {
+        "ru": "После хита группа ушла в мейнстрим.",
+        "id": "Setelah lagu hit itu, bandnya masuk arus utama.",
+        "de": "Nach diesem Hit wurde die Band zum Mainstream.",
+        "fr": "Après ce tube, le groupe est passé dans le grand public.",
+        "es": "Después del éxito, el grupo se hizo mainstream."
+      }
     },
     {
       "id": 42,
@@ -377,7 +951,21 @@
       "translation": "мышление, настрой",
       "example": "A growth mindset changes everything.",
       "example_ru": "Мышление роста меняет всё.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "мышление, настрой",
+        "id": "pola pikir",
+        "de": "Denkweise, Mentalität",
+        "fr": "état d'esprit, mentalité",
+        "es": "mentalidad, actitud"
+      },
+      "example_translations": {
+        "ru": "Мышление роста меняет всё.",
+        "id": "Pola pikir bertumbuh mengubah segalanya.",
+        "de": "Eine Wachstumsmentalität verändert alles.",
+        "fr": "Un état d'esprit de croissance change tout.",
+        "es": "Una mentalidad de crecimiento lo cambia todo."
+      }
     },
     {
       "id": 43,
@@ -386,7 +974,21 @@
       "translation": "вести переговоры, торговаться",
       "example": "They negotiated a better salary.",
       "example_ru": "На переговорах им подняли зарплату.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "вести переговоры, торговаться",
+        "id": "bernegosiasi",
+        "de": "verhandeln",
+        "fr": "négocier",
+        "es": "negociar"
+      },
+      "example_translations": {
+        "ru": "На переговорах им подняли зарплату.",
+        "id": "Mereka bernegosiasi dan mendapat gaji lebih baik.",
+        "de": "Sie haben ein besseres Gehalt ausgehandelt.",
+        "fr": "Ils ont négocié un meilleur salaire.",
+        "es": "Negociaron un mejor salario."
+      }
     },
     {
       "id": 44,
@@ -395,7 +997,21 @@
       "translation": "ностальгия",
       "example": "This song fills me with nostalgia.",
       "example_ru": "Эта песня наполняет меня ностальгией.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "ностальгия",
+        "id": "nostalgia",
+        "de": "Nostalgie",
+        "fr": "nostalgie",
+        "es": "nostalgia"
+      },
+      "example_translations": {
+        "ru": "Эта песня наполняет меня ностальгией.",
+        "id": "Lagu ini memenuhiku dengan nostalgia.",
+        "de": "Dieses Lied erfüllt mich mit Nostalgie.",
+        "fr": "Cette chanson me remplit de nostalgie.",
+        "es": "Esta canción me llena de nostalgia."
+      }
     },
     {
       "id": 45,
@@ -404,7 +1020,21 @@
       "translation": "перегруженный, ошеломлённый",
       "example": "Don't get overwhelmed by the news.",
       "example_ru": "Не дай новостям захлестнуть тебя.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "перегруженный, ошеломлённый",
+        "id": "kewalahan",
+        "de": "überwältigt",
+        "fr": "débordé, submergé",
+        "es": "abrumado"
+      },
+      "example_translations": {
+        "ru": "Не дай новостям захлестнуть тебя.",
+        "id": "Jangan biarkan berita membuatmu kewalahan.",
+        "de": "Lass dich von den Nachrichten nicht überwältigen.",
+        "fr": "Ne te laisse pas submerger par les actualités.",
+        "es": "No dejes que las noticias te abrumen."
+      }
     },
     {
       "id": 46,
@@ -413,7 +1043,21 @@
       "translation": "страстный, увлечённый",
       "example": "She's passionate about marine biology.",
       "example_ru": "Она страстно увлечена морской биологией.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "страстный, увлечённый",
+        "id": "penuh gairah",
+        "de": "leidenschaftlich",
+        "fr": "passionné",
+        "es": "apasionado"
+      },
+      "example_translations": {
+        "ru": "Она страстно увлечена морской биологией.",
+        "id": "Dia penuh gairah pada biologi laut.",
+        "de": "Ihre Leidenschaft ist die Meeresbiologie.",
+        "fr": "Elle est passionnée par la biologie marine.",
+        "es": "Le apasiona la biología marina."
+      }
     },
     {
       "id": 47,
@@ -422,7 +1066,21 @@
       "translation": "сверстник, ровесник",
       "example": "Teenagers care a lot about peer opinion.",
       "example_ru": "Подросткам важно мнение ровесников.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "сверстник, ровесник",
+        "id": "rekan sebaya",
+        "de": "Gleichaltrige",
+        "fr": "pair, camarade",
+        "es": "par, igual"
+      },
+      "example_translations": {
+        "ru": "Подросткам важно мнение ровесников.",
+        "id": "Bagi remaja, pendapat sebaya sangat penting.",
+        "de": "Für Teenager ist die Meinung der Gleichaltrigen wichtig.",
+        "fr": "Pour les ados, l'avis des camarades compte beaucoup.",
+        "es": "Para los adolescentes, la opinión de sus iguales importa mucho."
+      }
     },
     {
       "id": 48,
@@ -431,7 +1089,21 @@
       "translation": "множество, вдоволь",
       "example": "We have plenty of time before the movie.",
       "example_ru": "До сеанса у нас полно времени.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "множество, вдоволь",
+        "id": "banyak, berlimpah",
+        "de": "reichlich, jede Menge",
+        "fr": "plein, abondance",
+        "es": "montones, de sobra"
+      },
+      "example_translations": {
+        "ru": "До сеанса у нас полно времени.",
+        "id": "Sebelum film, waktu kita masih banyak.",
+        "de": "Vor dem Film haben wir reichlich Zeit.",
+        "fr": "Nous avons largement le temps avant la séance.",
+        "es": "Antes de la sesión tenemos tiempo de sobra."
+      }
     },
     {
       "id": 49,
@@ -440,7 +1112,21 @@
       "translation": "дорогой, дороговатый",
       "example": "That restaurant is great but pricey.",
       "example_ru": "Ресторан отличный, но дороговатый.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "дорогой, дороговатый",
+        "id": "mahal",
+        "de": "ziemlich teuer",
+        "fr": "coûteux, cher",
+        "es": "caro, costoso"
+      },
+      "example_translations": {
+        "ru": "Ресторан отличный, но дороговатый.",
+        "id": "Restorannya bagus, tapi harganya agak mahal.",
+        "de": "Das Restaurant ist super, aber ziemlich teuer.",
+        "fr": "Le restaurant est super, mais un peu cher.",
+        "es": "El restaurante es estupendo, pero carillo."
+      }
     },
     {
       "id": 50,
@@ -449,7 +1135,21 @@
       "translation": "прокрастинировать, откладывать",
       "example": "I procrastinated on this essay for weeks.",
       "example_ru": "Я неделями откладывал это эссе.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "прокрастинировать, откладывать",
+        "id": "menunda-nunda",
+        "de": "prokrastinieren",
+        "fr": "procrastiner",
+        "es": "procrastinar"
+      },
+      "example_translations": {
+        "ru": "Я неделями откладывал это эссе.",
+        "id": "Aku menunda esai ini berminggu-minggu.",
+        "de": "Ich habe Wochen lang dieses Essay aufgeschoben.",
+        "fr": "J'ai procrastiné des semaines sur cette dissertation.",
+        "es": "Llevo semanas procrastinando este ensayo."
+      }
     },
     {
       "id": 51,
@@ -458,7 +1158,21 @@
       "translation": "продуктивность, эффективность",
       "example": "Good sleep boosts your productivity.",
       "example_ru": "Хороший сон повышает продуктивность.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "продуктивность, эффективность",
+        "id": "produktivitas",
+        "de": "Produktivität",
+        "fr": "productivité",
+        "es": "productividad"
+      },
+      "example_translations": {
+        "ru": "Хороший сон повышает продуктивность.",
+        "id": "Tidur yang baik meningkatkan produktivitas.",
+        "de": "Guter Schlaf steigert die Produktivität.",
+        "fr": "Bien dormir augmente la productivité.",
+        "es": "Un buen sueño aumenta la productividad."
+      }
     },
     {
       "id": 52,
@@ -467,7 +1181,21 @@
       "translation": "случайный, непредсказуемый",
       "example": "A random fact made my day better.",
       "example_ru": "Случайный факт сделал мой день лучше.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "случайный, непредсказуемый",
+        "id": "acak",
+        "de": "zufällig",
+        "fr": "aléatoire",
+        "es": "aleatorio"
+      },
+      "example_translations": {
+        "ru": "Случайный факт сделал мой день лучше.",
+        "id": "Fakta acak membuat hariku lebih baik.",
+        "de": "Eine zufällige Tatsache hat meinen Tag besser gemacht.",
+        "fr": "Un fait aléatoire a égayé ma journée.",
+        "es": "Un dato aleatorio mejoró mi día."
+      }
     },
     {
       "id": 53,
@@ -476,7 +1204,21 @@
       "translation": "вспоминать, припоминать",
       "example": "I can't recall her name right now.",
       "example_ru": "Что-то не могу вспомнить её имя.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "вспоминать, припоминать",
+        "id": "mengingat kembali",
+        "de": "sich erinnern",
+        "fr": "se rappeler",
+        "es": "recordar"
+      },
+      "example_translations": {
+        "ru": "Что-то не могу вспомнить её имя.",
+        "id": "Saat ini aku tak bisa mengingat namanya.",
+        "de": "Ich kann mich gerade nicht an ihren Namen erinnern.",
+        "fr": "Là, je n'arrive pas à me rappeler son nom.",
+        "es": "Ahora mismo no consigo recordar su nombre."
+      }
     },
     {
       "id": 54,
@@ -485,7 +1227,21 @@
       "translation": "освежать, восстанавливать",
       "example": "A short walk can refresh your mind.",
       "example_ru": "Короткая прогулка проясняет голову.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "освежать, восстанавливать",
+        "id": "menyegarkan",
+        "de": "auffrischen, erfrischen",
+        "fr": "rafraîchir, ressourcer",
+        "es": "refrescar, revitalizar"
+      },
+      "example_translations": {
+        "ru": "Короткая прогулка проясняет голову.",
+        "id": "Jalan kaki singkat membuat kepala lebih jernih.",
+        "de": "Ein kurzer Spaziergang klärt den Kopf.",
+        "fr": "Une courte marche clarifie l'esprit.",
+        "es": "Un paseo corto despeja la mente."
+      }
     },
     {
       "id": 55,
@@ -494,7 +1250,21 @@
       "translation": "неохотный, без энтузиазма",
       "example": "He was reluctant to admit his mistake.",
       "example_ru": "Он нехотя признал свою ошибку.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "неохотный, без энтузиазма",
+        "id": "enggan",
+        "de": "zögerlich, widerwillig",
+        "fr": "réticent, peu disposé",
+        "es": "reacio, reticente"
+      },
+      "example_translations": {
+        "ru": "Он нехотя признал свою ошибку.",
+        "id": "Dia enggan mengakui kesalahannya.",
+        "de": "Er hat seinen Fehler nur widerwillig zugegeben.",
+        "fr": "Il a reconnu son erreur à contrecœur.",
+        "es": "Reconoció su error de mala gana."
+      }
     },
     {
       "id": 56,
@@ -503,7 +1273,21 @@
       "translation": "грубый, невежливый",
       "example": "It's rude to text during dinner.",
       "example_ru": "Сидеть в телефоне за ужином невежливо.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "грубый, невежливый",
+        "id": "kasar, tidak sopan",
+        "de": "unhöflich, grob",
+        "fr": "impoli, grossier",
+        "es": "grosero, maleducado"
+      },
+      "example_translations": {
+        "ru": "Сидеть в телефоне за ужином невежливо.",
+        "id": "Main ponsel saat makan malam itu tidak sopan.",
+        "de": "Beim Abendessen am Handy zu sein ist unhöflich.",
+        "fr": "Être sur son portable pendant le dîner est impoli.",
+        "es": "Estar con el móvil en la cena es de mala educación."
+      }
     },
     {
       "id": 57,
@@ -512,7 +1296,21 @@
       "translation": "спешка; торопиться",
       "example": "No rush — send it whenever you can.",
       "example_ru": "Не торопись — отправь, когда сможешь.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "спешка; торопиться",
+        "id": "terburu-buru",
+        "de": "Eile, es eilig haben",
+        "fr": "hâte, se dépêcher",
+        "es": "prisa, apresurarse"
+      },
+      "example_translations": {
+        "ru": "Не торопись — отправь, когда сможешь.",
+        "id": "Tidak perlu buru-buru — kirim kapan pun bisa.",
+        "de": "Keine Eile — schick es, wann immer du kannst.",
+        "fr": "Pas de pression — envoie-le quand tu peux.",
+        "es": "Sin prisa: envíalo cuando puedas."
+      }
     },
     {
       "id": 58,
@@ -521,7 +1319,21 @@
       "translation": "подкованный, разбирающийся",
       "example": "She's very tech-savvy.",
       "example_ru": "Она отлично разбирается в технологиях.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "подкованный, разбирающийся",
+        "id": "mahir, paham betul",
+        "de": "beschlagen, sattelfest",
+        "fr": "doué, calé",
+        "es": "entendido, ducho"
+      },
+      "example_translations": {
+        "ru": "Она отлично разбирается в технологиях.",
+        "id": "Dia sangat paham soal teknologi.",
+        "de": "Sie versteht richtig viel von Technik.",
+        "fr": "Elle s'y connaît vraiment en technologie.",
+        "es": "Entiende muchísimo de tecnología."
+      }
     },
     {
       "id": 59,
@@ -530,7 +1342,21 @@
       "translation": "листать, скроллить",
       "example": "I scrolled for an hour without noticing.",
       "example_ru": "Я час листал ленту и не заметил.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "листать, скроллить",
+        "id": "menggulir, scroll",
+        "de": "scrollen",
+        "fr": "faire défiler",
+        "es": "desplazar, hacer scroll"
+      },
+      "example_translations": {
+        "ru": "Я час листал ленту и не заметил.",
+        "id": "Sejam aku menggulir tanpa sadar.",
+        "de": "Eine Stunde habe ich gescrollt, ohne es zu merken.",
+        "fr": "J'ai fait défiler une heure sans m'en rendre compte.",
+        "es": "Llevaba una hora deslizando sin darme cuenta."
+      }
     },
     {
       "id": 60,
@@ -539,7 +1365,21 @@
       "translation": "забота о себе",
       "example": "Bubble baths are my favorite self-care.",
       "example_ru": "Пенная ванна — моя любимая забота о себе.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "забота о себе",
+        "id": "merawat diri",
+        "de": "Selbstfürsorge",
+        "fr": "prendre soin de soi",
+        "es": "cuidado personal"
+      },
+      "example_translations": {
+        "ru": "Пенная ванна — моя любимая забота о себе.",
+        "id": "Mandi busa adalah cara favoritku merawat diri.",
+        "de": "Ein Schaumbad ist meine Lieblingsform der Selbstfürsorge.",
+        "fr": "Un bain moussant est mon moment de détente préféré.",
+        "es": "Un baño de espuma es mi cuidado personal favorito."
+      }
     },
     {
       "id": 61,
@@ -548,7 +1388,21 @@
       "translation": "запасной, свободный",
       "example": "Do you have a spare pen?",
       "example_ru": "У тебя нет запасной ручки?",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "запасной, свободный",
+        "id": "cadangan, sisa",
+        "de": "Ersatz-, übrig",
+        "fr": "de rechange, libre",
+        "es": "de repuesto, libre"
+      },
+      "example_translations": {
+        "ru": "У тебя нет запасной ручки?",
+        "id": "Kamu tidak punya pulpen cadangan?",
+        "de": "Hast du keinen Ersatzkuli?",
+        "fr": "Tu n'as pas un stylo de rechange ?",
+        "es": "¿No tienes un bolígrafo de repuesto?"
+      }
     },
     {
       "id": 62,
@@ -557,7 +1411,21 @@
       "translation": "смотреть онлайн, стримить",
       "example": "We streamed the whole season in one night.",
       "example_ru": "Мы проглотили весь сезон за одну ночь.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "смотреть онлайн, стримить",
+        "id": "menonton streaming",
+        "de": "streamen",
+        "fr": "streamer, regarder en ligne",
+        "es": "ver en streaming"
+      },
+      "example_translations": {
+        "ru": "Мы проглотили весь сезон за одну ночь.",
+        "id": "Kami menghabiskan satu musim dalam semalam.",
+        "de": "Wir haben die ganze Staffel in einer Nacht gestreamt.",
+        "fr": "On a regardé toute la saison en une nuit.",
+        "es": "Nos vimos la temporada entera en una noche."
+      }
     },
     {
       "id": 63,
@@ -566,7 +1434,21 @@
       "translation": "бороться, с трудом справляться",
       "example": "I still struggle with early mornings.",
       "example_ru": "Ранние подъёмы до сих пор даются мне тяжело.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "бороться, с трудом справляться",
+        "id": "berjuang, kesulitan",
+        "de": "sich schwer tun, kämpfen",
+        "fr": "lutter, avoir du mal",
+        "es": "luchar, costar trabajo"
+      },
+      "example_translations": {
+        "ru": "Ранние подъёмы до сих пор даются мне тяжело.",
+        "id": "Bangun pagi masih terasa berat bagiku.",
+        "de": "Frühes Aufstehen fällt mir immer noch schwer.",
+        "fr": "Se lever tôt me reste encore difficile.",
+        "es": "Madrugar todavía me cuesta trabajo."
+      }
     },
     {
       "id": 64,
@@ -575,7 +1457,21 @@
       "translation": "свайпать, проводить пальцем",
       "example": "I swiped right by accident.",
       "example_ru": "Я случайно свайпнул вправо.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "свайпать, проводить пальцем",
+        "id": "menggeser, swipe",
+        "de": "wischen",
+        "fr": "balayer, swiper",
+        "es": "deslizar, hacer swipe"
+      },
+      "example_translations": {
+        "ru": "Я случайно свайпнул вправо.",
+        "id": "Tanpa sengaja aku menggeser ke kanan.",
+        "de": "Ich habe aus Versehen nach rechts gewischt.",
+        "fr": "J'ai balayé vers la droite par accident.",
+        "es": "Deslicé hacia la derecha sin querer."
+      }
     },
     {
       "id": 65,
@@ -584,7 +1480,21 @@
       "translation": "хотя, впрочем",
       "example": "Nice place, though a bit noisy.",
       "example_ru": "Место классное, хотя и шумновато.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "хотя, впрочем",
+        "id": "meskipun, namun",
+        "de": "allerdings, obwohl",
+        "fr": "pourtant, cependant",
+        "es": "aunque, sin embargo"
+      },
+      "example_translations": {
+        "ru": "Место классное, хотя и шумновато.",
+        "id": "Tempatnya bagus, meski agak bising.",
+        "de": "Schöner Ort, allerdings etwas laut.",
+        "fr": "Endroit sympa, pourtant un peu bruyant.",
+        "es": "El sitio está bien, aunque un poco ruidoso."
+      }
     },
     {
       "id": 66,
@@ -593,7 +1503,21 @@
       "translation": "тренд, тенденция",
       "example": "This trend is everywhere right now.",
       "example_ru": "Этот тренд сейчас повсюду.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "тренд, тенденция",
+        "id": "tren",
+        "de": "Trend",
+        "fr": "tendance, mode",
+        "es": "tendencia"
+      },
+      "example_translations": {
+        "ru": "Этот тренд сейчас повсюду.",
+        "id": "Tren ini sekarang ada di mana-mana.",
+        "de": "Dieser Trend ist gerade überall.",
+        "fr": "Cette tendance est partout en ce moment.",
+        "es": "Esta tendencia está por todas partes."
+      }
     },
     {
       "id": 67,
@@ -602,7 +1526,21 @@
       "translation": "типичный, обычный",
       "example": "Typical Monday: coffee, meetings, more coffee.",
       "example_ru": "Типичный понедельник: кофе, встречи, снова кофе.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "типичный, обычный",
+        "id": "khas, biasa",
+        "de": "typisch",
+        "fr": "typique",
+        "es": "típico"
+      },
+      "example_translations": {
+        "ru": "Типичный понедельник: кофе, встречи, снова кофе.",
+        "id": "Senin khas: kopi, rapat, kopi lagi.",
+        "de": "Typischer Montag: Kaffee, Meetings, wieder Kaffee.",
+        "fr": "Lundi typique : café, réunions, encore du café.",
+        "es": "Lunes típico: café, reuniones y más café."
+      }
     },
     {
       "id": 68,
@@ -611,7 +1549,21 @@
       "translation": "осознанный, внимательный",
       "example": "Be mindful of your screen time.",
       "example_ru": "Осознанно следи за временем у экрана.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "осознанный, внимательный",
+        "id": "penuh kesadaran",
+        "de": "achtsam, bewusst",
+        "fr": "attentif, conscient",
+        "es": "consciente, atento"
+      },
+      "example_translations": {
+        "ru": "Осознанно следи за временем у экрана.",
+        "id": "Pantau waktu layar Anda dengan kesadaran.",
+        "de": "Sei achtsam mit deiner Bildschirmzeit.",
+        "fr": "Sois attentif à ton temps d'écran.",
+        "es": "Vigila con conciencia tu tiempo de pantalla."
+      }
     },
     {
       "id": 69,
@@ -620,7 +1572,21 @@
       "translation": "искренне, по-настоящему",
       "example": "I genuinely enjoyed that book.",
       "example_ru": "Мне искренне понравилась эта книга.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "искренне, по-настоящему",
+        "id": "sungguh-sungguh",
+        "de": "aufrichtig, wirklich",
+        "fr": "sincèrement, vraiment",
+        "es": "sinceramente, de verdad"
+      },
+      "example_translations": {
+        "ru": "Мне искренне понравилась эта книга.",
+        "id": "Sungguh aku menikmati buku itu.",
+        "de": "Das Buch hat mir wirklich gefallen.",
+        "fr": "J'ai sincèrement aimé ce livre.",
+        "es": "De verdad disfruté con ese libro."
+      }
     },
     {
       "id": 70,
@@ -629,7 +1595,21 @@
       "translation": "погружаться с головой",
       "example": "She immersed herself in the language.",
       "example_ru": "Она с головой погрузилась в язык.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "погружаться с головой",
+        "id": "menyelami, membenamkan",
+        "de": "eintauchen in",
+        "fr": "immerger, plonger dans",
+        "es": "sumergirse en"
+      },
+      "example_translations": {
+        "ru": "Она с головой погрузилась в язык.",
+        "id": "Dia menekuni bahasa itu dengan sungguh-sungguh.",
+        "de": "Sie hat sich voll und ganz in die Sprache eingetaucht.",
+        "fr": "Elle s'est plongée corps et âme dans la langue.",
+        "es": "Se sumergió de lleno en el idioma."
+      }
     },
     {
       "id": 71,
@@ -638,7 +1618,21 @@
       "translation": "жонглировать (делами)",
       "example": "Working parents juggle a lot every day.",
       "example_ru": "Работающие родители ежедневно жонглируют делами.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "жонглировать (делами)",
+        "id": "menata banyak hal",
+        "de": "jonglieren mit Aufgaben",
+        "fr": "jongler avec les tâches",
+        "es": "combinar mil cosas"
+      },
+      "example_translations": {
+        "ru": "Работающие родители ежедневно жонглируют делами.",
+        "id": "Orang tua bekerja menata banyak hal setiap hari.",
+        "de": "Berufstätige Eltern jonglieren täglich mit vielem.",
+        "fr": "Les parents qui travaillent jonglent chaque jour.",
+        "es": "Los padres que trabajan combinan mil cosas a diario."
+      }
     },
     {
       "id": 72,
@@ -647,7 +1641,21 @@
       "translation": "предел, ограничение",
       "example": "I set a limit on my screen time.",
       "example_ru": "Я поставил себе лимит экранного времени.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "предел, ограничение",
+        "id": "batas, membatasi",
+        "de": "Grenze, begrenzen",
+        "fr": "limite, limiter",
+        "es": "límite, limitar"
+      },
+      "example_translations": {
+        "ru": "Я поставил себе лимит экранного времени.",
+        "id": "Aku menetapkan batas waktu layar untuk diriku.",
+        "de": "Ich habe mir ein Limit für die Bildschirmzeit gesetzt.",
+        "fr": "Je me suis fixé une limite de temps d'écran.",
+        "es": "Me puse un límite de tiempo de pantalla."
+      }
     },
     {
       "id": 73,
@@ -656,7 +1664,21 @@
       "translation": "буквально, реально",
       "example": "I literally stayed up all night.",
       "example_ru": "Я буквально не спал всю ночь.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "буквально, реально",
+        "id": "secara harfiah",
+        "de": "buchstäblich, wörtlich",
+        "fr": "littéralement, franchement",
+        "es": "literalmente"
+      },
+      "example_translations": {
+        "ru": "Я буквально не спал всю ночь.",
+        "id": "Aku benar-benar begadang semalaman.",
+        "de": "Ich habe buchstäblich die ganze Nacht nicht geschlafen.",
+        "fr": "Je n'ai littéralement pas dormi de la nuit.",
+        "es": "Literalmente no dormí en toda la noche."
+      }
     },
     {
       "id": 74,
@@ -665,7 +1687,21 @@
       "translation": "сеть; заводить связи",
       "example": "Use conferences to network and make friends.",
       "example_ru": "Используй конференции, чтобы заводить связи.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "сеть; заводить связи",
+        "id": "jejaring, membangun jaringan",
+        "de": "Netzwerk; Kontakte knüpfen",
+        "fr": "réseau; tisser des liens",
+        "es": "red; hacer contactos"
+      },
+      "example_translations": {
+        "ru": "Используй конференции, чтобы заводить связи.",
+        "id": "Manfaatkan konferensi untuk membangun jaringan.",
+        "de": "Nutze Konferenzen, um Kontakte zu knüpfen.",
+        "fr": "Utilise les conférences pour créer des liens.",
+        "es": "Aprovecha las conferencias para hacer contactos."
+      }
     },
     {
       "id": 75,
@@ -674,7 +1710,21 @@
       "translation": "шлифовать, доводить до ума",
       "example": "Let's polish the presentation before Friday.",
       "example_ru": "Доведём презентацию до ума к пятнице.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "шлифовать, доводить до ума",
+        "id": "mempoles, menyempurnakan",
+        "de": "verfeinern, ausbauen",
+        "fr": "peaufiner, parfaire",
+        "es": "pulir, perfeccionar"
+      },
+      "example_translations": {
+        "ru": "Доведём презентацию до ума к пятнице.",
+        "id": "Kita sempurnakan presentasinya sebelum Jumat.",
+        "de": "Bringen wir die Präsentation bis Freitag auf Vordermann.",
+        "fr": "Peaufinons la présentation avant vendredi.",
+        "es": "Pulamos la presentación antes del viernes."
+      }
     },
     {
       "id": 76,
@@ -683,7 +1733,21 @@
       "translation": "бросать, прекращать",
       "example": "He quit smoking last year.",
       "example_ru": "Он бросил курить в прошлом году.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "бросать, прекращать",
+        "id": "berhenti",
+        "de": "aufhören",
+        "fr": "arrêter, cesser",
+        "es": "dejar, renunciar"
+      },
+      "example_translations": {
+        "ru": "Он бросил курить в прошлом году.",
+        "id": "Dia berhenti merokok tahun lalu.",
+        "de": "Er hat letztes Jahr mit dem Rauchen aufgehört.",
+        "fr": "Il a arrêté de fumer l'année dernière.",
+        "es": "Dejó de fumar el año pasado."
+      }
     },
     {
       "id": 77,
@@ -692,7 +1756,21 @@
       "translation": "реалистичный, практичный",
       "example": "Be realistic about your deadlines.",
       "example_ru": "Относись к срокам реалистично.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "реалистичный, практичный",
+        "id": "realistis",
+        "de": "realistisch",
+        "fr": "réaliste",
+        "es": "realista"
+      },
+      "example_translations": {
+        "ru": "Относись к срокам реалистично.",
+        "id": "Bersikaplah realistis soal tenggat waktu.",
+        "de": "Sei realistisch mit deinen Fristen.",
+        "fr": "Sois réaliste avec tes délais.",
+        "es": "Sé realista con los plazos."
+      }
     },
     {
       "id": 78,
@@ -701,7 +1779,21 @@
       "translation": "перезаряжаться, отдыхать",
       "example": "Weekends help me recharge.",
       "example_ru": "Выходные помогают мне восстановить силы.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "перезаряжаться, отдыхать",
+        "id": "mengisi ulang energi",
+        "de": "auftanken, sich erholen",
+        "fr": "recharger les batteries",
+        "es": "recargar energías"
+      },
+      "example_translations": {
+        "ru": "Выходные помогают мне восстановить силы.",
+        "id": "Akhir pekan membantuku memulihkan tenaga.",
+        "de": "Am Wochenende kann ich neue Kraft tanken.",
+        "fr": "Le week-end m'aide à recharger les batteries.",
+        "es": "Los fines de semana me ayudan a recargar energías."
+      }
     },
     {
       "id": 79,
@@ -710,7 +1802,21 @@
       "translation": "подкрутить, слегка изменить",
       "example": "Just tweak the last paragraph a bit.",
       "example_ru": "Только чуть подправь последний абзац.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "подкрутить, слегка изменить",
+        "id": "menyetel sedikit",
+        "de": "leicht anpassen",
+        "fr": "ajuster, retoucher",
+        "es": "ajustar, retocar"
+      },
+      "example_translations": {
+        "ru": "Только чуть подправь последний абзац.",
+        "id": "Cukup sempurnakan paragraf terakhirnya sedikit.",
+        "de": "Justiere nur den letzten Absatz leicht.",
+        "fr": "Retouche juste un peu le dernier paragraphe.",
+        "es": "Retoca solo un poco el último párrafo."
+      }
     },
     {
       "id": 80,
@@ -719,7 +1825,21 @@
       "translation": "улучшить, сделать апгрейд",
       "example": "We upgraded to a bigger apartment.",
       "example_ru": "Мы переехали в квартиру попросторнее.",
-      "type": "word"
+      "type": "word",
+      "translations": {
+        "ru": "улучшить, сделать апгрейд",
+        "id": "meningkatkan, upgrade",
+        "de": "aufrüsten, upgraden",
+        "fr": "améliorer, moderniser",
+        "es": "mejorar, actualizar"
+      },
+      "example_translations": {
+        "ru": "Мы переехали в квартиру попросторнее.",
+        "id": "Kami pindah ke apartemen yang lebih luas.",
+        "de": "Wir sind in eine größere Wohnung gezogen.",
+        "fr": "Nous avons migré vers un appartement plus grand.",
+        "es": "Nos mudamos a un piso más espacioso."
+      }
     },
     {
       "id": 81,
@@ -728,7 +1848,21 @@
       "translation": "очевидное решение, дело ясное",
       "example": "Skipping that meeting was a no-brainer.",
       "example_ru": "Пропустить ту встречу было проще простого.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "очевидное решение, дело ясное",
+        "id": "keputusan mudah",
+        "de": "logische Sache, Kinderspiel",
+        "fr": "évidence, choix évident",
+        "es": "decisión obvia, sin duda"
+      },
+      "example_translations": {
+        "ru": "Пропустить ту встречу было проще простого.",
+        "id": "Melewatkan rapat itu keputusan yang jelas.",
+        "de": "Das Meeting ausfallen zu lassen war eine klare Sache.",
+        "fr": "Rater cette réunion était une évidence.",
+        "es": "Faltarse a esa reunión fue lo más obvio."
+      }
     },
     {
       "id": 82,
@@ -737,7 +1871,21 @@
       "translation": "проще простого, плёвое дело",
       "example": "The exam was a piece of cake.",
       "example_ru": "Экзамен оказался проще простого.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "проще простого, плёвое дело",
+        "id": "mudah sekali",
+        "de": "ein Kinderspiel",
+        "fr": "un jeu d'enfant",
+        "es": "pan comido"
+      },
+      "example_translations": {
+        "ru": "Экзамен оказался проще простого.",
+        "id": "Ujiannya ternyata mudah sekali.",
+        "de": "Die Prüfung war ein Kinderspiel.",
+        "fr": "L'examen était un jeu d'enfant.",
+        "es": "El examen fue pan comido."
+      }
     },
     {
       "id": 83,
@@ -746,7 +1894,21 @@
       "translation": "разрядить обстановку, растопить лёд",
       "example": "He told a joke to break the ice.",
       "example_ru": "Он пошутил, чтобы разрядить обстановку.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "разрядить обстановку, растопить лёд",
+        "id": "mencairkan suasana",
+        "de": "das Eis brechen",
+        "fr": "briser la glace",
+        "es": "romper el hielo"
+      },
+      "example_translations": {
+        "ru": "Он пошутил, чтобы разрядить обстановку.",
+        "id": "Ia bercanda untuk mencairkan suasana.",
+        "de": "Er hat einen Witz gemacht, um das Eis zu brechen.",
+        "fr": "Il a raconté une blague pour briser la glace.",
+        "es": "Contó un chiste para romper el hielo."
+      }
     },
     {
       "id": 84,
@@ -755,7 +1917,21 @@
       "translation": "засесть за учёбу",
       "example": "I can't go out — I have to hit the books.",
       "example_ru": "Не могу пойти гулять: мне надо учиться.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "засесть за учёбу",
+        "id": "belajar sungguh-sungguh",
+        "de": "pauken, büffeln",
+        "fr": "bûcher, se mettre au travail",
+        "es": "ponerse a estudiar"
+      },
+      "example_translations": {
+        "ru": "Не могу пойти гулять: мне надо учиться.",
+        "id": "Tak bisa keluar — harus belajar sungguh-sungguh.",
+        "de": "Ich kann nicht raus — ich muss pauken.",
+        "fr": "Je ne peux pas sortir — je dois bûcher.",
+        "es": "No puedo salir: me toca ponerme a estudiar."
+      }
     },
     {
       "id": 85,
@@ -764,7 +1940,21 @@
       "translation": "неважно себя чувствующий",
       "example": "I'm a bit under the weather today.",
       "example_ru": "Я сегодня что-то неважно себя чувствую.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "неважно себя чувствующий",
+        "id": "kurang sehat",
+        "de": "angezählt sein",
+        "fr": "être patraque",
+        "es": "estar pachucho"
+      },
+      "example_translations": {
+        "ru": "Я сегодня что-то неважно себя чувствую.",
+        "id": "Hari ini aku merasa kurang sehat.",
+        "de": "Ich fühle mich heute etwas angezählt.",
+        "fr": "Je me sens un peu patraque aujourd'hui.",
+        "es": "Hoy me siento algo pachucho."
+      }
     },
     {
       "id": 86,
@@ -773,7 +1963,21 @@
       "translation": "выболтать секрет",
       "example": "Don't spill the beans about the party!",
       "example_ru": "Не выболтай сюрприз про вечеринку!",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "выболтать секрет",
+        "id": "membocorkan rahasia",
+        "de": "ausplaudern",
+        "fr": "vendre la mèche",
+        "es": "irse de la lengua"
+      },
+      "example_translations": {
+        "ru": "Не выболтай сюрприз про вечеринку!",
+        "id": "Jangan bocorkan kejutan pesta itu!",
+        "de": "Verrate nichts von der Überraschungsparty!",
+        "fr": "Ne vends pas la mèche sur la fête !",
+        "es": "¡No te vayas de la lengua con la fiesta!"
+      }
     },
     {
       "id": 87,
@@ -782,7 +1986,21 @@
       "translation": "очень редко",
       "example": "We eat out once in a blue moon.",
       "example_ru": "Мы едим вне дома очень редко.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "очень редко",
+        "id": "sangat jarang",
+        "de": "alle Jubeljahre",
+        "fr": "tous les trente-six du mois",
+        "es": "de Pascua a Ramos"
+      },
+      "example_translations": {
+        "ru": "Мы едим вне дома очень редко.",
+        "id": "Kami jarang sekali makan di luar.",
+        "de": "Wir essen alle Jubeljahre mal auswärts.",
+        "fr": "On mange au restaurant tous les trente-six du mois.",
+        "es": "Comemos fuera de Pascua a Ramos."
+      }
     },
     {
       "id": 88,
@@ -791,7 +2009,21 @@
       "translation": "стоить целое состояние",
       "example": "That phone cost an arm and a leg.",
       "example_ru": "Тот телефон стоил целое состояние.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "стоить целое состояние",
+        "id": "sangat mahal",
+        "de": "ein Vermögen kosten",
+        "fr": "coûter les yeux de la tête",
+        "es": "costar un ojo de la cara"
+      },
+      "example_translations": {
+        "ru": "Тот телефон стоил целое состояние.",
+        "id": "Ponsel itu harganya sangat mahal.",
+        "de": "Das Handy hat ein Vermögen gekostet.",
+        "fr": "Ce téléphone a coûté les yeux de la tête.",
+        "es": "Ese móvil costó un ojo de la cara."
+      }
     },
     {
       "id": 89,
@@ -800,7 +2032,21 @@
       "translation": "лечь спать",
       "example": "I'm exhausted — time to hit the sack.",
       "example_ru": "Я вымотался: пора на боковую.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "лечь спать",
+        "id": "pergi tidur",
+        "de": "sich pennen gehen",
+        "fr": "aller pieuter",
+        "es": "irse a la cama"
+      },
+      "example_translations": {
+        "ru": "Я вымотался: пора на боковую.",
+        "id": "Aku benar-benar lelah: saatnya tidur.",
+        "de": "Ich bin erledigt — Zeit, mich zu pennen.",
+        "fr": "Je suis épuisé : l'heure de pieuter.",
+        "es": "Estoy hecho polvo: hora de irme a la cama."
+      }
     },
     {
       "id": 90,
@@ -809,7 +2055,21 @@
       "translation": "в нерешительности",
       "example": "I'm still on the fence about the offer.",
       "example_ru": "Я всё ещё колеблюсь насчёт предложения.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "в нерешительности",
+        "id": "ragu-ragu, bimbang",
+        "de": "unentschlossen sein",
+        "fr": "être indécis, hésiter",
+        "es": "estar indeciso, dudar"
+      },
+      "example_translations": {
+        "ru": "Я всё ещё колеблюсь насчёт предложения.",
+        "id": "Aku masih ragu soal tawaran itu.",
+        "de": "Ich bin beim Angebot noch unentschlossen.",
+        "fr": "Je suis encore indécis face à l'offre.",
+        "es": "Sigo indeciso con la oferta."
+      }
     },
     {
       "id": 91,
@@ -818,7 +2078,21 @@
       "translation": "стиснуть зубы и решиться",
       "example": "I bit the bullet and called the dentist.",
       "example_ru": "Я собрался с духом и позвонил стоматологу.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "стиснуть зубы и решиться",
+        "id": "memberanikan diri",
+        "de": "in den sauren Apfel beißen",
+        "fr": "serrer les dents",
+        "es": "hacer de tripas corazón"
+      },
+      "example_translations": {
+        "ru": "Я собрался с духом и позвонил стоматологу.",
+        "id": "Aku memberanikan diri menelepon dokter gigi.",
+        "de": "Ich habe in den sauren Apfel gebissen und den Zahnarzt angerufen.",
+        "fr": "J'ai serré les dents et j'ai appelé le dentiste.",
+        "es": "Hice de tripas corazón y llamé al dentista."
+      }
     },
     {
       "id": 92,
@@ -827,7 +2101,21 @@
       "translation": "закончить на сегодня",
       "example": "We fixed most bugs — let's call it a day.",
       "example_ru": "Почти всё починили — давай заканчивать.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "закончить на сегодня",
+        "id": "berhenti untuk hari ini",
+        "de": "für heute Schluss machen",
+        "fr": "en rester là pour aujourd'hui",
+        "es": "dejarlo por hoy"
+      },
+      "example_translations": {
+        "ru": "Почти всё починили — давай заканчивать.",
+        "id": "Hampir semua diperbaiki — mari berhenti untuk hari ini.",
+        "de": "Wir haben fast alles repariert — machen wir für heute Schluss.",
+        "fr": "On a presque tout réparé — restons-en là pour aujourd'hui.",
+        "es": "Casi todo está arreglado: dejémoslo por hoy."
+      }
     },
     {
       "id": 93,
@@ -836,7 +2124,21 @@
       "translation": "халтурить, экономить на качестве",
       "example": "They cut corners and the roof leaked.",
       "example_ru": "Они сэкономили на материалах, и крыша потекла.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "халтурить, экономить на качестве",
+        "id": "asal-asalan, menghemat",
+        "de": "pfuschen, Abstriche machen",
+        "fr": "bâcler, rogner sur la qualité",
+        "es": "bajar la calidad, recortar"
+      },
+      "example_translations": {
+        "ru": "Они сэкономили на материалах, и крыша потекла.",
+        "id": "Mereka memotong biaya material, dan atapnya jadi bocor.",
+        "de": "Sie haben gepfuscht, und das Dach hat geleckt.",
+        "fr": "Ils ont bâclé les matériaux et le toit a fui.",
+        "es": "Ahorraron en materiales y el techo terminó goteando."
+      }
     },
     {
       "id": 94,
@@ -845,7 +2147,21 @@
       "translation": "сделать больше необходимого",
       "example": "She always goes the extra mile for clients.",
       "example_ru": "Она всегда делает для клиентов больше, чем нужно.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "сделать больше необходимого",
+        "id": "berjuang lebih keras",
+        "de": "über das Nötige hinausgehen",
+        "fr": "faire plus que nécessaire",
+        "es": "dar un paso más"
+      },
+      "example_translations": {
+        "ru": "Она всегда делает для клиентов больше, чем нужно.",
+        "id": "Ia selalu berjuang lebih keras untuk pelanggan.",
+        "de": "Sie geht für Kunden immer über das Nötige hinaus.",
+        "fr": "Elle fait toujours plus que nécessaire pour les clients.",
+        "es": "Siempre da un paso más por los clientes."
+      }
     },
     {
       "id": 95,
@@ -854,7 +2170,21 @@
       "translation": "в одинаковом положении",
       "example": "We're all in the same boat with these prices.",
       "example_ru": "С такими ценами мы все в одной лодке.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "в одинаковом положении",
+        "id": "senasib",
+        "de": "im selben Boot sitzen",
+        "fr": "dans le même bateau",
+        "es": "en el mismo barco"
+      },
+      "example_translations": {
+        "ru": "С такими ценами мы все в одной лодке.",
+        "id": "Dengan harga seperti ini, kita semua senasib.",
+        "de": "Bei diesen Preisen sitzen wir alle im selben Boot.",
+        "fr": "Avec ces prix, nous sommes tous dans le même bateau.",
+        "es": "Con estos precios estamos todos en el mismo barco."
+      }
     },
     {
       "id": 96,
@@ -863,7 +2193,21 @@
       "translation": "присматривать за",
       "example": "Keep an eye on my coffee, please.",
       "example_ru": "Присмотри, пожалуйста, за моим кофе.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "присматривать за",
+        "id": "mengawasi",
+        "de": "ein Auge auf etwas werfen",
+        "fr": "garder un œil sur",
+        "es": "echar un ojo a"
+      },
+      "example_translations": {
+        "ru": "Присмотри, пожалуйста, за моим кофе.",
+        "id": "Tolong jaga kopiku, ya.",
+        "de": "Pass bitte auf meinen Kaffee auf.",
+        "fr": "Surveille mon café, s'il te plaît.",
+        "es": "Vigila mi café, por favor."
+      }
     },
     {
       "id": 97,
@@ -872,7 +2216,21 @@
       "translation": "выпустить пар",
       "example": "Gaming helps him let off steam.",
       "example_ru": "Игры помогают ему выпустить пар.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "выпустить пар",
+        "id": "melepas stres",
+        "de": "Dampf ablassen",
+        "fr": "évacuer la pression",
+        "es": "desahogarse, soltar vapor"
+      },
+      "example_translations": {
+        "ru": "Игры помогают ему выпустить пар.",
+        "id": "Bermain gim membantunya melepas stres.",
+        "de": "Zocken hilft ihm, Dampf abzulassen.",
+        "fr": "Les jeux vidéo l'aident à évacuer la pression.",
+        "es": "Los videojuegos le ayudan a desahogarse."
+      }
     },
     {
       "id": 98,
@@ -881,7 +2239,21 @@
       "translation": "упустить шанс",
       "example": "Book now or we'll miss the boat.",
       "example_ru": "Бронируй сейчас, иначе упустим момент.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "упустить шанс",
+        "id": "kehilangan kesempatan",
+        "de": "den Anschluss verpassen",
+        "fr": "rater le coche, manquer le train",
+        "es": "perder la oportunidad"
+      },
+      "example_translations": {
+        "ru": "Бронируй сейчас, иначе упустим момент.",
+        "id": "Pesan sekarang, atau kita kehilangan kesempatan.",
+        "de": "Buche jetzt, sonst verpassen wir den Anschluss.",
+        "fr": "Réserve maintenant, sinon on rate le coche.",
+        "es": "Reserva ya o perderemos la oportunidad."
+      }
     },
     {
       "id": 99,
@@ -890,7 +2262,21 @@
       "translation": "навскидку, по памяти",
       "example": "Off the top of my head, it's about twenty.",
       "example_ru": "Навскидку — около двадцати.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "навскидку, по памяти",
+        "id": "dari ingatan, kira-kira",
+        "de": "aus dem Kopf",
+        "fr": "de mémoire, à vue de nez",
+        "es": "a bote pronto, de memoria"
+      },
+      "example_translations": {
+        "ru": "Навскидку — около двадцати.",
+        "id": "Kira-kira sekitar dua puluh.",
+        "de": "Aus dem Kopf: ungefähr zwanzig.",
+        "fr": "De mémoire, c'est environ vingt.",
+        "es": "A bote pronto, unos veinte."
+      }
     },
     {
       "id": 100,
@@ -899,7 +2285,21 @@
       "translation": "одинаково понимать ситуацию",
       "example": "Let's make sure we're on the same page.",
       "example_ru": "Давай убедимся, что мы понимаем друг друга.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "одинаково понимать ситуацию",
+        "id": "sepaham, sepemahaman",
+        "de": "auf dem gleichen Stand sein",
+        "fr": "être sur la même longueur d'onde",
+        "es": "estar en la misma página"
+      },
+      "example_translations": {
+        "ru": "Давай убедимся, что мы понимаем друг друга.",
+        "id": "Mari pastikan kita sama-sama paham.",
+        "de": "Stellen wir sicher, dass wir auf dem gleichen Stand sind.",
+        "fr": "Assurons-nous que nous sommes sur la même longueur d'onde.",
+        "es": "Asegurémonos de que estamos en la misma página."
+      }
     },
     {
       "id": 101,
@@ -908,7 +2308,21 @@
       "translation": "подшучивать, разыгрывать",
       "example": "Relax, I'm just pulling your leg!",
       "example_ru": "Расслабься, я просто над тобой подшучиваю!",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "подшучивать, разыгрывать",
+        "id": "mengejek, mempermainkan",
+        "de": "jemanden auf den Arm nehmen",
+        "fr": "faire marcher quelqu'un",
+        "es": "tomar el pelo a alguien"
+      },
+      "example_translations": {
+        "ru": "Расслабься, я просто над тобой подшучиваю!",
+        "id": "Tenang, aku cuma mempermainkanmu!",
+        "de": "Entspann dich, ich nehm dich nur auf den Arm!",
+        "fr": "Détends-toi, je te fais marcher !",
+        "es": "¡Tranquilo, te estoy tomando el pelo!"
+      }
     },
     {
       "id": 102,
@@ -917,7 +2331,21 @@
       "translation": "сходиться во взглядах",
       "example": "We don't always see eye to eye.",
       "example_ru": "Мы не всегда сходимся во мнениях.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "сходиться во взглядах",
+        "id": "sepaham dalam pandangan",
+        "de": "einer Meinung sein",
+        "fr": "voir les choses de la même façon",
+        "es": "compartir el mismo punto de vista"
+      },
+      "example_translations": {
+        "ru": "Мы не всегда сходимся во мнениях.",
+        "id": "Kami tidak selalu sepaham.",
+        "de": "Wir sind nicht immer einer Meinung.",
+        "fr": "Nous ne voyons pas toujours les choses de la même façon.",
+        "es": "No siempre compartimos el mismo punto de vista."
+      }
     },
     {
       "id": 103,
@@ -926,7 +2354,21 @@
       "translation": "лёгок на помине",
       "example": "Speak of the devil — here she comes!",
       "example_ru": "Лёгка на помине — вот и она!",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "лёгок на помине",
+        "id": "disebut langsung muncul",
+        "de": "wenn man vom Teufel spricht",
+        "fr": "quand on parle du loup",
+        "es": "hablando del rey de Roma"
+      },
+      "example_translations": {
+        "ru": "Лёгка на помине — вот и она!",
+        "id": "Baru saja disebut, langsung muncul — nih dia!",
+        "de": "Vom Teufel gesprochen — da kommt sie ja!",
+        "fr": "Quand on parle du loup, on en voit la queue — la voilà !",
+        "es": "Hablando del rey de Roma... ¡y ahí está!"
+      }
     },
     {
       "id": 104,
@@ -935,7 +2377,21 @@
       "translation": "последняя капля",
       "example": "The delay was the last straw for him.",
       "example_ru": "Задержка стала для него последней каплей.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "последняя капля",
+        "id": "mencapai batas kesabaran",
+        "de": "der Tropfen, der das Fass zum Überlaufen bringt",
+        "fr": "la goutte d'eau qui fait déborder le vase",
+        "es": "la gota que colmó el vaso"
+      },
+      "example_translations": {
+        "ru": "Задержка стала для него последней каплей.",
+        "id": "Penundaan itu jadi batas kesabarannya.",
+        "de": "Die Verspätung war für ihn der Tropfen, der das Fass zum Überlaufen brachte.",
+        "fr": "Le retard a été la goutte d'eau qui a fait déborder le vase.",
+        "es": "El retraso fue la gota que colmó el vaso."
+      }
     },
     {
       "id": 105,
@@ -944,7 +2400,21 @@
       "translation": "сдаться, бросить дело",
       "example": "Don't throw in the towel after one failure.",
       "example_ru": "Не сдавайся после первой же неудачи.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "сдаться, бросить дело",
+        "id": "menyerah",
+        "de": "das Handtuch werfen",
+        "fr": "jeter l'éponge",
+        "es": "tirar la toalla"
+      },
+      "example_translations": {
+        "ru": "Не сдавайся после первой же неудачи.",
+        "id": "Jangan menyerah setelah sekali gagal.",
+        "de": "Wirf nicht nach einem Fehlschlag das Handtuch.",
+        "fr": "N'abandonne pas après un premier échec.",
+        "es": "No tires la toalla tras el primer fracaso."
+      }
     },
     {
       "id": 106,
@@ -953,7 +2423,21 @@
       "translation": "не решено, под вопросом",
       "example": "Our vacation plans are still up in the air.",
       "example_ru": "Планы на отпуск всё ещё под вопросом.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "не решено, под вопросом",
+        "id": "belum pasti",
+        "de": "noch offen, ungewiss",
+        "fr": "encore indécis, en suspens",
+        "es": "en el aire, por decidir"
+      },
+      "example_translations": {
+        "ru": "Планы на отпуск всё ещё под вопросом.",
+        "id": "Rencana liburan kami masih di udara.",
+        "de": "Unser Urlaubsplan ist noch völlig offen.",
+        "fr": "Nos projets de vacances restent en suspens.",
+        "es": "Nuestros planes de vacaciones siguen en el aire."
+      }
     },
     {
       "id": 107,
@@ -962,7 +2446,21 @@
       "translation": "когда рак на горе свистнет",
       "example": "He'll apologize when pigs fly.",
       "example_ru": "Он извинится, когда рак на горе свистнет.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "когда рак на горе свистнет",
+        "id": "tidak akan pernah terjadi",
+        "de": "wenn Ostern und Weihnachten auf einen Tag fallen",
+        "fr": "quand les poules auront des dents",
+        "es": "cuando las ranas críen pelo"
+      },
+      "example_translations": {
+        "ru": "Он извинится, когда рак на горе свистнет.",
+        "id": "Dia minta maaf kalau babi bisa terbang.",
+        "de": "Er entschuldigt sich, wenn Ostern und Weihnachten auf einen Tag fallen.",
+        "fr": "Il s'excusera quand les poules auront des dents.",
+        "es": "Se disculpará cuando las ranas críen pelo."
+      }
     },
     {
       "id": 108,
@@ -971,7 +2469,21 @@
       "translation": "скрытое благо, к лучшему",
       "example": "Losing that job was a blessing in disguise.",
       "example_ru": "Потеря той работы оказалась к лучшему.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "скрытое благо, к лучшему",
+        "id": "berkah terselubung",
+        "de": "ein Unglück hat auch sein Gutes",
+        "fr": "un mal pour un bien",
+        "es": "no hay mal que por bien no venga"
+      },
+      "example_translations": {
+        "ru": "Потеря той работы оказалась к лучшему.",
+        "id": "Kehilangan pekerjaan itu ternyata berkah terselubung.",
+        "de": "Den Job zu verlieren hat sich am Ende als Glück erwiesen.",
+        "fr": "Perdre ce travail s'est révélé être un mal pour un bien.",
+        "es": "Perder ese trabajo acabó siendo un mal por un bien."
+      }
     },
     {
       "id": 109,
@@ -980,7 +2492,21 @@
       "translation": "вернуться к началу",
       "example": "The code broke and we're back to square one.",
       "example_ru": "Код сломался, и мы снова у стартовой черты.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "вернуться к началу",
+        "id": "kembali ke awal",
+        "de": "wieder bei null anfangen",
+        "fr": "retour à la case départ",
+        "es": "volver a la casilla de salida"
+      },
+      "example_translations": {
+        "ru": "Код сломался, и мы снова у стартовой черты.",
+        "id": "Kodenya rusak dan kami kembali ke titik nol.",
+        "de": "Der Code ist kaputtgegangen und wir fangen wieder bei null an.",
+        "fr": "Le code a cassé et nous voilà de retour à la case départ.",
+        "es": "El código se rompió y volvimos a la casilla de salida."
+      }
     },
     {
       "id": 110,
@@ -989,7 +2515,21 @@
       "translation": "работать за полночь",
       "example": "We burned the midnight oil before the launch.",
       "example_ru": "Перед запуском мы засиживались за полночь.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "работать за полночь",
+        "id": "bekerja hingga larut malam",
+        "de": "bis tief in die Nacht arbeiten",
+        "fr": "travailler jusqu'à pas d'heure",
+        "es": "trabajar hasta la madrugada"
+      },
+      "example_translations": {
+        "ru": "Перед запуском мы засиживались за полночь.",
+        "id": "Sebelum peluncuran, kami kerap begadang hingga larut.",
+        "de": "Vor dem Launch haben wir bis tief in die Nacht gearbeitet.",
+        "fr": "Avant le lancement, on travaillait jusqu'à pas d'heure.",
+        "es": "Antes del lanzamiento trabajábamos hasta la madrugada."
+      }
     },
     {
       "id": 111,
@@ -998,7 +2538,21 @@
       "translation": "еле-еле, на волоске",
       "example": "He passed the exam by the skin of his teeth.",
       "example_ru": "Он сдал экзамен еле-еле.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "еле-еле, на волоске",
+        "id": "lolos tipis",
+        "de": "mit knapper Not",
+        "fr": "de justesse, à un cheveu",
+        "es": "por los pelos, de milagro"
+      },
+      "example_translations": {
+        "ru": "Он сдал экзамен еле-еле.",
+        "id": "Dia lulus ujian dengan susah payah.",
+        "de": "Er hat die Prüfung nur mit knapper Not bestanden.",
+        "fr": "Il a réussi l'examen de justesse.",
+        "es": "Aprobó el examen por los pelos."
+      }
     },
     {
       "id": 112,
@@ -1007,7 +2561,21 @@
       "translation": "пойманный с поличным",
       "example": "The thief was caught red-handed.",
       "example_ru": "Вора поймали с поличным.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "пойманный с поличным",
+        "id": "tertangkap tangan",
+        "de": "auf frischer Tat ertappt",
+        "fr": "pris la main dans le sac",
+        "es": "pillado con las manos en la masa"
+      },
+      "example_translations": {
+        "ru": "Вора поймали с поличным.",
+        "id": "Pencurinya tertangkap tangan.",
+        "de": "Der Dieb wurde auf frischer Tat ertappt.",
+        "fr": "Le voleur a été pris la main dans le sac.",
+        "es": "Pillaron al ladrón con las manos en la masa."
+      }
     },
     {
       "id": 113,
@@ -1016,7 +2584,21 @@
       "translation": "сожалеть о неисправимом",
       "example": "The vase is broken — no use crying over spilled milk.",
       "example_ru": "Ваза разбита — нет смысла жалеть о случившемся.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "сожалеть о неисправимом",
+        "id": "menyesali hal yang tak terubah",
+        "de": "was geschehen ist, ist geschehen",
+        "fr": "pleurer sur le lait renversé",
+        "es": "llorar sobre la leche derramada"
+      },
+      "example_translations": {
+        "ru": "Ваза разбита — нет смысла жалеть о случившемся.",
+        "id": "Vasanya pecah — tak ada gunanya menyesal.",
+        "de": "Die Vase ist kaputt — was geschehen ist, ist geschehen.",
+        "fr": "Le vase est cassé — inutile de pleurer sur le lait renversé.",
+        "es": "El jarrón está roto: no sirve de nada llorar sobre la leche derramada."
+      }
     },
     {
       "id": 114,
@@ -1025,7 +2607,21 @@
       "translation": "адвокат дьявола",
       "example": "I'm just playing devil's advocate here.",
       "example_ru": "Я тут просто играю в адвоката дьявола.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "адвокат дьявола",
+        "id": "bermain advokat",
+        "de": "den Anwalt des Teufels spielen",
+        "fr": "faire l'avocat du diable",
+        "es": "hacer de abogado del diablo"
+      },
+      "example_translations": {
+        "ru": "Я тут просто играю в адвоката дьявола.",
+        "id": "Aku cuma bermain advokat di sini.",
+        "de": "Ich spiele hier nur den Anwalt des Teufels.",
+        "fr": "Je joue juste ici à l'avocat du diable.",
+        "es": "Solo estoy haciendo de abogado del diablo."
+      }
     },
     {
       "id": 115,
@@ -1034,7 +2630,21 @@
       "translation": "взять свои слова обратно",
       "example": "He had to eat his words when she won.",
       "example_ru": "Когда она победила, ему пришлось взять слова назад.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "взять свои слова обратно",
+        "id": "mengakui kesalahannya",
+        "de": "seine Worte zurücknehmen",
+        "fr": "reconnaître qu'on a eu tort",
+        "es": "tragarse las palabras"
+      },
+      "example_translations": {
+        "ru": "Когда она победила, ему пришлось взять слова назад.",
+        "id": "Ketika ia menang, dia harus mengakui kesalannya.",
+        "de": "Als sie gewann, musste er seine Worte zurücknehmen.",
+        "fr": "Quand elle a gagné, il a dû reconnaître qu'il avait eu tort.",
+        "es": "Cuando ella ganó, tuvo que tragarse sus palabras."
+      }
     },
     {
       "id": 116,
@@ -1043,7 +2653,21 @@
       "translation": "держать ответ, расплачиваться",
       "example": "He broke the vase and had to face the music.",
       "example_ru": "Разбив вазу, ему пришлось отвечать за последствия.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "держать ответ, расплачиваться",
+        "id": "menanggung akibatnya",
+        "de": "die Konsequenzen tragen",
+        "fr": "assumer les conséquences",
+        "es": "afrontar las consecuencias"
+      },
+      "example_translations": {
+        "ru": "Разбив вазу, ему пришлось отвечать за последствия.",
+        "id": "Memecahkan vasanya, ia harus menanggung akibatnya.",
+        "de": "Er hat die Vase zerbrochen und musste die Konsequenzen tragen.",
+        "fr": "Ayant cassé le vase, il a dû assumer les conséquences.",
+        "es": "Al romper el jarrón, tuvo que afrontar las consecuencias."
+      }
     },
     {
       "id": 117,
@@ -1052,7 +2676,21 @@
       "translation": "струсить в последний момент",
       "example": "He got cold feet right before the wedding.",
       "example_ru": "Прямо перед свадьбой он струсил.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "струсить в последний момент",
+        "id": "panik di detik terakhir",
+        "de": "kalte Füße bekommen",
+        "fr": "se dégonfler au dernier moment",
+        "es": "aterrorizarse a última hora"
+      },
+      "example_translations": {
+        "ru": "Прямо перед свадьбой он струсил.",
+        "id": "Tepat sebelum pernikahan, dia tiba-tiba panik.",
+        "de": "Kurz vor der Hochzeit hat er kalte Füße bekommen.",
+        "fr": "Juste avant le mariage, il s'est dégonflé.",
+        "es": "Justo antes de la boda le entró el pánico."
+      }
     },
     {
       "id": 118,
@@ -1061,7 +2699,21 @@
       "translation": "поверить на слово",
       "example": "Let's give her the benefit of the doubt.",
       "example_ru": "Давай поверим ей на слово.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "поверить на слово",
+        "id": "beranggapan baik",
+        "de": "im Zweifel das Beste annehmen",
+        "fr": "accorder le bénéfice du doute",
+        "es": "dar el beneficio de la duda"
+      },
+      "example_translations": {
+        "ru": "Давай поверим ей на слово.",
+        "id": "Mari kita beranggapan baik tentang dia.",
+        "de": "Gehen wir im Zweifel vom Besten aus.",
+        "fr": "Accordons-lui le bénéfice du doute.",
+        "es": "Démosle el beneficio de la duda."
+      }
     },
     {
       "id": 119,
@@ -1070,7 +2722,21 @@
       "translation": "попасть в точку",
       "example": "You hit the nail on the head with that comment.",
       "example_ru": "Твоё замечание попало точно в цель.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "попасть в точку",
+        "id": "tepat sasaran",
+        "de": "den Nagel auf den Kopf treffen",
+        "fr": "mettre dans le mille",
+        "es": "dar en el clavo"
+      },
+      "example_translations": {
+        "ru": "Твоё замечание попало точно в цель.",
+        "id": "Komentarmu tepat sasaran.",
+        "de": "Mit diesem Kommentar hast du den Nagel auf den Kopf getroffen.",
+        "fr": "Ta remarque est dans le mille.",
+        "es": "Tu comentario dio en el clavo."
+      }
     },
     {
       "id": 120,
@@ -1079,7 +2745,21 @@
       "translation": "поддаться общей моде",
       "example": "Everyone jumped on the AI bandwagon.",
       "example_ru": "Все подхватили моду на нейросети.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "поддаться общей моде",
+        "id": "mengikuti arus",
+        "de": "auf den fahrenden Zug aufspringen",
+        "fr": "sauter sur le chariot en marche",
+        "es": "subirse al carro"
+      },
+      "example_translations": {
+        "ru": "Все подхватили моду на нейросети.",
+        "id": "Semua ikut-ikutan tren kecerdasan buatan.",
+        "de": "Alle sind auf den KI-Zug aufgesprungen.",
+        "fr": "Tout le monde a sauté dans le train de l'IA.",
+        "es": "Todos se subieron al carro de la IA."
+      }
     },
     {
       "id": 121,
@@ -1088,7 +2768,21 @@
       "translation": "убить двух зайцев",
       "example": "Cycling to work kills two birds with one stone.",
       "example_ru": "Дорога на работу на велосипеде убивает двух зайцев.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "убить двух зайцев",
+        "id": "membunuh dua burung dengan satu batu",
+        "de": "zwei Fliegen mit einer Klappe schlagen",
+        "fr": "faire d'une pierre deux coups",
+        "es": "matar dos pájaros de un tiro"
+      },
+      "example_translations": {
+        "ru": "Дорога на работу на велосипеде убивает двух зайцев.",
+        "id": "Bersepeda ke kantor sekaligus dua untung.",
+        "de": "Mit dem Rad zur Arbeit schlägt man zwei Fliegen mit einer Klappe.",
+        "fr": "Aller au travail à vélo, c'est faire d'une pierre deux coups.",
+        "es": "Ir al trabajo en bici mata dos pájaros de un tiro."
+      }
     },
     {
       "id": 122,
@@ -1097,7 +2791,21 @@
       "translation": "выдать секрет",
       "example": "He let the cat out of the bag about the gift.",
       "example_ru": "Он выболтал секрет про подарок.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "выдать секрет",
+        "id": "membeberkan rahasia",
+        "de": "die Katze aus dem Sack lassen",
+        "fr": "dévoiler le pot aux roses",
+        "es": "descubrir el pastel"
+      },
+      "example_translations": {
+        "ru": "Он выболтал секрет про подарок.",
+        "id": "Dia membocorkan rahasia soal hadiah itu.",
+        "de": "Beim Geschenk hat er die Katze aus dem Sack gelassen.",
+        "fr": "Il a dévoilé le pot aux roses à propos du cadeau.",
+        "es": "Se le escapó el secreto del regalo."
+      }
     },
     {
       "id": 123,
@@ -1106,7 +2814,21 @@
       "translation": "сова",
       "example": "I'm a night owl — my brain wakes up at 10 p.m.",
       "example_ru": "Я сова: мой мозг просыпается к десяти вечера.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "сова",
+        "id": "tukang begadang",
+        "de": "die Nachteule",
+        "fr": "un oiseau de nuit",
+        "es": "noctámbulo, búho"
+      },
+      "example_translations": {
+        "ru": "Я сова: мой мозг просыпается к десяти вечера.",
+        "id": "Aku tipe begadang: otakku baru nyala jam sepuluh malam.",
+        "de": "Ich bin eine Nachteule — mein Gehirn wacht erst um 22 Uhr auf.",
+        "fr": "Je suis un oiseau de nuit : mon cerveau s'éveille vers 22 h.",
+        "es": "Soy un búho: mi cerebro despierta a las diez de la noche."
+      }
     },
     {
       "id": 124,
@@ -1115,7 +2837,21 @@
       "translation": "жаворонок",
       "example": "The early bird catches the best deals.",
       "example_ru": "Кто рано встаёт, тот ловит лучшие скидки.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "жаворонок",
+        "id": "orang yang bangun pagi",
+        "de": "der Frühaufsteher",
+        "fr": "un lève-tôt",
+        "es": "madrugador, alondra"
+      },
+      "example_translations": {
+        "ru": "Кто рано встаёт, тот ловит лучшие скидки.",
+        "id": "Siapa bangun pagi, dia dapat diskon terbaik.",
+        "de": "Wer früh aufsteht, ergattert die besten Schnäppchen.",
+        "fr": "Qui se lève tôt attrape les meilleures affaires.",
+        "es": "Quien madruga se lleva las mejores ofertas."
+      }
     },
     {
       "id": 125,
@@ -1124,7 +2860,21 @@
       "translation": "на седьмом небе от счастья",
       "example": "She's been on cloud nine since the proposal.",
       "example_ru": "С момента предложения она на седьмом небе.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "на седьмом небе от счастья",
+        "id": "sangat bahagia",
+        "de": "im siebten Himmel sein",
+        "fr": "être aux anges",
+        "es": "estar en el séptimo cielo"
+      },
+      "example_translations": {
+        "ru": "С момента предложения она на седьмом небе.",
+        "id": "Sejak lamaran itu, dia selalu sangat bahagia.",
+        "de": "Seit dem Antrag ist sie im siebten Himmel.",
+        "fr": "Depuis la demande en mariage, elle est aux anges.",
+        "es": "Desde la propuesta está en el séptimo cielo."
+      }
     },
     {
       "id": 126,
@@ -1133,7 +2883,21 @@
       "translation": "неожиданно, внезапно",
       "example": "An old friend texted me out of the blue.",
       "example_ru": "Старый друг вдруг неожиданно написал мне.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "неожиданно, внезапно",
+        "id": "tiba-tiba, tanpa diduga",
+        "de": "aus heiterem Himmel",
+        "fr": "à l'improviste, sans crier gare",
+        "es": "de repente, inesperadamente"
+      },
+      "example_translations": {
+        "ru": "Старый друг вдруг неожиданно написал мне.",
+        "id": "Sahabat lama tiba-tiba mengirimiku pesan.",
+        "de": "Eine alte Freundin hat mir aus heiterem Himmel geschrieben.",
+        "fr": "Un vieil ami m'a écrit à l'improviste.",
+        "es": "Un viejo amigo me escribió de repente."
+      }
     },
     {
       "id": 127,
@@ -1142,7 +2906,21 @@
       "translation": "действовать по обстановке",
       "example": "No plan for tonight — we'll play it by ear.",
       "example_ru": "На вечер плана нет: будем действовать по ситуации.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "действовать по обстановке",
+        "id": "bersikap sesuai situasi",
+        "de": "nach der Situation entscheiden",
+        "fr": "improviser selon les circonstances",
+        "es": "improvisar según cómo vaya"
+      },
+      "example_translations": {
+        "ru": "На вечер плана нет: будем действовать по ситуации.",
+        "id": "Malam ini tak ada rencana: kita improvisasi saja.",
+        "de": "Kein Plan für heute Abend — wir entscheiden nach Situation.",
+        "fr": "Pas de plan ce soir — on improvisera selon les circonstances.",
+        "es": "No hay plan para esta noche: improvisaremos."
+      }
     },
     {
       "id": 128,
@@ -1151,7 +2929,21 @@
       "translation": "поставить себя на чужое место",
       "example": "Put yourself in her shoes for a minute.",
       "example_ru": "Побудь хоть минуту на её месте.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "поставить себя на чужое место",
+        "id": "menempatkan diri pada posisi orang lain",
+        "de": "sich in jemandes Lage versetzen",
+        "fr": "se mettre à la place de quelqu'un",
+        "es": "ponerse en el lugar de otro"
+      },
+      "example_translations": {
+        "ru": "Побудь хоть минуту на её месте.",
+        "id": "Bayangkan dirimu sepuluh menit di posisinya.",
+        "de": "Versetze dich eine Minute in ihre Lage.",
+        "fr": "Mets-toi une minute à sa place.",
+        "es": "Ponte un minuto en su lugar."
+      }
     },
     {
       "id": 129,
@@ -1160,7 +2952,21 @@
       "translation": "перенос на другой раз",
       "example": "Can I take a rain check on lunch?",
       "example_ru": "Можно перенести наш обед?",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "перенос на другой раз",
+        "id": "tunda ke lain waktu",
+        "de": "auf einen anderen Termin verschieben",
+        "fr": "remettre à plus tard",
+        "es": "dejarlo para otra ocasión"
+      },
+      "example_translations": {
+        "ru": "Можно перенести наш обед?",
+        "id": "Bisa kita tunda makan siangnya?",
+        "de": "Kann ich unser Mittagessen verschieben?",
+        "fr": "Puis-je remettre notre déjeuner à plus tard ?",
+        "es": "¿Puedo dejar el almuerzo para otra ocasión?"
+      }
     },
     {
       "id": 130,
@@ -1169,7 +2975,21 @@
       "translation": "общее правило, прикидка",
       "example": "As a rule of thumb, save ten percent.",
       "example_ru": "Как правило, откладывай десять процентов дохода.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "общее правило, прикидка",
+        "id": "aturan praktis",
+        "de": "Faustregel",
+        "fr": "règle approximative, générale",
+        "es": "regla general, aproximada"
+      },
+      "example_translations": {
+        "ru": "Как правило, откладывай десять процентов дохода.",
+        "id": "Sebagai patokan, sisihkan sepuluh persen penghasilan.",
+        "de": "Als Faustregel: lege zehn Prozent des Einkommens zurück.",
+        "fr": "En règle générale, épargne dix pour cent de tes revenus.",
+        "es": "Como regla general, ahorra el diez por ciento de tus ingresos."
+      }
     },
     {
       "id": 131,
@@ -1178,7 +2998,21 @@
       "translation": "второе дыхание",
       "example": "After coffee I got my second wind.",
       "example_ru": "После кофе у меня открылось второе дыхание.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "второе дыхание",
+        "id": "kekuatan kedua",
+        "de": "den zweiten Atem bekommen",
+        "fr": "retrouver un second souffle",
+        "es": "recuperar el aliento"
+      },
+      "example_translations": {
+        "ru": "После кофе у меня открылось второе дыхание.",
+        "id": "Setelah kopi, tenagaku kembali.",
+        "de": "Nach dem Kaffee kam mein zweiter Atem.",
+        "fr": "Après le café, j'ai retrouvé un second souffle.",
+        "es": "Después del café recuperé el aliento."
+      }
     },
     {
       "id": 132,
@@ -1187,7 +3021,21 @@
       "translation": "теперь твой ход",
       "example": "I sent the offer — the ball is in your court.",
       "example_ru": "Я отправил оффер: теперь мяч на твоей стороне.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "теперь твой ход",
+        "id": "giliranmu sekarang",
+        "de": "jetzt bist du dran",
+        "fr": "la balle est dans ton camp",
+        "es": "ahora te toca a ti"
+      },
+      "example_translations": {
+        "ru": "Я отправил оффер: теперь мяч на твоей стороне.",
+        "id": "Aku sudah kirim tawarannya: sekarang giliranmu.",
+        "de": "Ich habe das Angebot geschickt — jetzt bist du dran.",
+        "fr": "J'ai envoyé l'offre : la balle est dans ton camp.",
+        "es": "Envié la oferta: ahora te toca a ti."
+      }
     },
     {
       "id": 133,
@@ -1196,7 +3044,21 @@
       "translation": "время летит",
       "example": "Time flies when you're having fun.",
       "example_ru": "Время летит, когда веселишься.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "время летит",
+        "id": "waktu berlalu cepat",
+        "de": "die Zeit vergeht schnell",
+        "fr": "le temps passe vite",
+        "es": "el tiempo vuela"
+      },
+      "example_translations": {
+        "ru": "Время летит, когда веселишься.",
+        "id": "Waktu terasa cepat saat kita bersenang.",
+        "de": "Die Zeit vergeht schnell, wenn man Spaß hat.",
+        "fr": "Le temps passe vite quand on s'amuse.",
+        "es": "El tiempo vuela cuando te diviertes."
+      }
     },
     {
       "id": 134,
@@ -1205,7 +3067,21 @@
       "translation": "коротко связаться, свериться",
       "example": "Let's touch base on Monday.",
       "example_ru": "Давай свяжемся в понедельник.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "коротко связаться, свериться",
+        "id": "menghubungi sebentar",
+        "de": "kurz Kontakt aufnehmen",
+        "fr": "prendre des nouvelles, un point",
+        "es": "dar un toque, ponerse en contacto"
+      },
+      "example_translations": {
+        "ru": "Давай свяжемся в понедельник.",
+        "id": "Ayo saling kabari Senin depan.",
+        "de": "Lass uns Montag kurz Kontakt aufnehmen.",
+        "fr": "Redonne-moi des nouvelles lundi.",
+        "es": "Quedamos para dar un toque el lunes."
+      }
     },
     {
       "id": 135,
@@ -1214,7 +3090,21 @@
       "translation": "пища для размышлений",
       "example": "That podcast gave me food for thought.",
       "example_ru": "Тот подкаст дал мне пищу для размышлений.",
-      "type": "idiom"
+      "type": "idiom",
+      "translations": {
+        "ru": "пища для размышлений",
+        "id": "bahan perenungan",
+        "de": "Stoff zum Nachdenken",
+        "fr": "de quoi réfléchir",
+        "es": "comida para pensar"
+      },
+      "example_translations": {
+        "ru": "Тот подкаст дал мне пищу для размышлений.",
+        "id": "Podcast itu memberiku bahan perenungan.",
+        "de": "Dieser Podcast hat mir Stoff zum Nachdenken gegeben.",
+        "fr": "Ce podcast m'a donné de quoi réfléchir.",
+        "es": "Ese podcast me dio comida para pensar."
+      }
     },
     {
       "id": 136,
@@ -1223,7 +3113,21 @@
       "translation": "тусоваться, проводить время вместе",
       "example": "We hang out at the mall on Saturdays.",
       "example_ru": "По субботам мы тусуемся в торговом центре.",
-      "type": "phrasal_verb"
+      "type": "phrasal_verb",
+      "translations": {
+        "ru": "тусоваться, проводить время вместе",
+        "id": "bergaul, nongkrong",
+        "de": "sich treffen, abhängen",
+        "fr": "traîner ensemble",
+        "es": "quedar, pasar el rato"
+      },
+      "example_translations": {
+        "ru": "По субботам мы тусуемся в торговом центре.",
+        "id": "Sabtu kami nongkrong di mal.",
+        "de": "Samstags treffen wir uns im Einkaufszentrum.",
+        "fr": "Le samedi, on traîne au centre commercial.",
+        "es": "Los sábados quedamos en el centro comercial."
+      }
     },
     {
       "id": 137,
@@ -1232,7 +3136,21 @@
       "translation": "понять, разобраться",
       "example": "I can't figure out this puzzle.",
       "example_ru": "Никак не разгадаю эту головоломку.",
-      "type": "phrasal_verb"
+      "type": "phrasal_verb",
+      "translations": {
+        "ru": "понять, разобраться",
+        "id": "mencari tahu, memahami",
+        "de": "herausfinden, kapieren",
+        "fr": "comprendre, élucider",
+        "es": "entender, descifrar"
+      },
+      "example_translations": {
+        "ru": "Никак не разгадаю эту головоломку.",
+        "id": "Tak berhasil juga memecahkan teka-teki ini.",
+        "de": "Ich komme bei diesem Rätsel einfach nicht weiter.",
+        "fr": "Je n'arrive pas à résoudre cette énigme.",
+        "es": "No logro entender este rompecabezas."
+      }
     },
     {
       "id": 138,
@@ -1241,7 +3159,21 @@
       "translation": "расслабиться, успокоиться",
       "example": "Chill out — the train comes every five minutes.",
       "example_ru": "Успокойся: поезда ходят каждые пять минут.",
-      "type": "phrasal_verb"
+      "type": "phrasal_verb",
+      "translations": {
+        "ru": "расслабиться, успокоиться",
+        "id": "bersantai",
+        "de": "sich entspannen, abchillen",
+        "fr": "se détendre, se calmer",
+        "es": "relajarse, calmarse"
+      },
+      "example_translations": {
+        "ru": "Успокойся: поезда ходят каждые пять минут.",
+        "id": "Tenang: kereta datang tiap lima menit.",
+        "de": "Entspann dich — der Zug kommt alle fünf Minuten.",
+        "fr": "Détends-toi : le train passe toutes les cinq minutes.",
+        "es": "Tranquilo: el tren pasa cada cinco minutos."
+      }
     },
     {
       "id": 139,
@@ -1250,7 +3182,21 @@
       "translation": "придумать, сообразить",
       "example": "She came up with a brilliant idea.",
       "example_ru": "Она придумала блестящую идею.",
-      "type": "phrasal_verb"
+      "type": "phrasal_verb",
+      "translations": {
+        "ru": "придумать, сообразить",
+        "id": "mendapatkan ide",
+        "de": "sich etwas einfallen lassen",
+        "fr": "trouver, inventer",
+        "es": "ocurrírsele a uno"
+      },
+      "example_translations": {
+        "ru": "Она придумала блестящую идею.",
+        "id": "Dia menemukan ide cemerlang.",
+        "de": "Sie hatte einen brillanten Einfall.",
+        "fr": "Elle a trouvé une idée brillante.",
+        "es": "Se le ocurrió una idea brillante."
+      }
     },
     {
       "id": 140,
@@ -1259,7 +3205,21 @@
       "translation": "сократить потребление",
       "example": "I'm cutting down on sugar this month.",
       "example_ru": "В этом месяце я сокращаю сахар.",
-      "type": "phrasal_verb"
+      "type": "phrasal_verb",
+      "translations": {
+        "ru": "сократить потребление",
+        "id": "mengurangi",
+        "de": "verringern, reduzieren",
+        "fr": "réduire",
+        "es": "reducir, recortar"
+      },
+      "example_translations": {
+        "ru": "В этом месяце я сокращаю сахар.",
+        "id": "Bulan ini aku mengurangi gula.",
+        "de": "Diesen Monat reduziere ich Zucker.",
+        "fr": "Ce mois-ci, je réduis le sucre.",
+        "es": "Este mes estoy recortando el azúcar."
+      }
     },
     {
       "id": 141,
@@ -1268,7 +3228,21 @@
       "translation": "в итоге оказаться",
       "example": "We ended up ordering pizza again.",
       "example_ru": "В итоге мы снова заказали пиццу.",
-      "type": "phrasal_verb"
+      "type": "phrasal_verb",
+      "translations": {
+        "ru": "в итоге оказаться",
+        "id": "akhirnya",
+        "de": "am Ende, schließlich",
+        "fr": "finalement, finir par",
+        "es": "acabar, terminar por"
+      },
+      "example_translations": {
+        "ru": "В итоге мы снова заказали пиццу.",
+        "id": "Akhirnya kami pesan pizza lagi.",
+        "de": "Am Ende haben wir wieder Pizza bestellt.",
+        "fr": "Au final, on a encore commandé une pizza.",
+        "es": "Al final volvimos a pedir pizza."
+      }
     },
     {
       "id": 142,
@@ -1277,7 +3251,21 @@
       "translation": "выяснить, узнать",
       "example": "I found out the answer on a forum.",
       "example_ru": "Ответ я выяснил на форуме.",
-      "type": "phrasal_verb"
+      "type": "phrasal_verb",
+      "translations": {
+        "ru": "выяснить, узнать",
+        "id": "mengetahui, menemukan",
+        "de": "herausfinden",
+        "fr": "découvrir, apprendre",
+        "es": "averiguar, descubrir"
+      },
+      "example_translations": {
+        "ru": "Ответ я выяснил на форуме.",
+        "id": "Jawabannya kutemukan di forum.",
+        "de": "Die Antwort habe ich im Forum herausgefunden.",
+        "fr": "J'ai découvert la réponse sur un forum.",
+        "es": "Averigüé la respuesta en un foro."
+      }
     },
     {
       "id": 143,
@@ -1286,7 +3274,21 @@
       "translation": "ладить, уживаться",
       "example": "I get along with my coworkers pretty well.",
       "example_ru": "С коллегами я лажу довольно хорошо.",
-      "type": "phrasal_verb"
+      "type": "phrasal_verb",
+      "translations": {
+        "ru": "ладить, уживаться",
+        "id": "akur, rukun",
+        "de": "gut auskommen mit",
+        "fr": "bien s'entendre avec",
+        "es": "llevarse bien con"
+      },
+      "example_translations": {
+        "ru": "С коллегами я лажу довольно хорошо.",
+        "id": "Dengan rekan kerja, akurku lumayan baik.",
+        "de": "Mit meinen Kollegen komme ich ziemlich gut aus.",
+        "fr": "Je m'entends plutôt bien avec mes collègues.",
+        "es": "Me llevo bastante bien con mis compañeros."
+      }
     },
     {
       "id": 144,
@@ -1295,7 +3297,21 @@
       "translation": "сдаваться, бросать",
       "example": "Never give up after the first attempt.",
       "example_ru": "Никогда не сдавайся с первой попытки.",
-      "type": "phrasal_verb"
+      "type": "phrasal_verb",
+      "translations": {
+        "ru": "сдаваться, бросать",
+        "id": "menyerah, putus asa",
+        "de": "aufgeben",
+        "fr": "abandonner, renoncer",
+        "es": "rendirse, darse por vencido"
+      },
+      "example_translations": {
+        "ru": "Никогда не сдавайся с первой попытки.",
+        "id": "Jangan menyerah pada percobaan pertama.",
+        "de": "Gib nie nach dem ersten Versuch auf.",
+        "fr": "N'abandonne jamais dès la première tentative.",
+        "es": "Nunca te rindas al primer intento."
+      }
     },
     {
       "id": 145,
@@ -1304,7 +3320,21 @@
       "translation": "с нетерпением ждать",
       "example": "I look forward to our summer trip.",
       "example_ru": "С нетерпением жду нашего летнего путешествия.",
-      "type": "phrasal_verb"
+      "type": "phrasal_verb",
+      "translations": {
+        "ru": "с нетерпением ждать",
+        "id": "menantikan dengan sabar",
+        "de": "sich freuen auf",
+        "fr": "attendre avec impatience",
+        "es": "esperar con ilusión"
+      },
+      "example_translations": {
+        "ru": "С нетерпением жду нашего летнего путешествия.",
+        "id": "Tak sabarnya menantikan perjalanan musim panas kita.",
+        "de": "Ich freue mich schon auf unsere Sommerreise.",
+        "fr": "J'attends notre voyage d'été avec impatience.",
+        "es": "Espero con ilusión nuestro viaje de verano."
+      }
     },
     {
       "id": 146,
@@ -1313,7 +3343,21 @@
       "translation": "закончиться, иссякнуть",
       "example": "We ran out of milk this morning.",
       "example_ru": "Сегодня утром у нас закончилось молоко.",
-      "type": "phrasal_verb"
+      "type": "phrasal_verb",
+      "translations": {
+        "ru": "закончиться, иссякнуть",
+        "id": "kehabisan",
+        "de": "zur Neige gehen, ausgehen",
+        "fr": "être à court de",
+        "es": "quedarse sin"
+      },
+      "example_translations": {
+        "ru": "Сегодня утром у нас закончилось молоко.",
+        "id": "Pagi tadi susu kita habis.",
+        "de": "Heute Morgen war die Milch alle.",
+        "fr": "Ce matin, on n'avait plus de lait.",
+        "es": "Esta mañana se nos acabó la leche."
+      }
     },
     {
       "id": 147,
@@ -1322,7 +3366,21 @@
       "translation": "хвастаться, рисоваться",
       "example": "He loves to show off his new car.",
       "example_ru": "Он обожает хвастаться новой машиной.",
-      "type": "phrasal_verb"
+      "type": "phrasal_verb",
+      "translations": {
+        "ru": "хвастаться, рисоваться",
+        "id": "pamer",
+        "de": "angeben, protzen",
+        "fr": "crâner, frimer",
+        "es": "presumir, lucirse"
+      },
+      "example_translations": {
+        "ru": "Он обожает хвастаться новой машиной.",
+        "id": "Dia sangat suka pamer mobil barunya.",
+        "de": "Er zeigt sein neues Auto total gerne her.",
+        "fr": "Il adore crâner avec sa nouvelle voiture.",
+        "es": "Le encanta presumir de su coche nuevo."
+      }
     },
     {
       "id": 148,
@@ -1331,7 +3389,21 @@
       "translation": "выключить, закрыть",
       "example": "My laptop suddenly shut down.",
       "example_ru": "Мой ноутбук внезапно выключился.",
-      "type": "phrasal_verb"
+      "type": "phrasal_verb",
+      "translations": {
+        "ru": "выключить, закрыть",
+        "id": "mematikan",
+        "de": "herunterfahren, abschalten",
+        "fr": "éteindre, fermer",
+        "es": "apagar, cerrar"
+      },
+      "example_translations": {
+        "ru": "Мой ноутбук внезапно выключился.",
+        "id": "Laptopku tiba-tiba mati.",
+        "de": "Mein Laptop ist plötzlich heruntergefahren.",
+        "fr": "Mon ordinateur s'est soudainement éteint.",
+        "es": "Mi portátil se apagó de repente."
+      }
     },
     {
       "id": 149,
@@ -1340,7 +3412,21 @@
       "translation": "разобраться, уладить",
       "example": "We'll sort out the schedule tomorrow.",
       "example_ru": "С расписанием разберёмся завтра.",
-      "type": "phrasal_verb"
+      "type": "phrasal_verb",
+      "translations": {
+        "ru": "разобраться, уладить",
+        "id": "menyelesaikan masalah",
+        "de": "klären, regeln",
+        "fr": "régler, s'arranger",
+        "es": "resolver, arreglar"
+      },
+      "example_translations": {
+        "ru": "С расписанием разберёмся завтра.",
+        "id": "Jadwalnya kita bereskan besok.",
+        "de": "Den Zeitplan klären wir morgen.",
+        "fr": "On réglera l'emploi du temps demain.",
+        "es": "El horario lo resolvemos mañana."
+      }
     },
     {
       "id": 150,
@@ -1349,7 +3435,21 @@
       "translation": "выделяться",
       "example": "Her presentation really stood out.",
       "example_ru": "Её презентация реально выделялась.",
-      "type": "phrasal_verb"
+      "type": "phrasal_verb",
+      "translations": {
+        "ru": "выделяться",
+        "id": "menonjol",
+        "de": "herausstechen, auffallen",
+        "fr": "se démarquer, ressortir",
+        "es": "destacar, resaltar"
+      },
+      "example_translations": {
+        "ru": "Её презентация реально выделялась.",
+        "id": "Presentasinya benar-benar menonjol.",
+        "de": "Ihre Präsentation ist richtig aufgefallen.",
+        "fr": "Sa présentation a vraiment retenu l'attention.",
+        "es": "Su presentación destacó de verdad."
+      }
     },
     {
       "id": 151,
@@ -1358,7 +3458,21 @@
       "translation": "взлететь; сняться с места",
       "example": "The plane took off on time.",
       "example_ru": "Самолёт взлетел по расписанию.",
-      "type": "phrasal_verb"
+      "type": "phrasal_verb",
+      "translations": {
+        "ru": "взлететь; сняться с места",
+        "id": "lepas landas",
+        "de": "abheben, starten",
+        "fr": "décoller",
+        "es": "despegar"
+      },
+      "example_translations": {
+        "ru": "Самолёт взлетел по расписанию.",
+        "id": "Pesawatnya lepas landas tepat waktu.",
+        "de": "Das Flugzeug ist pünktlich gestartet.",
+        "fr": "L'avion a décollé à l'heure.",
+        "es": "El avión despegó puntual."
+      }
     },
     {
       "id": 152,
@@ -1367,7 +3481,21 @@
       "translation": "заниматься спортом; получиться",
       "example": "Everything worked out in the end.",
       "example_ru": "В конце концов всё устроилось.",
-      "type": "phrasal_verb"
+      "type": "phrasal_verb",
+      "translations": {
+        "ru": "заниматься спортом; получиться",
+        "id": "berhasil",
+        "de": "funktionieren, klappen",
+        "fr": "bien se passer, marcher",
+        "es": "salir bien, resultar"
+      },
+      "example_translations": {
+        "ru": "В конце концов всё устроилось.",
+        "id": "Pada akhirnya semuanya berjalan baik.",
+        "de": "Am Ende hat alles geklappt.",
+        "fr": "Au final, tout s'est bien passé.",
+        "es": "Al final todo salió bien."
+      }
     },
     {
       "id": 153,
@@ -1376,7 +3504,21 @@
       "translation": "отложить, перенести",
       "example": "Don't put off the dentist visit.",
       "example_ru": "Не откладывай визит к стоматологу.",
-      "type": "phrasal_verb"
+      "type": "phrasal_verb",
+      "translations": {
+        "ru": "отложить, перенести",
+        "id": "menunda",
+        "de": "verschieben, aufschieben",
+        "fr": "reporter, remettre",
+        "es": "aplazar, posponer"
+      },
+      "example_translations": {
+        "ru": "Не откладывай визит к стоматологу.",
+        "id": "Jangan tunda kunjungan ke dokter gigi.",
+        "de": "Sage den Zahnarzttermin nicht auf.",
+        "fr": "Ne remets pas la visite chez le dentiste.",
+        "es": "No aplaces la visita al dentista."
+      }
     },
     {
       "id": 154,
@@ -1385,7 +3527,21 @@
       "translation": "терпеть, мириться",
       "example": "I can't put up with this noise anymore.",
       "example_ru": "Больше не могу терпеть этот шум.",
-      "type": "phrasal_verb"
+      "type": "phrasal_verb",
+      "translations": {
+        "ru": "терпеть, мириться",
+        "id": "menahan",
+        "de": "erdulden, sich gefallen lassen",
+        "fr": "supporter, tolérer",
+        "es": "aguantar, tolerar"
+      },
+      "example_translations": {
+        "ru": "Больше не могу терпеть этот шум.",
+        "id": "Tak tahan lagi dengan kebisingan ini.",
+        "de": "Diesen Lärm kann ich nicht mehr ertragen.",
+        "fr": "Je ne peux plus supporter ce bruit.",
+        "es": "Ya no aguanto este ruido."
+      }
     },
     {
       "id": 155,
@@ -1394,7 +3550,21 @@
       "translation": "посмотреть, проверить",
       "example": "Check out this new coffee place!",
       "example_ru": "Загляни в новую кофейню!",
-      "type": "phrasal_verb"
+      "type": "phrasal_verb",
+      "translations": {
+        "ru": "посмотреть, проверить",
+        "id": "memeriksa, melihat",
+        "de": "sich ansehen, checken",
+        "fr": "aller voir, checker",
+        "es": "echar un vistazo, revisar"
+      },
+      "example_translations": {
+        "ru": "Загляни в новую кофейню!",
+        "id": "Coba lihat kedai kopi barunya!",
+        "de": "Schau dir die neue Kaffeebar an!",
+        "fr": "Va voir le nouveau café !",
+        "es": "¡Échale un vistazo a la cafetería nueva!"
+      }
     },
     {
       "id": 156,
@@ -1403,7 +3573,21 @@
       "translation": "наверстать, поболтать за жизнь",
       "example": "Let's catch up over coffee someday.",
       "example_ru": "Давай как-нибудь встретимся за кофе поболтать.",
-      "type": "phrasal_verb"
+      "type": "phrasal_verb",
+      "translations": {
+        "ru": "наверстать, поболтать за жизнь",
+        "id": "berjumpa, saling mengabari",
+        "de": "sich auf den neuesten Stand bringen",
+        "fr": "prendre des nouvelles, se revoir",
+        "es": "poner al día, reencontrarse"
+      },
+      "example_translations": {
+        "ru": "Давай как-нибудь встретимся за кофе поболтать.",
+        "id": "Ayo sempatkan ngobrol sambil ngopi.",
+        "de": "Lass uns irgendwann einen Kaffee trinken und quatschen.",
+        "fr": "On devrait se revoir autour d'un café un de ces jours.",
+        "es": "Quedemos algún día para tomar un café y ponernos al día."
+      }
     },
     {
       "id": 157,
@@ -1412,7 +3596,21 @@
       "translation": "забежать ненадолго",
       "example": "Drop by whenever you're in the area.",
       "example_ru": "Заходи, если будешь рядом.",
-      "type": "phrasal_verb"
+      "type": "phrasal_verb",
+      "translations": {
+        "ru": "забежать ненадолго",
+        "id": "mampir",
+        "de": "vorbeischauen",
+        "fr": "passer, se pointer",
+        "es": "pasar, dejarse caer"
+      },
+      "example_translations": {
+        "ru": "Заходи, если будешь рядом.",
+        "id": "Mampirlah kalau kamu di sekitar.",
+        "de": "Schau vorbei, wenn du in der Nähe bist.",
+        "fr": "Passe quand tu seras dans le coin.",
+        "es": "Pasa si andas por la zona."
+      }
     },
     {
       "id": 158,
@@ -1421,7 +3619,21 @@
       "translation": "есть вне дома",
       "example": "We eat out every Friday.",
       "example_ru": "Каждую пятницу мы ужинаем в кафе.",
-      "type": "phrasal_verb"
+      "type": "phrasal_verb",
+      "translations": {
+        "ru": "есть вне дома",
+        "id": "makan di luar",
+        "de": "auswärts essen",
+        "fr": "manger dehors, au restaurant",
+        "es": "comer fuera"
+      },
+      "example_translations": {
+        "ru": "Каждую пятницу мы ужинаем в кафе.",
+        "id": "Setiap Jumat kami makan di luar.",
+        "de": "Jeden Freitag essen wir auswärts.",
+        "fr": "Chaque vendredi, on mange au restaurant.",
+        "es": "Todos los viernes cenamos fuera."
+      }
     },
     {
       "id": 159,
@@ -1430,7 +3642,21 @@
       "translation": "войти в систему",
       "example": "Log in to save your progress.",
       "example_ru": "Войди в аккаунт, чтобы сохранить прогресс.",
-      "type": "phrasal_verb"
+      "type": "phrasal_verb",
+      "translations": {
+        "ru": "войти в систему",
+        "id": "masuk (log in)",
+        "de": "sich einloggen",
+        "fr": "se connecter",
+        "es": "iniciar sesión"
+      },
+      "example_translations": {
+        "ru": "Войди в аккаунт, чтобы сохранить прогресс.",
+        "id": "Masuk ke akunmu untuk menyimpan progres.",
+        "de": "Logge dich ein, um deinen Fortschritt zu speichern.",
+        "fr": "Connecte-toi pour sauvegarder ta progression.",
+        "es": "Inicia sesión para guardar tu progreso."
+      }
     },
     {
       "id": 160,
@@ -1439,7 +3665,21 @@
       "translation": "перегореть, выгореть",
       "example": "Rest properly or you'll burn out.",
       "example_ru": "Отдыхай как следует, иначе перегоришь.",
-      "type": "phrasal_verb"
+      "type": "phrasal_verb",
+      "translations": {
+        "ru": "перегореть, выгореть",
+        "id": "mengalami burnout",
+        "de": "ausbrennen",
+        "fr": "s'épuiser, craquer",
+        "es": "agotarse, quemarse"
+      },
+      "example_translations": {
+        "ru": "Отдыхай как следует, иначе перегоришь.",
+        "id": "Istirahat yang cukup, atau kamu akan burnout.",
+        "de": "Erhol dich richtig, sonst burnest du aus.",
+        "fr": "Repose-toi bien, sinon tu vas craquer.",
+        "es": "Descansa bien o acabarás quemado."
+      }
     }
   ]
 }

@@ -29,6 +29,7 @@ class FavoritesScreen extends StatelessWidget {
     required this.pronunciation,
     required this.wordImages,
     required this.userExamples,
+    this.translationLanguage = 'ru',
   });
 
   /// Словарь — общий с HomeScreen экземпляр (кэш слов).
@@ -46,6 +47,10 @@ class FavoritesScreen extends StatelessWidget {
   /// Свои примеры употребления (этап 16, идея B-003) — общий с HomeScreen
   /// экземпляр: карточка избранного слова редактирует свою ассоциацию.
   final UserExampleService userExamples;
+
+  /// Язык переводов строк списка и карточки (этап 19, идея B-005) —
+  /// общий с HomeScreen выбор; «ru» — поведение v1.
+  final String translationLanguage;
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +109,7 @@ class FavoritesScreen extends StatelessWidget {
                         ),
                       ),
                       subtitle: Text(
-                        entry.translation,
+                        entry.translationFor(translationLanguage),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -137,6 +142,7 @@ class FavoritesScreen extends StatelessWidget {
           pronunciation: pronunciation,
           wordImages: wordImages,
           userExamples: userExamples,
+          translationLanguage: translationLanguage,
         ),
       ),
     );

@@ -36,6 +36,7 @@ class WordDetailScreen extends StatefulWidget {
     required this.pronunciation,
     required this.wordImages,
     required this.userExamples,
+    this.translationLanguage = 'ru',
   });
 
   final WordEntry entry;
@@ -50,6 +51,10 @@ class WordDetailScreen extends StatefulWidget {
   /// Свои примеры употребления (этап 16, идея B-003) — общий с HomeScreen
   /// экземпляр: секция под карточкой читает и меняет его состояние.
   final UserExampleService userExamples;
+
+  /// Язык переводов карточки и постера (этап 19, идея B-005) — общий
+  /// с HomeScreen выбор; «ru» — поведение v1.
+  final String translationLanguage;
 
   @override
   State<WordDetailScreen> createState() => _WordDetailScreenState();
@@ -104,6 +109,7 @@ class _WordDetailScreenState extends State<WordDetailScreen> {
                           valueListenable: widget.pronunciation.isSpeaking,
                           builder: (context, speaking, _) => WordCard(
                             entry: widget.entry,
+                            translationLanguage: widget.translationLanguage,
                             dateLabel: formatDate(
                               widget.added,
                               Localizations.localeOf(context),
@@ -127,10 +133,13 @@ class _WordDetailScreenState extends State<WordDetailScreen> {
                             onShare: () => unawaited(
                               _cardShare.sharePoster(
                                 context: context,
-                                poster: (context) =>
-                                    SharePoster(entry: widget.entry),
-                                text:
-                                    '${widget.entry.word} — ${widget.entry.translation}',
+                                poster: (context) => SharePoster(
+                                  entry: widget.entry,
+                                  translationLanguage:
+                                      widget.translationLanguage,
+                                ),
+                                text: '${widget.entry.word} — '
+                                    '${widget.entry.translationFor(widget.translationLanguage)}',
                               ),
                             ),
                             imagePath: snapshot.data,

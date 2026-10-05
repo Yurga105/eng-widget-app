@@ -108,4 +108,48 @@ class WordOfDayCalculatorTest {
         assertNull(WordOfDayCalculator.entryFor("""{"version":1}""", date))
         assertNull(WordOfDayCalculator.entryFor("[1,2,3]", date))
     }
+
+    /** v2 мини-база с картами переводов (этап 19, B-005); та же
+     *  арифметика seed, что у мини-базы v1 выше. */
+    private val miniDbV2 =
+        """
+        {"version":2,"words":[
+        {"id":1,"word":"alpha","transcription":"/ˈælfə/",
+        "translation":"альфа","example":"Alpha example.",
+        "example_ru":"Пример альфы.","type":"word",
+        "translations":{"ru":"альфа","de":"Alpha auf Deutsch"},
+        "example_translations":{"ru":"Пример альфы.","de":"Alpha-Beispiel."}},
+        {"id":2,"word":"beta hang out","transcription":"/ˈbiːtə/",
+        "translation":"бета","example":"Beta example.",
+        "example_ru":"Пример беты.","type":"idiom",
+        "translations":{"ru":"бета","fr":"bêta"}}]}
+        """.trimIndent()
+
+    @Test
+    fun `entryFor с языком — перевод из карты v2, фолбэк на русский (этап 19)`() {
+        // 20260926 % 2 = 0 → запись 1 (de есть, fr нет).
+        val de = WordOfDayCalculator.entryFor(miniDbV2, LocalDate.of(2026, 9, 26), "de")!!
+        assertEquals("Alpha auf Deutsch", de.translation)
+        assertEquals("alpha", de.word)
+        assertEquals("Alpha example.", de.example)
+
+        val fr = WordOfDayCalculator.entryFor(miniDbV2, LocalDate.of(2026, 9, 26), "fr")!!
+        assertEquals("альфа", fr.translation)
+
+        // Без языка — прежнее поведение (русское поле v1).
+        val ru = WordOfDayCalculator.entryFor(miniDbV2, LocalDate.of(2026, 9, 26))!!
+        assertEquals("альфа", ru.translation)
+    }
+
+    @Test
+    fun `entryFor — пустое значение в карте → фолбэк на русское поле (паритет Dart)`() {
+        val db =
+            """
+            {"version":2,"words":[
+            {"id":1,"word":"a","translation":"ру",
+            "translations":{"ru":"ру","de":""}}]}
+            """.trimIndent()
+        val entry = WordOfDayCalculator.entryFor(db, LocalDate.of(2026, 9, 26), "de")!!
+        assertEquals("ру", entry.translation)
+    }
 }

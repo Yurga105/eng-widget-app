@@ -22,7 +22,7 @@
 
 ## Как это устроено
 
-- Словарь — `assets/words_db.json` (160 записей: 50% слов + 50% идиом и фразовых глаголов)
+- Словарь — `assets/words_db.json` (160 записей: 50% слов + 50% идиом и фразовых глаголов; v2 — переводы слов и примеров на ru/id/de/fr/es, этап 19)
 - Формула «слово дня» реализована **дважды с паритетом**: Dart (`lib/services/word_of_day_service.dart`) и Kotlin (`WordOfDayCalculator.kt`) — на общих тест-векторах
 - Мост Flutter ↔ виджет: предзагрузка всей базы в `SharedPreferences` (`home_widget`), нативная сторона читает её сама
 - Уведомления — `flutter_local_notifications` (+ `timezone`/`flutter_timezone` для локальной зоны), повтор переставляет нативный планировщик; тексты и имя канала локализованы
@@ -66,9 +66,10 @@ lib/
     screens/favorites_screen.dart  # список избранного (этап 13)
     screens/word_detail_screen.dart  # карточка избранного слова (этап 13)
     screens/quiz_screen.dart  # квиз-повторение каждые 3 дня (этап 14)
-    screens/settings_screen.dart  # язык интерфейса (этап 18)
+    screens/settings_screen.dart  # языки интерфейса и переводов (этапы 18–19)
     widgets/word_card.dart    # карточка + прослушивание + фото-ассоциация + звезда избранного
-assets/words_db.json          # словарь (единственный источник данных)
+assets/words_db.json          # словарь (единственный источник данных; v2 — переводы на 5 языков)
+tool/merge_translations.dart  # одноразовая миграция словаря до v2 + данные tool/v2_*.txt (этап 19)
 android/app/src/main/kotlin/  # WordWidgetProvider, WordOfDayCalculator, BootCompletedReceiver
 ios/                          # каркас iOS (Runner, Info.plist, ru/id-локализации, SPM)
 docs/                         # документация проекта

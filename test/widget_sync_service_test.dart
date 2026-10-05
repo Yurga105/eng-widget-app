@@ -14,6 +14,19 @@ const String miniDbJson = '{"version":1,"words":['
     '"translation":"бета","example":"Beta example.",'
     '"example_ru":"Пример беты.","type":"idiom"}]}';
 
+/// Та же база в формате v2 (этап 19, B-005): карты переводов записей;
+/// у «беты» немецкого нет — проверка фолбэка на русское поле.
+const String v2MiniDbJson = '{"version":2,"words":['
+    '{"id":1,"word":"alpha","transcription":"/ˈælfə/",'
+    '"translation":"альфа","example":"Alpha example.",'
+    '"example_ru":"Пример альфы.","type":"word",'
+    '"translations":{"ru":"альфа","de":"Alpha"},'
+    '"example_translations":{"ru":"Пример альфы.","de":"Alpha-Beispiel."}},'
+    '{"id":2,"word":"beta hang out","transcription":"/ˈbiːtə/",'
+    '"translation":"бета","example":"Beta example.",'
+    '"example_ru":"Пример беты.","type":"idiom",'
+    '"translations":{"ru":"бета","fr":"bêta"}}]}';
+
 /// Пишет в память вместо плагина home_widget — записи и вызовы обновления.
 class FakeHomeWidgetBackend implements HomeWidgetBackend {
   final Map<String, Object?> saved = <String, Object?>{};
@@ -76,7 +89,7 @@ void main() {
       expect(backend.saved[WidgetSyncService.keyWord], 'alpha');
     });
 
-    test('ровно шесть ключей — контракт с Kotlin не расползается', () async {
+    test('ровно семь ключей — контракт с Kotlin не расползается (этап 19)', () async {
       await buildService(() => DateTime(2026, 9, 27)).syncToday();
 
       expect(
@@ -86,6 +99,7 @@ void main() {
           WidgetSyncService.keyWord,
           WidgetSyncService.keyTranscription,
           WidgetSyncService.keyTranslation,
+          WidgetSyncService.keyTranslationLang,
           WidgetSyncService.keyExample,
           WidgetSyncService.keyDbJson,
         ]),
@@ -96,6 +110,48 @@ void main() {
       await buildService(() => DateTime(2026, 9, 27)).syncToday();
 
       expect(backend.saved[WidgetSyncService.keyDbJson], miniDbJson);
+    });
+
+    test('этап 19: translationLanguage de — немецкий перевод и код языка',
+        () async {
+      final dictionary =
+          DictionaryService(assetLoader: (_) async => v2MiniDbJson);
+      final service = WidgetSyncService(
+        wordOfDay: WordOfDayService(
+          dictionary,
+          clock: () => DateTime(2026, 9, 27),
+        ),
+        backend: backend,
+      );
+      await service.syncToday(translationLanguage: 'de');
+
+      // 2026-09-27 → запись 2, у неё de нет — фолбэк на русское поле v1.
+      expect(backend.saved[WidgetSyncService.keyTranslation], 'бета');
+      expect(backend.saved[WidgetSyncService.keyTranslationLang], 'de');
+
+      await service.syncForDate(
+        DateTime(2026, 9, 26),
+        translationLanguage: 'de',
+      );
+      // 2026-09-26 → запись 1, немецкий есть.
+      expect(backend.saved[WidgetSyncService.keyTranslation], 'Alpha');
+      expect(backend.saved[WidgetSyncService.keyTranslationLang], 'de');
+    });
+
+    test('этап 19: дефолт — русское поле v1 и ключ языка «ru»', () async {
+      final dictionary =
+          DictionaryService(assetLoader: (_) async => v2MiniDbJson);
+      final service = WidgetSyncService(
+        wordOfDay: WordOfDayService(
+          dictionary,
+          clock: () => DateTime(2026, 9, 27),
+        ),
+        backend: backend,
+      );
+      await service.syncToday();
+
+      expect(backend.saved[WidgetSyncService.keyTranslation], 'бета');
+      expect(backend.saved[WidgetSyncService.keyTranslationLang], 'ru');
     });
 
     test('word_db_json пишется один раз на экземпляр сервиса', () async {

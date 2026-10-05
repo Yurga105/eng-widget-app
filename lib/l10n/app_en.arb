@@ -124,5 +124,7 @@
   "settingsInterfaceLanguage": "Interface language",
   "@settingsInterfaceLanguage": { "description": "Section header of the interface language picker (stage 18)" },
   "languageSystem": "Follow system",
-  "@languageSystem": { "description": "Picker option: follow the device system language (stage 18)" }
+  "@languageSystem": { "description": "Picker option: follow the device system language (stage 18)" },
+  "settingsTranslationLanguage": "Translation language",
+  "@settingsTranslationLanguage": { "description": "Section header of the word translation language picker (stage 19)" }
 }

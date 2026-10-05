@@ -278,6 +278,10 @@ class QuizService {
     required List<WordEntry> dictionary,
     int count = questionCount,
     Random? random,
+
+    /// Язык переводов-вариантов (этап 19, идея B-005): словарь v2 даёт
+    /// id/de/fr/es; фолбэк внутри записи — русские поля v1.
+    String translationLanguage = 'ru',
   }) {
     final rnd = random ?? Random();
     final pool = <WordEntry>[...questionPool];
@@ -290,7 +294,7 @@ class QuizService {
 
     final questions = <QuizQuestion>[];
     for (final entry in pool.take(count)) {
-      final question = _questionFor(entry, dictionary, rnd);
+      final question = _questionFor(entry, dictionary, rnd, translationLanguage);
       if (question != null) {
         questions.add(question);
       }
@@ -304,6 +308,7 @@ class QuizService {
     WordEntry entry,
     List<WordEntry> dictionary,
     Random rnd,
+    String translationLanguage,
   ) {
     final sameType =
         dictionary
@@ -316,13 +321,14 @@ class QuizService {
             .toList()
           ..shuffle(rnd);
 
-    final options = <String>[entry.translation];
-    final used = <String>{entry.translation};
+    final correct = entry.translationFor(translationLanguage);
+    final options = <String>[correct];
+    final used = <String>{correct};
     for (final candidate in <WordEntry>[...sameType, ...otherType]) {
       if (options.length >= optionsPerQuestion) {
         break;
       }
-      final translation = candidate.translation;
+      final translation = candidate.translationFor(translationLanguage);
       if (used.contains(translation)) {
         continue;
       }
@@ -336,7 +342,7 @@ class QuizService {
     return QuizQuestion(
       entry: entry,
       options: options,
-      correctIndex: options.indexOf(entry.translation),
+      correctIndex: options.indexOf(correct),
     );
   }
 }

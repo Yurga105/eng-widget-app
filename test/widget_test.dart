@@ -186,16 +186,19 @@ void main() {
 
     // Этап 18: шестерёнка справа открывает настройки; пикер — «как в
     // системе» + 5 языков (English опцией не выбирается — template-фолбэк).
+    // Этап 19: ниже добавилась секция «Translation language» — ещё 5 строк.
     await tester.tap(find.byIcon(Icons.settings_rounded));
     await tester.pump();
     await tester.pumpAndSettle();
     expect(find.text('Settings'), findsOneWidget);
     expect(find.text('Interface language'), findsOneWidget);
-    expect(find.byType(ListTile), findsNWidgets(6));
+    expect(find.text('Translation language'), findsOneWidget);
+    expect(find.byType(ListTile), findsNWidgets(11));
 
     // Тап по Deutsch — язык меняется мгновенно, включая уже открытый
-    // экран настроек (нотифаер сервиса слушает и main.dart).
-    await tester.tap(find.text('Deutsch'));
+    // экран настроек (нотифаер сервиса слушает и main.dart). Аутоним
+    // в двух секциях — тапаем первую (язык интерфейса).
+    await tester.tap(find.text('Deutsch').first);
     await tester.pump();
     await tester.pumpAndSettle();
     expect(find.text('Einstellungen'), findsOneWidget);

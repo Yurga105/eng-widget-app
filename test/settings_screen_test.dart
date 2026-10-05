@@ -59,18 +59,22 @@ void main() {
     expect(find.text('Настройки'), findsOneWidget);
     expect(find.text('Язык интерфейса'), findsOneWidget);
     expect(find.text('Как в системе'), findsOneWidget);
-    // Аутонимы: «Русский» дважды — опция и подпись системной опции
-    // (системная локаль теста ru, подпись показывает аутоним).
-    expect(find.text('Русский'), findsNWidgets(2));
-    expect(find.text('Bahasa Indonesia'), findsOneWidget);
-    expect(find.text('Deutsch'), findsOneWidget);
-    expect(find.text('Français'), findsOneWidget);
-    expect(find.text('Español'), findsOneWidget);
+    // Этап 19: вторая секция — язык переводов слов.
+    expect(find.text('Язык переводов'), findsOneWidget);
+    // Аутонимы дублируются в двух секциях; «Русский» в секции интерфейса
+    // встречается трижды — опция, подпись системной опции (системная
+    // локаль теста ru показывает аутоним) и опция секции переводов.
+    expect(find.text('Русский'), findsNWidgets(3));
+    expect(find.text('Bahasa Indonesia'), findsNWidgets(2));
+    expect(find.text('Deutsch'), findsNWidgets(2));
+    expect(find.text('Français'), findsNWidgets(2));
+    expect(find.text('Español'), findsNWidgets(2));
     // en — template-фолбэк локализации, опцией не выбирается.
     expect(find.text('English'), findsNothing);
-    expect(find.byType(ListTile), findsNWidgets(6));
-    // Начальный выбор — системный: ровно одна галочка.
-    expect(find.byIcon(Icons.check_rounded), findsOneWidget);
+    expect(find.byType(ListTile), findsNWidgets(11));
+    // По галочке в каждой секции: интерфейс — «как в системе»,
+    // переводы — «ru» по умолчанию (этап 19).
+    expect(find.byIcon(Icons.check_rounded), findsNWidgets(2));
     settings.dispose();
   });
 
@@ -81,20 +85,27 @@ void main() {
     await settings.load();
     await pumpScreen(tester, settings);
 
-    await tester.tap(find.text('Deutsch'));
+    // Аутонимы в двух секциях — тапаем первую (секция интерфейса).
+    await tester.tap(find.text('Deutsch').first);
     await tester.pump();
 
     expect(settings.localeOverride.value, 'de');
     expect(settings.locale!.languageCode, 'de');
-    expect(find.byIcon(Icons.check_rounded), findsOneWidget);
+    // По галочке в каждой из двух секций.
+    expect(find.byIcon(Icons.check_rounded), findsNWidgets(2));
     final tile = tester.widget<ListTile>(
-      find.ancestor(of: find.text('Deutsch'), matching: find.byType(ListTile)),
+      find
+          .ancestor(
+            of: find.text('Deutsch').first,
+            matching: find.byType(ListTile),
+          )
+          .first,
     );
     expect(tile.trailing, isNotNull, reason: 'галочка переехала на Deutsch');
     expect(storageFile().readAsStringSync(), contains('"de"'));
 
     // Повторный тап по выбранному — идемпотентен.
-    await tester.tap(find.text('Deutsch'));
+    await tester.tap(find.text('Deutsch').first);
     await tester.pump();
     expect(settings.localeOverride.value, 'de');
     settings.dispose();
@@ -127,6 +138,8 @@ void main() {
     expect(find.text('Settings'), findsOneWidget);
     expect(find.text('Interface language'), findsOneWidget);
     expect(find.text('Follow system'), findsOneWidget);
+    // Этап 19: вторая секция — язык переводов.
+    expect(find.text('Translation language'), findsOneWidget);
     settings.dispose();
   });
 
@@ -140,6 +153,64 @@ void main() {
     await pumpScreen(tester, settings);
 
     expect(find.text('English'), findsOneWidget);
+    settings.dispose();
+  });
+
+  testWidgets('Секция переводов: тап по Español пишет нотифаер и файл v2',
+      (tester) async {
+    setTestLocale(tester, const Locale('ru'));
+    final settings = buildService();
+    await settings.load();
+    await pumpScreen(tester, settings);
+
+    // Секция переводов — вторые вхождения аутонимов; нижние тайлы за
+    // экраном — сначала прокручиваем до нужного.
+    await tester.ensureVisible(find.text('Español').last);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Español').last);
+    await tester.pump();
+
+    expect(settings.translationLanguage.value, 'es');
+    // Интерфейс не тронут — настройки независимы.
+    expect(settings.localeOverride.value, isNull);
+
+    final raw = storageFile().readAsStringSync();
+    expect(raw, contains('"translationLanguage": "es"'));
+    expect(raw, contains('"interfaceLanguage": "system"'));
+    expect(raw, contains('"version": 2'));
+
+    // Галочка в секции переводов переехала на Español.
+    final tile = tester.widget<ListTile>(
+      find
+          .ancestor(
+            of: find.text('Español').last,
+            matching: find.byType(ListTile),
+          )
+          .first,
+    );
+    expect(tile.trailing, isNotNull);
+    settings.dispose();
+  });
+
+  testWidgets('Секции независимы: интерфейс de, переводы fr', (tester) async {
+    setTestLocale(tester, const Locale('en'));
+    final settings = buildService();
+    await settings.load();
+    await pumpScreen(tester, settings);
+
+    await tester.tap(find.text('Deutsch').first); // интерфейс
+    await tester.pump();
+    // Секция переводов ниже — прокручиваем до Français и тапаем.
+    await tester.ensureVisible(find.text('Français').last);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Français').last); // переводы
+    await tester.pump();
+
+    expect(settings.localeOverride.value, 'de');
+    expect(settings.translationLanguage.value, 'fr');
+    final raw = storageFile().readAsStringSync();
+    expect(raw, contains('"interfaceLanguage": "de"'));
+    expect(raw, contains('"translationLanguage": "fr"'));
     settings.dispose();
   });
 }

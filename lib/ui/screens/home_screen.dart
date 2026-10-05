@@ -218,6 +218,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           pronunciation: _pronunciation,
           wordImages: _wordImages,
           userExamples: _userExamples,
+          translationLanguage: _settings.translationLanguage.value,
         ),
       ),
     );
@@ -252,6 +253,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           dictionary: _dictionary,
           favorites: _favorites,
           quiz: _quiz,
+          translationLanguage: _settings.translationLanguage.value,
         ),
       ),
     );
@@ -323,6 +325,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                       valueListenable: _pronunciation.isSpeaking,
                       builder: (context, speaking, _) => WordCard(
                         entry: data.entry,
+                        // Этап 19: перевод и пример — на выбранном языке
+                        // (фолбэк записи — русские поля v1).
+                        translationLanguage:
+                            _settings.translationLanguage.value,
                         dateLabel: formatDate(
                           date,
                           Localizations.localeOf(context),
@@ -342,9 +348,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                         onShare: () => unawaited(
                           _cardShare.sharePoster(
                             context: context,
-                            poster: (context) => SharePoster(entry: data.entry),
-                            text:
-                                '${data.entry.word} — ${data.entry.translation}',
+                            poster: (context) => SharePoster(
+                              entry: data.entry,
+                              translationLanguage:
+                                  _settings.translationLanguage.value,
+                            ),
+                            text: '${data.entry.word} — '
+                                '${data.entry.translationFor(_settings.translationLanguage.value)}',
                           ),
                         ),
                         // Этап 12: фото-ассоциация и её действия (ключ — id

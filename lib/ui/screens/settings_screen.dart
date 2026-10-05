@@ -6,11 +6,12 @@ import '../../l10n/generated/app_localizations.dart';
 import '../../services/settings_service.dart';
 import '../widgets/platform_widgets.dart';
 
-/// Экран настроек (этап 18, идея B-005): одна секция — язык интерфейса.
-/// Опции: «Как в системе» (сброс ручного выбора, подпись показывает,
-/// что реально дала бы системная локаль) и языки из
-/// [kInterfaceLanguages] — каждый подписан аутонимом («Русский»,
-/// «Deutsch»): название языка не переводится.
+/// Экран настроек (этапы 18–19, идея B-005): две секции. «Язык
+/// интерфейса» (этап 18): «Как в системе» (сброс ручного выбора,
+/// подпись показывает, что реально дала бы системная локаль) и языки
+/// из [kInterfaceLanguages]; «Язык переводов» (этап 19, часть 2): те
+/// же языки аутонимами — на них показываются перевод и пример слова
+/// (карточка, виджет, уведомление). Название языка не переводится.
 ///
 /// Экран не держит состояния: текущий выбор — нотифаер сервиса,
 /// тап сразу пишет его через [SettingsService.setInterfaceLanguage];
@@ -55,6 +56,32 @@ class SettingsScreen extends StatelessWidget {
                       selected: selected == language.code,
                       onTap: () => unawaited(
                         settings.setInterfaceLanguage(language.code),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 24),
+          Padding(
+            padding: const EdgeInsets.only(left: 16, bottom: 4),
+            child: Text(
+              l10n.settingsTranslationLanguage,
+              style: Theme.of(context).textTheme.titleSmall,
+            ),
+          ),
+          Card(
+            margin: EdgeInsets.zero,
+            child: ValueListenableBuilder<String>(
+              valueListenable: settings.translationLanguage,
+              builder: (context, selected, _) => Column(
+                children: <Widget>[
+                  for (final language in kInterfaceLanguages)
+                    _LanguageTile(
+                      title: language.autonym,
+                      selected: selected == language.code,
+                      onTap: () => unawaited(
+                        settings.setTranslationLanguage(language.code),
                       ),
                     ),
                 ],

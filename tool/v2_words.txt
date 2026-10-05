@@ -1,0 +1,160 @@
+1|mencapai, melaksanakan|erreichen, vollbringen|accomplir, réaliser|lograr, llevar a cabo
+2|menyesuaikan diri|sich anpassen|s'adapter|adaptarse
+3|mampu membeli|sich leisten können|se permettre|permitirse
+4|cemas, khawatir|ängstlich, besorgt|anxieux, inquiet|ansioso, preocupado
+5|menghargai|schätzen, dankbar sein|apprécier, être reconnaissant|valorar, agradecer
+6|pendekatan, cara|Ansatz, Methode|approche, méthode|enfoque, método
+7|menghindari|vermeiden|éviter|evitar
+8|canggung, memalukan|unbehaglich, peinlich|gênant, embarrassant|incómodo, embarazoso
+9|meningkatkan|steigern, ankurbeln|booster, augmenter|potenciar, aumentar
+10|menjelajah, melihat-lihat|stöbern, durchblättern|feuilleter, naviguer|ojear, hojear
+11|tantangan|Herausforderung|défi|reto, desafío
+12|perjalanan ke kerja|Arbeitsweg|trajet domicile-travail|trayecto al trabajo
+13|percaya diri|selbstbewusst|sûr de soi|seguro de sí mismo
+14|nyaman, praktis|bequem, passend|pratique, commode|conveniente, práctico
+15|sangat penting|entscheidend|crucial, décisif|crucial, fundamental
+16|ingin tahu|neugierig, wissbegierig|curieux, avide de savoir|curioso, inquieto
+17|cukup baik, layak|anständig, ordentlich|correct, honorable|decente, aceptable
+18|keterlambatan, menunda|Verzögerung, verzögern|retard, reporter|retraso, retrasar
+19|mengantarkan|liefern, zustellen|livrer, remettre|entregar
+20|doomscrolling|Doomscrolling|doomscrolling|doomscrolling
+21|antusias, bersemangat|eifrig, begierig|impatient, avide|ansioso por, entusiasta
+22|santai, mudah diajak|unkompliziert, entspannt|décontracté, facile à vivre|relajado, tratable
+23|efisien|effizient|efficace|eficiente
+24|merangkul, menerima|annehmen, umarmen|accepter, embrasser|aceptar, abrazar
+25|esensial, penting|wesentlich, unerlässlich|essentiel, indispensable|esencial, imprescindible
+26|kelelahan, lesu|erschöpft|épuisé|agotado
+27|palsu, tiruan|falsch, gefälscht|faux, contrefait|falso, fingido
+28|mungkin, layak|machbar, realisierbar|réalisable, faisable|viable, realizable
+29|fleksibel|flexibel|flexible|flexible
+30|frustrasi, jengkel|frustriert|frustré, agacé|frustrado
+31|menghilang tanpa kabar|sich absichtlich nicht melden|ghoster, disparaître|desaparecer sin avisar
+32|memahami, mencerna|begreifen, erfassen|saisir, comprendre|comprender, captar
+33|rasa bersalah|Schuldgefühl|culpabilité|sentimiento de culpa
+34|lapar dan marah|hangry: hungrig und sauer|affamé et fâcheux|hambriento y enfadado
+35|ribet, urusan merepotkan|Umstände, Ärgernis|galère, tracas|fastidio, engorro
+36|hype, kehebohan|Hype|hype, engouement|hype, bombo
+37|mengabaikan|ignorieren|ignorer|ignorar
+38|menkesankan|beeindrucken|impressionner|impresionar
+39|berniat|beabsichtigen, vorhaben|avoir l'intention de|tener la intención de
+40|malas|faul|paresseux|perezoso
+41|arus utama, mainstream|Mainstream|courant dominant, mainstream|corriente principal
+42|pola pikir|Denkweise, Mentalität|état d'esprit, mentalité|mentalidad, actitud
+43|bernegosiasi|verhandeln|négocier|negociar
+44|nostalgia|Nostalgie|nostalgie|nostalgia
+45|kewalahan|überwältigt|débordé, submergé|abrumado
+46|penuh gairah|leidenschaftlich|passionné|apasionado
+47|rekan sebaya|Gleichaltrige|pair, camarade|par, igual
+48|banyak, berlimpah|reichlich, jede Menge|plein, abondance|montones, de sobra
+49|mahal|ziemlich teuer|coûteux, cher|caro, costoso
+50|menunda-nunda|prokrastinieren|procrastiner|procrastinar
+51|produktivitas|Produktivität|productivité|productividad
+52|acak|zufällig|aléatoire|aleatorio
+53|mengingat kembali|sich erinnern|se rappeler|recordar
+54|menyegarkan|auffrischen, erfrischen|rafraîchir, ressourcer|refrescar, revitalizar
+55|enggan|zögerlich, widerwillig|réticent, peu disposé|reacio, reticente
+56|kasar, tidak sopan|unhöflich, grob|impoli, grossier|grosero, maleducado
+57|terburu-buru|Eile, es eilig haben|hâte, se dépêcher|prisa, apresurarse
+58|mahir, paham betul|beschlagen, sattelfest|doué, calé|entendido, ducho
+59|menggulir, scroll|scrollen|faire défiler|desplazar, hacer scroll
+60|merawat diri|Selbstfürsorge|prendre soin de soi|cuidado personal
+61|cadangan, sisa|Ersatz-, übrig|de rechange, libre|de repuesto, libre
+62|menonton streaming|streamen|streamer, regarder en ligne|ver en streaming
+63|berjuang, kesulitan|sich schwer tun, kämpfen|lutter, avoir du mal|luchar, costar trabajo
+64|menggeser, swipe|wischen|balayer, swiper|deslizar, hacer swipe
+65|meskipun, namun|allerdings, obwohl|pourtant, cependant|aunque, sin embargo
+66|tren|Trend|tendance, mode|tendencia
+67|khas, biasa|typisch|typique|típico
+68|penuh kesadaran|achtsam, bewusst|attentif, conscient|consciente, atento
+69|sungguh-sungguh|aufrichtig, wirklich|sincèrement, vraiment|sinceramente, de verdad
+70|menyelami, membenamkan|eintauchen in|immerger, plonger dans|sumergirse en
+71|menata banyak hal|jonglieren mit Aufgaben|jongler avec les tâches|combinar mil cosas
+72|batas, membatasi|Grenze, begrenzen|limite, limiter|límite, limitar
+73|secara harfiah|buchstäblich, wörtlich|littéralement, franchement|literalmente
+74|jejaring, membangun jaringan|Netzwerk; Kontakte knüpfen|réseau; tisser des liens|red; hacer contactos
+75|mempoles, menyempurnakan|verfeinern, ausbauen|peaufiner, parfaire|pulir, perfeccionar
+76|berhenti|aufhören|arrêter, cesser|dejar, renunciar
+77|realistis|realistisch|réaliste|realista
+78|mengisi ulang energi|auftanken, sich erholen|recharger les batteries|recargar energías
+79|menyetel sedikit|leicht anpassen|ajuster, retoucher|ajustar, retocar
+80|meningkatkan, upgrade|aufrüsten, upgraden|améliorer, moderniser|mejorar, actualizar
+81|keputusan mudah|logische Sache, Kinderspiel|évidence, choix évident|decisión obvia, sin duda
+82|mudah sekali|ein Kinderspiel|un jeu d'enfant|pan comido
+83|mencairkan suasana|das Eis brechen|briser la glace|romper el hielo
+84|belajar sungguh-sungguh|pauken, büffeln|bûcher, se mettre au travail|ponerse a estudiar
+85|kurang sehat|angezählt sein|être patraque|estar pachucho
+86|membocorkan rahasia|ausplaudern|vendre la mèche|irse de la lengua
+87|sangat jarang|alle Jubeljahre|tous les trente-six du mois|de Pascua a Ramos
+88|sangat mahal|ein Vermögen kosten|coûter les yeux de la tête|costar un ojo de la cara
+89|pergi tidur|sich pennen gehen|aller pieuter|irse a la cama
+90|ragu-ragu, bimbang|unentschlossen sein|être indécis, hésiter|estar indeciso, dudar
+91|memberanikan diri|in den sauren Apfel beißen|serrer les dents|hacer de tripas corazón
+92|berhenti untuk hari ini|für heute Schluss machen|en rester là pour aujourd'hui|dejarlo por hoy
+93|asal-asalan, menghemat|pfuschen, Abstriche machen|bâcler, rogner sur la qualité|bajar la calidad, recortar
+94|berjuang lebih keras|über das Nötige hinausgehen|faire plus que nécessaire|dar un paso más
+95|senasib|im selben Boot sitzen|dans le même bateau|en el mismo barco
+96|mengawasi|ein Auge auf etwas werfen|garder un œil sur|echar un ojo a
+97|melepas stres|Dampf ablassen|évacuer la pression|desahogarse, soltar vapor
+98|kehilangan kesempatan|den Anschluss verpassen|rater le coche, manquer le train|perder la oportunidad
+99|dari ingatan, kira-kira|aus dem Kopf|de mémoire, à vue de nez|a bote pronto, de memoria
+100|sepaham, sepemahaman|auf dem gleichen Stand sein|être sur la même longueur d'onde|estar en la misma página
+101|mengejek, mempermainkan|jemanden auf den Arm nehmen|faire marcher quelqu'un|tomar el pelo a alguien
+102|sepaham dalam pandangan|einer Meinung sein|voir les choses de la même façon|compartir el mismo punto de vista
+103|disebut langsung muncul|wenn man vom Teufel spricht|quand on parle du loup|hablando del rey de Roma
+104|mencapai batas kesabaran|der Tropfen, der das Fass zum Überlaufen bringt|la goutte d'eau qui fait déborder le vase|la gota que colmó el vaso
+105|menyerah|das Handtuch werfen|jeter l'éponge|tirar la toalla
+106|belum pasti|noch offen, ungewiss|encore indécis, en suspens|en el aire, por decidir
+107|tidak akan pernah terjadi|wenn Ostern und Weihnachten auf einen Tag fallen|quand les poules auront des dents|cuando las ranas críen pelo
+108|berkah terselubung|ein Unglück hat auch sein Gutes|un mal pour un bien|no hay mal que por bien no venga
+109|kembali ke awal|wieder bei null anfangen|retour à la case départ|volver a la casilla de salida
+110|bekerja hingga larut malam|bis tief in die Nacht arbeiten|travailler jusqu'à pas d'heure|trabajar hasta la madrugada
+111|lolos tipis|mit knapper Not|de justesse, à un cheveu|por los pelos, de milagro
+112|tertangkap tangan|auf frischer Tat ertappt|pris la main dans le sac|pillado con las manos en la masa
+113|menyesali hal yang tak terubah|was geschehen ist, ist geschehen|pleurer sur le lait renversé|llorar sobre la leche derramada
+114|bermain advokat|den Anwalt des Teufels spielen|faire l'avocat du diable|hacer de abogado del diablo
+115|mengakui kesalahannya|seine Worte zurücknehmen|reconnaître qu'on a eu tort|tragarse las palabras
+116|menanggung akibatnya|die Konsequenzen tragen|assumer les conséquences|afrontar las consecuencias
+117|panik di detik terakhir|kalte Füße bekommen|se dégonfler au dernier moment|aterrorizarse a última hora
+118|beranggapan baik|im Zweifel das Beste annehmen|accorder le bénéfice du doute|dar el beneficio de la duda
+119|tepat sasaran|den Nagel auf den Kopf treffen|mettre dans le mille|dar en el clavo
+120|mengikuti arus|auf den fahrenden Zug aufspringen|sauter sur le chariot en marche|subirse al carro
+121|membunuh dua burung dengan satu batu|zwei Fliegen mit einer Klappe schlagen|faire d'une pierre deux coups|matar dos pájaros de un tiro
+122|membeberkan rahasia|die Katze aus dem Sack lassen|dévoiler le pot aux roses|descubrir el pastel
+123|tukang begadang|die Nachteule|un oiseau de nuit|noctámbulo, búho
+124|orang yang bangun pagi|der Frühaufsteher|un lève-tôt|madrugador, alondra
+125|sangat bahagia|im siebten Himmel sein|être aux anges|estar en el séptimo cielo
+126|tiba-tiba, tanpa diduga|aus heiterem Himmel|à l'improviste, sans crier gare|de repente, inesperadamente
+127|bersikap sesuai situasi|nach der Situation entscheiden|improviser selon les circonstances|improvisar según cómo vaya
+128|menempatkan diri pada posisi orang lain|sich in jemandes Lage versetzen|se mettre à la place de quelqu'un|ponerse en el lugar de otro
+129|tunda ke lain waktu|auf einen anderen Termin verschieben|remettre à plus tard|dejarlo para otra ocasión
+130|aturan praktis|Faustregel|règle approximative, générale|regla general, aproximada
+131|kekuatan kedua|den zweiten Atem bekommen|retrouver un second souffle|recuperar el aliento
+132|giliranmu sekarang|jetzt bist du dran|la balle est dans ton camp|ahora te toca a ti
+133|waktu berlalu cepat|die Zeit vergeht schnell|le temps passe vite|el tiempo vuela
+134|menghubungi sebentar|kurz Kontakt aufnehmen|prendre des nouvelles, un point|dar un toque, ponerse en contacto
+135|bahan perenungan|Stoff zum Nachdenken|de quoi réfléchir|comida para pensar
+136|bergaul, nongkrong|sich treffen, abhängen|traîner ensemble|quedar, pasar el rato
+137|mencari tahu, memahami|herausfinden, kapieren|comprendre, élucider|entender, descifrar
+138|bersantai|sich entspannen, abchillen|se détendre, se calmer|relajarse, calmarse
+139|mendapatkan ide|sich etwas einfallen lassen|trouver, inventer|ocurrírsele a uno
+140|mengurangi|verringern, reduzieren|réduire|reducir, recortar
+141|akhirnya|am Ende, schließlich|finalement, finir par|acabar, terminar por
+142|mengetahui, menemukan|herausfinden|découvrir, apprendre|averiguar, descubrir
+143|akur, rukun|gut auskommen mit|bien s'entendre avec|llevarse bien con
+144|menyerah, putus asa|aufgeben|abandonner, renoncer|rendirse, darse por vencido
+145|menantikan dengan sabar|sich freuen auf|attendre avec impatience|esperar con ilusión
+146|kehabisan|zur Neige gehen, ausgehen|être à court de|quedarse sin
+147|pamer|angeben, protzen|crâner, frimer|presumir, lucirse
+148|mematikan|herunterfahren, abschalten|éteindre, fermer|apagar, cerrar
+149|menyelesaikan masalah|klären, regeln|régler, s'arranger|resolver, arreglar
+150|menonjol|herausstechen, auffallen|se démarquer, ressortir|destacar, resaltar
+151|lepas landas|abheben, starten|décoller|despegar
+152|berhasil|funktionieren, klappen|bien se passer, marcher|salir bien, resultar
+153|menunda|verschieben, aufschieben|reporter, remettre|aplazar, posponer
+154|menahan|erdulden, sich gefallen lassen|supporter, tolérer|aguantar, tolerar
+155|memeriksa, melihat|sich ansehen, checken|aller voir, checker|echar un vistazo, revisar
+156|berjumpa, saling mengabari|sich auf den neuesten Stand bringen|prendre des nouvelles, se revoir|poner al día, reencontrarse
+157|mampir|vorbeischauen|passer, se pointer|pasar, dejarse caer
+158|makan di luar|auswärts essen|manger dehors, au restaurant|comer fuera
+159|masuk (log in)|sich einloggen|se connecter|iniciar sesión
+160|mengalami burnout|ausbrennen|s'épuiser, craquer|agotarse, quemarse

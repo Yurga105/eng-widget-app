@@ -42,6 +42,10 @@ const Color _kFavoriteStarColor = Color(0xFFFFB300);
 ///
 /// Этап 15: [onShare] — «поделиться» (крайняя правая кнопка строки слова):
 /// рендер постера карточки в PNG и системный share sheet; null → кнопки нет.
+///
+/// Этап 19 (идея B-005, часть 2): [translationLanguage] — код языка
+/// переводов (`translations`/`example_translations` записи v2); если
+/// перевода на язык нет — фолбэк записи на русские поля v1.
 class WordCard extends StatelessWidget {
   const WordCard({
     super.key,
@@ -56,6 +60,7 @@ class WordCard extends StatelessWidget {
     this.isFavorite = false,
     this.onToggleFavorite,
     this.onShare,
+    this.translationLanguage = 'ru',
   });
 
   final WordEntry entry;
@@ -87,6 +92,11 @@ class WordCard extends StatelessWidget {
   /// Тап по «поделиться» — этап 15 (идея B-001): постер карточки → PNG →
   /// системный share sheet; null — кнопки нет.
   final VoidCallback? onShare;
+
+  /// Код языка переводов записи (этап 19, идея B-005): `translationFor`/
+  /// `exampleTranslationFor` отдают перевод этого языка, фолбэк — русское
+  /// поле v1. По умолчанию «ru» — поведение v1 без изменений.
+  final String translationLanguage;
 
   @override
   Widget build(BuildContext context) {
@@ -225,7 +235,7 @@ class WordCard extends StatelessWidget {
               const Divider(height: 1),
               const SizedBox(height: 12),
               Text(
-                entry.translation,
+                entry.translationFor(translationLanguage),
                 style: theme.textTheme.titleMedium?.copyWith(
                   color: theme.colorScheme.primary,
                   fontWeight: FontWeight.w600,
@@ -238,7 +248,7 @@ class WordCard extends StatelessWidget {
               ),
               const SizedBox(height: 4),
               Text(
-                entry.exampleRu,
+                entry.exampleTranslationFor(translationLanguage),
                 style: theme.textTheme.bodyMedium?.copyWith(
                   color: theme.colorScheme.onSurfaceVariant,
                   fontStyle: FontStyle.italic,

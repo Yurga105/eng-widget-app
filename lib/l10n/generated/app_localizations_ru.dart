@@ -171,4 +171,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get languageSystem => 'Как в системе';
+
+  @override
+  String get settingsTranslationLanguage => 'Язык переводов';
 }
