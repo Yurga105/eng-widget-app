@@ -199,15 +199,18 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Quiz'), findsNothing);
 
-    // Этапы 18–19 (правка приёмки 05.10.2026): шестерёнка справа
-    // открывает настройки; единая секция «Language» — «как в системе»
-    // + 6 языков, включая English (переводы слов для него — русские).
+    // Этапы 18–19 (правка приёмки 06.10.2026): шестерёнка справа
+    // открывает настройки; единая секция «Language» — 5 языков, без
+    // «как в системе» и English (оба под капотом). Локаль теста en:
+    // эффективного языка среди опций нет — галочки тоже.
     await tester.tap(find.byIcon(Icons.settings_rounded));
     await tester.pump();
     await tester.pumpAndSettle();
     expect(find.text('Settings'), findsOneWidget);
     expect(find.text('Language'), findsOneWidget);
-    expect(find.byType(ListTile), findsNWidgets(7));
+    expect(find.text('Follow system'), findsNothing);
+    expect(find.byType(ListTile), findsNWidgets(5));
+    expect(find.byIcon(Icons.check_rounded), findsNothing);
 
     // Тап по Deutsch — язык меняется мгновенно, включая уже открытый
     // экран настроек (нотифаер сервиса слушает и main.dart).
@@ -275,11 +278,12 @@ void main() {
     await tester.pump();
     await tester.pump();
 
-    // Правка приёмки 05.10.2026: en-системная локаль без сохранённого
-    // выбора — вместо карточки онбординг-пикер языка (выбор обязателен,
-    // English в списке есть).
+    // Правка приёмки 05.10.2026, уточнена 06.10.2026: en-системная
+    // локаль без сохранённого выбора — вместо карточки онбординг-пикер
+    // языка; выбор обязателен, English под капотом — в списке его нет.
     expect(find.text('Choose your language'), findsOneWidget);
-    expect(find.text('English'), findsOneWidget);
+    expect(find.text('English'), findsNothing);
+    expect(find.text('Русский'), findsOneWidget);
 
     // Выбор «Русский» — весь интерфейс мгновенно на русском; вопрос
     // языка больше не задаётся, дальше — онбординг знакомства (этап 20).

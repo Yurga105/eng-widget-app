@@ -7,9 +7,10 @@ import 'package:eng_widget_app/l10n/generated/app_localizations.dart';
 import 'package:eng_widget_app/services/settings_service.dart';
 import 'package:eng_widget_app/ui/screens/settings_screen.dart';
 
-/// Тесты экрана настроек (этапы 18–19; правка приёмки 05.10.2026 —
-/// единая секция «Язык»): сервис с временным documents — паттерн
-/// favorites_screen_test.
+/// Тесты экрана настроек (этапы 18–19; правки приёмки 05.10.2026 —
+/// единая секция «Язык», и 06.10.2026 — «как в системе»/English под
+/// капотом, 5 опций, галочка у эффективного языка): сервис с временным
+/// documents — паттерн favorites_screen_test.
 void main() {
   late Directory tmp;
 
@@ -30,7 +31,7 @@ void main() {
   /// Локаль теста: WidgetsApp резолвит по списку локалей — в тестовом
   /// фейке одиночное значение и список независимы, ставим оба;
   /// tearDown возвращает системную среду хоста. Тот же platformDispatcher
-  /// читает подпись «как в системе» и резолв переводов сервиса.
+  /// читают резолвы сервиса (эффективный язык — галочка секции).
   void setTestLocale(WidgetTester tester, Locale locale) {
     tester.platformDispatcher.localeTestValue = locale;
     tester.platformDispatcher.localesTestValue = <Locale>[locale];
@@ -60,7 +61,7 @@ void main() {
     await tester.pump();
   }
 
-  testWidgets('Пикер: «как в системе» + 6 языков, включая English',
+  testWidgets('Пикер: 5 языков аутонимами, без «Как в системе» и English',
       (tester) async {
     setTestLocale(tester, const Locale('ru'));
     final settings = buildService();
@@ -69,24 +70,38 @@ void main() {
 
     expect(find.text('Настройки'), findsOneWidget);
     expect(find.text('Язык'), findsOneWidget);
-    expect(find.text('Как в системе'), findsOneWidget);
-    // Единая секция: 6 языков аутонимами, en среди опций (правка
-    // приёмки 05.10.2026).
-    expect(find.text('English'), findsOneWidget);
+    // Правка приёмки 06.10.2026: «как в системе» и English — под
+    // капотом, в опциях только 5 языков с переводами в словаре.
+    expect(find.text('Как в системе'), findsNothing);
+    expect(find.text('English'), findsNothing);
     expect(find.text('Русский'), findsOneWidget);
     expect(find.text('Bahasa Indonesia'), findsOneWidget);
     expect(find.text('Deutsch'), findsOneWidget);
     expect(find.text('Français'), findsOneWidget);
     expect(find.text('Español'), findsOneWidget);
-    expect(find.byType(ListTile), findsNWidgets(7));
-    // Одна галочка — на «Как в системе» (дефолт свежей установки).
+    expect(find.byType(ListTile), findsNWidgets(5));
+    // «Как в системе» — режим под капотом: галочка стоит у эффективного
+    // языка — системная локаль ru дала русский. Подписей у опций нет.
     expect(find.byIcon(Icons.check_rounded), findsNWidgets(1));
-    // Подпись системной опции: системная локаль ru даёт русский
-    // интерфейс и русские переводы.
+    final checked = tester.widget<ListTile>(
+      find
+          .ancestor(
+            of: find.byIcon(Icons.check_rounded),
+            matching: find.byType(ListTile),
+          )
+          .first,
+    );
+    expect((checked.title as Text).data, 'Русский');
     expect(find.text('Интерфейс: Русский · Переводы: Русский'),
-        findsOneWidget);
-    // У English подпись: английских переводов слов в словаре нет.
-    expect(find.text('Переводы слов: Русский'), findsOneWidget);
+        findsNothing);
+    expect(find.text('Переводы слов: Русский'), findsNothing);
+
+    // Тап по отмеченному — пишет явный выбор вместо system-режима.
+    await tester.tap(find.text('Русский'));
+    await tester.pump();
+    expect(settings.appLanguage.value, 'ru');
+    expect(
+        storageFile().readAsStringSync(), contains('"appLanguage": "ru"'));
     settings.dispose();
   });
 
@@ -123,82 +138,22 @@ void main() {
     settings.dispose();
   });
 
-  testWidgets('Опция «Follow system» сбрасывает ручной выбор', (tester) async {
-    setTestLocale(tester, const Locale('en'));
-    final settings = buildService();
-    await settings.load();
-    await settings.setAppLanguage('ru');
-    await pumpScreen(tester, settings);
-
-    expect(settings.appLanguage.value, 'ru');
-    await tester.tap(find.text('Follow system'));
-    await tester.pump();
-
-    expect(settings.appLanguage.value, SettingsService.systemLanguage);
-    expect(settings.locale, isNull);
-    expect(storageFile().readAsStringSync(),
-        contains('"appLanguage": "system"'));
-    settings.dispose();
-  });
-
-  testWidgets('Тап по English: интерфейс en, переводы остаются русскими',
+  testWidgets('Системная локаль en: галочки нет — English под капотом',
       (tester) async {
-    setTestLocale(tester, const Locale('de'));
-    final settings = buildService();
-    await settings.load();
-    await pumpScreen(tester, settings);
-
-    await tester.tap(find.text('English'));
-    await tester.pump();
-
-    expect(settings.appLanguage.value, 'en');
-    expect(
-      SettingsService.resolveTranslationLanguage(
-        settings.appLanguage.value,
-        const Locale('de'),
-      ),
-      'ru',
-      reason: 'переводы слов для en — русские',
-    );
-    settings.dispose();
-  });
-
-  testWidgets('Локаль en: подписи экрана по шаблону', (tester) async {
     setTestLocale(tester, const Locale('en'));
     final settings = buildService();
     await settings.load();
     await pumpScreen(tester, settings);
 
+    // en-локаль → интерфейс English (фолбэк), но опции English в списке
+    // нет: эффективного языка среди выбираемых нет — ни одной галочки;
+    // заголовки экрана — по en-шаблону (правка приёмки 06.10.2026).
     expect(find.text('Settings'), findsOneWidget);
     expect(find.text('Language'), findsOneWidget);
-    expect(find.text('Follow system'), findsOneWidget);
-    expect(find.text('Word translations: Русский'), findsOneWidget);
-    settings.dispose();
-  });
-
-  testWidgets('Подпись системной опции: локаль kk → English · Русский',
-      (tester) async {
-    // Системная локаль не поддержана (kk) → интерфейс English,
-    // переводы — русский дефолт; подпись честно показывает оба.
-    setTestLocale(tester, const Locale('kk'));
-    final settings = buildService();
-    await settings.load();
-    await pumpScreen(tester, settings);
-
-    expect(find.text('Interface: English · Translations: Русский'),
-        findsOneWidget);
-    settings.dispose();
-  });
-
-  testWidgets('Подпись системной опции: локаль de даёт немецкий',
-      (tester) async {
-    setTestLocale(tester, const Locale('de'));
-    final settings = buildService();
-    await settings.load();
-    await pumpScreen(tester, settings);
-
-    expect(find.text('Oberfläche: Deutsch · Übersetzungen: Deutsch'),
-        findsOneWidget);
+    expect(find.text('Follow system'), findsNothing);
+    expect(find.text('English'), findsNothing);
+    expect(find.byType(ListTile), findsNWidgets(5));
+    expect(find.byIcon(Icons.check_rounded), findsNothing);
     settings.dispose();
   });
 }

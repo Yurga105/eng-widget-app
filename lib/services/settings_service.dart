@@ -7,31 +7,42 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart' show WidgetsBinding;
 import 'package:path_provider/path_provider.dart';
 
-/// Язык приложения, который пользователь может выбрать вручную
-/// (этапы 18–19, идея B-005). [autonym] — название «на самом языке»
+/// Язык приложения (этапы 18–19, идея B-005; правка приёмки 06.10.2026).
+/// [autonym] — название «на самом языке»
 /// («Русский», «Deutsch»): аутонимы не переводятся, поэтому живут
 /// в коде, а не в ARB-файлах — одинаковые в любой локали.
 class InterfaceLanguage {
-  const InterfaceLanguage(this.code, this.autonym);
+  const InterfaceLanguage(
+    this.code,
+    this.autonym, {
+    this.selectable = true,
+  });
 
   /// Код локали: ключ `settings.json` и [Locale.languageCode].
   final String code;
 
   /// Название для пикеров (одинаковое во всех локалях).
   final String autonym;
+
+  /// Показывать ли язык в пикерах пользователя (настройки, онбординг).
+  /// false — язык только под капотом: en — скрытый фолбэк локализации
+  /// и легаси-значение старых настроек, в опциях ему делать нечего.
+  final bool selectable;
 }
 
 /// Языки приложения — единственная точка расширения: новый язык =
 /// ARB-файл `app_xx.arb` (+ нативные строки по образцу существующих),
 /// переводы в словаре v2 и одна строка здесь; валидация, пикеры и
-/// тесты читают этот список. en в списке есть (правка приёмки
-/// 05.10.2026): он template-фолбэк локализации (неподдержанная
-/// системная локаль → en, `l10n.yaml`) и выбирается онбордингом/
-/// настройками; английских переводов слов в словаре нет (приложение
+/// тесты читают этот список. en в списке есть, но `selectable: false`
+/// (правка приёмки 06.10.2026): он только template-фолбэк локализации
+/// (неподдержанная системная локаль → en, `l10n.yaml`) и легаси-выбор
+/// старых `settings.json`; в пикерах пользователя его нет — как и
+/// опции «как в системе» ([SettingsService.systemLanguage] — скрытый
+/// дефолт). Английских переводов слов в словаре нет (приложение
 /// учит английскому), поэтому для «en» переводы остаются русскими —
 /// см. [SettingsService.resolveTranslationLanguage].
 const List<InterfaceLanguage> kInterfaceLanguages = <InterfaceLanguage>[
-  InterfaceLanguage('en', 'English'),
+  InterfaceLanguage('en', 'English', selectable: false),
   InterfaceLanguage('ru', 'Русский'),
   InterfaceLanguage('id', 'Bahasa Indonesia'),
   InterfaceLanguage('de', 'Deutsch'),
@@ -51,6 +62,13 @@ const List<InterfaceLanguage> kInterfaceLanguages = <InterfaceLanguage>[
 /// предлагает выбрать язык ([languagePromptShown],
 /// `language_pick_screen.dart`). Ручной «en» — интерфейс English с
 /// русскими переводами слов.
+///
+/// Правка приёмки 06.10.2026: «как в системе» и English — под капотом,
+/// в пикерах (настройки, онбординг) их нет ([InterfaceLanguage
+/// .selectable]) — доступны только 5 языков с переводами в словаре.
+/// Режим [systemLanguage] остаётся дефолтом свежей установки и сброса,
+/// «en» тихо чтится из старых файлов; галочка в настройках стоит у
+/// эффективного языка ([effectiveInterfaceLanguage]).
 ///
 /// Хранение — JSON-файл `documents/settings.json` по паттерну
 /// `FavoriteService` (этап 13): инжектируемый каталог documents, после
@@ -79,8 +97,10 @@ class SettingsService {
   /// Значение «как в системе» в `settings.json`.
   static const String systemLanguage = 'system';
 
-  /// Код английского: фолбэк локализации интерфейса; выбирается
-  /// онбордингом/настройками, переводов слов для него в словаре нет.
+  /// Код английского: фолбэк локализации интерфейса и легаси-значение
+  /// старых настроек; из пикеров пользователя убран (правка приёмки
+  /// 06.10.2026 — [InterfaceLanguage.selectable]), переводов слов для
+  /// него в словаре нет.
   static const String englishLanguage = 'en';
 
   /// Язык переводов по умолчанию: он есть у каждой записи словаря v2.
@@ -142,6 +162,19 @@ class SettingsService {
     return englishLanguage;
   }
 
+  /// Чистый резолв языка интерфейса (тестируется без платформы):
+  /// ручной выбор — он сам (включая легаси-«en»), «system» — язык
+  /// системной локали ([interfaceLanguageForSystemLocale], включая
+  /// en-фолбэк). «Как в системе» — режим под капотом: пикеры ставят
+  /// галочку у эффективного языка, отдельной опции у них нет.
+  static String resolveInterfaceLanguage(
+    String appLanguage,
+    Locale systemLocale,
+  ) =>
+      appLanguage == systemLanguage
+          ? interfaceLanguageForSystemLocale(systemLocale)
+          : appLanguage;
+
   /// Чистый резолв языка переводов (тестируется без платформы).
   /// Ручной выбор — он сам, «en» → [defaultTranslationLanguage]
   /// (английских переводов в словаре нет). «system» — язык системной
@@ -175,6 +208,13 @@ class SettingsService {
     final system = interfaceLanguageForSystemLocale(systemLocale);
     return !translationLanguageCodes.contains(system);
   }
+
+  /// Язык интерфейса сейчас: ручной выбор или системная локаль в
+  /// режиме «как в системе» (галочка секции «Язык» в настройках).
+  String get effectiveInterfaceLanguage => resolveInterfaceLanguage(
+        appLanguage.value,
+        WidgetsBinding.instance.platformDispatcher.locale,
+      );
 
   /// Язык переводов слов/примеров сейчас: ручной выбор или системная
   /// локаль в режиме «как в системе». Читатели в build (карточка,

@@ -6,13 +6,15 @@ import '../../l10n/generated/app_localizations.dart';
 import '../../services/settings_service.dart';
 import '../widgets/platform_widgets.dart';
 
-/// Экран настроек (этапы 18–19, идея B-005; правка приёмки 05.10.2026):
-/// одна секция «Язык» вместо двух — единый язык приложения управляет
-/// и интерфейсом, и переводами слов. Опции: «Как в системе» (сброс
-/// ручного выбора; подпись показывает, что реально дала бы системная
-/// локаль — язык интерфейса и язык переводов) и языки из
-/// [kInterfaceLanguages]; у English подпись «переводы слов: Русский» —
-/// английских переводов в словаре нет. Название языка не переводится.
+/// Экран настроек (этапы 18–19, идея B-005; правки приёмки 05.10 и
+/// 06.10.2026): одна секция «Язык» — единый язык приложения управляет
+/// и интерфейсом, и переводами слов. Опции — 5 языков с переводами в
+/// словаре ([kInterfaceLanguages] с `selectable: true`); «как в
+/// системе» и English — под капотом, их в списке нет. Галочка стоит
+/// у эффективного языка ([SettingsService.effectiveInterfaceLanguage]):
+/// режим «как в системе» отмечает язык системной локали, en-фолбэк и
+/// легаси-«en» не отмечают ничего — English пользователь не видит.
+/// Название языка не переводится.
 ///
 /// Экран не держит состояния: текущий выбор — нотифаер сервиса,
 /// тап сразу пишет его через [SettingsService.setAppLanguage];
@@ -42,35 +44,26 @@ class SettingsScreen extends StatelessWidget {
             margin: EdgeInsets.zero,
             child: ValueListenableBuilder<String>(
               valueListenable: settings.appLanguage,
-              builder: (context, selected, _) => Column(
-                children: <Widget>[
-                  _LanguageTile(
-                    title: l10n.languageSystem,
-                    subtitle: _systemLanguageDetails(context),
-                    selected: selected == SettingsService.systemLanguage,
-                    onTap: () => unawaited(
-                      settings.setAppLanguage(SettingsService.systemLanguage),
-                    ),
-                  ),
-                  for (final language in kInterfaceLanguages)
-                    _LanguageTile(
-                      title: language.autonym,
-                      // Правка приёмки 05.10.2026: English — опция;
-                      // английских переводов в словаре нет, подпись
-                      // честно говорит, что переводы останутся русскими.
-                      subtitle:
-                          language.code == SettingsService.englishLanguage
-                              ? l10n.settingsEnglishTranslations(_autonymOf(
-                                  SettingsService
-                                      .defaultTranslationLanguage))
-                              : null,
-                      selected: selected == language.code,
-                      onTap: () => unawaited(
-                        settings.setAppLanguage(language.code),
-                      ),
-                    ),
-                ],
-              ),
+              // Правка приёмки 06.10.2026: «как в системе» и English —
+              // под капотом, в списке только выбираемые языки; галочка —
+              // у эффективного языка (system-режим отмечает язык
+              // системной локали, en-фолбэк не отмечает ничего).
+              builder: (context, _, _) {
+                final effective = settings.effectiveInterfaceLanguage;
+                return Column(
+                  children: <Widget>[
+                    for (final language in kInterfaceLanguages)
+                      if (language.selectable)
+                        _LanguageTile(
+                          title: language.autonym,
+                          selected: effective == language.code,
+                          onTap: () => unawaited(
+                            settings.setAppLanguage(language.code),
+                          ),
+                        ),
+                  ],
+                );
+              },
             ),
           ),
         ],
@@ -78,28 +71,6 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
-  String _autonymOf(String code) => kInterfaceLanguages
-      .firstWhere((language) => language.code == code)
-      .autonym;
-
-  /// Что дала бы системная локаль — подпись опции «Как в системе»:
-  /// язык интерфейса (аутоним поддержанного или «English»-фолбэк) и
-  /// язык переводов (en/неподдержанная → русский дефолт словаря).
-  /// По platformDispatcher, а не Localizations: тот уже отражает
-  /// ручной выбор; в тестах переопределяется вместе со списком локалей.
-  String _systemLanguageDetails(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    final system = WidgetsBinding.instance.platformDispatcher.locale;
-    final interface = SettingsService.interfaceLanguageForSystemLocale(system);
-    final translations = SettingsService.resolveTranslationLanguage(
-      SettingsService.systemLanguage,
-      system,
-    );
-    return l10n.settingsLanguageSystemDetails(
-      _autonymOf(interface),
-      _autonymOf(translations),
-    );
-  }
 }
 
 /// Строка пикера: название языка и галочка у выбранного.
@@ -108,11 +79,9 @@ class _LanguageTile extends StatelessWidget {
     required this.title,
     required this.selected,
     required this.onTap,
-    this.subtitle,
   });
 
   final String title;
-  final String? subtitle;
   final bool selected;
   final VoidCallback onTap;
 
@@ -128,9 +97,6 @@ class _LanguageTile extends StatelessWidget {
               )
             : null,
       ),
-      subtitle: subtitle == null
-          ? null
-          : Text(subtitle!, style: Theme.of(context).textTheme.bodySmall),
       trailing: selected
           ? Icon(
               Icons.check_rounded,

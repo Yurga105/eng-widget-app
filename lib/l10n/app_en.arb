@@ -123,21 +123,6 @@
   "@settingsTitle": { "description": "Settings screen AppBar title (stage 18)" },
   "settingsLanguage": "Language",
   "@settingsLanguage": { "description": "Section header of the single app language picker: controls both the UI and word translations (stage 18/19 rework, 05.10.2026)" },
-  "languageSystem": "Follow system",
-  "@languageSystem": { "description": "Picker option: follow the device system language for both UI and translations (rework 05.10.2026)" },
-  "settingsLanguageSystemDetails": "Interface: {interface} · Translations: {translations}",
-  "@settingsLanguageSystemDetails": {
-    "description": "Subtitle of the Follow system option: what the device locale actually resolves to (language autonyms are passed in)",
-    "placeholders": {
-      "interface": { "type": "String" },
-      "translations": { "type": "String" }
-    }
-  },
-  "settingsEnglishTranslations": "Word translations: {language}",
-  "@settingsEnglishTranslations": {
-    "description": "Subtitle of the English option: the dictionary has no English translations, so they stay Russian; {language} is the Russian autonym",
-    "placeholders": { "language": { "type": "String" } }
-  },
   "languagePickTitle": "Choose your language",
   "@languagePickTitle": { "description": "Title of the first-launch language picker (shown once when the device locale is English or unsupported)" },
   "languagePickSubtitle": "The whole app — interface and word translations — will use it",

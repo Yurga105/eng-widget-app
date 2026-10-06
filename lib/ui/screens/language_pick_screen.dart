@@ -5,12 +5,14 @@ import 'package:flutter/material.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../../services/settings_service.dart';
 
-/// Онбординг-пикер языка (правка приёмки 05.10.2026, идея B-005):
-/// показывается один раз при первом запуске, когда системная локаль —
-/// английская или неподдержанная (интерфейс ушёл в en-фолбэк):
-/// предлагаем выбрать язык приложения, он управляет и интерфейсом, и
-/// переводами слов. Первая опция English с подписью «переводы слов:
-/// Русский» — английских переводов в словаре нет.
+/// Онбординг-пикер языка (правка приёмки 05.10.2026, идея B-005;
+/// правка 06.10.2026 — только 5 языков): показывается один раз при
+/// первом запуске, когда системная локаль — английская или
+/// неподдержанная (интерфейс ушёл в en-фолбэк): предлагаем выбрать
+/// язык приложения, он управляет и интерфейсом, и переводами слов.
+/// Опции — языки с переводами в словаре ([kInterfaceLanguages] с
+/// `selectable: true`); English под капотом — системная локаль им уже
+/// «воспользовалась», предлагать его повторно нечего.
 ///
 /// Выбор обязателен: назад с экрана не выйти ([PopScope]), пока язык
 /// не выбран; тап пишет выбор в [SettingsService] и закрывает экран
@@ -82,27 +84,14 @@ class LanguagePickScreen extends StatelessWidget {
                     margin: EdgeInsets.zero,
                     child: Column(
                       children: <Widget>[
+                        // Правка приёмки 06.10.2026: только выбираемые
+                        // языки (с переводами в словаре), без English.
                         for (final language in kInterfaceLanguages)
-                          ListTile(
-                            title: Text(language.autonym),
-                            subtitle: language.code ==
-                                    SettingsService.englishLanguage
-                                ? Text(
-                                    l10n.settingsEnglishTranslations(
-                                      kInterfaceLanguages
-                                          .firstWhere(
-                                            (l) =>
-                                                l.code ==
-                                                SettingsService
-                                                    .defaultTranslationLanguage,
-                                          )
-                                          .autonym,
-                                    ),
-                                    style: theme.textTheme.bodySmall,
-                                  )
-                                : null,
-                            onTap: () => unawaited(_choose(language.code)),
-                          ),
+                          if (language.selectable)
+                            ListTile(
+                              title: Text(language.autonym),
+                              onTap: () => unawaited(_choose(language.code)),
+                            ),
                       ],
                     ),
                   ),

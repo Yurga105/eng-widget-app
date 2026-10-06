@@ -388,24 +388,6 @@ abstract class AppLocalizations {
   /// **'Language'**
   String get settingsLanguage;
 
-  /// Picker option: follow the device system language for both UI and translations (rework 05.10.2026)
-  ///
-  /// In en, this message translates to:
-  /// **'Follow system'**
-  String get languageSystem;
-
-  /// Subtitle of the Follow system option: what the device locale actually resolves to (language autonyms are passed in)
-  ///
-  /// In en, this message translates to:
-  /// **'Interface: {interface} · Translations: {translations}'**
-  String settingsLanguageSystemDetails(String interface, String translations);
-
-  /// Subtitle of the English option: the dictionary has no English translations, so they stay Russian; {language} is the Russian autonym
-  ///
-  /// In en, this message translates to:
-  /// **'Word translations: {language}'**
-  String settingsEnglishTranslations(String language);
-
   /// Title of the first-launch language picker (shown once when the device locale is English or unsupported)
   ///
   /// In en, this message translates to:

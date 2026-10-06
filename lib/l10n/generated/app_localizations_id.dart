@@ -170,19 +170,6 @@ class AppLocalizationsId extends AppLocalizations {
   String get settingsLanguage => 'Bahasa';
 
   @override
-  String get languageSystem => 'Ikuti sistem';
-
-  @override
-  String settingsLanguageSystemDetails(String interface, String translations) {
-    return 'Antarmuka: $interface · Terjemahan: $translations';
-  }
-
-  @override
-  String settingsEnglishTranslations(String language) {
-    return 'Terjemahan kata: $language';
-  }
-
-  @override
   String get languagePickTitle => 'Pilih bahasa Anda';
 
   @override

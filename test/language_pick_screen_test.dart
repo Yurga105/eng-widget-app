@@ -7,7 +7,8 @@ import 'package:eng_widget_app/l10n/generated/app_localizations.dart';
 import 'package:eng_widget_app/services/settings_service.dart';
 import 'package:eng_widget_app/ui/screens/language_pick_screen.dart';
 
-/// Тесты онбординг-пикера языка (правка приёмки 05.10.2026): сервис с
+/// Тесты онбординг-пикера языка (правки приёмки 05.10 и 06.10.2026):
+/// сервис с
 /// временным documents — паттерн settings_screen_test. В проде экран
 /// локализуется по en (иначе вопрос не понадобился бы) — локаль теста
 /// зафиксирована за компанию с этим условием.
@@ -55,7 +56,7 @@ void main() {
     await tester.pump();
   }
 
-  testWidgets('Показываются заголовок и 6 языков, у English подпись',
+  testWidgets('Показываются заголовок и 5 языков, без English',
       (tester) async {
     setEnLocale(tester);
     final settings = buildService();
@@ -64,14 +65,16 @@ void main() {
     await pumpScreen(tester, settings, () => done = true);
 
     expect(find.text('Choose your language'), findsOneWidget);
-    expect(find.text('English'), findsOneWidget);
+    // Правка приёмки 06.10.2026: English — под капотом, в опциях только
+    // 5 языков с переводами в словаре, подписей у опций нет.
+    expect(find.text('English'), findsNothing);
     expect(find.text('Русский'), findsOneWidget);
     expect(find.text('Bahasa Indonesia'), findsOneWidget);
     expect(find.text('Deutsch'), findsOneWidget);
     expect(find.text('Français'), findsOneWidget);
     expect(find.text('Español'), findsOneWidget);
-    // Подпись English: английских переводов слов в словаре нет.
-    expect(find.text('Word translations: Русский'), findsOneWidget);
+    expect(find.byType(ListTile), findsNWidgets(5));
+    expect(find.text('Word translations: Русский'), findsNothing);
     expect(done, isFalse, reason: 'пока ничего не выбрано');
     settings.dispose();
   });

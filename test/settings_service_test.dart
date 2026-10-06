@@ -6,7 +6,8 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:eng_widget_app/services/settings_service.dart';
 
-/// Тесты SettingsService (этапы 18–19; правка приёмки 05.10.2026):
+/// Тесты SettingsService (этапы 18–19; правки приёмки 05.10 и
+/// 06.10.2026):
 /// каталог documents подменяется временным — паттерн
 /// favorite_service_test. Резолвы системной локали вынесены в чистые
 /// статические функции ([SettingsService.resolveTranslationLanguage] и
@@ -198,11 +199,23 @@ void main() {
     service.dispose();
   });
 
-  test('kInterfaceLanguages: 6 языков с en, аутоним у каждого', () {
+  test('kInterfaceLanguages: 6 языков, en скрыт, выбираемые = словарю', () {
     expect(kInterfaceLanguages.map((l) => l.code),
         ['en', 'ru', 'id', 'de', 'fr', 'es']);
     expect(
         kInterfaceLanguages.map((l) => l.autonym), everyElement(isNotEmpty));
+    // Правка приёмки 06.10.2026: en в списке (фолбэк локализации и
+    // легаси-значение), но скрыт из пикеров; выбираемые языки — ровно
+    // коды с переводами в словаре.
+    expect(kInterfaceLanguages.first.code, SettingsService.englishLanguage);
+    expect(kInterfaceLanguages.first.selectable, isFalse);
+    expect(
+      kInterfaceLanguages
+          .where((l) => l.selectable)
+          .map((l) => l.code)
+          .toSet(),
+      SettingsService.translationLanguageCodes,
+    );
   });
 
   // --- миграция v1/v2 → v3 (правка приёмки 05.10.2026) ---
@@ -329,6 +342,30 @@ void main() {
         const Locale('ja')), 'en'); // неподдержанная → фолбэк
     expect(SettingsService.interfaceLanguageForSystemLocale(
         const Locale('en')), 'en');
+  });
+
+  test('resolveInterfaceLanguage: ручной — сам, system — по локали', () {
+    expect(
+        SettingsService.resolveInterfaceLanguage('de', const Locale('ru')),
+        'de');
+    expect(
+        SettingsService.resolveInterfaceLanguage('en', const Locale('ru')),
+        'en',
+        reason: 'легаси-«en» тихо чтится — режим под капотом');
+    expect(
+        SettingsService.resolveInterfaceLanguage(
+            SettingsService.systemLanguage, const Locale('de')),
+        'de');
+    expect(
+        SettingsService.resolveInterfaceLanguage(
+            SettingsService.systemLanguage, const Locale('in')),
+        'id',
+        reason: 'legacy-код Android канонизируется');
+    expect(
+        SettingsService.resolveInterfaceLanguage(
+            SettingsService.systemLanguage, const Locale('ja')),
+        'en',
+        reason: 'неподдержанная локаль → en-фолбэк');
   });
 
   test('resolveTranslationLanguage: ручной выбор, en → русский', () {
