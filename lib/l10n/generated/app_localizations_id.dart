@@ -181,14 +181,14 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get onboardingBody1 =>
-      'Satu kata bahasa Inggris per hari — lengkap dengan transkripsi, terjemahan, dan contoh. Langkah kecil setiap hari.';
+      'Satu kata bahasa Inggris per hari — lengkap dengan transkripsi, terjemahan, dan contoh. Langkah kecil setiap hari.';
 
   @override
   String get onboardingTitle2 => 'Selalu di depan mata';
 
   @override
   String get onboardingBody2 =>
-      'Tambahkan widget ke layar utama — kata hari ini terlihat tanpa membuka aplikasi.';
+      'Tambahkan widget ke layar utama — kata hari ini terlihat tanpa membuka aplikasi.';
 
   @override
   String get onboardingTitle3 => 'Ingat untuk selamanya';

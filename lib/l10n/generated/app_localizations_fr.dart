@@ -181,21 +181,21 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get onboardingBody1 =>
-      'Un mot anglais par jour — avec transcription, traduction et exemple. De petits pas, chaque jour.';
+      'Un mot anglais par jour — avec transcription, traduction et exemple. De petits pas, chaque jour.';
 
   @override
   String get onboardingTitle2 => 'Toujours sous les yeux';
 
   @override
   String get onboardingBody2 =>
-      'Ajoutez le widget à votre écran d\'accueil — le mot du jour est visible sans ouvrir l\'application.';
+      'Ajoutez le widget à votre écran d\'accueil — le mot du jour est visible sans ouvrir l\'application.';
 
   @override
   String get onboardingTitle3 => 'Mémoriser durablement';
 
   @override
   String get onboardingBody3 =>
-      'Enregistrez des mots avec l\'étoile, ajoutez des associations photo et révisez-les en quiz tous les 3 jours.';
+      'Enregistrez des mots avec l\'étoile, ajoutez des associations photo et révisez‑les en quiz tous les 3 jours.';
 
   @override
   String get onboardingNext => 'Suivant';

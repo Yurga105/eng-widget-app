@@ -181,14 +181,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onboardingBody1 =>
-      'One English word a day — with transcription, translation and an example. Small steps, every day.';
+      'One English word a day — with transcription, translation and an example. Small steps, every day.';
 
   @override
   String get onboardingTitle2 => 'Always in sight';
 
   @override
   String get onboardingBody2 =>
-      'Add the widget to your home screen — the word of the day is visible without opening the app.';
+      'Add the widget to your home screen — the word of the day is visible without opening the app.';
 
   @override
   String get onboardingTitle3 => 'Remember for good';

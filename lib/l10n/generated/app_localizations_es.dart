@@ -181,7 +181,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get onboardingBody1 =>
-      'Una palabra inglesa al día — con transcripción, traducción y ejemplo. Pasos pequeños, cada día.';
+      'Una palabra inglesa al día — con transcripción, traducción y ejemplo. Pasos pequeños, cada día.';
 
   @override
   String get onboardingTitle2 => 'Siempre a la vista';

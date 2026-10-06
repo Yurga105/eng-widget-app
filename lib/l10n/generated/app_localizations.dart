@@ -406,10 +406,10 @@ abstract class AppLocalizations {
   /// **'A new word every day'**
   String get onboardingTitle1;
 
-  /// Onboarding slide 1 body (stage 20)
+  /// Onboarding slide 1 body (stage 20). Keep the non-breaking characters: NBSP (U+00A0) around the em dash and a non-breaking hyphen (U+2011) inside compound words — plain spaces/hyphens produce ugly line breaks on the centered slides.
   ///
   /// In en, this message translates to:
-  /// **'One English word a day — with transcription, translation and an example. Small steps, every day.'**
+  /// **'One English word a day — with transcription, translation and an example. Small steps, every day.'**
   String get onboardingBody1;
 
   /// Onboarding slide 2 title: the home-screen widget, the key value (stage 20)
@@ -418,10 +418,10 @@ abstract class AppLocalizations {
   /// **'Always in sight'**
   String get onboardingTitle2;
 
-  /// Onboarding slide 2 body (stage 20)
+  /// Onboarding slide 2 body (stage 20). Keep the non-breaking characters: NBSP (U+00A0) around the em dash and a non-breaking hyphen (U+2011) inside compound words — plain spaces/hyphens produce ugly line breaks on the centered slides.
   ///
   /// In en, this message translates to:
-  /// **'Add the widget to your home screen — the word of the day is visible without opening the app.'**
+  /// **'Add the widget to your home screen — the word of the day is visible without opening the app.'**
   String get onboardingBody2;
 
   /// Onboarding slide 3 title (stage 20)
@@ -430,7 +430,7 @@ abstract class AppLocalizations {
   /// **'Remember for good'**
   String get onboardingTitle3;
 
-  /// Onboarding slide 3 body (stage 20)
+  /// Onboarding slide 3 body (stage 20). Keep the non-breaking characters: NBSP (U+00A0) around the em dash and a non-breaking hyphen (U+2011) inside compound words — plain spaces/hyphens produce ugly line breaks on the centered slides.
   ///
   /// In en, this message translates to:
   /// **'Save words with the star, add photo associations and repeat them in a quiz every 3 days.'**

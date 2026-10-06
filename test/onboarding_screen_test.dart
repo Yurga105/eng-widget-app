@@ -102,4 +102,37 @@ void main() {
     expect(startCalls, 0,
         reason: 'разрешение попросят при следующем запуске');
   });
+
+  // Правка приёмки 06.10.2026: разрыв строки по « — » (класс B2) или внутри
+  // «фото-ассоциации» (класс HY) некрасив в центрированном тексте слайдов,
+  // настройками Text это не отключается. Конвенция: пробелы вокруг тире —
+  // NBSP (U+00A0), внутрисловный дефис — неразрывный дефис (U+2011).
+  // Сентинел ловит потерю невидимых символов при будущих правках ARB.
+  test('Типографика слайдов: тире и внутрисловные дефисы неразрывны', () {
+    const locales = <Locale>[
+      Locale('en'),
+      Locale('ru'),
+      Locale('id'),
+      Locale('de'),
+      Locale('fr'),
+      Locale('es'),
+    ];
+    final breakableHyphen = RegExp(r'\p{L}-\p{L}', unicode: true);
+    for (final locale in locales) {
+      final l10n = lookupAppLocalizations(locale);
+      final bodies = <String>[
+        l10n.onboardingBody1,
+        l10n.onboardingBody2,
+        l10n.onboardingBody3,
+      ];
+      for (final body in bodies) {
+        expect(body.contains(' — '), isFalse,
+            reason:
+                '$locale: тире должно быть склеено NBSP (U+00A0): $body');
+        expect(breakableHyphen.hasMatch(body), isFalse,
+            reason:
+                '$locale: внутрисловный дефис должен быть U+2011: $body');
+      }
+    }
+  });
 }
