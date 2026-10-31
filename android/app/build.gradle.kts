@@ -1,3 +1,17 @@
+import java.io.FileInputStream
+import java.util.Properties
+
+// Release-подпись (план публикации в Google Play, фаза 0): путь к
+// upload-keystore и пароли живут в android/key.properties — файл и сам
+// keystore в git не попадают (.gitignore). Файла нет — release-сборка
+// роняется гардом внизу файла, debug-сборки не затронуты.
+val keystoreProperties = Properties()
+val keystorePropertiesFile = rootProject.file("key.properties")
+val hasReleaseSigning = keystorePropertiesFile.exists()
+if (hasReleaseSigning) {
+    FileInputStream(keystorePropertiesFile).use { keystoreProperties.load(it) }
+}
+
 plugins {
     id("com.android.application")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
@@ -32,11 +46,37 @@ android {
         versionName = flutter.versionName
     }
 
+    signingConfigs {
+        if (hasReleaseSigning) {
+            create("release") {
+                keyAlias = requireNotNull(keystoreProperties.getProperty("keyAlias")) {
+                    "android/key.properties: нет keyAlias"
+                }
+                keyPassword = requireNotNull(keystoreProperties.getProperty("keyPassword")) {
+                    "android/key.properties: нет keyPassword"
+                }
+                storeFile = file(
+                    requireNotNull(keystoreProperties.getProperty("storeFile")) {
+                        "android/key.properties: нет storeFile"
+                    },
+                )
+                storePassword = requireNotNull(keystoreProperties.getProperty("storePassword")) {
+                    "android/key.properties: нет storePassword"
+                }
+            }
+        }
+    }
+
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
+            // Upload-ключ из key.properties; debug-подпись ниже — заглушка
+            // конфигурации: релиз без key.properties роняет гард внизу файла
+            // (в debug-подписи релиз не собирается — фаза 0 плана публикации).
+            signingConfig = if (hasReleaseSigning) {
+                signingConfigs.getByName("release")
+            } else {
+                signingConfigs.getByName("debug")
+            }
         }
     }
 }
@@ -61,4 +101,23 @@ kotlin {
 
 flutter {
     source = "../.."
+}
+
+// Релиз без upload-ключа не собираем: конфигурация выше подставляет
+// debug-подпись как заглушку, а этот гард роняет сборку с понятной
+// ошибкой до выполнения задач (план публикации в Google Play, фаза 0).
+gradle.taskGraph.whenReady {
+    if (hasReleaseSigning) {
+        return@whenReady
+    }
+    val releaseTasks = allTasks.filter { it.name.contains("Release") }
+    if (releaseTasks.isNotEmpty()) {
+        throw GradleException(
+            "Release-сборка требует android/key.properties с upload-ключом " +
+                "(план публикации в Google Play, фаза 0). Создайте keystore и " +
+                "key.properties — debug-сборкам файл не нужен. Задачи: " +
+                releaseTasks.take(3).joinToString(", ") { it.name } +
+                " … (всего ${releaseTasks.size})",
+        )
+    }
 }

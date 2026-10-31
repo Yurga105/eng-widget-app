@@ -21,7 +21,7 @@ eng_widget_app/                 корень репозитория
 ├─ android/                     нативная часть: Kotlin (провайдер, калькулятор, boot-ресивер), ресурсы виджета, сборка Gradle
 ├─ ios/                         каркас iOS (этап 11): Runner (Info.plist, иконка, сплэш), локализации ru/id, SPM без CocoaPods
 ├─ test/                        тесты (зеркалят структуру lib/)
-├─ docs/                        документация: База знаний, QA-чек-лист + этот файл
+├─ docs/                        документация: База знаний, QA-чек-лист, политика конфиденциальности стора (store/privacy.html) + этот файл
 │  └─ ideas/                    бэклог бизнес-идей v1.1+: README.md (процесс) + BACKLOG.md (идеи)
 ├─ PLAN.md                      главный план: решения, этапы 0–8, риски, DoD
 ├─ pubspec.yaml / pubspec.lock  зависимости Flutter и их фиксация
@@ -157,7 +157,10 @@ android/
 └─ app/
    ├─ build.gradle.kts       id com.english.widget.eng_widget_app; core library desugaring
    │                         (требование flutter_local_notifications); junit + org.json
-   │                         для JVM-тестов (testImplementation, этап 5)
+   │                         для JVM-тестов (testImplementation, этап 5); релиз — подпись
+   │                         upload-ключом через android/key.properties (keystore вне репо;
+   │                         без файла release-сборка роняется гардом — план публикации
+   │                         в Google Play, фаза 0, 29.10.2026)
    └─ src/
       ├─ main/               основная конфигурация и код (таблица ниже)
       ├─ test/kotlin/…       JVM-тесты нативной логики (WordOfDayCalculatorTest, этап 5)

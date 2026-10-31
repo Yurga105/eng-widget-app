@@ -48,9 +48,9 @@
 
 ## 7. Релизный APK
 
-- ☑ `flutter build apk --release` собирается (подпись debug-ключом, `signingConfig debug` в `app/build.gradle.kts`).
+- ☐ `flutter build apk --release` собирается — подпись upload-ключом через `android/key.properties` (правка 29.10.2026, план публикации фаза 0; без файла release роняется гардом в `app/build.gradle.kts`; исторический прогон 28.09.2026 был с debug-подписью).
 - ☑ `aapt dump permissions` релизного APK: `INTERNET` нет (в debug есть — оверлей Flutter, норма); `ACCESS_NETWORK_STATE`/`WAKE_LOCK`/`FOREGROUND_SERVICE` — из androidx.work:work-runtime 2.11.2 (транзитивно androidx.glance 1.2.0 в home_widget 0.10.0), сетевого доступа не дают; источник подтверждён blame-отчётом manifest merger.
-- ☑ `adb install --user 0 -r app-release.apk` поверх debug-версии (подписи совпадают) — выполнено 28.09.2026 на RMX2001: `Success`, запуск `am start .MainActivity` без FATAL/ANR в logcat, процесс жив (`pidof`), кадры рендерятся (SurfaceFlinger); после переустановки лаунчер сам прислал `APPWIDGET_UPDATE` в `WordWidgetProvider` (виджет перерисуется).
+- ☐ `adb install --user 0 -r app-release.apk` — на ЧИСТОЕ устройство или после `adb uninstall com.english.widget.eng_widget_app`: релиз подписан upload-ключом, поверх старой debug-версии установка упадёт (INSTALL_FAILED_UPDATE_INCOMPATIBLE; исторический прогон 28.09.2026 на RMX2001 debug-поверх-debug с этой правки не воспроизводится). Проверки прежние: `Success`, запуск `am start .MainActivity` без FATAL/ANR в logcat, процесс жив (`pidof`), кадры рендерятся (SurfaceFlinger); после переустановки лаунчер сам прислал `APPWIDGET_UPDATE` в `WordWidgetProvider` (виджет перерисуется).
 - ☐ Ручной smoke на устройстве: виджет на домашнем экране → тап → карточка слова дня (+ белая «W.» в шторке, если пришло уведомление).
 
 ## 8. Произношение слова дня (этап 9)

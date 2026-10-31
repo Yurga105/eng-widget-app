@@ -46,3 +46,11 @@ app.*.map.json
 
 # Widget Preview related
 .widget_preview/
+
+# Signing (план публикации в Google Play, фаза 0) — не коммитить никогда
+android/key.properties
+*.jks
+*.keystore
+
+# Локальное состояние Kilo (планы публикации, метаданные) — в публичный репо не попадает
+.kilo/

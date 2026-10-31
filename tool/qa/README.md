@@ -29,8 +29,10 @@ debuggable — `run-as` на нём не работает). Код прилож�
 ## Как подготовить устройство (серийник Realme: `WO7LLJ79ZL99EU95`)
 
 ```powershell
-# 1. Debug-сборка и установка (подписи debug/release совпадают — ставится
-#    поверх release без потери данных; при конфликте подписи: `adb uninstall`).
+# 1. Debug-сборка и установка. Поверх DEBUG-версии — без потерь (`install -r`).
+#    С релиза (upload-ключ из key.properties, правка 29.10.2026) — только после
+#    `adb uninstall com.english.widget.eng_widget_app` (подписи не совпадают,
+#    QA-данные придётся перезалить шагом 2).
 flutter build apk --debug
 adb -s WO7LLJ79ZL99EU95 install -r build\app\outputs\flutter-apk\app-debug.apk
 
